@@ -66,5 +66,7 @@
 ## ДЕПЛОЙ
 - Локально: `python -m http.server 8080`.
 - Гит: репозиторий `capybara-clicker-etazh9000` в аккаунте UVEDOMLENIE.
-- Хостинг статики без регистраций владельца: GitHub Pages (вкл. в настройках репо) или
-  предыдущий `devinapps.com`. Ссылку кладём сюда после публикации: __________
+- **Репозиторий:** https://github.com/UVEDOMLENIE/capybara-clicker-etazh9000 (аккаунт UVEDOMLENIE, тег `v0.4.0`).
+- **Играть онлайн (GitHub Pages):** https://uvedomlenie.github.io/capybara-clicker-etazh9000/
+- **Вики онлайн:** https://uvedomlenie.github.io/capybara-clicker-etazh9000/wiki/
+- Обновление прода: `git push` в `main` → Pages пересобирается автоматически (~1-2 мин).
