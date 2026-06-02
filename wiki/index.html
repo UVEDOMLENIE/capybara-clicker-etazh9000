@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📜 ВИКИ-ЗАЛ СЛАВЫ ★ Капибара-Кликер</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📜%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="wiki-topbar">
+    <a class="wiki-logo" href="../index.html">🦫 ← К ИГРЕ</a>
+    <h1 class="wiki-title rainbow">ВИКИ-ЗАЛ СЛАВЫ КАПИБАР</h1>
+    <span class="wiki-version blink">v0.4.0 — КАРМАННЫЙ ЭТАЖ</span>
+  </header>
+
+  <div class="wiki-good">
+    ✅ <b>v0.4.0 «КАРМАННЫЙ ЭТАЖ»</b> — игра переписана под iPhone. Один экран без скролла,
+    <b>свайп вниз → настройки</b>, баланс переосмыслен, золотая капибара, фейк-лидерборд убран.
+    История всех версий — в разделе <a href="#changelog"><b>📋 CHANGELOG</b></a>.
+  </div>
+
+  <nav class="wiki-toc">
+    <b>СОДЕРЖАНИЕ:</b>
+    <a href="#changelog" style="background:#34f7f7; border-color:#005577;">📋 CHANGELOG (все версии)</a>
+    <a href="#hronologia">📜 Хронология безумия</a>
+    <a href="#roadmap">🚧 Роадмап (что дальше)</a>
+    <a href="#bonus" style="background:#fff34a; border-color:#b30099;">🌟 BONUS IDEAS</a>
+    <a href="#what-works">✅ Что работает в проде</a>
+    <a href="#stack">⚙️ Стек / архитектура</a>
+    <a href="#tech-docs" style="background:#34f7f7; border-color:#005577;">🧑‍💻 Техдока для сеньоров</a>
+    <a href="#easter-eggs">🥚 Пасхалки</a>
+    <a href="#bestiary">🦫 Бестиарий капибар</a>
+    <a href="#credits">🦠 Создатели</a>
+  </nav>
+
+  <main class="wiki-main">
+
+    <!-- ============== CHANGELOG (история версий, новое сверху) ============== -->
+    <section id="changelog" class="wiki-section" style="border-color:#005577; box-shadow: 8px 8px 0 #34f7f7;">
+      <h2 class="wiki-section__title">📋 CHANGELOG — история версий</h2>
+      <p class="wiki-lead">
+        Как в нормальном софте: каждая версия описана, старое <b>не стирается</b>.
+        Новое — сверху. Версии живут в git (аккаунт <code>UVEDOMLENIE</code>).
+      </p>
+
+      <!-- ---------- v0.4.0 ---------- -->
+      <article class="rm-task" style="border-color:#34f7f7;">
+        <h3>🦫 v0.4.0 «КАРМАННЫЙ ЭТАЖ» — мобильная переписка <span style="color:#5dff8c">(текущая)</span></h3>
+        <p class="wiki-lead">Полностью переписан фронт под телефон (iPhone-first), но и на компе красиво.
+        Закрыта необработанная обратка владельца (кончались токены) + накопленный фидбек.</p>
+        <ul>
+          <li>📱 <b>Один экран без скролла страницы</b> (<code>100dvh</code>, safe-area под чёлку):
+            сверху HUD, в центре капибара, снизу магазин.</li>
+          <li>⌄ <b>Свайп вниз → выезжает шторка настроек</b> (скины, рекорд, ачивки, статы, тумблеры, помощь, сброс).
+            Раньше всё было «под капибарой» и на телефоне не доскролливалось. На компе — клик по ручке / свайп мышью / <code>Esc</code>.</li>
+          <li>⚖️ <b>Баланс переосмыслен:</b> тап = плоская мощь <i>+ % от КК/сек</i> (тапать полезно всю игру);
+            <b>майлстоуны ×2</b> работников (10/25/50/100…); старт удешевлён; престиж в понятных «кринж-очках» (√).</li>
+          <li>🦫✨ <b>Золотая капибара</b> — летит через экран раз в 45-95с, тап даёт монеты или баф ×7/×15.
+            Заменила чит-гэг «вибратор» (не для аудитории «детям 12»).</li>
+          <li>🛒 <b>Магазин понятнее:</b> в каждом товаре «даёт X КК/сек за штуку» и «до ×2: 7/10».</li>
+          <li>🏆 <b>Фейк-лидерборд с ботами убран</b> (по прямой просьбе) → личный рекорд. Онлайн — когда будет сервер.</li>
+          <li>🎧 DJ-ноты замедлены (1.5→2.6с), окно попадания шире (60→120px), есть линия попадания.</li>
+          <li>🔊 Тумблеры <b>Звук / Вибро / Анимации</b> в настройках. Haptics (<code>navigator.vibrate</code>). Уважается <code>prefers-reduced-motion</code>.</li>
+          <li>🆕 Эвент «🪙 что в кармане». Старый сейв v0.3.0 подхватывается.</li>
+        </ul>
+      </article>
+
+      <!-- ---------- v0.3.0 (история) ---------- -->
+      <article class="rm-task" style="border-color:#0a8000;">
+        <h3>📦 v0.3.0 «ПЕРЕЗАГРУЗКА» (в истории)</h3>
+        <p class="wiki-lead">Скины (80 комбо), первый заход в mobile-first, P0-фиксы кликера,
+        мотивирующая капибара, локальный лидерборд, чит-прикол, KPS-метр. Детали ниже.</p>
+      </article>
+
+      <!-- ---------- v0.1–0.2 (история) ---------- -->
+      <article class="rm-task" style="border-color:#888;">
+        <h3>🏛 v0.1.0 – v0.2.0 (археология)</h3>
+        <ul>
+          <li><b>v0.1.0</b> — первый MVP: кликер-ядро, 10 работников, 5 апгрейдов лапки, 5 мега, 5 эвентов, 15 ачивок, престиж, Web Audio, сейв, оффлайн-доход.</li>
+          <li><b>v0.2.0</b> — версионность + локальный git (внутренний тэг до большого релиза).</li>
+        </ul>
+      </article>
+
+      <hr style="border:0; border-top:2px dashed #34f7f7; margin:18px 0;">
+      <h3 class="wiki-section__title" style="font-size:18px;">📋 Детали v0.3.0 «ПЕРЕЗАГРУЗКА»</h3>
+      <p class="wiki-lead">
+        Большой апдейт по фидбеку <b>трёх источников</b>: тестера Славы (баги + идеи),
+        ключевого заказчика Vlada (скины) и продюсера Михаила (mobile-first, версионность, лидерборд).
+      </p>
+
+      <article class="rm-task" style="border-color:#0a8000;">
+        <h3>🚨 P0 — фиксы кликера (по фидбеку Славы)</h3>
+        <ul>
+          <li>✅ <code>doClick()</code> больше <b>не вызывает</b> <code>updateUI()</code> — UI обновляется в <code>tick()</code> через rAF.
+            «Короткие паузы» при бёрстах ушли.</li>
+          <li>✅ Слушаем <code>pointerdown</code> вместо <code>click</code> — нет задержки 300мс на тачах,
+            мульти-тач (двумя пальцами по очереди) теперь работает.</li>
+          <li>✅ В CSS на <code>.capybara-btn</code> и <code>html/body</code>: <code>touch-action: manipulation</code>,
+            <code>-webkit-tap-highlight-color: transparent</code>, <code>overscroll-behavior: none</code>.</li>
+          <li>✅ <code>sfxClick</code> throttle: не чаще 30мс между бипами — audio-pipeline не захлёбывается.</li>
+          <li>✅ Floating numbers pool: максимум 30 одновременно — DOM не флудится.</li>
+          <li>✅ Тяжёлые рендеры (<code>renderWorkers</code>/<code>renderAchievements</code>) — не чаще 0.4с (раньше каждый кадр).</li>
+        </ul>
+      </article>
+
+      <article class="rm-task" style="border-color:#ff4ec8;">
+        <h3>🎨 СКИНЫ КАПИБАРЫ (заказ Vlada)</h3>
+        <ul>
+          <li>✅ <b>80 комбинаций</b>: 5 цветов тела × 4 шапки × 4 аксессуара лица.
+            Меняются автоматом каждые ~7 кликов.</li>
+          <li>✅ Кнопка <b>💾 СОХР</b> — добавить текущий скин в галерею.</li>
+          <li>✅ Кнопка <b>🎲</b> — следующий рандом немедленно.</li>
+          <li>✅ Кнопка <b>↺</b> — разлочить (если играли на сохранённом, вернуть автоспавн).</li>
+          <li>✅ В галерее: ▶ — запинить этот скин, 🗑 — удалить.</li>
+          <li>✅ Сохраняются в <code>localStorage</code> как часть state, переживают престиж.</li>
+        </ul>
+      </article>
+
+      <article class="rm-task" style="border-color:#34f7f7;">
+        <h3>📱 MOBILE-FIRST (общий курс Михаила)</h3>
+        <ul>
+          <li>✅ На <code>≤1024px</code> — одна колонка, <b>капибара уезжает наверх</b> (<code>order: -1</code> на <code>.stage</code>).</li>
+          <li>✅ На <code>≤600px</code> — компактный топбар, тикер мельче, шоп-айтемы ужаты, DJ-полосы поменьше, модалка ужата.</li>
+          <li>✅ Капибара по ширине: <code>max-width: 78vw</code> на мобильном, <code>70vw</code> на десктопе.</li>
+          <li>✅ Все кнопки получили <code>touch-action: manipulation</code>.</li>
+        </ul>
+      </article>
+
+      <article class="rm-task" style="border-color:#fff34a;">
+        <h3>💪 КАПИБАРА-МОТИВАТОР (идея Славы)</h3>
+        <ul>
+          <li>✅ Новый pool из 18 фраз: «давай-давай!», «ну ты и мужик», «не сдавайся», «Я ЛЕГЕНДА», «жми-жми!»,
+            «аплодирую лапкой», «ИДЁТ КРАСАВА», и т.д.</li>
+          <li>✅ Триггер: каждые 30 кликов, не чаще раза в 4 секунды.</li>
+          <li>✅ Показывается через тот же <code>speak()</code> bubble.</li>
+        </ul>
+      </article>
+
+      <article class="rm-task" style="border-color:#ff4040;">
+        <h3>🤡 ЧИТ-ПРИКОЛ (заявка Славы про вибратор)</h3>
+        <ul>
+          <li>✅ Детектор: если KPS &gt; 12 пять+ кадров подряд — экран глитчит «🚨 ОБНАРУЖЕН ВИБРАТОР».</li>
+          <li>✅ Через 1.9 сек — «...шучу. +50% мощи на 10 сек!». Реальный мультипликатор кликов x1.5.</li>
+          <li>✅ Не наказание, а <b>сигнатурный момент</b>: баг превратили в фичу.</li>
+        </ul>
+      </article>
+
+      <article class="rm-task" style="border-color:#b65bff;">
+        <h3>🏆 ЛИДЕРБОРД ЛОКАЛЬНЫЙ (заявка Михаила)</h3>
+        <ul>
+          <li>✅ Top-10 в <code>localStorage</code>, ключ <code>DEVIN_MEGA_CAPYBARA_LB_v1</code>.</li>
+          <li>✅ Авто-ник <code>Капыч-XXXX</code>, юзер может поменять. Сохраняется в <code>DEVIN_MEGA_CAPYBARA_NAME</code>.</li>
+          <li>✅ Восемь синтетических «соседей» при первом заходе — атмосфера «не один играю».</li>
+          <li>✅ При престиже автоматически вписывает счёт. Кнопка «↑ внести» — вручную.</li>
+          <li>🔮 Серверный лидерборд — в v0.5+ через FastAPI/Fly.io.</li>
+        </ul>
+      </article>
+
+      <article class="rm-task" style="border-color:#fff34a;">
+        <h3>📊 KPS-метр + версионность + всякое</h3>
+        <ul>
+          <li>✅ Новая стата в топбаре <b>KPS</b> (clicks per second) — соревновательный feel.</li>
+          <li>✅ Цвет KPS: серый → белый → 🟢 (4) → 🟡 (8) → 🌈 (15+).</li>
+          <li>✅ В футере и логе игры — версия <code>v0.3.0 «ПЕРЕЗАГРУЗКА»</code>.</li>
+          <li>✅ В <code>state.version</code> — для будущих миграций.</li>
+          <li>✅ <code>?reset=1</code> в URL — обнулить прогресс. <code>?cheat=1</code> — +1Б КК и достижение читера.</li>
+          <li>✅ <code>.pulse</code> анимация капибары на каждом клике (160мс, scale+rotate). Мгновенный visual feedback.</li>
+        </ul>
+      </article>
+
+      <p class="wiki-lead" style="background:#fff34a; padding:10px; border-radius:10px; color:#000;">
+        <b>Кратко:</b> Слава жалуется — мы чиним. Vlada хочет — мы делаем. Михаил планирует — мы версионируем.
+        Юзеры с iPhone — мы адаптируемся. Все довольны.
+      </p>
+    </section>
+
+    <!-- ============== ХРОНОЛОГИЯ ============== -->
+    <section id="hronologia" class="wiki-section">
+      <h2 class="wiki-section__title">📜 ХРОНОЛОГИЯ БЕЗУМИЯ</h2>
+      <p class="wiki-lead">
+        Полный лог того, как из невинного <code>«девин клауд»</code> родился
+        <b>КАПИБАРА-КЛИКЕР: ЭТАЖ 9000</b> — самая кринжовая игра 2026 года.
+        Ниже — реальный диалог Михаила и Девина, оформленный как чат.
+      </p>
+
+      <div class="chat">
+
+        <div class="chat-msg user">
+          <div class="chat-bubble">девин клауд</div>
+          <div class="chat-meta">Михаил · вход в проект</div>
+        </div>
+
+        <div class="chat-msg bot">
+          <div class="chat-bubble">
+            Привет! Уточните, пожалуйста, что вы имеете в виду под «Девин Клауд»?
+            <ul>
+              <li>Возможности/тарифы Devin Cloud?</li>
+              <li>Помощь с настройкой облачного окружения?</li>
+              <li>Конкретная задача в репозитории?</li>
+            </ul>
+          </div>
+          <div class="chat-meta">Девин · уточняет на берегу</div>
+        </div>
+
+        <div class="chat-msg user">
+          <div class="chat-bubble">[Selected: Расскажи про возможности Devin Cloud]</div>
+          <div class="chat-meta">Михаил · ткнул кнопочку</div>
+        </div>
+
+        <div class="chat-msg bot">
+          <div class="chat-bubble">
+            Я вывалил подробный обзор Devin Cloud: что такое Devin, какие сценарии (миграции,
+            рефакторинги, тикеты), как взаимодействовать (web/Slack/CLI/MCP), про окружение,
+            knowledge, playbooks, schedules, тест-моды, тарифы.
+            И в конце предложил: <b>«если хотите — могу помочь настроить, написать playbook,
+            продемонстрировать на реальной задаче»</b>.
+          </div>
+          <div class="chat-meta">Девин · скучный, корпоративный</div>
+        </div>
+
+        <div class="chat-msg user epic">
+          <div class="chat-bubble">мб пошалим запилим кринж браузерку игру? триалки хватит?</div>
+          <div class="chat-meta">Михаил · ☄️ КОНТЕКСТ-ШИФТ</div>
+        </div>
+
+        <div class="chat-msg bot">
+          <div class="chat-bubble">
+            «База, го пошалим 🎮». Накидал 5 вариантов:
+            <ol>
+              <li>«Шлёпни Капибару» — кликер</li>
+              <li>«Рашен Тамагочи» — питомец-бомж</li>
+              <li>«Slay the Бабушка» — раннер с авоськами</li>
+              <li>«Кринж-кликер 2026» — Cookie Clicker про сигм и тиктокеров</li>
+              <li>«Doomscroll Simulator» — лента с реакциями</li>
+            </ol>
+          </div>
+          <div class="chat-meta">Девин · впервые за день почувствовал жизнь</div>
+        </div>
+
+        <div class="chat-msg user epic">
+          <div class="chat-bubble">
+            ни слова больше! капибары однозначно!<br/>
+            ультра кринж рофл демо проект где будет визуально видно твою боевую мощь, девин мега прожект назовём папку…
+            кринжа наваливай от души цсс ультра кринжа, техдокументацию делай рофляную подробную,
+            типа обожравшийся лсд этаж с прогерами…
+            насчёт деплоя похуй, главное куда сможешь сам залить мне пока нет возможности что-то регать авторизовать.
+            ты там тока со стеком хуеком определить продумай сначала всё, потом твори жоско прям на лету
+            добавляй ассоциативно сюжетные повороты.
+          </div>
+          <div class="chat-meta">Михаил · 🦫 ТЕХ.ЗАДАНИЕ ВЕКА</div>
+        </div>
+
+        <div class="chat-msg bot">
+          <div class="chat-bubble">
+            Накидал стек: <code>vanilla HTML+CSS+JS</code>, <code>Web Audio API</code>,
+            <code>localStorage</code>, ноль зависимостей. Деплой — на <code>devinapps.com</code>.
+            И сразу 3 капибары-концепта:
+            <ol>
+              <li>🦫 «КАПИБАРА-КЛИКЕР: ЭТАЖ 9000» (idle/clicker)</li>
+              <li>🎤 «КАПИБАРА DJ — КРАЙ ПЕРЕДОЗА» (ритм-игра)</li>
+              <li>🛒 «ГИПЕР-КАПИБАРА 3000: ПОБЕГ С ЭТАЖА» (раннер)</li>
+            </ol>
+            И бонус: «возьму №1 как базу, наварю №2 и №3 в виде мини-эвентов».
+          </div>
+          <div class="chat-meta">Девин · переделанный «продумал стек»</div>
+        </div>
+
+        <div class="chat-msg user epic">
+          <div class="chat-bubble">
+            да бля, ты изначальную идею капибары сам по ходу дополняй кринжами на свой вкус, сохраняя ебанутейшую логику и перескоки.
+            мне не еби голову сюжетами, просто миксуй их люто.<br/>
+            да чтобы ещё детям 12 лет было балдёжно.
+          </div>
+          <div class="chat-meta">Михаил · «доверяю на 100%»</div>
+        </div>
+
+        <div class="chat-msg bot">
+          <div class="chat-bubble">
+            Принял. SFW для детей, но кринжа в визуале и логике — максимум.
+            Поехал писать код. Сделал:
+            <ul>
+              <li>~2360 строк (HTML + CSS + JS + 2 ❤️ дока)</li>
+              <li>10 рабочих капибар + 5 апгрейдов лапки + 5 МЕГА-апгрейдов</li>
+              <li>5 рандомных мини-игр + 15 достижений + престиж + Konami</li>
+              <li>localStorage сейв + оффлайн-доход + Web Audio синтом</li>
+              <li>CSS-кринж: радуга, Comic Sans, marquee, спарклы, blink</li>
+            </ul>
+            Залил на <code>devin-mega-project-vxfveian.devinapps.com</code>, прислал ZIP + видео-демо.
+          </div>
+          <div class="chat-meta">Девин · героический MVP</div>
+        </div>
+
+        <div class="chat-msg user">
+          <div class="chat-bubble">
+            погоди ты в тесты не сильно закопался? прям досконально не надо, досконально уже юзер, нам прост живое мвп
+          </div>
+          <div class="chat-meta">Михаил · «не закапывайся»</div>
+        </div>
+
+        <div class="chat-msg bot">
+          <div class="chat-bubble">
+            Сократился. Скинул прод-урл + ZIP + видосик с аннотированным геймплеем.
+          </div>
+          <div class="chat-meta">Девин · отгрузил MVP</div>
+        </div>
+
+        <div class="chat-msg user">
+          <div class="chat-bubble">
+            а ты сделай ещё по ссылке папка там или файл типа вики доку…
+            проведи аудит игрового баланса. мб сессии автоклика делать какие-то?
+            мне тупо кликать нонстопом скучно, ивенты прилетают это развлекает, только диджей ноты слишком быстро падают.
+            и побольше бы ивентов рандомно ультракринжово необычных.
+            крч ты скажи своё мнение сначала по моей обратке, а потом подумаем допиливать или нет.
+          </div>
+          <div class="chat-meta">Михаил · продакт-визия</div>
+        </div>
+
+        <div class="chat-msg bot">
+          <div class="chat-bubble">
+            Сделал детальный аудит на 7 пунктов (см. <a href="#roadmap">роадмап ниже</a>):
+            <ol>
+              <li>Автолапка + Click Frenzy + падающие коины</li>
+              <li>DJ помедленнее</li>
+              <li>+6-8 новых эвентов</li>
+              <li>Онбординг + tooltips</li>
+              <li>Синергии в магазине</li>
+              <li>Балланс ранних апгрейдов</li>
+              <li>Отдельная вики-страница</li>
+            </ol>
+            И спросил: «жарим всё или выбрать?».
+          </div>
+          <div class="chat-meta">Девин · продакт-консультант на минималках</div>
+        </div>
+
+        <div class="chat-msg user epic">
+          <div class="chat-bubble">
+            давай делай всё, только в вики должна быть хронология нашего с тобой взаимодействия на первом месте!
+            как родилось это безумие!
+          </div>
+          <div class="chat-meta">Михаил · «жарим ВСЁ»</div>
+        </div>
+
+        <div class="chat-msg bot warning">
+          <div class="chat-bubble">
+            ❗ Я начал писать <code>game.js v2</code> (автокликер, frenzy, падающие коины),
+            <code>style.css</code> (туториал, эвенты)… и тут пришло <b>уведомление о квоте токенов</b>.
+            Срочно переключился в режим экстренной посадки:
+            <ol>
+              <li>Игру в проде <b>НЕ ТРОГАЮ</b> — старая версия работает.</li>
+              <li>Этот файл-вики — спасательный модуль с роадмапом.</li>
+              <li>Свежие токены → новый Девин подхватит из <a href="#roadmap">раздела «РОАДМАП»</a>.</li>
+            </ol>
+          </div>
+          <div class="chat-meta">Девин · аварийная посадка ✈️</div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ============== РОАДМАП ============== -->
+    <section id="roadmap" class="wiki-section">
+      <h2 class="wiki-section__title">🚧 РОАДМАП — ОТ ЭТОГО МЕСТА ПРОДОЛЖАТЬ</h2>
+      <p class="wiki-lead">
+        Это <b>не общий список «было бы прикольно»</b> — это конкретные спецификации,
+        написанные с расчётом «новый Девин загрузил вкладку и сразу продолжает».
+        Пункты упорядочены по импакту на game-feel: <b>верх — обязательно, низ — наварик</b>.
+      </p>
+
+      <article class="rm-task rm-priority0">
+        <h3>0. 🚨 БАГИ ОТ РЕАЛЬНЫХ ЮЗЕРОВ (тестер Слава, 10.05.2026)</h3>
+        <p><b>Жалоба 1:</b> «нестабильно кликает, делает короткие паузы».<br/>
+        <b>Жалоба 2:</b> «двумя пальцами по очереди — случаются разрывы и сбивается ритм».</p>
+        <p><b>Анализ:</b></p>
+        <ul>
+          <li><b>Input lag на бёрстах:</b> <code>doClick()</code> на каждом клике дёргает <code>updateUI()</code>,
+            который пересобирает DOM через <code>innerHTML=''</code> в <code>renderWorkers()</code> и <code>renderAchievements()</code>.
+            При 10+ кликов/сек = layout/repaint storm.</li>
+          <li><b>Double-tap-zoom delay:</b> слушаем только <code>click</code> — браузер ждёт ~300мс на возможный double-tap.</li>
+          <li><b>Multi-touch gestures:</b> нет <code>touch-action: manipulation</code> → второй палец = pinch-zoom, не клик.</li>
+          <li><b>Audio overflow:</b> <code>sfxClick()</code> плодит <code>OscillatorNode</code> без кулдауна → audio pipe захлёбывается.</li>
+          <li><b>DOM-flood:</b> <code>spawnFloatingNumber()</code> без пула — каждый клик = новый <code>&lt;div&gt;</code>.</li>
+        </ul>
+        <p><b>Фиксы (по убыванию импакта):</b></p>
+        <ol>
+          <li>Убрать <code>updateUI()</code> из <code>doClick()</code>. Цикл <code>tick()</code> и так зовёт его 60 раз/сек — больше не нужно. (<b>1-строчный фикс, 70% бага</b>)</li>
+          <li>В <code>capybaraBtn</code> заменить <code>'click'</code> → <code>'pointerdown'</code>. Работает и на мыши, и на тачах, без 300мс задержки.</li>
+          <li>В <code>style.css</code> к <code>.capybara-btn</code>: <code>touch-action: manipulation; user-select: none;</code></li>
+          <li>В <code>sfxClick</code> добавить throttle: глобальная переменная <code>let lastClickSfx = 0</code>, <code>if (Date.now() - lastClickSfx &lt; 30) return; lastClickSfx = Date.now();</code></li>
+          <li>В <code>spawnFloatingNumber</code> ограничить пул: если в <code>floatingNumbers.children.length &gt; 30</code> — удалять старейшие.</li>
+          <li>На капибару повесить <code>contextmenu/preventDefault</code> уже есть, добавить ещё <code>'gesturestart'</code> для iOS Safari.</li>
+          <li>(Опц.) <code>renderWorkers()</code>/<code>renderAchievements()</code> — переписать с diff-обновлением вместо innerHTML clear: хранить ref на DOM-узлы, менять только <code>textContent</code>.</li>
+        </ol>
+        <p><b>Чексы после фикса:</b> кликать ~150 раз/сек двумя пальцами — должно регистрироваться без потерь, FPS не должен падать ниже 50, плавающие числа должны успевать летать.</p>
+      </article>
+
+      <article class="rm-task rm-priority1">
+        <h3>1. 🦾 Автолапка + Click Frenzy + Падающие коины</h3>
+        <p><b>Зачем:</b> чистый кликер скучный, без активности между эвентами игрок засыпает.</p>
+        <p><b>Что делать:</b></p>
+        <ul>
+          <li><b>Автолапка</b> — 5 уровней апгрейда в табе ЛАПКА:
+            <code>auto1</code> 750 КК → +1 авто-клик/сек,
+            <code>auto2</code> 25к → +2,
+            <code>auto3</code> 700к → +4,
+            <code>auto4</code> 2.5М → +8,
+            <code>auto5</code> 1.2Б → +20.
+            В <code>S.autoClickRate</code>, в <code>tick()</code> прибавлять
+            <code>S.autoClickRate * dt * clickValue()</code> к coins,
+            периодически вызывать <code>spawnFloatingNumber()</code> над капибарой.
+          </li>
+          <li><b>Click Frenzy</b> — отдельный <code>frenzyLoop()</code> запускающий баф каждые 60-180 сек.
+            При активном бафе <code>clickValue()</code> возвращает <code>base * 10</code>,
+            экран багровеет (CSS-фильтр <code>red-frenzy</code> на body), 15 сек.
+            <code>S.frenzyEnd = Date.now() + 15000</code>.
+          </li>
+          <li><b>Падающие коины</b> — на стейдже периодически (8-15 сек) спавнятся
+            летящие 🪙 / 🍜 / ☕ / 💎 — кликнул → <code>+totalCps()*30</code>,
+            бубль-эффект, <code>sfxCoin()</code>. Не успел поймать — пропадает за 3 сек.
+          </li>
+        </ul>
+        <p><b>Файлы:</b> <code>game.js</code> (новые upgrade entries в <code>CLICK_UPGRADES</code>,
+        новые функции <code>frenzyLoop</code>, <code>spawnCollectible</code>),
+        <code>style.css</code> (анимации <code>fall-coin</code>, <code>red-frenzy</code>),
+        <code>index.html</code> (<code>&lt;div id="collectibles-layer"&gt;&lt;/div&gt;</code> внутри <code>.stage</code>).</p>
+      </article>
+
+      <article class="rm-task rm-priority1">
+        <h3>2. 🎧 DJ-сессия — замедлить ноты</h3>
+        <p><b>Симптом:</b> ноты падают за 1.5 сек, окно попадания ~0.45 сек — нечитаемо без музыки.</p>
+        <p><b>Что делать:</b> в <code>startDjEvent()</code>:</p>
+        <ul>
+          <li><code>const FALL_TIME = 1500</code> → <code>2500</code></li>
+          <li>Hit window: <code>laneHeight - KEY_HEIGHT - 60</code> → <code>- 100</code></li>
+          <li>Добавить «метроном»: <code>div.dj-metronome</code> пульсирует на каждом 4-м такте</li>
+          <li>Уменьшить частоту спавна нот: <code>rand(380, 700)</code> → <code>rand(550, 900)</code></li>
+        </ul>
+      </article>
+
+      <article class="rm-task rm-priority1">
+        <h3>3. ⚖️ Баланс ранних апгрейдов</h3>
+        <p><b>Симптом:</b> ценники в лямах при базовом клике =1, прогресс растягивается на часы.</p>
+        <p><b>Что делать в <code>game.js</code>:</b></p>
+        <ul>
+          <li>Капибара-джун: <code>base: 15</code> → <code>10</code></li>
+          <li>Кофеварка-3000: <code>base: 100</code> → <code>60</code></li>
+          <li>Когтистая лапка: <code>cost: 200</code> → <code>80</code></li>
+          <li>Молот тимлида: <code>cost: 4500</code> → <code>2200</code></li>
+          <li>Множитель прироста при purchase: <code>1.18</code> → <code>1.15</code> (мягче)</li>
+          <li>Оффлайн-гейн: <code>0.4</code> → <code>0.55</code></li>
+        </ul>
+        <p><b>Цель:</b> первый престиж за 5-10 минут активной игры (сейчас часы).</p>
+      </article>
+
+      <article class="rm-task rm-priority2">
+        <h3>4. 🎲 +7 новых эвентов</h3>
+        <p>К существующим 5 (bug, dj, standup, coffee, cringe) добавить:</p>
+        <ul>
+          <li><b>🪞 mirror</b> — UI flip <code>transform: scaleX(-1)</code> на <code>body</code> на 8 сек.
+            Игрок должен сделать N кликов на капибаре в зеркальной системе координат.</li>
+          <li><b>🍕 pizza</b> — passive x3 КК/сек на 60 сек + по экрану летают 5-7 кусков пиццы,
+            кликнул → +<code>totalCps()*15</code>.</li>
+          <li><b>🚽 skibidi</b> — 3-5 туалетных эмодзи приближаются от краёв к центру,
+            кликаешь чтобы остановить. Если хоть один доплывёт до капибары — <code>-100 КК</code>.</li>
+          <li><b>🦫 intern</b> — 9-клеточная сетка, в одной спрятана капибара. 3 попытки.
+            Найдёшь → <code>+totalCps()*40</code>. После каждого мисса показывается «теплее/холоднее».</li>
+          <li><b>🎰 casino</b> — спин-рулетка. Ставка 1000 КК, мультипликатор от <code>0.1x</code> до <code>15x</code>.
+            CSS-анимация колеса с эмодзи 🦫💀🤡🍜🌈.</li>
+          <li><b>💰 pocket</b> — простой instant-бонус, 1 кнопка «🪙 Найти деньги в кармане»,
+            рандомно <code>+totalCps()*20</code>. Самый «лёгкий» эвент для разнообразия.</li>
+          <li><b>📞 mom</b> — 8 секунд НЕ кликать (мама зашла в комнату). Кликнул раньше — 0 награда.
+            Дождался — <code>+totalCps()*50</code>. Учит терпению лол.</li>
+        </ul>
+        <p><b>Структура:</b> по образцу <code>startBugEvent</code> — функция получает <code>banner, area</code>,
+        ставит контент, заводит таймер, в конце <code>endEvent(reward, label)</code>.
+        Все добавить в <code>EVENTS</code> массив + в <code>switch</code> в <code>startEvent</code>.</p>
+      </article>
+
+      <article class="rm-task rm-priority2">
+        <h3>5. 📚 Туториал на 4 шага</h3>
+        <p><b>Симптом:</b> магазин справа непонятно что и зачем.</p>
+        <p><b>Что делать:</b> <code>S.tutorialStep</code> в state, при первом запуске = 0.
+        Шаги:</p>
+        <ol>
+          <li>«Шлёпни капибару →» (стрелка указывает на капибару, ждём <code>S.clicks &gt;= 3</code>)</li>
+          <li>«Купи джуна за 10 КК →» (стрелка на первый shop-item, ждём <code>S.workers.junior &gt;= 1</code>)</li>
+          <li>«Открой таб ЛАПКА →» (стрелка на tab «👋 ЛАПКА», ждём клика по табу)</li>
+          <li>«Готово, валяй кринж 🦫» (исчезает через 2 сек)</li>
+        </ol>
+        <p><b>Реализация:</b> overlay <code>.tutorial</code> с тёмным фоном, светящаяся рамка вокруг target элемента,
+        текст с CSS-анимацией pulse. По выполнению условия → <code>S.tutorialStep++</code>, <code>updateUI()</code>.</p>
+      </article>
+
+      <article class="rm-task rm-priority3">
+        <h3>6. 🔗 Синергии в магазине</h3>
+        <p>Делает игру связной, а не «10 независимых апгрейдов»:</p>
+        <ul>
+          <li>5+ кофеварок → джуны работают <code>x2</code></li>
+          <li>1+ тимлид → мидлы дают <code>+50%</code></li>
+          <li>1+ DevOps → все капибары выше получают <code>+5%</code> (стэкается до 25%)</li>
+          <li>«Этажный буфф»: за каждые 10 капибар <code>+1%</code> к общему КК/сек (видимо в топбаре)</li>
+          <li>Достижения дают пермаментные бонусы:
+            <code>click_100 = +5% к шлепку</code>,
+            <code>team_10 = +10% к КК/сек</code>,
+            <code>combo_30 = +20% к крит-шансу</code>.
+          </li>
+        </ul>
+        <p><b>Реализация:</b> в <code>totalCps()</code> добавить блок проверок и умножителей,
+        в shop-item рендерить «🔗 синергия активна» badge.</p>
+      </article>
+
+      <article class="rm-task rm-priority3">
+        <h3>7. 📚 Расширить вики</h3>
+        <p>Эта страница — стартовый каркас. Допилить:</p>
+        <ul>
+          <li><code>/wiki/bestiary.html</code> — лорные карточки каждой капибары (10 штук, по абзацу истории про каждую)</li>
+          <li><code>/wiki/lore.html</code> — мифология этажа 9000: культ кофеварки, война джунов и тимлида, происхождение Сингулярности</li>
+          <li><code>/wiki/changelog.html</code> — фейк-changelog с 2002 года, версии типа «v0.0.1-alpha — джуну выдали клавиатуру»</li>
+          <li><code>/wiki/api.html</code> — пародийная API-дока на «несуществующее REST API»</li>
+          <li><code>/wiki/easter-eggs.html</code> — секретные коды (Konami, hash-эвенты, скрытые комбо)</li>
+          <li><code>/wiki/stack.html</code> — почему мы выбрали Comic Sans (с графиками)</li>
+        </ul>
+      </article>
+
+      <article class="rm-task rm-priority3">
+        <h3>8. 📱 Мобильная адаптация</h3>
+        <p>Сейчас layout @1024px+ хорош, но на телефоне магазин режется. Сделать stack-layout:
+        стейдж сверху, потом магазин, потом статы. Touch-events для кликера (уже работает через click).</p>
+      </article>
+
+    </section>
+
+    <!-- ============== BONUS IDEAS ============== -->
+    <section id="bonus" class="wiki-section">
+      <h2 class="wiki-section__title">🌟 BONUS IDEAS — что Девин надумал сам</h2>
+      <p class="wiki-lead">
+        Это идеи, которые родились у Девина <b>после анализа фидбека тестера Славы</b> —
+        не прямые исправления, а креативные допилы поверх, превращающие проблемы в фичи.
+        Не обязательны, но сделают игру жирнее.
+      </p>
+
+      <article class="rm-task rm-bonus">
+        <h3>0.5. 🩹 Мгновенный визуальный отклик на каждый клик</h3>
+        <p><b>Зачем:</b> психологически решает «нестабильно кликает» ДО любого фикса перфоманса. Сейчас капибара дёргается только на каждом 25-м клике (combo), на промежуточных — никакой реакции.</p>
+        <p><b>Что сделать:</b> в <code>doClick()</code> добавить:</p>
+        <pre class="ascii">capybaraSvg.style.transform = 'scale(0.96)';
+setTimeout(() => capybaraSvg.style.transform = '', 60);</pre>
+        <p>Или через CSS-класс <code>.click-pulse</code> с <code>transition: transform 60ms</code> — чище.</p>
+        <p><b>Бюджет:</b> 1 строка JS + 3 строки CSS. Импакт огромный.</p>
+      </article>
+
+      <article class="rm-task rm-bonus">
+        <h3>1. 🤡 Фейк-античит как фича (привет, Слава!)</h3>
+        <p><b>Зачем:</b> Слава пошутил «капибара не даёт читерить» — обыграть это в честный лор-момент.</p>
+        <p><b>Что сделать:</b> добавить трекер <code>recentClicks</code> (последние 1.5 сек). При <code>recentClicks &gt; 18</code> (~12 клик/сек) запускается мини-эвент:</p>
+        <ol>
+          <li>Капибара говорит «<b>🚨 ОБНАРУЖЕНА ЧИТ-АТАКА! 🚨</b>», экран мигает красным.</li>
+          <li>На 1.5 сек блокируется доход, кнопка реагирует на клик «лол не работает».</li>
+          <li>Через 2 сек: «...шучу. <b>+50% мощи на 10 сек</b>, держи 🦫».</li>
+          <li>S.multiplier *= 1.5 на 10 сек, потом откат.</li>
+        </ol>
+        <p><b>Срабатывает не чаще 1 раза в 90 сек</b> чтоб не задолбало.</p>
+        <p><b>Файлы:</b> <code>game.js</code> (новая функция <code>antiCheatGag()</code> + хук в <code>doClick</code>),
+        CSS красный glitch-overlay.</p>
+      </article>
+
+      <article class="rm-task rm-bonus">
+        <h3>2. 📊 Счётчик «КЛИКОВ/СЕК» в шапке</h3>
+        <p><b>Зачем:</b> мотивирует спамить, добавляет соревновательный feel «сколько ты можешь выжать».</p>
+        <p><b>Что сделать:</b> новый блок <code>.stat</code> в топбаре после КК/СЕК.
+        Считаем <code>S.recentClicks</code> в скользящем окне 1.5 сек, делим — показываем «КПС».
+        Цвет лейбла:</p>
+        <ul>
+          <li>0–4 кпс — серый</li>
+          <li>5–9 — зелёный</li>
+          <li>10–14 — жёлтый</li>
+          <li>15+ — радужный (rainbow class)</li>
+        </ul>
+        <p><b>Файлы:</b> <code>index.html</code> + <code>game.js</code> в <code>updateUI</code>.</p>
+      </article>
+
+      <article class="rm-task rm-bonus">
+        <h3>3. 🦫 Мини-капибара выскакивает из угла</h3>
+        <p><b>Зачем:</b> дешёвая альтернатива «падающим коинам» из P1, проще в реализации, эффект «нашёл — рад».</p>
+        <p><b>Что сделать:</b> отдельный таймер каждые 2-4 минуты:</p>
+        <ul>
+          <li>В случайном углу <code>.stage</code> на 2 сек появляется крошечная 🦫 (~28px).</li>
+          <li>Кликнул → <code>+totalCps()*60</code>, <code>sfxAch()</code>, баббл «нашёл стажёра!».</li>
+          <li>Не успел — пропадает молча.</li>
+        </ul>
+        <p><b>Файлы:</b> только <code>game.js</code> (новая функция <code>spawnMiniCapybara()</code>) + 1 CSS-анимация на bounce-in.</p>
+      </article>
+
+      <article class="rm-task rm-bonus">
+        <h3>4. 🎵 Клик-как-музыка на бёрстах</h3>
+        <p><b>Зачем:</b> превратить спам-клик в эмоциональный момент, наградить терпение.</p>
+        <p><b>Что сделать:</b> в <code>sfxClick()</code>:</p>
+        <ul>
+          <li>Если <code>S.recentClicks &gt; 8</code> (т.е. кпс > ~5):
+            каждый клик играет ноту из мажорной гаммы по кругу:
+            <code>[523, 587, 659, 784, 880, 1047]</code> (C5, D5, E5, G5, A5, C6).</li>
+          <li>Иначе — текущий рандом-сквик.</li>
+          <li>Громкость на бёрсте чуть тише (vol 0.04 вместо 0.06) чтоб не задолбать.</li>
+        </ul>
+        <p>Получается мажорная пентатоника = всегда красиво, какую бы скорость ни выбрал.</p>
+      </article>
+
+      <article class="rm-task rm-bonus">
+        <h3>5. 🔧 Debug/cheat URL-параметры</h3>
+        <p><b>Зачем:</b> ускоряет разработку (можно мгновенно проверить эндгейм) + добавляет ещё один пасхалочный слой.</p>
+        <p><b>Что сделать:</b> в <code>init()</code> читаем <code>location.search</code>:</p>
+        <ul>
+          <li><code>?debug=1</code> — рисуется фиксированный блок снизу-справа: FPS (rolling avg), click-rate, S.coins, S.combo, активный эвент.</li>
+          <li><code>?cheat=1</code> — мгновенно <code>S.coins += 1e9</code>, <code>S.totalCoins += 1e9</code>, но открывается невидимое до этого достижение «🤡 Я ЧИТЕР» которое перманентно даёт <code>-50%</code> к награде.
+            (Шутка-наказание за чит — бан-эффектом, но игра не ломается.)</li>
+          <li><code>?reset=1</code> — очистить localStorage, useful для QA.</li>
+        </ul>
+        <p>Все параметры подсветить в секции пасхалок вики.</p>
+      </article>
+
+    </section>
+
+    <!-- ============== ЧТО РАБОТАЕТ ============== -->
+    <section id="what-works" class="wiki-section">
+      <h2 class="wiki-section__title">✅ ЧТО УЖЕ РАБОТАЕТ В ПРОДЕ</h2>
+      <ul class="wiki-list">
+        <li>🦫 <b>Кликер-ядро</b>: шлёпаешь капибару → коины + плавающие числа + криты (5%)</li>
+        <li>🔥 <b>Combo</b>: до x3 при 30 кликах подряд, обнуляется через 2.4 сек паузы</li>
+        <li>🛒 <b>Магазин — 3 таба</b>: 10 рабочих капибар, 5 апгрейдов лапки, 5 МЕГА-апгрейдов</li>
+        <li>⚡ <b>5 рандомных эвентов</b>: 🐞 жуки, 🎧 DJ, 🏃 стендап, ☕ кофе, 🌈 кринж-волна</li>
+        <li>🏆 <b>15 достижений</b> (косметика)</li>
+        <li>🌌 <b>Престиж</b> при 1М коинов (вечный множитель через cbrt-формулу)</li>
+        <li>🔊 <b>Web Audio синт</b>: клики/коины/тревога — генерим OscillatorNode'ом, без mp3</li>
+        <li>💾 <b>localStorage сейв</b> каждые 4 сек + оффлайн-доход (40% за время до 2 ч)</li>
+        <li>🌈 <b>CSS-кринж-сет</b>: радуга, Comic Sans, marquee-ticker, glitter cursor, blink, спарклы</li>
+        <li>🎮 <b>Konami-код</b> ↑↑↓↓←→←→BA → +1М коинов (easter egg)</li>
+        <li>🔧 <b>QA-хеш</b>: <code>?#event=dj/bug/standup/coffee/cringe</code> для теста</li>
+      </ul>
+    </section>
+
+    <!-- ============== СТЕК ============== -->
+    <section id="stack" class="wiki-section">
+      <h2 class="wiki-section__title">⚙️ СТЕК / АРХИТЕКТУРА</h2>
+      <pre class="ascii">
++-----------------------------------------------------------+
+|                  index.html (191 lines)                   |
+|   topbar | layout (left | stage | right) | footer | modal |
++-------------------|-------------------|-------------------+
+                    |                   |
+              style.css               game.js
+              (855 lines)            (922 lines)
+                    |                   |
+              кринж-эстетика     state + loop + events
+                    |                   |
+                    +------> Web Audio API
+                    +------> localStorage (DEVIN_MEGA_CAPYBARA_v1)
+                    +------> requestAnimationFrame (~40 tps)
+      </pre>
+      <p>
+        <b>Никакой сборки.</b> Открыл <code>index.html</code> — играешь.
+        Никаких npm, webpack, бэкенда, регистрации.
+        Полный единый-файл-деплой, прости господи. Мощь Девина в чистом виде.
+      </p>
+    </section>
+
+    <!-- ============== ТЕХДОКА ДЛЯ СЕНЬОРОВ ============== -->
+    <section id="tech-docs" class="wiki-section" style="border-color:#005577; box-shadow: 8px 8px 0 #34f7f7;">
+      <h2 class="wiki-section__title">🧑‍💻 ТЕХДОКА — для сеньоров, которые будут разгребать наш кал</h2>
+      <p class="wiki-lead">
+        Если ты сюда попал и думаешь «что это вообще такое и почему всё в одном файле»
+        — этот раздел для тебя. Ниже — честная карта того, что делает игра, чтобы ты
+        не тратил час на reverse-engineering.
+      </p>
+
+      <h3 style="color:#34f7f7;">Файлы и размеры</h3>
+      <table class="wiki-table">
+        <tr><th>Файл</th><th>Что внутри</th><th>Когда трогать</th></tr>
+        <tr><td><code>index.html</code></td><td>DOM-структура: топбар, layout, stage, шопы, модалки, оверлеи</td><td>Добавляешь UI-элемент / меняешь разметку</td></tr>
+        <tr><td><code>style.css</code></td><td>Все стили + responsive (mobile-first &lt;1024 / &lt;600)</td><td>Любая визуальная правка, новые виджеты</td></tr>
+        <tr><td><code>game.js</code></td><td>State + game loop + events + skins + leaderboard. Один большой неймспейс.</td><td>Любая игровая логика</td></tr>
+        <tr><td><code>wiki/</code></td><td>Эта самая вика. Отдельный <code>style.css</code>.</td><td>Документация, changelog</td></tr>
+      </table>
+
+      <h3 style="color:#34f7f7;">Архитектурные решения</h3>
+      <ul>
+        <li><b>Без сборщика.</b> Open the page → it runs. No npm, no Webpack, no Vite. Это <i>принципиально</i> — игра должна быть однофайловым деплоем (статика).</li>
+        <li><b>Vanilla JS, no framework.</b> Никакого React/Vue/Svelte. Render-функции пишут <code>innerHTML</code> или ссылки <code>$(...)</code>. Если станет >2000 строк — мигрировать на Preact, не раньше.</li>
+        <li><b>State в одном объекте</b> <code>S</code>. Сохраняется в <code>localStorage</code> ключом <code>DEVIN_MEGA_CAPYBARA_v1</code>.
+          При load-е делается <code>{...DEFAULT_STATE(), ...saved}</code> — это даёт автоматическую миграцию для новых полей.</li>
+        <li><b>Game loop через rAF.</b> <code>tick()</code> вызывается ~60 fps, считает <code>dt</code> и применяет CPS.
+          Тяжёлые рендеры (<code>renderWorkers</code>/<code>renderAchievements</code>) ограничены <code>_lastHeavyRender > 400мс</code>.</li>
+        <li><b>Web Audio API напрямую.</b> Нет ассетов: каждый звук синтезируется через <code>OscillatorNode</code> в функции <code>beep()</code>.
+          P0 fix v0.3.0: throttle 30мс на <code>sfxClickThrottled</code>, чтобы pipeline не захлёбывался на бёрстах.</li>
+        <li><b>Капибара — SVG inline.</b> В <code>renderCapybaraSvg()</code> склеиваем шаблон из 5×4×4 = 80 комбо.
+          На каждом ~7-м клике вызывается <code>randomizeSkin()</code> (если не <code>S.lockedSkin</code>).</li>
+        <li><b>Лидерборд локальный (top-10)</b>. При первом заходе сидируется 8 синтетических соседей через <code>seedLB()</code>.
+          Серверный — заплеймет позже (FastAPI + Fly.io).</li>
+        <li><b>Эвенты — свой sub-режим.</b> Когда <code>eventState.active</code> — клики по основной капибаре игнорируются.
+          Каждый эвент сам контролирует свой DOM в <code>#event-area</code>, по завершении вызывает <code>endEvent(reward, label)</code>.</li>
+      </ul>
+
+      <h3 style="color:#34f7f7;">Где искать что (быстрый индекс по game.js)</h3>
+      <ul>
+        <li><code>VERSION</code> — строка, читается в footer. Меняй при релизе.</li>
+        <li><code>DEFAULT_STATE()</code> — структура игрового состояния. <b>Новые поля сюда.</b></li>
+        <li><code>SKIN_BODY / SKIN_HAT / SKIN_FACE</code> — массивы скинов.</li>
+        <li><code>WORKERS / CLICK_UPGRADES / ULTRA_UPGRADES</code> — экономика.</li>
+        <li><code>ACHIEVEMENTS</code> — ачивки с <code>check()</code> (проверяются каждый кадр).</li>
+        <li><code>SPEECH / MOTIVATIONAL</code> — пуллы реплик.</li>
+        <li><code>EVENTS</code> — список эвент-id; реализация каждого — отдельная <code>start*Event(banner, area)</code>.</li>
+        <li><code>doClick(x, y)</code> — единственный путь регистрации клика. Сюда подвязано всё (рандомизация скина, мотиватор, чит-детектор).</li>
+        <li><code>tick()</code> — game loop, вызывается через rAF.</li>
+        <li><code>init()</code> — стартовая последовательность, прокидывает обработчики.</li>
+      </ul>
+
+      <h3 style="color:#34f7f7;">Что НЕ ломать без причины</h3>
+      <ul>
+        <li><b>Ключ <code>DEVIN_MEGA_CAPYBARA_v1</code></b> — не переименовывать без миграции, юзеры потеряют прогресс.</li>
+        <li><b>В <code>doClick()</code> не зови <code>updateUI()</code></b> — это P0 фикс. UI обновляется в <code>tick()</code>.</li>
+        <li><b><code>touch-action: manipulation</code> на <code>.capybara-btn</code></b> — критично для mobile.</li>
+        <li><b><code>e.preventDefault()</code> на <code>pointerdown</code></b> — без него на iOS будет double-fire с click.</li>
+        <li><b>Throttle <code>sfxClickThrottled</code></b> — не убирай, audio-pipeline начнёт шипеть.</li>
+      </ul>
+
+      <h3 style="color:#34f7f7;">Тестовые URL</h3>
+      <table class="wiki-table">
+        <tr><th>URL</th><th>Что делает</th></tr>
+        <tr><td><code>#event=dj</code></td><td>Запустить DJ-эвент сразу</td></tr>
+        <tr><td><code>#event=bug</code> / <code>standup</code> / <code>coffee</code> / <code>cringe</code></td><td>Соответствующие эвенты</td></tr>
+        <tr><td><code>?reset=1</code></td><td>Обнулить весь прогресс (с подтверждением)</td></tr>
+        <tr><td><code>?cheat=1</code></td><td>+1Б КК + достижение читера</td></tr>
+      </table>
+
+      <h3 style="color:#34f7f7;">Куда расти (по импакту)</h3>
+      <ol>
+        <li><b>Серверный лидерборд</b>: FastAPI + Fly.io, POST /score, GET /top10.</li>
+        <li><b>Автолапка / Click Frenzy / падающие коины</b> (см. <a href="#roadmap">роадмап</a>).</li>
+        <li><b>Синергии в магазине</b>: «джунов 10 → бонус кофеварке».</li>
+        <li><b>Multi-page wiki</b>: при достижении ~3000 строк разделить на <code>changelog.html</code>, <code>tech.html</code>, <code>roadmap.html</code>.</li>
+        <li><b>WebSocket мультиплеер</b> (амбициозно): presence, совместный тап-буст, чат-как-тапы.</li>
+      </ol>
+    </section>
+
+    <!-- ============== ПАСХАЛКИ ============== -->
+    <section id="easter-eggs" class="wiki-section">
+      <h2 class="wiki-section__title">🥚 ПАСХАЛКИ</h2>
+      <table class="wiki-table">
+        <tr><th>Код / трюк</th><th>Что даёт</th></tr>
+        <tr><td><kbd>↑</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd><kbd>←</kbd><kbd>→</kbd><kbd>B</kbd><kbd>A</kbd></td><td>+1 000 000 КАПИКОИНОВ</td></tr>
+        <tr><td><code>#event=dj</code> в URL</td><td>Запустить DJ-эвент сразу</td></tr>
+        <tr><td><code>#event=bug</code></td><td>Запустить «прод упал»</td></tr>
+        <tr><td><code>#event=standup</code></td><td>Запустить стендап-побег</td></tr>
+        <tr><td><code>#event=coffee</code></td><td>Запустить кофе-брейк</td></tr>
+        <tr><td><code>#event=cringe</code></td><td>Запустить кринж-волну</td></tr>
+        <tr><td>30+ комбо</td><td>Капибара дискачит каждые 25 кликов</td></tr>
+        <tr><td>0.5% шанс на клик</td><td>Капибара говорит «FATALITY»</td></tr>
+      </table>
+    </section>
+
+    <!-- ============== БЕСТИАРИЙ ============== -->
+    <section id="bestiary" class="wiki-section">
+      <h2 class="wiki-section__title">🦫 БЕСТИАРИЙ КАПИБАР</h2>
+      <table class="wiki-table">
+        <tr><th>#</th><th>Икона</th><th>Имя</th><th>База</th><th>КК/сек</th><th>Лор</th></tr>
+        <tr><td>1</td><td>🦫</td><td>Капибара-джун</td><td>15</td><td>0.2</td><td>Стажёр. Кликает медленно, плачет часто.</td></tr>
+        <tr><td>2</td><td>☕</td><td>Кофеварка-3000</td><td>100</td><td>1</td><td>Льёт кофе. Иногда — на ноут.</td></tr>
+        <tr><td>3</td><td>🦫</td><td>Капибара-мидл</td><td>1.1к</td><td>8</td><td>Знает фреймворки. Не до конца.</td></tr>
+        <tr><td>4</td><td>🐞</td><td>Капибара-QA</td><td>12к</td><td>47</td><td>Всё ломает. Но в хорошем смысле.</td></tr>
+        <tr><td>5</td><td>🧑‍💻</td><td>Капибара-синьор</td><td>130к</td><td>260</td><td>Архитектура головного мозга.</td></tr>
+        <tr><td>6</td><td>👔</td><td>Капибара-тимлид</td><td>1.4М</td><td>1400</td><td>Орёт раз в десять секунд. Дорого, но эффективно.</td></tr>
+        <tr><td>7</td><td>🛰️</td><td>DevOps на третьем энергетике</td><td>20М</td><td>7800</td><td>Не спит. Не ест. Не моргает. Деплоит.</td></tr>
+        <tr><td>8</td><td>🕶️</td><td>Капибара-сигма</td><td>330М</td><td>44к</td><td>Слушает Phonk. В офисе. На колонке.</td></tr>
+        <tr><td>9</td><td>👑</td><td>Капибара-CTO</td><td>5.1Б</td><td>260к</td><td>На стендапе раз в квартал. И этого хватает.</td></tr>
+        <tr><td>10</td><td>🌌</td><td>Сингулярность</td><td>75Б</td><td>1.6М</td><td>Капибара превратилась в чёрную дыру. Кликает в 4 измерениях.</td></tr>
+      </table>
+    </section>
+
+    <!-- ============== КРЕДИТЫ ============== -->
+    <section id="credits" class="wiki-section">
+      <h2 class="wiki-section__title">🦠 СОЗДАТЕЛИ</h2>
+      <ul class="wiki-list">
+        <li>👑 <b>Михаил</b> — продюсер, визионер, шеф-редактор кринжа, заказчик («миксуй люто»)</li>
+        <li>🤖 <b>Devin</b> — кодер, архитектор, голос капибары, исполнитель «жоско»</li>
+        <li>🦫 <b>Капибара (без имени)</b> — главный герой, талисман, муза</li>
+        <li>☕ <b>Кофеварка-3000</b> — техническая поддержка проекта</li>
+      </ul>
+      <p class="wiki-footer-text">
+        Проект сделан в одной сессии Devin Cloud. Спасибо что почитал. Шлёпни капибару от меня. 🦫
+      </p>
+    </section>
+
+  </main>
+
+  <footer class="wiki-footer">
+    <a class="btn-back" href="../index.html">🦫 ПОИГРАТЬ ЗА КАПИБАРУ →</a>
+    <span class="blink">★</span>
+    <span>made by DEVIN ★ powered by КАПИБАРЫ ★ 2026 ★</span>
+    <span class="blink">★</span>
+  </footer>
+
+</body>
+</html>

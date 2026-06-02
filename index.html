@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <!-- iPhone-first: dvh, без зума, под чёлку (safe-area) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="КАПИБАРА-КЛИКЕР: ЭТАЖ 9000 — кринж-идл-кликер. Тапай капибару, нанимай команду, лови золотую капибару. Свайп вниз — настройки." />
+  <meta name="theme-color" content="#160a2b" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Капибара" />
+  <title>🦫 КАПИБАРА-КЛИКЕР: ЭТАЖ 9000</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🦫%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+
+  <!-- фоновые кринж-слои -->
+  <div class="bg" id="bg" aria-hidden="true"></div>
+  <div class="psy" id="psy" aria-hidden="true"></div>
+  <div class="sparkles" id="sparkles" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       ВЫДВИЖНАЯ ШТОРКА НАСТРОЕК (свайп вниз / тап по ручке)
+       ============================================================ -->
+  <div class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer__backdrop" id="drawer-backdrop"></div>
+    <section class="drawer__sheet" id="drawer-sheet" role="dialog" aria-label="Настройки">
+      <div class="drawer__grip" id="drawer-grip"><span></span></div>
+
+      <div class="drawer__scroll">
+        <h2 class="drawer__title rainbow">⚙️ НАСТРОЙКИ ЭТАЖА</h2>
+
+        <!-- тумблеры -->
+        <div class="toggles">
+          <button class="toggle" id="set-sound"  aria-pressed="true">🔊 <span>Звук</span></button>
+          <button class="toggle" id="set-haptics" aria-pressed="true">📳 <span>Вибро</span></button>
+          <button class="toggle" id="set-motion"  aria-pressed="true">✨ <span>Анимации</span></button>
+        </div>
+
+        <!-- СКИНЫ -->
+        <div class="card">
+          <div class="card__title">🎨 СКИНЫ КАПИБАРЫ</div>
+          <div class="skin-now">сейчас: <b id="skin-current">—</b> <span class="skin-status" id="skin-status">🎲 авто</span></div>
+          <div class="skin-row">
+            <button class="chip-btn" id="skin-save">💾 Сохранить</button>
+            <button class="chip-btn" id="skin-next">🎲 Другой</button>
+            <button class="chip-btn" id="skin-auto">🔓 Авто-смена</button>
+          </div>
+          <ul class="skin-gallery" id="skin-gallery"></ul>
+          <div class="card__hint">Скины сами меняются при тапах. «💾» — оставить любимый, «🔓» — снова крутить рандом.</div>
+        </div>
+
+        <!-- ЛИЧНЫЙ РЕКОРД (вместо фейк-лидерборда) -->
+        <div class="card">
+          <div class="card__title">🏆 ТВОЙ РЕКОРД</div>
+          <div class="rec">
+            <div>сейчас: <b id="rec-cur">0</b></div>
+            <div>рекорд: <b id="rec-best">0</b></div>
+          </div>
+          <div class="skin-row">
+            <input id="lb-name" type="text" maxlength="20" placeholder="твой ник" />
+            <button class="chip-btn" id="lb-save">Сохранить ник</button>
+          </div>
+          <div class="card__hint">Онлайн-таблица задротов появится, когда подключим сервер. Пока считаем твой личный рекорд.</div>
+        </div>
+
+        <!-- ДОСТИЖЕНИЯ -->
+        <div class="card">
+          <div class="card__title">🎖 ДОСТИЖЕНИЯ <span id="ach-count" class="muted"></span></div>
+          <ul class="ach-list" id="ach-list"></ul>
+        </div>
+
+        <!-- СТАТИСТИКА -->
+        <div class="card">
+          <div class="card__title">📊 СТАТИСТИКА</div>
+          <div class="stats">
+            <div>Тапов: <b id="stat-clicks">0</b></div>
+            <div>Эвентов: <b id="stat-events">0</b></div>
+            <div>Стендапов: <b id="stat-standups">0</b></div>
+            <div>Всего КК: <b id="stat-total">0</b></div>
+          </div>
+        </div>
+
+        <!-- КАК ИГРАТЬ -->
+        <details class="card">
+          <summary class="card__title">❓ КАК ИГРАТЬ</summary>
+          <ol class="help">
+            <li><b>Тапай капибару</b> по центру — капают <b>КАПИКОИНЫ (КК)</b>.</li>
+            <li>В магазине внизу <b>нанимай</b> команду — она зарабатывает КК/сек сама.</li>
+            <li>Каждые 10/25/50/100 одинаковых работников их доход <b>×2</b> — бери массово!</li>
+            <li>Держи <b>комбо</b> (тапай без пауз) — это бустит каждый тап.</li>
+            <li>Лови <b>🦫✨ золотую капибару</b> — она пролетает по экрану и даёт жирный бонус.</li>
+            <li>Иногда прилетает <b>СОБЫТИЕ</b> (мини-игра на пару секунд) — играй за бонус.</li>
+            <li>Накопил много — жми <b>ПРЕСТИЖ</b>: сгораешь ради вечного множителя.</li>
+          </ol>
+          <p class="help-controls">💻 На компе: <b>мышь</b> / <b>пробел</b> — тап, <b>A S D F</b> — DJ-сессия.<br/>📱 На телефоне: <b>свайп вниз</b> — это меню.</p>
+        </details>
+
+        <!-- ОПАСНАЯ ЗОНА -->
+        <div class="card card--danger">
+          <button class="chip-btn chip-btn--danger" id="btn-reset">🗑 Сбросить прогресс</button>
+          <a class="chip-btn" href="wiki/index.html">📜 Вики проекта</a>
+        </div>
+
+        <div class="drawer__foot">
+          <span id="version">v0.4.0</span> · made with 🦫 · 2026
+        </div>
+      </div>
+
+      <button class="drawer__close" id="drawer-close" aria-label="Закрыть">↑ закрыть ↑</button>
+    </section>
+  </div>
+
+  <!-- ============================================================
+       ПРИЛОЖЕНИЕ (один экран, без скролла страницы)
+       ============================================================ -->
+  <main class="app" id="app">
+
+    <!-- ВЕРХ: ручка-свайп + HUD + тикер -->
+    <header class="hud" id="hud">
+      <button class="grab" id="grab" aria-label="Открыть настройки" title="Настройки: свайп вниз или клик">
+        <span class="grab__pill"></span>
+        <span class="grab__hint">⚙ настройки · <span class="grab__hint-m">свайп вниз</span><span class="grab__hint-d">клик / свайп</span></span>
+      </button>
+
+      <div class="hud__stats">
+        <div class="hstat hstat--coins">
+          <span class="hstat__val rainbow" id="stat-coins">0</span>
+          <span class="hstat__lbl">КАПИКОИНЫ</span>
+        </div>
+        <div class="hstat">
+          <span class="hstat__val" id="stat-cps">0</span>
+          <span class="hstat__lbl">КК/сек</span>
+        </div>
+        <div class="hstat">
+          <span class="hstat__val" id="stat-prestige">0</span>
+          <span class="hstat__lbl">✦ кринж</span>
+        </div>
+      </div>
+
+      <div class="buffs" id="buffs" aria-hidden="true"></div>
+      <div class="ticker" id="ticker" aria-hidden="true">★ ЭТАЖ 9000 НА СВЯЗИ ★ ШЛЁПАЙ КАПИБАРУ ★</div>
+    </header>
+
+    <!-- ЦЕНТР: геймплейная зона -->
+    <section class="play" id="play">
+      <div class="combo" id="combo">
+        <span class="combo__val" id="combo-val">x1.0</span>
+        <span class="combo__bar"><span class="combo__fill" id="combo-fill"></span></span>
+      </div>
+
+      <div class="speech" id="speech"></div>
+
+      <button class="capy-btn" id="capy-btn" aria-label="Тапнуть капибару">
+        <svg id="capy-svg" viewBox="0 0 200 160" class="capy"></svg>
+      </button>
+      <div class="capy-shadow" id="capy-shadow"></div>
+
+      <div class="hint blink" id="hint">⬆️ ТАПАЙ КАПИБАРУ ⬆️</div>
+
+      <div class="floats" id="floats" aria-hidden="true"></div>
+      <div class="golden-layer" id="golden-layer" aria-hidden="true"></div>
+
+      <!-- слой событий (мини-игры) -->
+      <div class="event hidden" id="event">
+        <div class="event__banner" id="event-banner"></div>
+        <div class="event__area" id="event-area"></div>
+      </div>
+    </section>
+
+    <!-- НИЗ: магазин -->
+    <section class="shop" id="shop">
+      <div class="shop__tabs">
+        <button class="tab tab--active" data-tab="workers">🦫 Наём</button>
+        <button class="tab" data-tab="clicks">👋 Лапка</button>
+        <button class="tab" data-tab="ultra">🌈 Мега</button>
+      </div>
+      <div class="shop__list" id="shop-list"></div>
+      <button class="prestige-btn hidden" id="prestige-btn">🌌 ПРЕСТИЖ</button>
+      <div class="prestige-hint" id="prestige-hint"></div>
+    </section>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>
