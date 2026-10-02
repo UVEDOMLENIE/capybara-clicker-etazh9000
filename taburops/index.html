@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Табуропс-отчёт</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#202024;font-family:"Segoe UI",Arial,sans-serif;color:#111}
+.deck{display:flex;flex-direction:column;align-items:center;gap:48px;padding:48px 0}
+.card{position:relative;width:1080px;height:1350px;overflow:hidden;flex:none}
+body.solo{background:#000}
+body.solo .deck{padding:0;gap:0}
+body.solo .card{display:none}
+body.solo .card.on{display:block}
+.pg{position:absolute;bottom:20px;right:34px;font:700 19px/1 "Segoe UI",sans-serif;letter-spacing:.08em;opacity:.55}
+q{quotes:"«" "»"}
+
+/* ============ 1. ОБЛОЖКА ============ */
+.c1{background:#FFE14D}
+.c1:before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(0,0,0,.10) 1.7px,transparent 2px);background-size:15px 15px}
+.c1 .mast{position:absolute;left:0;right:0;top:0;height:170px;background:#E10600;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 44px}
+.c1 .logo{font:400 148px/1 Impact,"Arial Black",sans-serif;letter-spacing:-1px;transform:translateY(5px)}
+.c1 .meta{text-align:right;font:700 25px/1.4 "Segoe UI",sans-serif}
+.c1 .tick{position:absolute;top:170px;left:0;right:0;height:54px;background:#111;color:#FFE14D;font:700 23px/54px "Segoe UI";white-space:nowrap;padding-left:44px;letter-spacing:.07em}
+.c1 h1{position:absolute;top:252px;left:44px;right:44px;margin:0;font:400 122px/.94 Impact,sans-serif;text-transform:uppercase;letter-spacing:-.5px}
+.c1 h1 em{font-style:normal;color:#E10600}
+.c1 .burst{position:absolute;top:338px;left:705px;width:330px;height:330px;background:#E10600;color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;transform:rotate(11deg);
+  clip-path:polygon(50% 0%,59% 13%,73% 5%,76% 21%,92% 18%,87% 33%,100% 40%,89% 52%,99% 64%,84% 69%,88% 85%,72% 82%,65% 97%,53% 87%,41% 99%,34% 84%,18% 89%,19% 72%,3% 66%,13% 53%,1% 41%,15% 33%,9% 17%,26% 19%,29% 4%,42% 13%)}
+.c1 .burst span{font:400 40px/1 Impact,sans-serif;padding:0 62px}
+.c1 .burst small{display:block;margin-top:8px;font:800 19px/1.2 "Segoe UI",sans-serif}
+.c1 .sub{position:absolute;top:742px;left:40px;background:#111;color:#fff;font:900 39px/1.15 "Arial Black",sans-serif;padding:14px 24px;transform:rotate(-1.3deg)}
+.c1 .wanted{position:absolute;left:44px;top:845px;width:400px;height:440px;background:#f1e3c2;border:3px solid #3a2412;box-shadow:8px 8px 0 #111;transform:rotate(-2.5deg);text-align:center;padding:16px 18px;color:#3a2412}
+.c1 .wanted h3{margin:0;font:400 47px/1 Impact,sans-serif;letter-spacing:1px}
+.c1 .wanted .who{font:400 44px/1 Impact,sans-serif;margin-top:2px}
+.c1 .wanted p{margin:6px 0 0;font:700 21px/1.25 Georgia,serif}
+.c1 .wanted .stamp{position:absolute;left:40px;top:205px;border:5px solid #E10600;color:#E10600;font:400 34px/1 Impact,sans-serif;padding:6px 12px;transform:rotate(-17deg);background:rgba(241,227,194,.6)}
+.c1 .teasers{position:absolute;left:478px;top:850px;right:36px;margin:0;padding:0;list-style:none}
+.c1 .teasers li{display:flex;align-items:center;gap:16px;font:600 30px/1.08 Bahnschrift,"Segoe UI",sans-serif;margin-bottom:14px}
+.c1 .teasers b{flex:none;width:54px;height:54px;border-radius:50%;background:#E10600;color:#fff;display:flex;align-items:center;justify-content:center;font:400 34px/1 Impact,sans-serif}
+.c1 .foot{position:absolute;left:478px;right:40px;bottom:58px;font:600 18px/1.3 "Segoe UI";opacity:.75}
+
+/* ============ 2. ЗНАКИ ПРЕПИНАНИЯ ============ */
+.c2{background:#F3EEE4;color:#111}
+.c2 .kicker{position:absolute;top:44px;left:48px;font:700 22px/1 "Segoe UI";letter-spacing:.18em;color:#C8102E}
+.c2 h2{position:absolute;top:78px;left:44px;margin:0;font:400 84px/1 Impact,sans-serif;text-transform:uppercase}
+.c2 .glyphs{position:absolute;top:150px;left:0;right:0;height:330px}
+.c2 .g{position:absolute;font-family:Georgia,serif;line-height:1}
+.c2 .g1{left:70px;top:-112px;font-size:330px;color:#111}
+.c2 .g2{right:150px;top:-187px;font-size:420px;color:#C8102E}
+.c2 .vs{position:absolute;left:470px;top:104px;font:400 92px/1 Impact,sans-serif;color:#111;background:#F3EEE4;padding:0 10px}
+.c2 .fighters{position:absolute;top:418px;left:48px;right:48px;display:flex;gap:40px}
+.c2 .f{flex:1;font:500 24px/1.3 "Segoe UI";border-top:5px solid #111;padding-top:12px}
+.c2 .f2{border-color:#C8102E}
+.c2 .f b{display:block;font:800 31px/1.1 "Segoe UI";margin-bottom:6px}
+.c2 .f2 b{color:#C8102E}
+.c2 .thesis{position:absolute;top:596px;left:48px;right:48px;font:italic 700 37px/1.2 Georgia,serif}
+.c2 .lint{position:absolute;top:704px;left:40px;right:40px;margin:0;background:#16161A;color:#D8D8D8;border-radius:14px;padding:22px 28px;font:400 24px/1.38 Consolas,"Lucida Console",monospace;white-space:pre;box-shadow:0 10px 0 #0004}
+.c2 .lint .p{color:#7CD67C}.c2 .lint .r{color:#FF6B6B;font-weight:700}.c2 .lint .y{color:#FFD24D;font-weight:700}.c2 .lint .d{color:#8A8A93}.c2 .lint .w{color:#fff}
+.c2 .finale{position:absolute;top:1092px;left:48px;right:48px;font:500 27px/1.3 "Segoe UI";border-left:8px solid #C8102E;padding-left:18px}
+.c2 .finale b{color:#C8102E}
+.c2 .ent{position:absolute;bottom:52px;left:48px;right:48px;display:flex;align-items:baseline;gap:14px;font-family:"Segoe UI";flex-wrap:nowrap;white-space:nowrap}
+.c2 .ent span{font-weight:800}
+.c2 .ent i{font-style:normal;color:#C8102E;font-weight:800}
+.c2 .entcap{position:absolute;bottom:24px;left:48px;font:600 18px/1 "Segoe UI";color:#666}
+
+/* ============ 3. МАТ ============ */
+.c3{background:#1F3A2E;color:#F2EFE6;font-family:"Segoe Print","Comic Sans MS",cursive;border:22px solid #6B4A2B}
+.c3:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 25% 18%,rgba(255,255,255,.08),transparent 45%),radial-gradient(ellipse at 75% 70%,rgba(255,255,255,.06),transparent 50%),radial-gradient(ellipse at 50% 100%,rgba(255,255,255,.05),transparent 40%)}
+.c3 h2{position:absolute;top:22px;left:30px;right:30px;margin:0;font:700 56px/1.1 "Segoe Print",cursive;text-align:center}
+.c3 .sub{position:absolute;top:108px;left:0;right:0;text-align:center;font:400 24px/1 "Segoe Print";color:#F7E58B}
+.c3 svg.lines{position:absolute;inset:0}
+.c3 .core{position:absolute;left:375px;top:556px;width:286px;height:150px;border:5px solid #F2EFE6;border-radius:26px 34px 22px 30px;display:flex;align-items:center;justify-content:center;font:700 108px/1 "Segoe Print";background:#1F3A2E;transform:rotate(-2deg)}
+.c3 .n{position:absolute;width:312px;font:400 21px/1.32 "Segoe Print";background:rgba(31,58,46,.85)}
+.c3 .n b{display:block;font:700 27px/1.15 "Segoe Print";color:#F7E58B;margin-bottom:2px}
+.c3 .n.pk b{color:#F6A6B2}.c3 .n.bl b{color:#9FD3F2}
+.c3 .formula{position:absolute;left:20px;right:20px;bottom:30px;border-top:3px dashed rgba(242,239,230,.6);padding-top:14px;font:400 24px/1.38 "Segoe Print";text-align:center}
+.c3 .formula b{color:#F7E58B}
+.c3 .pg{color:#F2EFE6;bottom:6px;right:14px}
+
+/* ============ 4. РУСЛАН ============ */
+.c4{background:#F2E7CE;color:#3B2A1A;font-family:"Palatino Linotype",Georgia,serif}
+.c4:before{content:"";position:absolute;inset:22px;border:3px double #3B2A1A;outline:1px solid #3B2A1A;outline-offset:-12px}
+.c4 .hdr{position:absolute;top:58px;left:0;right:0;text-align:center;font:700 22px/1 Georgia;letter-spacing:.22em}
+.c4 h2{position:absolute;top:94px;left:0;right:0;margin:0;text-align:center;font:700 150px/1 "Palatino Linotype",Georgia,serif;letter-spacing:-2px}
+.c4 h2 small{font-size:64px;font-weight:400;letter-spacing:0}
+.c4 .sub{position:absolute;top:256px;left:70px;right:70px;text-align:center;font:italic 400 25px/1.3 Georgia}
+.c4 .def{position:absolute;top:322px;left:80px;right:80px;text-align:center;font:700 35px/1.25 "Palatino Linotype",Georgia;border-top:2px solid #3B2A1A;border-bottom:2px solid #3B2A1A;padding:16px 0}
+.c4 table{position:absolute;top:470px;left:70px;right:70px;width:940px;border-collapse:collapse;font-size:24px}
+.c4 td{border-bottom:1px solid #3B2A1A55;padding:10px 6px;vertical-align:top;line-height:1.3}
+.c4 td:first-child{font:700 22px/1.3 Georgia;letter-spacing:.12em;text-transform:uppercase;width:230px;padding-top:13px}
+.c4 td i{display:block;color:#7a5a3a;font-size:20px;margin-top:2px}
+.c4 .scale{position:absolute;top:742px;left:70px;right:70px;height:120px}
+.c4 .scale .bar{position:absolute;top:44px;left:0;right:0;height:16px;background:linear-gradient(90deg,#e9cf9a,#c0392b);border:2px solid #3B2A1A}
+.c4 .scale .t{position:absolute;top:0;font:700 26px/1 Georgia}
+.c4 .scale .t span{display:block;font:italic 400 19px/1.25 Georgia;margin-top:44px;width:270px}
+.c4 .twist{position:absolute;top:890px;left:70px;right:70px;border:4px solid #9B1B1B;background:#FBF3E2;padding:20px 26px;color:#2b1d10}
+.c4 .twist h3{margin:0 0 10px;font:700 33px/1.1 "Palatino Linotype",Georgia;color:#9B1B1B}
+.c4 .twist p{margin:4px 0;font:400 24px/1.33 Georgia}
+.c4 .twist b{color:#9B1B1B}
+.c4 .note{position:absolute;top:1172px;left:70px;right:290px;font:italic 400 21px/1.35 Georgia}
+.c4 .seal{position:absolute;right:52px;bottom:44px;width:210px;height:210px;transform:rotate(-14deg)}
+.c4 .pg{color:#3B2A1A;bottom:34px;right:44px}
+
+/* ============ 5. ВСЁ СВЯЗАНО ============ */
+.c5{background:#C19461}
+.c5:before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(90,55,25,.38) 1.2px,transparent 1.6px),radial-gradient(rgba(255,235,200,.22) 1px,transparent 1.4px);background-size:7px 7px,11px 11px;background-position:0 0,3px 5px}
+.c5 .title{position:absolute;top:30px;left:205px;width:670px;background:#fff;padding:12px 20px 14px;text-align:center;transform:rotate(-1.6deg);box-shadow:0 6px 14px #0006}
+.c5 .title h2{margin:0;font:400 92px/1 Impact,sans-serif;color:#C8102E;letter-spacing:1px}
+.c5 .title div{font:400 23px/1.2 "Segoe Print",cursive;color:#222;margin-top:4px}
+.c5 svg.yarn{position:absolute;inset:0;z-index:1;pointer-events:none}.c5 svg.pins{position:absolute;inset:0;z-index:4;pointer-events:none}
+.c5 .note{position:absolute;width:318px;min-height:300px;background:#FFFDF4;padding:24px 20px 16px;box-shadow:0 8px 16px #0005;font:600 20.5px/1.3 "Segoe UI",sans-serif;color:#1b1b1b;z-index:2}
+.c5 .note.y{background:#FFF27A}.c5 .note.b{background:#DDF1FF}.c5 .note.p{background:#FFE1EC}
+.c5 .note h4{margin:0 0 8px;font:700 26px/1.08 "Segoe Print",cursive;color:#B00020}
+.c5 .note .k{color:#B00020;font-weight:800}
+.c5 .pola{position:absolute;left:380px;top:575px;width:320px;height:330px;background:#fff;padding:16px 16px 0;box-shadow:0 10px 22px #0007;transform:rotate(2deg);z-index:2;text-align:center}
+.c5 .pola .ph{height:220px;background:#2b2b2b;display:flex;align-items:center;justify-content:center}
+.c5 .pola .cap{font:700 30px/1.1 "Segoe Print",cursive;margin-top:12px;color:#B00020}
+.c5 .liz{position:absolute;right:14px;top:34px;width:196px;background:#B6F2B0;padding:10px 12px;font:600 16.5px/1.25 "Segoe UI";transform:rotate(7deg);box-shadow:0 6px 12px #0005;z-index:4}
+.c5 .liz b{font:700 21px/1 "Segoe Print";color:#1d6b1d}
+.c5 .pg{color:#fff;opacity:.9;z-index:5}
+
+/* ============ 6. АВТОБУС ============ */
+.c6{background:#0B0B0C;color:#FFB02E;font-family:Consolas,"Lucida Console",monospace}
+.c6 .sign{position:absolute;top:36px;left:36px;right:36px;height:200px;background:#050505;border:6px solid #2a2a2a;border-radius:10px;display:flex;align-items:center;gap:28px;padding:0 28px;box-shadow:inset 0 0 40px #000}
+.c6 .sign:after{content:"";position:absolute;inset:0;background:radial-gradient(circle,transparent 1.9px,rgba(5,5,5,.55) 2.5px);background-size:5px 5px;pointer-events:none}
+.c6 .route{font:700 150px/1 Bahnschrift,Consolas;color:#FFB02E;text-shadow:0 0 12px #ff8c00,0 0 30px #ff7a00}
+.c6 .dest{font:700 70px/1 Bahnschrift,Consolas;text-shadow:0 0 10px #ff8c00,0 0 26px #ff7a00}
+.c6 .dest small{display:block;font-size:36px;margin-top:12px;color:#FFC860}
+.c6 h2{position:absolute;top:262px;left:40px;right:40px;margin:0;font:700 40px/1.1 Bahnschrift,"Segoe UI";color:#fff;letter-spacing:.02em}
+.c6 h2 span{color:#FF4D4D}
+.c6 .stops{position:absolute;top:338px;left:40px;right:40px}
+.c6 .stops:before{content:"";position:absolute;left:111px;top:14px;bottom:30px;width:6px;background:#FFB02E;box-shadow:0 0 10px #ff8c00}
+.c6 .s{position:relative;display:flex;gap:0;margin-bottom:13px;min-height:70px}
+.c6 .s .t{width:96px;flex:none;font:700 24px/1.2 Consolas;color:#FFB02E;padding-top:4px}
+.c6 .s .dot{width:30px;height:30px;flex:none;border-radius:50%;background:#0B0B0C;border:6px solid #FFB02E;margin:2px 26px 0 0;box-shadow:0 0 10px #ff8c00;position:relative;left:0}
+.c6 .s .x{font:400 22px/1.3 "Segoe UI",sans-serif;color:#E9E9E9}
+.c6 .s .x b{display:block;font:700 26px/1.2 Bahnschrift,"Segoe UI";color:#FFB02E;letter-spacing:.06em}
+.c6 .s.end .dot{background:#FF4D4D;border-color:#FF4D4D;box-shadow:0 0 14px #ff4d4d}
+.c6 .s.end .x b{color:#FF4D4D}
+.c6 .kpi{position:absolute;left:36px;right:36px;bottom:50px;border:3px solid #FFB02E;border-radius:14px;padding:18px 24px;background:#141006;box-shadow:0 0 22px #ff8c0033}
+.c6 .kpi .l{font:700 23px/1 Bahnschrift;letter-spacing:.14em;color:#FFB02E}
+.c6 .kpi .v{font:700 28.5px/1.3 Bahnschrift,"Segoe UI";color:#fff;margin-top:8px}
+.c6 .kpi .m{font:italic 400 23px/1.3 Georgia;color:#E9E9E9;margin-top:8px}
+.c6 .pg{color:#FFB02E;bottom:16px}
+
+/* ============ 7. ЗОЛОТАЯ ТАБУРЕТКА ============ */
+.c7{background:radial-gradient(ellipse 60% 38% at 50% 8%,#4a3b12 0%,#1a1508 45%,#050505 80%);color:#EEE}
+.c7 .statue{position:absolute;top:28px;left:50%;transform:translateX(-50%)}
+.c7 h2{position:absolute;top:226px;left:0;right:0;margin:0;text-align:center;font:700 70px/1 "Palatino Linotype",Georgia,serif;letter-spacing:.04em;background:linear-gradient(180deg,#FFF1B8,#E3B341 45%,#9C7414);-webkit-background-clip:text;background-clip:text;color:transparent}
+.c7 .sub{position:absolute;top:308px;left:0;right:0;text-align:center;font:italic 400 25px/1.2 Georgia;color:#CDBB8A}
+.c7 .grid{position:absolute;top:360px;left:40px;right:40px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.c7 .a{border:2px solid #8C6D1F;border-radius:12px;padding:13px 18px 14px;background:rgba(30,24,8,.65);min-height:166px}
+.c7 .a .cat{font:700 18px/1 Georgia;letter-spacing:.16em;color:#E3B341;text-transform:uppercase}
+.c7 .a .nm{font:800 28px/1.12 "Segoe UI";color:#fff;margin:7px 0 6px}
+.c7 .a .tx{font:400 20px/1.3 "Segoe UI";color:#D6D0C0}
+.c7 .bottom{position:absolute;bottom:50px;left:40px;right:40px;text-align:center;font:italic 400 25px/1.3 Georgia;color:#E3B341}
+.c7 .pg{color:#E3B341}
+
+/* ============ 8. СПРАВКА ============ */
+.c8{background:#EFE6CF;color:#1d1a14;font-family:"Courier New",Courier,monospace}
+.c8:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 82% 14%,rgba(150,110,40,.18),transparent 16%),radial-gradient(circle at 12% 62%,rgba(150,110,40,.12),transparent 14%),radial-gradient(circle at 70% 58%,rgba(150,110,40,.08),transparent 22%)}
+.c8 .org{position:absolute;top:48px;left:60px;font:700 21px/1.35 "Courier New";text-transform:uppercase}
+.c8 .corner{position:absolute;top:48px;right:60px;text-align:right;font:400 19px/1.35 "Courier New"}
+.c8 h2{position:absolute;top:150px;left:0;right:0;margin:0;text-align:center;font:700 64px/1 "Courier New";letter-spacing:.18em}
+.c8 .no{position:absolute;top:222px;left:0;right:0;text-align:center;font:700 26px/1 "Courier New"}
+.c8 .body{position:absolute;top:282px;left:62px;right:62px;font:400 25px/1.4 "Courier New"}
+.c8 .body p{margin:0 0 12px}
+.c8 .body b{font-weight:700}
+.c8 .body .big{font:700 31px/1.25 "Courier New";margin:12px 0 14px;text-transform:uppercase}
+.c8 .body ol,.c8 .body ul{margin:0 0 12px;padding-left:34px}
+.c8 .sign{position:absolute;top:990px;left:62px;font:400 23px/1 "Courier New"}
+.c8 .stamp{position:absolute;top:852px;left:548px;width:260px;height:260px;transform:rotate(-13deg);opacity:.86}
+.c8 .ecg{position:absolute;left:44px;right:44px;bottom:44px;height:258px;background-color:#FCE7E7;background-image:linear-gradient(#f3b2b2 1px,transparent 1px),linear-gradient(90deg,#f3b2b2 1px,transparent 1px),linear-gradient(#f8d2d2 1px,transparent 1px),linear-gradient(90deg,#f8d2d2 1px,transparent 1px);background-size:40px 40px,40px 40px,8px 8px,8px 8px;border:2px solid #d98c8c}
+.c8 .ecg .lbl{position:absolute;top:8px;left:12px;font:700 18px/1 "Courier New";color:#8a1c1c}
+.c8 .ecg svg{position:absolute;inset:0}
+.c8 .pg{bottom:12px;right:50px}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- ===================== 1 ===================== -->
+<section class="card c1" id="c1">
+  <div class="mast"><div class="logo">ТАБУРОПС</div><div class="meta">СПЕЦВЫПУСК · 02.10.2026<br>№ 278 · цена: одна запятая</div></div>
+  <div class="tick">НАСТОЛКИ И ТАБУРЕТКИ ● ОТЧЁТ ЗА ОДИН ВЕЧЕР ● 14:26–21:20 ● 278 СООБЩЕНИЙ ● 0 ТАБУРЕТОК ●</div>
+  <h1>Чат про настолки<br>семь часов<br>не говорил<br><em>про настолки</em></h1>
+  <div class="burst"><span>ЭКСКЛЮЗИВ!<small>единственная банка пива оказалась жидкостью для удаления наклеек</small></span></div>
+  <div class="sub">Или говорил? Расследование на 8 страниц</div>
+  <div class="wanted">
+    <h3>РАЗЫСКИВАЕТСЯ</h3>
+    <svg viewBox="0 0 240 215" width="250" height="200" style="margin-top:6px">
+      <path d="M72 72 L64 200" stroke="#6a4522" stroke-width="13" stroke-linecap="round"/>
+      <path d="M168 72 L176 200" stroke="#6a4522" stroke-width="13" stroke-linecap="round"/>
+      <path d="M58 150 L182 150" stroke="#6a4522" stroke-width="9" stroke-linecap="round"/>
+      <path d="M44 82 L28 206" stroke="#3a2412" stroke-width="15" stroke-linecap="round"/>
+      <path d="M196 82 L212 206" stroke="#3a2412" stroke-width="15" stroke-linecap="round"/>
+      <path d="M20 58 L20 76 Q120 108 220 76 L220 58" fill="#a8672f" stroke="#3a2412" stroke-width="6" stroke-linejoin="round"/>
+      <ellipse cx="120" cy="58" rx="100" ry="28" fill="#d39a5c" stroke="#3a2412" stroke-width="6"/>
+    </svg>
+    <div class="who">ТАБУРЕТКА</div>
+    <p>Последний раз видели в названии чата.<br>Упоминаний за вечер: 0.<br>Особые приметы: четыре ноги.</p>
+    <div class="stamp">НЕ ОБСУЖДАЛАСЬ</div>
+  </div>
+  <ul class="teasers">
+    <li><b>2</b>Запятая: убийца найден</li>
+    <li><b>3</b>Мама против мата</li>
+    <li><b>4</b>Почему Руслана двое</li>
+    <li><b>5</b>Облепиха отказалась от лепки</li>
+    <li><b>6</b>Надя чуть не вылетела из автобуса</li>
+    <li><b>8</b>Справка: все трезвые. Это хуже</li>
+  </ul>
+  <div class="pg">ТАБУРОПС · 1/8</div>
+</section>
+
+<!-- ===================== 2 ===================== -->
+<section class="card c2" id="c2">
+  <div class="kicker">ДЕЛО № 1414 · 20:56 – 21:20</div>
+  <h2>Война знаков препинания</h2>
+  <div class="glyphs"><div class="g g1">…</div><div class="vs">VS</div><div class="g g2">,</div></div>
+  <div class="fighters">
+    <div class="f f1"><b>«...»</b>Ник без единой буквы. Говорит многоточиями: «Капец...», «пошла активная агрессия...»</div>
+    <div class="f f2"><b>Annette Senior Seaberry</b>Главный линтер чата: «Требую повтор. Медленный и с расстановкой. Запятых.»</div>
+  </div>
+  <div class="thesis">Annette требовала запятых от человека, чьё имя — знак препинания.</div>
+<pre class="lint"><span class="p">$</span> <span class="w">lint --rule=запятые Annette_Senior_Seaberry</span>
+  поставлено запятых <span class="d">...........</span> <span class="w">6</span>   <span class="d">(на 99 сообщений, меньше всех)</span>
+  потеряно запятых <span class="d">.............</span> <span class="w">≈30</span>
+<span class="r">✖</span> 21:00 «Я виновата что ты не расставляешь запятые?»
+<span class="r">                    ^ сюда</span>
+<span class="y">⚠</span> 20:34 «...сказал БЛ*ТЬ, ОБОЖАЮ ДЖАВУ»
+        <span class="d">единственная запятая в сообщении стоит после мата</span>
+<span class="r">✖</span> «...» «Ань прекращай» <span class="d">— обращение к линтеру без запятой</span>
+<span class="r">✖</span> «...» «с*ка бл*ть» ×4 <span class="d">— 7 запятых потеряно за раз</span> 🥰</pre>
+  <div class="finale"><b>21:20.</b> K (ник из одной буквы) находит пропущенную запятую в сообщении Нади. Вечер закончился тем же, с чего начался.</div>
+  <div class="ent"><span style="font-size:27px">Annette Senior Seaberry</span><i>→</i><span style="font-size:25px">Руслан Руслан</span><i>→</i><span style="font-size:23px">Nadya</span><i>→</i><span style="font-size:23px">K</span><i>→</i><span style="font-size:23px">...</span></div>
+  <div class="entcap">Энтропия ников: 21 буква → 12 → 5 → 1 → 0. Чем меньше букв, тем опаснее.</div>
+  <div class="pg">ТАБУРОПС · 2/8</div>
+</section>
+
+<!-- ===================== 3 ===================== -->
+<section class="card c3" id="c3">
+  <h2>Мат: единая теория всего</h2>
+  <div class="sub">лекция для табуропсов · 02.10 · доску не вытирали</div>
+  <svg class="lines" viewBox="0 0 1036 1306" width="1036" height="1306">
+    <g fill="none" stroke="rgba(242,239,230,.55)" stroke-width="3.5" stroke-linecap="round">
+      <path d="M440 600 Q420 420 350 300"/>
+      <path d="M600 600 Q640 420 690 300"/>
+      <path d="M400 620 Q380 560 350 520"/>
+      <path d="M640 620 Q660 560 690 520"/>
+      <path d="M410 690 Q380 760 350 840"/>
+      <path d="M630 690 Q660 760 690 840"/>
+      <path d="M440 700 Q330 900 350 1030"/>
+      <path d="M600 700 Q710 900 690 1030"/>
+      <path d="M518 708 L518 930"/>
+    </g>
+  </svg>
+  <div class="core">МАТ</div>
+  <div class="n" style="left:30px;top:200px"><b>МАТ + АН = МАТАН</b>«Зорич, Демидович 💅💅💅» и двойные интегралы на экскаваторе</div>
+  <div class="n pk" style="left:686px;top:200px"><b>«МАТЕМАТИКА БЕЗ ХУ%!НИ»</b>первый ролик вечера, 19:57. В названии уже был весь сюжет</div>
+  <div class="n bl" style="left:30px;top:420px"><b>МАТОМ</b>«Мат вообще обязательная составляющая. Как и матан»</div>
+  <div class="n" style="left:686px;top:420px"><b>ШАХ И МАТ</b>шахматы — это настолка. Чат всё-таки был в теме!</div>
+  <div class="n pk" style="left:30px;top:790px"><b>МАТ-ЛОГИКА</b>правило де Моргана <span style="opacity:.75">(тут не используется)</span></div>
+  <div class="n bl" style="left:686px;top:790px"><b>МАМА</b>mama_chan@ — единственная, кто за «не ругаться матом». Мама. Совпадение?</div>
+  <div class="n" style="left:30px;top:1000px"><b>ХАКУНА МАТ-ТАТА</b>«...ёпт»</div>
+  <div class="n pk" style="left:686px;top:1000px"><b>вниМАТельно, заниМАТься</b>мат проник даже сюда</div>
+  <div class="n bl" style="left:362px;top:930px;text-align:center"><b>МАТЕРИТЬСЯ</b>«на экран моя любимая часть работы»</div>
+  <div class="formula"><b>Теорема Руслана, 20:53:</b> «Ругаться матом это не нишево» ⇒ мат — база, матан — ниша.<br>Счёт вечера: матан 19 слов, мат 16. У «...» — 8 и 8. Идеальный баланс ∎</div>
+  <div class="pg">ТАБУРОПС · 3/8</div>
+</section>
+
+<!-- ===================== 4 ===================== -->
+<section class="card c4" id="c4">
+  <div class="hdr">МЕЖДУНАРОДНОЕ БЮРО МЕР И ВЕСОВ ТАБУРОПСОВ</div>
+  <h2>1 Руслан <small>(Ру)</small></h2>
+  <div class="sub">новая основная единица СИ · утверждена 02.10.2026</div>
+  <div class="def">1 Руслан — количество агрессии,<br>при котором Надя превращается в Руслана</div>
+  <table>
+    <tr><td>Агрессия</td><td>«Если пойдёт активная, то я превращусь в Руслана» <i>Nadya, 21:03</i></td></tr>
+    <tr><td>Расстояние</td><td>«А я в жопе мира живу, правда не в такой как Руслан» <i>Nadya, 21:15</i></td></tr>
+    <tr><td>Мафиозность</td><td>«Руслан мафия» <i>Annette, 21:00</i></td></tr>
+  </table>
+  <div class="scale">
+    <div class="t" style="left:0">1 мРу<span>пассивная агрессия, 20:57</span></div>
+    <div class="t" style="left:350px">1 Ру<span>«Будет битва. Будет мясо», 21:04</span></div>
+    <div class="t" style="left:700px">1 кРу<span>«Раз на раз», 21:16</span></div>
+    <div class="bar"></div>
+  </div>
+  <div class="twist">
+    <h3>Почему его зовут «Руслан Руслан»?</h3>
+    <p><b>21:03</b> Надя: «Если пойдёт активная, то я превращусь в Руслана».</p>
+    <p><b>21:06</b> Надя впервые пишет о себе в мужском роде: «Ты не шаришь, <b>я понял</b>».</p>
+    <p><b>21:16</b> Надя Руслану: «Выйди». Превращение завершено. Русланов стало два.</p>
+  </div>
+  <div class="note">Руслан Руслан = ∬, единственный двойной интеграл чата. Главный адвокат матана, но в 20:34: «я просто не программист». Зато поставил больше всех запятых — 21.</div>
+  <svg class="seal" viewBox="0 0 220 220">
+    <defs><path id="sealc" d="M110,110 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs>
+    <circle cx="110" cy="110" r="104" fill="#9B1B1B"/>
+    <circle cx="110" cy="110" r="96" fill="none" stroke="#e8b4a0" stroke-width="2"/>
+    <circle cx="110" cy="110" r="58" fill="none" stroke="#e8b4a0" stroke-width="2"/>
+    <text fill="#f6dccd" font-family="Georgia" font-size="17" font-weight="700" letter-spacing="2"><textPath href="#sealc">ЭТАЛОН ХРАНИТСЯ В СЕВРЕ · ЭТАЛОН ХРАНИТСЯ В СЕВРЕ ·</textPath></text>
+    <text x="110" y="128" text-anchor="middle" fill="#f6dccd" font-family="Palatino Linotype,Georgia" font-size="52" font-weight="700">Ру</text>
+  </svg>
+  <div class="pg">ТАБУРОПС · 4/8</div>
+</section>
+
+<!-- ===================== 5 ===================== -->
+<section class="card c5" id="c5">
+  <div class="title"><h2>ВСЁ СВЯЗАНО</h2><div>семь часов смотрели в чат. теперь мы видим</div></div>
+  <div class="liz"><b>ЯЩЕРЫ?</b><br>20:02: «Про ящеров там есть что-нибудь?» Не подтверждено. Мы следим.</div>
+
+  <div class="note" style="left:30px;top:215px;transform:rotate(-2deg)"><h4>Seaberry = облепиха</h4>Облепиха — от слова «лепить». 21:05 Надя: «Пойдём на лепку!» Облепиха: <span class="k">«О господи. Не».</span> Отказалась от собственной этимологии.</div>
+  <div class="note y" style="left:381px;top:205px;transform:rotate(1.5deg)"><h4>Шишки</h4>20:59, автобус: «шишками воняет». Шишка → сосна → доска → <span class="k">табуретка.</span> Единственный раз за вечер, когда чат подошёл к своей теме.</div>
+  <div class="note b" style="left:732px;top:225px;transform:rotate(-1deg)"><h4>Лес</h4>Облепиха + шишки + «Зай» ×3 (зайцы!) + глина. Чат «Настолки и табуретки» тайно про лес. <span class="k">Табуретки тоже из леса.</span></div>
+
+  <div class="note p" style="left:30px;top:575px;transform:rotate(1.2deg)"><h4>Надя и требования</h4>Annette: «Эйчар просто в нейронку спросил напиши 20 требований». Надя: <span class="k">«Так и делаем кста».</span> Через час вписалась в хакатон: «надо посмотреть чо ваще требуется». Пишет требования. Не читает требования.</div>
+  <div class="pola"><div class="ph"><svg viewBox="0 0 240 215" width="210" height="190"><path d="M72 72 L64 200" stroke="#8a5a2c" stroke-width="13" stroke-linecap="round"/><path d="M168 72 L176 200" stroke="#8a5a2c" stroke-width="13" stroke-linecap="round"/><path d="M58 150 L182 150" stroke="#8a5a2c" stroke-width="9" stroke-linecap="round"/><path d="M44 82 L28 206" stroke="#c98a4b" stroke-width="15" stroke-linecap="round"/><path d="M196 82 L212 206" stroke="#c98a4b" stroke-width="15" stroke-linecap="round"/><path d="M20 58 L20 76 Q120 108 220 76 L220 58" fill="#a8672f" stroke="#e0b07a" stroke-width="5"/><ellipse cx="120" cy="58" rx="100" ry="28" fill="#d39a5c" stroke="#e0b07a" stroke-width="5"/></svg></div><div class="cap">ТАБУРЕТКА?!</div></div>
+  <div class="note y" style="left:732px;top:585px;transform:rotate(-1.8deg)"><h4>Оркестр</h4>20:09: Сбер требует «целый оркестор». 20:33: «Зелёная книга» — фильм про музыканта в дороге. 21:13 Надя в автобусе: <span class="k">«Ещё музыкант. И на дуде игрец».</span> Annette играет на нервах. Оркестр собран.</div>
+
+  <div class="note b" style="left:30px;top:945px;transform:rotate(-1.4deg)"><h4>Духовный путь Annette</h4>«дата сатанисты» 20:08 → договор «кровью навеки» 20:31 → «лужа крови» 21:03 → «до встречи в лучшем мире» 21:12 → <span class="k">«куплю хиджаб»</span> 21:19. Всё за 71 минуту.</div>
+  <div class="note" style="left:381px;top:960px;transform:rotate(1.6deg)"><h4>Лепка</h4>Драка будет «тарелками» и «кувшинами». Надя зовёт на лепку. K: «го». Ушли в ЛС. <span class="k">Это не мастер-класс. Это завод боеприпасов.</span></div>
+  <div class="note p" style="left:732px;top:945px;transform:rotate(-1deg)"><h4>Штрихкод</h4>19:25 «Альфа Бетта гамма штрих» → 20:51 mama_chan@: «...штрихкод». <span class="k">Единственный код за вечер в чате программистов.</span> Второй — сообщение Annette столбиком.</div>
+
+  <svg class="yarn" viewBox="0 0 1080 1350" width="1080" height="1350">
+    <g fill="none" stroke="#C8102E" stroke-width="4.5" stroke-linecap="round">
+      <path d="M189 228 L540 218"/>
+      <path d="M540 218 L891 238"/>
+      <path d="M189 228 Q540 330 891 238"/>
+      <path d="M540 218 Q560 420 540 590"/>
+      <path d="M891 238 Q700 420 560 590"/>
+      <path d="M189 228 Q300 640 540 973"/>
+      <path d="M189 588 Q360 760 540 973"/>
+      <path d="M189 588 Q520 560 891 598"/>
+      <path d="M891 598 Q900 780 891 958"/>
+      <path d="M189 958 Q360 1000 540 973"/>
+      <path d="M540 973 Q720 940 891 958"/>
+      <path d="M189 958 Q190 760 189 588"/>
+    </g>
+  </svg>
+  <svg class="pins" viewBox="0 0 1080 1350" width="1080" height="1350">
+    <g fill="#E3000F" stroke="#7a0008" stroke-width="2">
+      <circle cx="189" cy="228" r="11"/><circle cx="540" cy="218" r="11"/><circle cx="891" cy="238" r="11"/>
+      <circle cx="189" cy="588" r="11"/><circle cx="540" cy="590" r="11"/><circle cx="891" cy="598" r="11"/>
+      <circle cx="189" cy="958" r="11"/><circle cx="540" cy="973" r="11"/><circle cx="891" cy="958" r="11"/>
+    </g>
+  </svg>
+  <div class="pg">ТАБУРОПС · 5/8</div>
+</section>
+
+<!-- ===================== 6 ===================== -->
+<section class="card c6" id="c6">
+  <div class="sign"><div class="route">21</div><div class="dest">ЖОПА МИРА<small>не такая, как у Руслана</small></div></div>
+  <h2>ПРЯМОЙ ЭФИР: <span>НАДЯ В АВТОБУСЕ</span></h2>
+  <div class="stops">
+    <div class="s"><div class="t">20:59</div><div class="dot"></div><div class="x"><b>ШИШКИ</b>«Фига в автобусе шишками воняет». Руслан: «Зачем ты навоняла шишками?»</div></div>
+    <div class="s"><div class="t">21:04</div><div class="dot"></div><div class="x"><b>СМЕХ</b>«не могу больше сдерживать свой смех в автобусе». После этого ещё 44 сообщения</div></div>
+    <div class="s"><div class="t">21:04</div><div class="dot"></div><div class="x"><b>МИМО ТЕБЯ</b>«Зай, мимо тебя проезжаю. Могу заскочить»</div></div>
+    <div class="s"><div class="t">21:05</div><div class="dot"></div><div class="x"><b>ХАКАТОН</b>«А я в хакатоне участвовать ахахаххаа». Требования не читала</div></div>
+    <div class="s"><div class="t">21:05</div><div class="dot"></div><div class="x"><b>ЛЕПКА</b>«Зай, пойдём на лепку!»</div></div>
+    <div class="s"><div class="t">21:08</div><div class="dot"></div><div class="x"><b>ГЛИНА</b>Лекция: «Неправильная усадка глины», «пузырик, например, и фсё, трещинка»</div></div>
+    <div class="s"><div class="t">21:13</div><div class="dot"></div><div class="x"><b>ИСКУССТВО</b>Художник. «Ещё музыкант. И на дуде игрец»</div></div>
+    <div class="s"><div class="t">21:15</div><div class="dot"></div><div class="x"><b>ВЫСАДКА?</b>«Прекратите, а то меня выгонят. Из автобуса». Руслан: «Пешком дойдешь»</div></div>
+    <div class="s end"><div class="t">21:19</div><div class="dot"></div><div class="x"><b>КОНЕЧНАЯ: СВИДАНИЕ</b>«С тобой у нас завтра свидание. Оденься поприличнее»</div></div>
+  </div>
+  <div class="kpi"><div class="l">ИТОГ ПОЕЗДКИ</div><div class="v">1 хакатон · 1 лепка · 1 свидание · 2 профессии<br>6 приступов ора · 0 вопросов</div><div class="m">Самый продуктивный человек вечера ехал в общественном транспорте.</div></div>
+  <div class="pg">ТАБУРОПС · 6/8</div>
+</section>
+
+<!-- ===================== 7 ===================== -->
+<section class="card c7" id="c7">
+  <svg class="statue" viewBox="0 0 240 190" width="240" height="190">
+    <defs><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF1B8"/><stop offset=".45" stop-color="#E3B341"/><stop offset="1" stop-color="#8C6514"/></linearGradient></defs>
+    <path d="M78 62 L72 150" stroke="url(#gold)" stroke-width="11" stroke-linecap="round"/>
+    <path d="M162 62 L168 150" stroke="url(#gold)" stroke-width="11" stroke-linecap="round"/>
+    <path d="M66 118 L174 118" stroke="url(#gold)" stroke-width="7" stroke-linecap="round"/>
+    <path d="M56 70 L44 156" stroke="url(#gold)" stroke-width="13" stroke-linecap="round"/>
+    <path d="M184 70 L196 156" stroke="url(#gold)" stroke-width="13" stroke-linecap="round"/>
+    <path d="M36 50 L36 64 Q120 92 204 64 L204 50" fill="url(#gold)" stroke="#6b4c0c" stroke-width="3"/>
+    <ellipse cx="120" cy="50" rx="84" ry="23" fill="url(#gold)" stroke="#6b4c0c" stroke-width="3"/>
+    <rect x="40" y="156" width="160" height="26" rx="3" fill="#1b1b1b" stroke="url(#gold)" stroke-width="3"/>
+  </svg>
+  <h2>ЗОЛОТАЯ ТАБУРЕТКА</h2>
+  <div class="sub">премия за выдающийся вклад в отсутствие табуреток · 2026</div>
+  <div class="grid">
+    <div class="a"><div class="cat">Senior Запятая</div><div class="nm">Annette Senior Seaberry</div><div class="tx">99 сообщений, 36% эфира. В 21:04 объявила, что идёт убираться, и написала ещё 29.</div></div>
+    <div class="a"><div class="cat">Человек-многоточие</div><div class="nm">«...»</div><div class="tx">39 скобочек «)». Лучшее извинение вечера, с опечаткой: «проршу прощения».</div></div>
+    <div class="a"><div class="cat">Двойной интеграл</div><div class="nm">Руслан Руслан</div><div class="tx">Самое длинное сообщение, 236 знаков про экскаватор. Адвокат матана, не программист.</div></div>
+    <div class="a"><div class="cat">Стример года</div><div class="nm">Nadya</div><div class="tx">Вела эфир из автобуса. 60% всего ора в чате. Ни одного вопроса: Надя ставит перед фактом.</div></div>
+    <div class="a"><div class="cat">Снайпер</div><div class="nm">K</div><div class="tx">Зашёл в 21:16. Три сообщения, одна запятая. В 21:20 вечер закончился.</div></div>
+    <div class="a"><div class="cat">Выдержанный панчлайн</div><div class="nm">mama_chan@</div><div class="tx">«...штрихкод» через 85 минут после «штриха». Выдержка как у коньяка.</div></div>
+    <div class="a"><div class="cat">Нулевой пациент</div><div class="nm">Oleg Kirianov</div><div class="tx">8 секунд видео в 14:26. 6 реакций, рекорд вечера. Дальше вы знаете.</div></div>
+    <div class="a"><div class="cat">Не тот чат</div><div class="nm">Вадим</div><div class="tx">«Подумал, что зашел в чат девопсов, но нет». Это чат табуропсов.</div></div>
+    <div class="a"><div class="cat">Библиография</div><div class="nm">Никита</div><div class="tx">«Зорич, Демидович 💅💅💅». Одно сообщение, два учебника, три ногтя.</div></div>
+    <div class="a"><div class="cat">Согласен</div><div class="nm">Sergey</div><div class="tx">Пришёл, согласился с базой, ушёл. Легенда.</div></div>
+  </div>
+  <div class="bottom">Табуретку получают все: табуреток в чате всё равно не было.</div>
+  <div class="pg">ТАБУРОПС · 7/8</div>
+</section>
+
+<!-- ===================== 8 ===================== -->
+<section class="card c8" id="c8">
+  <div class="org">Министерство табуропсов<br>НИИ табуропсологии<br>им. Демидовича</div>
+  <div class="corner">Форма № 0-ТАБ/у<br>Действительна до<br>следующего вечера</div>
+  <h2>СПРАВКА</h2>
+  <div class="no">№ 278 от 02.10.2026</div>
+  <div class="body">
+    <p>Дана чату «Настолки и табуретки» в том, что с 14:26 до 21:20 признаков алкогольного опьянения у участников <b>НЕ ВЫЯВЛЕНО</b>.</p>
+    <p>Основания:</p>
+    <ol>
+      <li>Обсуждались двойные интегралы, правило де Моргана и требования Сбера.</li>
+      <li>Объяснена усадка глины.</li>
+      <li>Единственная банка «пива» оказалась жидкостью для удаления наклеек.</li>
+    </ol>
+    <div class="big">Заключение: все трезвые. Это хуже.</div>
+    <p>Рекомендовано: расслабиться и кайфовать (попытка от 20:32 на русском, суахили и языке «Зелёной книги» через 24 минуты закончилась войной); Надю из автобуса не высаживать; найти табуретку.</p>
+    <p>Методология нишевая. Погрешность ± одна запятая.</p>
+    <p>Справка дана для предъявления в чат.</p>
+  </div>
+  <div class="sign">Главврач ___________ /Демидович/</div>
+  <svg class="stamp" viewBox="0 0 260 260">
+    <defs><path id="stc" d="M130,130 m-100,0 a100,100 0 1,1 200,0 a100,100 0 1,1 -200,0"/></defs>
+    <g fill="none" stroke="#2B4FA8" stroke-width="5"><circle cx="130" cy="130" r="122"/><circle cx="130" cy="130" r="80" stroke-width="3"/></g>
+    <text fill="#2B4FA8" font-family="Courier New" font-weight="700" font-size="19" letter-spacing="1.5"><textPath href="#stc">НИИ ТАБУРОПСОЛОГИИ им. ДЕМИДОВИЧА * ДЛЯ СПРАВОК *</textPath></text>
+    <text x="130" y="122" text-anchor="middle" fill="#2B4FA8" font-family="Courier New" font-weight="700" font-size="30">ТРЕЗВЫ</text>
+    <text x="130" y="156" text-anchor="middle" fill="#2B4FA8" font-family="Courier New" font-weight="700" font-size="22">№ 278</text>
+  </svg>
+  <div class="ecg">
+    <div class="lbl">Приложение 1. ЭКГ чата, сообщений за 5 минут, 19:50–21:20</div>
+    <svg id="ecg" viewBox="0 0 992 258" width="992" height="258"></svg>
+  </div>
+  <div class="pg">ТАБУРОПС · 8/8</div>
+</section>
+
+</div>
+<script>
+(function(){
+  var q = new URLSearchParams(location.search), n = q.get('card');
+  if (n) { document.body.classList.add('solo'); var c = document.getElementById('c' + n); if (c) c.classList.add('on'); }
+  else {
+    var deck = document.querySelector('.deck');
+    var fit = function(){ deck.style.zoom = Math.min(1, (window.innerWidth - 24) / 1080); };
+    fit(); window.addEventListener('resize', fit);
+  }
+  // ЭКГ: каждые 5 минут — один удар, высота зубца = число сообщений
+  var data = [0,3,5,15,24,14,10,3,25,10,0,0,9,21,40,27,40,23,3];
+  var labels = ['19:50','','20:00','','20:10','','20:20','','20:30','','20:40','','20:50','','21:00','','21:10','','21:20'];
+  var x0 = 24, W = 944, base = 196, step = W / data.length, amp = 138, max = 40;
+  var d = 'M' + x0 + ' ' + base;
+  data.forEach(function(v, i){
+    var x = x0 + i * step, r = v / max * amp;
+    if (!v) { d += ' L' + (x + step) + ' ' + base; return; }
+    d += ' L' + (x + step*.16) + ' ' + base + ' Q' + (x + step*.24) + ' ' + (base - 9) + ' ' + (x + step*.32) + ' ' + base +
+         ' L' + (x + step*.42) + ' ' + base + ' L' + (x + step*.47) + ' ' + (base + 12) + ' L' + (x + step*.53) + ' ' + (base - r) +
+         ' L' + (x + step*.59) + ' ' + (base + 18) + ' L' + (x + step*.65) + ' ' + base + ' Q' + (x + step*.77) + ' ' + (base - 15) + ' ' + (x + step*.89) + ' ' + base +
+         ' L' + (x + step) + ' ' + base;
+  });
+  var ns = 'http://www.w3.org/2000/svg', svg = document.getElementById('ecg');
+  var p = document.createElementNS(ns, 'path');
+  p.setAttribute('d', d); p.setAttribute('fill', 'none'); p.setAttribute('stroke', '#1d1a14'); p.setAttribute('stroke-width', '3'); p.setAttribute('stroke-linejoin', 'round');
+  svg.appendChild(p);
+  function t(x, y, s, size, color, anchor){ var e = document.createElementNS(ns, 'text'); e.setAttribute('x', x); e.setAttribute('y', y); e.setAttribute('font-family', 'Courier New'); e.setAttribute('font-weight', '700'); e.setAttribute('font-size', size); e.setAttribute('fill', color); e.setAttribute('text-anchor', anchor || 'middle'); e.textContent = s; svg.appendChild(e); }
+  labels.forEach(function(l, i){ if (l) t(x0 + i * step + step*.53, 246, l, 16, '#8a1c1c'); });
+  var notes = { 4: 'матан', 8: '«кайфуй»', 10: 'асистолия', 14: 'запятые', 16: 'тарелки', 18: 'хиджаб' };
+  Object.keys(notes).forEach(function(k){ var i = +k, v = data[i]; t(x0 + i * step + step*.53, v ? base - v / max * amp - 10 : base - 22, notes[k], 17, '#8a1c1c'); });
+})();
+</script>
+</body>
+</html>
