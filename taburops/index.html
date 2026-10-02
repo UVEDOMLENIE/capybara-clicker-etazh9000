@@ -7,7 +7,7 @@
 <title>Табуропс-отчёт</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;padding:0}
+html,body{margin:0;padding:0;overflow-x:hidden}
 body{background:#202024;font-family:"Segoe UI",Arial,sans-serif;color:#111}
 .deck{display:flex;flex-direction:column;align-items:center;gap:48px;padding:48px 0}
 .card{position:relative;width:1080px;height:1350px;overflow:hidden;flex:none}
@@ -440,7 +440,7 @@ q{quotes:"«" "»"}
   if (n) { document.body.classList.add('solo'); var c = document.getElementById('c' + n); if (c) c.classList.add('on'); }
   else {
     var deck = document.querySelector('.deck');
-    var fit = function(){ deck.style.zoom = Math.min(1, (window.innerWidth - 24) / 1080); };
+    var fit = function(){ var w = document.documentElement.clientWidth || window.innerWidth; deck.style.zoom = Math.min(1, (w - 16) / 1080); };
     fit(); window.addEventListener('resize', fit);
   }
   // ЭКГ: каждые 5 минут — один удар, высота зубца = число сообщений
