@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дело № 278: розыск табуропсов</title>
+<style>
+:root{
+  --bg:#202020; --row1:#1a1a1a; --row2:#232323; --band:#202528; --th:#212a31; --side:#151515; --bar:#222222;
+  --text:#c6c6c6; --muted:#8a8a8a; --lime:#96c22e; --green:#4cb148; --link:#2d82cd; --sup:#285f8f;
+  --code:#d58000; --code-bg:#3e3e3e; --purple:#a55eea; --lilac:#c7ace1; --sel:#322440; --red:#e30505;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:400 17px/1.6 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  cursor:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><text x='0' y='24' font-size='22'>🔍</text></svg>") 9 9,auto}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:Consolas,"Lucida Console",monospace;font-size:.88em;color:var(--code);background:var(--code-bg);border-radius:4px;padding:1px 6px}
+
+/* бегущая строка */
+.ticker{position:sticky;top:0;z-index:20;background:var(--side);border-bottom:2px solid var(--purple);overflow:hidden;white-space:nowrap;height:34px}
+.ticker span{display:inline-block;padding-left:100%;animation:tick 38s linear infinite;font:700 14px/34px Consolas,monospace;letter-spacing:.08em;color:var(--lime)}
+.ticker b{color:var(--code)}
+@keyframes tick{to{transform:translateX(-100%)}}
+
+/* шапка как в Obsidian */
+.crumbs{text-align:center;color:var(--muted);font-size:13px;padding:14px 0 0}
+.crumbs b{color:var(--text)}
+main{max-width:820px;margin:0 auto;padding:18px 20px 120px;position:relative}
+.inline-title{font:700 34px/1.2 "Segoe UI",sans-serif;color:var(--lime);margin:26px 0 4px;padding-right:150px}
+.meta{color:var(--muted);font-size:14px;margin-bottom:18px}
+.stamp{position:absolute;top:30px;right:18px;border:3px solid var(--code);color:var(--code);font:800 15px/1.15 Consolas,monospace;letter-spacing:.12em;padding:6px 10px;transform:rotate(9deg);text-align:center;opacity:.85}
+h1{margin:10px 0 18px;background:var(--band);color:var(--lime);font:700 29px/1.3 "Segoe UI",sans-serif;padding:10px 14px}
+h1 .siren{display:inline-block;animation:siren 1s ease-in-out infinite}
+@keyframes siren{0%,100%{transform:scale(1);filter:none}50%{transform:scale(1.18) rotate(-10deg);filter:drop-shadow(0 0 7px var(--red))}}
+.typo{text-decoration:underline wavy var(--red);text-decoration-thickness:1.5px;text-underline-offset:7px}
+h2{color:var(--green);font:700 26px/1.3 "Segoe UI",sans-serif;margin:54px 0 16px}
+.note{color:var(--muted);font-size:15px;margin:-6px 0 14px}
+
+/* таблицы как у Dataview */
+.tw{overflow-x:auto;margin:22px 0}
+table{border-collapse:collapse;width:100%;font-size:15.5px;line-height:1.35}
+th{background:var(--th);color:var(--text);text-align:left;font-weight:700;padding:8px 10px;border-bottom:2px solid var(--text);white-space:nowrap}
+th sup{color:var(--sup);font-weight:400;font-size:11px}
+td{padding:7px 10px;vertical-align:top}
+tr:nth-child(odd) td{background:var(--row1)}
+tr:nth-child(even) td{background:var(--row2)}
+tbody tr:hover td{background:var(--sel)}
+.skulls{color:#f0edf3;letter-spacing:2px;white-space:nowrap;display:inline-block;font-family:"Segoe UI Symbol","DejaVu Sans","Noto Sans Symbols",sans-serif}
+tbody tr:hover .skulls{animation:wobble .35s linear infinite}
+@keyframes wobble{0%,100%{transform:rotate(0)}25%{transform:rotate(-7deg)}75%{transform:rotate(7deg)}}
+.num{font-variant-numeric:tabular-nums}
+
+/* превью ссылки при наведении, как в Obsidian */
+.lk{position:relative}
+.lk:hover::after{content:attr(data-nick) " · " attr(data-q);position:absolute;left:0;top:130%;z-index:10;width:260px;background:var(--side);color:var(--text);
+  border:1px solid var(--purple);border-radius:8px;padding:8px 10px;font-size:14px;line-height:1.35;white-space:normal;box-shadow:0 8px 24px #000a;text-decoration:none}
+
+ul.dv{padding-left:24px}
+ul.dv li{margin:6px 0}
+ul.dv li::marker{color:var(--purple)}
+
+/* схема связей */
+.map{background:var(--row1);border:1px solid #2c2c2c;border-radius:10px;padding:8px;margin:18px 0}
+.map svg{width:100%;height:auto;display:block}
+.map a:hover rect{stroke:var(--lime)}
+
+/* досье */
+.dossier{position:relative;background:var(--row1);border:1px solid #2c2c2c;border-left:4px solid var(--purple);border-radius:10px;padding:18px 20px 16px;margin:26px 0;scroll-margin-top:50px}
+.dossier:target{border-color:var(--lime);box-shadow:0 0 0 2px var(--lime),0 0 28px #96c22e55}
+.dossier h3{margin:0 0 2px;color:var(--lime);font:700 23px/1.25 "Segoe UI",sans-serif;padding-right:120px}
+.dossier .nick{color:var(--muted);font-size:15px;margin-bottom:12px}
+.dossier .role{position:absolute;top:16px;right:16px;border:2px solid var(--code);color:var(--code);font:800 13px/1 Consolas,monospace;letter-spacing:.1em;text-transform:uppercase;padding:6px 8px;transform:rotate(6deg)}
+.grid{display:grid;grid-template-columns:1.15fr 1fr;gap:18px}
+.props{font-size:14.5px}
+.props div{display:grid;grid-template-columns:86px 1fr;gap:8px;padding:3px 0;border-bottom:1px solid #2a2a2a}
+.props div span:first-child{color:var(--muted);font-family:Consolas,monospace;font-size:13px}
+.bars{font-size:14px}
+.bar{margin:0 0 7px}
+.bar .l{display:flex;justify-content:space-between;color:var(--muted)}
+.bar .l b{color:var(--text);font-weight:600}
+.bar .t{height:9px;background:#2b2b2b;border-radius:5px;overflow:hidden}
+.bar .t i{display:block;height:100%;border-radius:5px}
+.dossier ul{margin:12px 0 6px;padding-left:22px}
+.dossier li{margin:4px 0}
+.dossier li::marker{color:var(--purple)}
+.rel{font-size:14px;color:var(--muted);margin-top:8px}
+.rel code{color:var(--lilac);background:var(--sel)}
+.back{font-size:14px;margin-top:6px}
+
+footer{margin-top:60px;border-top:1px solid #2c2c2c;padding-top:18px;color:var(--muted);font-size:15px}
+.statusbar{position:fixed;right:0;bottom:0;background:var(--bar);color:var(--muted);font-size:12.5px;padding:4px 14px;border-top-left-radius:8px;border:1px solid #2c2c2c;z-index:20;white-space:nowrap}
+
+@media (max-width:640px){
+  body{font-size:16px}
+  .inline-title{font-size:26px;padding-right:0;margin-top:70px}
+  .stamp{top:20px;right:12px;font-size:12px}
+  h1{font-size:23px}
+  h2{font-size:22px}
+  .grid{grid-template-columns:1fr}
+  .dossier h3{font-size:20px;padding-right:0;margin-top:26px}
+  .statusbar{font-size:11px}
+}
+</style>
+</head>
+<body>
+<div class="ticker"><span>🚨 РАЗЫСКИВАЮТСЯ ТАБУРОПСЫ · ЗА ИНФОРМАЦИЮ О ПРОПАВШЕЙ ЗАПЯТОЙ <b>ВОЗНАГРАЖДЕНИЕ: ОДНА ТАБУРЕТКА</b> · ПОСЛЕДНИЙ РАЗ ЗАПЯТУЮ ВИДЕЛИ В 21:20 · ОСОБО ОПАСЕН: ДВОЙНОЙ ИНТЕГРАЛ · НЕ ВЫХОДИТЕ ИЗ АВТОБУСА · 🚨</span></div>
+<div class="crumbs">дела / табуропсы / <b>Розыск</b></div>
+<main>
+  <div class="stamp">СЕКРЕТНО<br>НИШЕВО</div>
+  <div class="inline-title">Дело № 278: чат «Настолки и табуретки»</div>
+  <div class="meta">материалы расследования · 02.10.2026, 14:26–21:20 · 278 сообщений</div>
+
+  <h1><span class="siren">🚨</span> Розыск: <span class="typo">табуропсы</span></h1>
+
+  <p>Работает на Dataview: данные лежат в свойствах заметок из папки <a href="#dossiers"><code>Досье</code></a>. Связи между подозреваемыми — ExcaliBrain на любом досье, там <a href="#mafia">мафиозная структура</a>.</p>
+
+  <h2>Все подозреваемые</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Досье <sup>(7)</sup></th><th>Кличка</th><th>Роль</th><th>Сообщений</th><th>Опасность</th><th>Статья</th></tr></thead>
+    <tbody>
+      <tr><td><a class="lk" href="#d-ruslan" data-nick="Дон" data-q="«Будет мясо»">Руслан Руслан</a></td><td>Дон, он же двойной интеграл</td><td>дон</td><td class="num">54</td><td><span class="skulls">☠︎☠︎☠︎☠︎☠︎</span></td><td>разжигание («Будет битва», «Будет мясо», «Раз на раз»)</td></tr>
+      <tr><td><a class="lk" href="#d-k" data-nick="Снайпер" data-q="«тут запятая пропущена»">K</a></td><td>Снайпер</td><td>киллер по найму</td><td class="num">3</td><td><span class="skulls">☠︎☠︎☠︎☠︎☠︎</span></td><td>точный выстрел запятой в 21:20</td></tr>
+      <tr><td><a class="lk" href="#d-annette" data-nick="Senior Запятая" data-q="«Я виновата что ты не расставляешь запятые?»">Annette</a></td><td>Senior Запятая</td><td>прокурор</td><td class="num">99</td><td><span class="skulls">☠︎☠︎☠︎☠︎</span></td><td>требовала запятых, сама поставила 6 на 99 сообщений</td></tr>
+      <tr><td><a class="lk" href="#d-nadya" data-nick="Стример из автобуса" data-q="«Ты не шаришь, я понял»">Nadya</a></td><td>Стример из автобуса</td><td>преемница</td><td class="num">54</td><td><span class="skulls">☠︎☠︎☠︎☠︎</span></td><td>угроза превращения в Руслана</td></tr>
+      <tr><td><a class="lk" href="#d-dots" data-nick="Человек-многоточие" data-q="«Так для программистов математика не нужна)»">Многоточие</a></td><td>Человек-многоточие</td><td>провокатор</td><td class="num">59</td><td><span class="skulls">☠︎☠︎☠︎</span></td><td>подстрекательство («давай на активную переходи»)</td></tr>
+      <tr><td><a class="lk" href="#d-oleg" data-nick="Нулевой пациент" data-q="8 секунд видео в 14:26">Oleg Kirianov</a></td><td>Нулевой пациент</td><td>источник</td><td class="num">1</td><td><span class="skulls">☠︎☠︎</span></td><td>8 секунд видео в 14:26</td></tr>
+      <tr><td><a class="lk" href="#d-mama" data-nick="Мама" data-q="«не ругаться матом это не нишево»">mama_chan@</a></td><td>Мама</td><td>санитар</td><td class="num">4</td><td><span class="skulls">☠︎</span></td><td>панчлайн выдержкой 85 минут</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Запятые на душу населения</h2>
+  <p>Главный линтер чата — внизу таблицы.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Кто <sup>(4)</sup></th><th>Поставил запятых</th><th>Сообщений</th><th>На сообщение</th></tr></thead>
+    <tbody>
+      <tr><td><a href="#d-ruslan">Руслан Руслан</a></td><td class="num">21</td><td class="num">54</td><td class="num">0.39</td></tr>
+      <tr><td><a href="#d-nadya">Nadya</a></td><td class="num">14</td><td class="num">54</td><td class="num">0.26</td></tr>
+      <tr><td><a href="#d-dots">Многоточие</a></td><td class="num">12</td><td class="num">59</td><td class="num">0.2</td></tr>
+      <tr><td><a href="#d-annette">Annette</a></td><td class="num">6</td><td class="num">99</td><td class="num">0.06</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Алиби и оружие</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Кто <sup>(7)</sup></th><th>Алиби</th><th>Оружие</th></tr></thead>
+    <tbody>
+      <tr><td><a href="#d-annette">Annette</a></td><td>«Я ща убираться буду» (после этого ещё 29 сообщений)</td><td>тарелки</td></tr>
+      <tr><td><a href="#d-dots">Многоточие</a></td><td>«так меня никто не ругал»</td><td>многоточие</td></tr>
+      <tr><td><a href="#d-ruslan">Руслан Руслан</a></td><td>«я просто не программист»</td><td>экскаватор с тремя датчиками наклона</td></tr>
+      <tr><td><a href="#d-nadya">Nadya</a></td><td>«Прекратите, а то меня выгонят. Из автобуса»</td><td>кувшины</td></tr>
+      <tr><td><a href="#d-mama">mama_chan@</a></td><td>«чета на нишевом вы тут обсуждаете :)»</td><td>штрихкод</td></tr>
+      <tr><td><a href="#d-k">K</a></td><td>«завидуйте💅»</td><td>запятая</td></tr>
+      <tr><td><a href="#d-oleg">Oleg Kirianov</a></td><td>после видео молчал весь вечер</td><td>видео</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Протокол: показания</h2>
+  <p class="note">Главная фраза каждого подозреваемого, дословно из чата.</p>
+  <ul class="dv">
+    <li>«Я виновата что ты не расставляешь запятые?» — <a href="#d-annette">Senior Запятая</a></li>
+    <li>«Так для программистов математика не нужна)» — <a href="#d-dots">Человек-многоточие</a></li>
+    <li>«Будет мясо» — <a href="#d-ruslan">Дон, он же двойной интеграл</a></li>
+    <li>«Ты не шаришь, я понял» — <a href="#d-nadya">Стример из автобуса</a></li>
+    <li>«не ругаться матом это не нишево» — <a href="#d-mama">Мама</a></li>
+    <li>«тут запятая пропущена» — <a href="#d-k">Снайпер</a></li>
+    <li>«(видео, 8 секунд)» — <a href="#d-oleg">Нулевой пациент</a></li>
+  </ul>
+
+  <h2 id="mafia">Мафиозная структура</h2>
+  <p class="note">Связи из свойств досье, как их рисует ExcaliBrain. Узлы кликабельны.</p>
+  <div class="map">
+  <svg viewBox="0 0 760 470" role="img" aria-label="Схема связей между подозреваемыми">
+    <defs>
+      <marker id="aL" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#96c22e"/></marker>
+      <marker id="aP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#a55eea"/></marker>
+      <marker id="aO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#d58000"/></marker>
+    </defs>
+    <g fill="none" stroke-width="2.4">
+      <path d="M105 88 L97 198" stroke="#96c22e" marker-end="url(#aL)"/>
+      <path d="M140 88 L262 198" stroke="#96c22e" marker-end="url(#aL)"/>
+      <path d="M490 88 L470 198" stroke="#96c22e" marker-end="url(#aL)"/>
+      <path d="M535 88 L640 198" stroke="#96c22e" marker-end="url(#aL)"/>
+      <path d="M655 258 L655 358" stroke="#96c22e" marker-end="url(#aL)"/>
+      <path d="M712 200 C 752 120, 700 50, 583 56" stroke="#a55eea" stroke-width="3" marker-end="url(#aP)"/>
+      <path d="M95 260 C 95 345, 465 345, 465 260" stroke="#d58000" stroke-dasharray="7 5" marker-start="url(#aO)" marker-end="url(#aO)"/>
+      <path d="M118 200 C 210 140, 360 96, 430 70" stroke="#d58000" stroke-dasharray="7 5" marker-end="url(#aO)"/>
+      <path d="M300 200 C 340 150, 400 112, 440 88" stroke="#d58000" stroke-dasharray="7 5" marker-end="url(#aO)"/>
+      <path d="M150 230 C 260 175, 470 165, 580 222" stroke="#2d82cd" stroke-dasharray="3 6" stroke-width="2.6"/>
+    </g>
+    <g font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#8a8a8a">
+      <text x="705" y="112" text-anchor="end">превращение</text>
+      <text x="236" y="336">opposes: война запятых</text>
+      <text x="318" y="166" fill="#2d82cd">Friends: «Зай»</text>
+      <text x="664" y="314">Parent + Friends</text>
+    </g>
+    <g font-family="Segoe UI, Arial, sans-serif" text-anchor="middle">
+      <a href="#d-oleg"><rect x="40" y="30" width="150" height="58" rx="10" fill="#1a1a1a" stroke="#a55eea" stroke-width="2"/><text x="115" y="55" fill="#c6c6c6" font-size="15" font-weight="700">Oleg Kirianov</text><text x="115" y="75" fill="#8a8a8a" font-size="12">нулевой пациент</text></a>
+      <a href="#d-ruslan"><rect x="430" y="30" width="150" height="58" rx="10" fill="#202528" stroke="#96c22e" stroke-width="2.5"/><text x="505" y="55" fill="#96c22e" font-size="15" font-weight="700">Руслан Руслан</text><text x="505" y="75" fill="#8a8a8a" font-size="12">дон</text></a>
+      <a href="#d-annette"><rect x="20" y="200" width="150" height="58" rx="10" fill="#1a1a1a" stroke="#a55eea" stroke-width="2"/><text x="95" y="225" fill="#c6c6c6" font-size="15" font-weight="700">Annette</text><text x="95" y="245" fill="#8a8a8a" font-size="12">прокурор</text></a>
+      <a href="#d-mama"><rect x="200" y="200" width="150" height="58" rx="10" fill="#1a1a1a" stroke="#a55eea" stroke-width="2"/><text x="275" y="225" fill="#c6c6c6" font-size="15" font-weight="700">mama_chan@</text><text x="275" y="245" fill="#8a8a8a" font-size="12">санитар</text></a>
+      <a href="#d-dots"><rect x="390" y="200" width="150" height="58" rx="10" fill="#1a1a1a" stroke="#a55eea" stroke-width="2"/><text x="465" y="225" fill="#c6c6c6" font-size="15" font-weight="700">«...»</text><text x="465" y="245" fill="#8a8a8a" font-size="12">провокатор</text></a>
+      <a href="#d-nadya"><rect x="580" y="200" width="150" height="58" rx="10" fill="#1a1a1a" stroke="#a55eea" stroke-width="2"/><text x="655" y="225" fill="#c6c6c6" font-size="15" font-weight="700">Nadya</text><text x="655" y="245" fill="#8a8a8a" font-size="12">преемница</text></a>
+      <a href="#d-k"><rect x="580" y="360" width="150" height="58" rx="10" fill="#1a1a1a" stroke="#a55eea" stroke-width="2"/><text x="655" y="385" fill="#c6c6c6" font-size="15" font-weight="700">K</text><text x="655" y="405" fill="#8a8a8a" font-size="12">киллер по найму</text></a>
+    </g>
+    <g font-family="Segoe UI, Arial, sans-serif" font-size="12.5" fill="#8a8a8a">
+      <line x1="24" y1="392" x2="58" y2="392" stroke="#96c22e" stroke-width="2.4"/><text x="66" y="396">подчинение · Parent / Children</text>
+      <line x1="24" y1="414" x2="58" y2="414" stroke="#a55eea" stroke-width="3"/><text x="66" y="418">превращение · Next</text>
+      <line x1="24" y1="436" x2="58" y2="436" stroke="#d58000" stroke-width="2.4" stroke-dasharray="7 5"/><text x="66" y="440">против · opposes</text>
+      <line x1="24" y1="458" x2="58" y2="458" stroke="#2d82cd" stroke-width="2.6" stroke-dasharray="3 6"/><text x="66" y="462">дружба · Friends</text>
+    </g>
+  </svg>
+  </div>
+
+  <h2 id="dossiers">Досье</h2>
+  <p class="note">По одному на подозреваемого. Полоски — сравнение с рекордом чата.</p>
+
+  <section class="dossier" id="d-ruslan">
+    <div class="role">дон</div>
+    <h3>Руслан Руслан</h3>
+    <div class="nick">Дон, он же двойной интеграл · <span class="skulls">☠︎☠︎☠︎☠︎☠︎</span></div>
+    <div class="grid">
+      <div class="props">
+        <div><span>crime</span><span>разжигание («Будет битва», «Будет мясо», «Раз на раз»)</span></div>
+        <div><span>weapon</span><span>экскаватор с тремя датчиками наклона</span></div>
+        <div><span>alibi</span><span>«я просто не программист»</span></div>
+        <div><span>quote</span><span>Будет мясо</span></div>
+      </div>
+      <div class="bars">
+        <div class="bar"><div class="l">Сообщения <b>54</b></div><div class="t"><i style="width:55%;background:#96c22e"></i></div></div>
+        <div class="bar"><div class="l">Запятые <b>21</b></div><div class="t"><i style="width:100%;background:#d58000"></i></div></div>
+        <div class="bar"><div class="l">Вопросы <b>11</b></div><div class="t"><i style="width:73%;background:#2d82cd"></i></div></div>
+        <div class="bar"><div class="l">Скобочки «)» <b>7</b></div><div class="t"><i style="width:18%;background:#a55eea"></i></div></div>
+        <div class="bar"><div class="l">Ор <b>0</b></div><div class="t"><i style="width:0%;background:#4cb148"></i></div></div>
+      </div>
+    </div>
+    <ul>
+      <li>Новая единица СИ: 1 Руслан (Ру) — количество агрессии, при котором Надя превращается в Руслана.</li>
+      <li>Руслан Руслан = ∬, единственный двойной интеграл чата.</li>
+      <li>Главный адвокат матана. В 20:34: «я просто не программист».</li>
+      <li>Поставил больше всех запятых, 21. Вывод: запятые нужны тем, кому нужен матан.</li>
+      <li>Самое длинное сообщение вечера: 236 знаков про экскаватор.</li>
+    </ul>
+    <div class="rel"><code>Children</code> <a href="#d-dots">Многоточие</a>, <a href="#d-nadya">Nadya</a> · <code>opposes</code> <a href="#d-mama">mama_chan@</a></div>
+    <div class="back"><a href="#mafia">↑ к схеме</a></div>
+  </section>
+
+  <section class="dossier" id="d-k">
+    <div class="role">киллер</div>
+    <h3>K</h3>
+    <div class="nick">Снайпер · <span class="skulls">☠︎☠︎☠︎☠︎☠︎</span></div>
+    <div class="grid">
+      <div class="props">
+        <div><span>crime</span><span>точный выстрел запятой в 21:20</span></div>
+        <div><span>weapon</span><span>запятая</span></div>
+        <div><span>alibi</span><span>«завидуйте💅»</span></div>
+        <div><span>quote</span><span>тут запятая пропущена</span></div>
+      </div>
+      <div class="bars">
+        <div class="bar"><div class="l">Сообщения <b>3</b></div><div class="t"><i style="width:3%;background:#96c22e"></i></div></div>
+        <div class="bar"><div class="l">Запятые <b>0</b></div><div class="t"><i style="width:0%;background:#d58000"></i></div></div>
+        <div class="bar"><div class="l">Вопросы <b>0</b></div><div class="t"><i style="width:0%;background:#2d82cd"></i></div></div>
+        <div class="bar"><div class="l">Скобочки «)» <b>0</b></div><div class="t"><i style="width:0%;background:#a55eea"></i></div></div>
+        <div class="bar"><div class="l">Точность <b>100%</b></div><div class="t"><i style="width:100%;background:#4cb148"></i></div></div>
+      </div>
+    </div>
+    <ul>
+      <li>Зашёл в 21:16, в 21:20 вечер закончился. Три сообщения, три попадания.</li>
+      <li>Сам не поставил ни одной запятой. Зато нашёл чужую.</li>
+      <li>Ник из одной буквы. Чем короче ник, тем опаснее.</li>
+    </ul>
+    <div class="rel"><code>Parent</code> <a href="#d-nadya">Nadya</a> · <code>Friends</code> <a href="#d-nadya">Nadya</a></div>
+    <div class="back"><a href="#mafia">↑ к схеме</a></div>
+  </section>
+
+  <section class="dossier" id="d-annette">
+    <div class="role">прокурор</div>
+    <h3>Annette Senior Seaberry</h3>
+    <div class="nick">Senior Запятая · <span class="skulls">☠︎☠︎☠︎☠︎</span></div>
+    <div class="grid">
+      <div class="props">
+        <div><span>crime</span><span>требовала запятых, сама поставила 6 на 99 сообщений</span></div>
+        <div><span>weapon</span><span>тарелки</span></div>
+        <div><span>alibi</span><span>«Я ща убираться буду» (после этого ещё 29 сообщений)</span></div>
+        <div><span>quote</span><span>Я виновата что ты не расставляешь запятые?</span></div>
+      </div>
+      <div class="bars">
+        <div class="bar"><div class="l">Сообщения <b>99</b></div><div class="t"><i style="width:100%;background:#96c22e"></i></div></div>
+        <div class="bar"><div class="l">Запятые <b>6</b></div><div class="t"><i style="width:29%;background:#d58000"></i></div></div>
+        <div class="bar"><div class="l">Вопросы <b>15</b></div><div class="t"><i style="width:100%;background:#2d82cd"></i></div></div>
+        <div class="bar"><div class="l">Скобочки «)» <b>9</b></div><div class="t"><i style="width:23%;background:#a55eea"></i></div></div>
+        <div class="bar"><div class="l">Ор <b>1</b></div><div class="t"><i style="width:17%;background:#4cb148"></i></div></div>
+      </div>
+    </div>
+    <ul>
+      <li>99 из 278 сообщений, 36% эфира. 15 вопросов: допрашивает, а не спрашивает.</li>
+      <li>Поставила за вечер 6 запятых, потеряла около 30. Одна из шести стоит после «БЛЯТЬ».</li>
+      <li>Seaberry = облепиха, а облепиха от слова «лепить». На лепку не пошла: «О господи. Не».</li>
+      <li>Духовный путь за 71 минуту: дата-сатанисты → договор кровью → лужа крови → лучший мир → хиджаб.</li>
+      <li>Сдала главного: «Руслан мафия».</li>
+    </ul>
+    <div class="rel"><code>opposes</code> <a href="#d-dots">Многоточие</a>, <a href="#d-ruslan">Руслан Руслан</a> · <code>Friends</code> <a href="#d-nadya">Nadya</a></div>
+    <div class="back"><a href="#mafia">↑ к схеме</a></div>
+  </section>
+
+  <section class="dossier" id="d-nadya">
+    <div class="role">преемница</div>
+    <h3>Nadya</h3>
+    <div class="nick">Стример из автобуса · <span class="skulls">☠︎☠︎☠︎☠︎</span></div>
+    <div class="grid">
+      <div class="props">
+        <div><span>crime</span><span>угроза превращения в Руслана</span></div>
+        <div><span>weapon</span><span>кувшины</span></div>
+        <div><span>alibi</span><span>«Прекратите, а то меня выгонят. Из автобуса»</span></div>
+        <div><span>quote</span><span>Ты не шаришь, я понял</span></div>
+      </div>
+      <div class="bars">
+        <div class="bar"><div class="l">Сообщения <b>54</b></div><div class="t"><i style="width:55%;background:#96c22e"></i></div></div>
+        <div class="bar"><div class="l">Запятые <b>14</b></div><div class="t"><i style="width:67%;background:#d58000"></i></div></div>
+        <div class="bar"><div class="l">Вопросы <b>0</b></div><div class="t"><i style="width:0%;background:#2d82cd"></i></div></div>
+        <div class="bar"><div class="l">Скобочки «)» <b>9</b></div><div class="t"><i style="width:23%;background:#a55eea"></i></div></div>
+        <div class="bar"><div class="l">Ор <b>6</b></div><div class="t"><i style="width:100%;background:#4cb148"></i></div></div>
+      </div>
+    </div>
+    <ul>
+      <li>0 вопросов за вечер. Надя не спрашивает, Надя ставит перед фактом.</li>
+      <li>За 20 минут в автобусе: хакатон, лепка, свидание, две профессии, 6 приступов ора.</li>
+      <li>Требования пишет нейронкой («Так и делаем кста»), а требования хакатона не читает.</li>
+      <li>21:03 «превращусь в Руслана» → 21:06 «я понял» → 21:16 «Выйди». Отсюда второй Руслан.</li>
+      <li>Самая высокая плотность запятых на слово в чате. Именно у неё K и нашёл пропущенную.</li>
+    </ul>
+    <div class="rel"><code>Parent</code> <a href="#d-ruslan">Руслан Руслан</a> · <code>Next</code> <a href="#d-ruslan">Руслан Руслан</a> · <code>Friends</code> <a href="#d-annette">Annette</a>, <a href="#d-k">K</a></div>
+    <div class="back"><a href="#mafia">↑ к схеме</a></div>
+  </section>
+
+  <section class="dossier" id="d-dots">
+    <div class="role">провокатор</div>
+    <h3>«...»</h3>
+    <div class="nick">Человек-многоточие · <span class="skulls">☠︎☠︎☠︎</span></div>
+    <div class="grid">
+      <div class="props">
+        <div><span>crime</span><span>подстрекательство («давай на активную переходи»)</span></div>
+        <div><span>weapon</span><span>многоточие</span></div>
+        <div><span>alibi</span><span>«так меня никто не ругал»</span></div>
+        <div><span>quote</span><span>Так для программистов математика не нужна)</span></div>
+      </div>
+      <div class="bars">
+        <div class="bar"><div class="l">Сообщения <b>59</b></div><div class="t"><i style="width:60%;background:#96c22e"></i></div></div>
+        <div class="bar"><div class="l">Запятые <b>12</b></div><div class="t"><i style="width:57%;background:#d58000"></i></div></div>
+        <div class="bar"><div class="l">Вопросы <b>13</b></div><div class="t"><i style="width:87%;background:#2d82cd"></i></div></div>
+        <div class="bar"><div class="l">Скобочки «)» <b>39</b></div><div class="t"><i style="width:100%;background:#a55eea"></i></div></div>
+        <div class="bar"><div class="l">Ор <b>2</b></div><div class="t"><i style="width:33%;background:#4cb148"></i></div></div>
+      </div>
+    </div>
+    <ul>
+      <li>Ник без единой буквы. Говорит многоточиями: «Капец...», «пошла активная агрессия...».</li>
+      <li>39 скобочек «)» на 59 сообщений: улыбается чаще, чем дышит.</li>
+      <li>Против матана, но назвал пределы, первообразные и интегралы. Счёт: 8 слов матана и 8 слов мата, идеальный баланс.</li>
+      <li>37 перепалок с Annette, главная ось вечера.</li>
+      <li>«с*ка бл*ть» ×4 одним сообщением: 7 запятых потеряно за раз 🥰</li>
+      <li>Лучшее извинение вечера: «проршу прощения».</li>
+    </ul>
+    <div class="rel"><code>Parent</code> <a href="#d-ruslan">Руслан Руслан</a> · <code>opposes</code> <a href="#d-annette">Annette</a></div>
+    <div class="back"><a href="#mafia">↑ к схеме</a></div>
+  </section>
+
+  <section class="dossier" id="d-oleg">
+    <div class="role">источник</div>
+    <h3>Oleg Kirianov</h3>
+    <div class="nick">Нулевой пациент · <span class="skulls">☠︎☠︎</span></div>
+    <div class="grid">
+      <div class="props">
+        <div><span>crime</span><span>8 секунд видео в 14:26</span></div>
+        <div><span>weapon</span><span>видео</span></div>
+        <div><span>alibi</span><span>после видео молчал весь вечер</span></div>
+        <div><span>quote</span><span>(видео, 8 секунд)</span></div>
+      </div>
+      <div class="bars">
+        <div class="bar"><div class="l">Сообщения <b>1</b></div><div class="t"><i style="width:1%;background:#96c22e"></i></div></div>
+        <div class="bar"><div class="l">Реакции <b>6</b></div><div class="t"><i style="width:100%;background:#d58000"></i></div></div>
+        <div class="bar"><div class="l">Последствия <b>277 сообщений</b></div><div class="t"><i style="width:100%;background:#a55eea"></i></div></div>
+      </div>
+    </div>
+    <ul>
+      <li>Одно видео, 6 реакций — рекорд вечера.</li>
+      <li>Annette ответила через 2 часа 37 минут: «Лекции по мат анализу закалили меня!!!». Дальше вы знаете.</li>
+    </ul>
+    <div class="rel"><code>Children</code> <a href="#d-annette">Annette</a>, <a href="#d-mama">mama_chan@</a></div>
+    <div class="back"><a href="#mafia">↑ к схеме</a></div>
+  </section>
+
+  <section class="dossier" id="d-mama">
+    <div class="role">санитар</div>
+    <h3>mama_chan@</h3>
+    <div class="nick">Мама · <span class="skulls">☠︎</span></div>
+    <div class="grid">
+      <div class="props">
+        <div><span>crime</span><span>панчлайн выдержкой 85 минут</span></div>
+        <div><span>weapon</span><span>штрихкод</span></div>
+        <div><span>alibi</span><span>«чета на нишевом вы тут обсуждаете :)»</span></div>
+        <div><span>quote</span><span>не ругаться матом это не нишево</span></div>
+      </div>
+      <div class="bars">
+        <div class="bar"><div class="l">Сообщения <b>4</b></div><div class="t"><i style="width:4%;background:#96c22e"></i></div></div>
+        <div class="bar"><div class="l">Выдержка панчлайна <b>85 мин</b></div><div class="t"><i style="width:100%;background:#d58000"></i></div></div>
+        <div class="bar"><div class="l">Мат <b>0</b></div><div class="t"><i style="width:0%;background:#4cb148"></i></div></div>
+      </div>
+    </div>
+    <ul>
+      <li>Единственная, кто выступил за «не ругаться матом». Мама. Совпадение? Не думаем.</li>
+      <li>«...штрихкод» через 85 минут после «Альфа Бетта гамма штрих». Единственный код за вечер в чате программистов.</li>
+    </ul>
+    <div class="rel"><code>opposes</code> <a href="#d-ruslan">Руслан Руслан</a></div>
+    <div class="back"><a href="#mafia">↑ к схеме</a></div>
+  </section>
+
+  <footer>
+    Показания дали 7 подозреваемых. Табуретки показаний не давали.<br>
+    Методология нишевая. Погрешность ± одна запятая.<br><br>
+    <a href="../">📰 Спецвыпуск «ТАБУРОПС»: отчёт за один вечер →</a>
+  </footer>
+</main>
+<div class="statusbar" id="sb">Обратных ссылок: 8</div>
+<script>
+(function(){
+  var main = document.querySelector('main'), t = main.innerText;
+  var words = (t.match(/[\p{L}\p{N}]+/gu) || []).length, chars = t.replace(/\s/g, '').length;
+  var back = document.querySelectorAll('a[href^="#d-"]').length;
+  document.getElementById('sb').textContent = 'Обратных ссылок: ' + back + '   Слов: ' + words + '   Символов: ' + chars.toLocaleString('ru-RU');
+})();
+</script>
+</body>
+</html>
