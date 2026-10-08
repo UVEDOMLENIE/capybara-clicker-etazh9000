@@ -7,96 +7,89 @@
 <meta name="description" content="Показывает, на что ушёл лимит Claude Code: какой чат сколько съел и сколько стоил бы на другой модели. Бета 0.4.7.">
 <meta property="og:title" content="LimitDoctor — бета 0.4.7">
 <meta property="og:description" content="Показывает, на что ушёл лимит Claude Code: какой чат сколько съел и сколько стоил бы на другой модели.">
-<meta name="theme-color" content="#15181d">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2315181d'/%3E%3Cpath d='M8.2 5.6h3.6v2.6h2.6v3.6h-2.6v2.6H8.2v-2.6H5.6V8.2h2.6z' fill='%23E24B4A'/%3E%3Cpath d='M20.2 5.6h3.6v2.6h2.6v3.6h-2.6v2.6h-3.6v-2.6h-2.6V8.2h2.6z' fill='%231D9E75'/%3E%3Cpath d='M7 25L11 21.5L13.5 23.5' fill='none' stroke='%23E24B4A' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M13.5 23.5L18 19L20.5 20.5' fill='none' stroke='%23EF9F27' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M20.5 20.5L25 16' fill='none' stroke='%231D9E75' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
-:root{--bg:#f4f5f7;--card:#fff;--fg:#15181d;--mut:#667085;--faint:#98a2b3;--bd:#e4e7ec;--pn:#eef0f3;--sh:0 1px 2px rgba(16,24,40,.05),0 2px 8px rgba(16,24,40,.06);
- --red:#E24B4A;--redbg:rgba(226,75,74,.16);--amb:#EF9F27;--grn:#1D9E75;--grnbg:rgba(29,158,117,.16);
- --hk:#1D9E75;--sn:#378ADD;--op:#7F77DD;--fb:#D85A30;--cold:#f0b429;--hv:#98a2b3;--hi:#d0d5dd;--out:#475467;--heat:#e8590c}
+:root{--bg:#f4f5f7;--card:#fff;--fg:#15181d;--mut:#667085;--faint:#98a2b3;--bd:#e4e7ec;--pn:#f0f2f5;--sh:0 1px 2px rgba(16,24,40,.05),0 1px 3px rgba(16,24,40,.07);
+ --hr:#c9504f;--hg:#178a63;--red:#E24B4A;--amb:#EF9F27;--grn:#1D9E75;--ok:#12b76a;
+ --hk:#1D9E75;--sn:#378ADD;--op:#7F77DD;--fb:#D85A30;--k-hv:#98a2b3;--k-hi:#d0d5dd;--k-cold:#f0b429;--k-out:#475467;--heat:#e8590c}
 @media (prefers-color-scheme:dark){:root{--bg:#0f1114;--card:#181b20;--fg:#e9ebee;--mut:#9aa1ab;--faint:#6b7280;--bd:#2a2f36;--pn:#22262c;--sh:none;
- --redbg:rgba(226,75,74,.24);--grnbg:rgba(50,213,131,.2);--grn:#32d583;--hi:#3e4550;--out:#a9b6cc;--hv:#7a8494;--heat:#ff7a3d}}
+ --hr:#e9807e;--hg:#4fc597;--ok:#32d583;--k-hv:#7a8494;--k-hi:#3e4550;--k-cold:#e0a526;--k-out:#a9b6cc;--heat:#ff7a3d}}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-.wrap{max-width:560px;margin:0 auto;padding:0 16px}
-b{font-weight:700}
-/* первый экран */
-.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:18px 0 22px;text-align:center}
-.brand{display:flex;align-items:center;justify-content:center;gap:12px}
-.brand svg{width:58px;height:66px;overflow:visible}
-.brand h1{font-size:29px;line-height:1.1;margin:0;letter-spacing:-.02em;text-align:left}
-.beta{display:inline-block;margin-top:5px;font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--amb);border:1.5px solid var(--amb);border-radius:999px;padding:1px 9px}
-.lead{margin:16px 0 0;font-size:17.5px;line-height:1.5;color:var(--mut)}
-.lead .hl{display:inline-block;font-weight:750;padding:0 6px;border-radius:6px;margin:3px 0}
-.hl.r{color:var(--red);background:var(--redbg)}.hl.g{color:var(--grn);background:var(--grnbg)}
-.cta{display:block;width:100%;max-width:268px;margin:22px auto 0;background:var(--fg);color:var(--bg);text-decoration:none;font-weight:700;font-size:16px;border-radius:13px;padding:14px 12px;transition:transform .12s}
-.cta:active{transform:scale(.97)}.cta small{display:block;font-weight:500;font-size:12px;opacity:.7;margin-top:1px}
-.meta{font-size:12.5px;color:var(--faint);margin-top:8px}
-.demo{margin:22px 26px 0;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px 14px 10px;box-shadow:var(--sh);text-align:left}
-.dh{display:flex;justify-content:space-between;font-size:12.5px;color:var(--mut);margin-bottom:4px}.dh b{color:var(--fg)}
-.drow{margin-top:6px}.drow .l{display:flex;justify-content:space-between;align-items:baseline;font-size:13px}
-.drow .l b{font-size:15px}.dot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;vertical-align:0}
-.bars{display:flex;align-items:flex-end;gap:2px;height:58px;margin-top:3px;border-bottom:1px solid var(--bd)}
-.bars i{flex:1;min-width:0;border-radius:2px 2px 0 0;height:2px;transition:height .9s cubic-bezier(.2,.8,.2,1)}
-.drow.g .bars{height:22px}
-.dsub{font-size:13px;color:var(--mut);margin-top:8px}
-.arrows{position:absolute;inset:0;pointer-events:none;overflow:visible}
-.arrows path{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-.down{margin-top:14px;font-size:12.5px;color:var(--faint);text-decoration:none}
-/* блоки */
-section.b{padding:46px 0 10px}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+b{font-weight:650}
+/* заставка — как в первом лендинге */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;justify-content:center;padding:24px 16px 36px}
+.hm0{width:100%;max-width:440px;text-align:center;position:relative}
+.logo{width:150px;height:150px;display:block;margin:0 auto 18px}
+h1{font-size:30px;margin:0;letter-spacing:-.01em}
+.beta{display:inline-block;vertical-align:middle;margin-left:8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#EF9F27;border:1.5px solid #EF9F27;border-radius:999px;padding:2px 9px}
+.lead{color:var(--mut);margin:12px -46px 26px;font-size:17px}
+.lead .r{color:var(--hr)}.lead .g{color:var(--hg)}
+a.dl{display:block;text-align:center;background:var(--fg);color:var(--bg);text-decoration:none;font-weight:650;border-radius:12px;padding:14px 18px;font-size:17px;transition:transform .12s}
+a.dl:active{transform:scale(.98)}
+.run{margin-top:14px;font-size:13.5px;color:var(--mut)}
+code{font-family:ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:1px 6px;color:var(--fg)}
+.arr{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.arr path{fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round}
+/* виджет ленты — как в отчёте */
+.tw{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:11px 13px 10px;box-shadow:var(--sh);text-align:left;margin-top:16px}
+.th{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.th h3{margin:0;font-size:13.5px;font-weight:650}.th .v{font-size:12.5px;color:var(--mut);white-space:nowrap}.th .v b{color:var(--fg)}
+.lgd{display:flex;flex-wrap:wrap;gap:3px 12px;font-size:11.5px;color:var(--mut);margin-top:3px}
+.chip i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px;background:var(--c)}
+.chip.two i{width:10px;background:linear-gradient(90deg,var(--fb) 0 2px,var(--hk) 2px)}
+.tr{display:grid;grid-template-columns:44px 1fr;gap:10px;margin-top:8px}
+.tt{font-size:10.5px;color:var(--mut);line-height:1.3;align-self:end;padding-bottom:1px}.tt b{display:block;color:var(--fg);font-size:12px}
+.bars{display:grid;column-gap:2px;height:66px;border-bottom:1px solid var(--bd)}
+.sl{position:relative;height:100%;cursor:default;border-radius:2px}.sl:hover{background:var(--pn)}
+.sl i{position:absolute;bottom:0;display:block;background:var(--c)}
+.sl .one{left:0;right:0;border-radius:2px 2px 0 0}.sl .was{left:0;width:2px}.sl .now{left:2px;right:0;border-radius:0 2px 0 0}
+.x{display:inline-block;font-size:11.5px;font-weight:650;border-radius:6px;padding:0 6px;margin-left:4px;background:var(--pn)}.x.up{color:#d92d20}.x.dn{color:var(--ok)}
+.down{display:inline-block;margin-top:22px;font-size:12.5px;color:var(--faint);text-decoration:none}
+/* блоки ниже */
+.wrap{max-width:600px;margin:0 auto;padding:0 16px}
+section.b{padding:48px 0 8px}
 .eb{font-size:12px;font-weight:750;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
 h2{font-size:25px;line-height:1.2;margin:6px 0 8px;letter-spacing:-.015em}
 .b p{margin:0 0 14px;color:var(--mut)}.b p b{color:var(--fg)}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;box-shadow:var(--sh)}
-.cap{font-size:13px;color:var(--mut);margin-top:10px}
-.flag{display:inline-block;font-size:12px;font-weight:700;color:var(--red);background:var(--redbg);border-radius:7px;padding:2px 8px;margin-top:10px}
-.gain{display:inline-block;font-size:12px;font-weight:700;color:var(--grn);background:var(--grnbg);border-radius:7px;padding:2px 8px}
-/* чек */
-.rc{font:14px/1.75 ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--bd);border-radius:6px 6px 0 0;padding:14px 16px 18px;position:relative;box-shadow:var(--sh)}
-.rc:after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:8px;background:linear-gradient(-45deg,transparent 6px,var(--card) 0) 0 0/12px 8px repeat-x,linear-gradient(45deg,transparent 6px,var(--card) 0) 0 0/12px 8px repeat-x}
-.rc .t{text-align:center;font-weight:700;margin-bottom:6px}.rl{display:flex;gap:6px}.rl span:nth-child(2){flex:1;border-bottom:1px dotted var(--faint);margin-bottom:7px}
-.rl.hot{color:var(--red);font-weight:700}.rs{border-top:1px dashed var(--faint);margin-top:6px;padding-top:4px;font-weight:700}
-/* точки */
-.dp{display:grid;grid-template-columns:108px 1fr 42px;gap:8px;align-items:center;font-size:13px;padding:5px 0}
-.dp .n{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dp .v{text-align:right;color:var(--mut);font-weight:650}
-.trk{position:relative;height:22px}.trk .ax{position:absolute;top:0;bottom:0;width:1px;background:var(--bd)}
-.trk .rg{position:absolute;top:9px;height:4px;border-radius:2px;background:var(--hi)}
-.trk .d{position:absolute;top:5px;width:12px;height:12px;margin-left:-6px;border-radius:50%}
-.trk .rn{position:absolute;top:2px;width:18px;height:18px;margin-left:-9px;border-radius:50%;border:2px solid var(--fg)}
-.dp.hot .n{color:var(--red);font-weight:700}
-.lg{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--mut);margin-bottom:6px}.lg i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
-/* лента */
-.tape{display:flex;align-items:flex-end;gap:1.5px;height:96px;border-bottom:1px solid var(--bd)}
-.tape i{flex:1;min-width:0;border-radius:2px 2px 0 0;background:var(--op)}.tape i.c{background:var(--cold)}
-.note{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin-top:10px;color:var(--mut)}.note .sw{flex:none;width:10px;height:10px;border-radius:3px;background:var(--cold);margin-top:5px}
-/* хайку-токены */
-.ht{text-align:center;padding:18px 14px}
-.ht .big{font-size:40px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
-.ht .eq{color:var(--mut);margin-top:4px}
-.rate{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px}
-.rate div{background:var(--pn);border-radius:12px;padding:10px 4px;font-size:12px;color:var(--mut)}
-.rate b{display:block;font-size:22px;color:var(--fg)}.rate .m{font-weight:700;font-size:13px}
-/* карта */
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px 16px;box-shadow:var(--sh)}
+.card h4{margin:0 0 10px;font-size:13px;font-weight:600;color:var(--mut)}
+.cap{font-size:12.5px;color:var(--mut);margin-top:10px}
+.tc{display:grid;grid-template-columns:minmax(96px,170px) 1fr 112px;gap:10px;align-items:center;padding:4px 0;font-size:13px}
+.tc .n{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tc .k{display:flex;height:12px;border-radius:4px;overflow:hidden}.tc .k i{display:block}.tc .r{color:var(--mut);text-align:right;white-space:nowrap}
+.dpr{display:grid;grid-template-columns:minmax(96px,170px) 1fr 44px;gap:10px;align-items:center;padding:4px 0;font-size:13px}
+.dpr .n{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dpr .r{text-align:right;color:var(--mut)}
+.dtk{position:relative;height:22px}.dtk i{position:absolute;display:block}
+.dtk .ax{top:0;bottom:0;width:1px;background:var(--bd)}.dtk .rng{top:9px;height:4px;border-radius:2px;background:var(--k-hi)}
+.dtk .d{top:5px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--c)}
+.dtk .ring{top:2px;width:18px;height:18px;margin-left:-9px;border-radius:50%;border:2px solid var(--fg)}
+.lg2{display:flex;flex-wrap:wrap;gap:3px 12px;font-size:12px;color:var(--mut);margin-bottom:8px}.lg2 i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;background:var(--c)}
+.ht{text-align:center;padding:18px 14px}.ht .big{font-size:40px;font-weight:800;letter-spacing:-.02em;line-height:1.1}.ht .eq{color:var(--mut);margin-top:4px}
+.rate{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}
+.rate div{background:var(--pn);border-radius:12px;padding:10px 4px;font-size:12px;color:var(--mut)}.rate b{display:block;font-size:22px;color:var(--fg)}.rate .m{font-weight:700;font-size:13px}
 .hm{display:grid;grid-template-columns:20px repeat(24,minmax(0,1fr));gap:2px;font-size:10.5px;color:var(--faint)}
 .hm i{display:block;height:15px;border-radius:3px}
-/* дни */
 .dr{display:grid;grid-template-columns:24px 1fr 46px;gap:8px;align-items:center;font-size:13px;margin:5px 0}
 .dt{position:relative;height:16px}.dt .k{display:flex;height:100%;border-radius:4px;overflow:hidden}.dt .k i{display:block;height:100%}
-.dt .lim{position:absolute;top:-4px;bottom:-4px;border-left:2px dashed var(--fg);opacity:.45}
-.dr .v{text-align:right;color:var(--mut);font-weight:650}.dr.over .v{color:var(--red)}
-/* куда ушли */
-.sb{display:flex;height:30px;border-radius:9px;overflow:hidden}.sb i{display:block;height:100%}
+.dt .lim{position:absolute;top:-4px;bottom:-4px;border-left:2px dashed var(--fg);opacity:.45}.dr .v{text-align:right;color:var(--mut);font-weight:650}.dr.over .v{color:#d92d20}
+.sb{display:flex;height:28px;border-radius:8px;overflow:hidden}.sb i{display:block;height:100%}
 .keys{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;font-size:13px;margin-top:12px}.keys i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
-/* цифры */
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.num{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;box-shadow:var(--sh)}
-.num .big{font-size:34px;font-weight:800;letter-spacing:-.02em;line-height:1.05}.num .s{font-size:13px;color:var(--mut);margin-top:4px}
-/* доктор */
+.num{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;box-shadow:var(--sh)}.num .big{font-size:34px;font-weight:800;letter-spacing:-.02em;line-height:1.05}.num .s{font-size:13px;color:var(--mut);margin-top:4px}
+/* моделирование */
 .faces{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
-.fc{border:0;background:var(--pn);border-radius:12px;padding:6px 2px 6px;cursor:pointer;color:var(--mut);font:inherit;font-size:11.5px}
-.fc svg{width:100%;height:auto;max-width:62px;display:block;margin:0 auto 2px;overflow:visible}.fc.on{background:var(--card);box-shadow:0 0 0 2px var(--fg);color:var(--fg);font-weight:700}
-.bub{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;margin-top:10px;font-size:14.5px;min-height:48px}
+.fc{border:0;background:var(--pn);border-radius:12px;padding:6px 2px;cursor:pointer;color:var(--mut);font:inherit;font-size:11.5px}
+.fc svg{width:100%;height:auto;max-width:58px;display:block;margin:0 auto 2px;overflow:visible}.fc.on{background:var(--card);box-shadow:0 0 0 2px var(--fg);color:var(--fg);font-weight:700}
+.bub{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:11px 14px;margin:10px 0 14px;font-size:14.5px}
+.wcs{display:flex;gap:10px;align-items:flex-end;height:150px}
+.wc{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0}
+.wv{font-size:12.5px;font-weight:650;margin-bottom:4px;white-space:nowrap}
+.wb{width:28px;border-radius:5px 5px 2px 2px;display:flex;flex-direction:column-reverse;overflow:hidden;min-height:3px;transition:height .4s}.wb i{display:block}
+.wn{font-size:12px;color:var(--mut);margin-top:6px}.wd{height:20px;margin-top:3px}.wd .x{margin-left:0}
+.seg{display:inline-flex;background:var(--pn);border-radius:9px;padding:2px;gap:2px;flex-wrap:wrap;margin-top:10px}
+.seg button{border:0;background:transparent;color:var(--mut);font:inherit;font-size:12.5px;padding:4px 9px;border-radius:7px;cursor:pointer}
+.seg button.on{background:var(--card);color:var(--fg);box-shadow:0 1px 2px rgba(0,0,0,.12);font-weight:600}
 .ld-blink{transform-box:fill-box;transform-origin:center;animation:ld-blink 4.5s infinite}
 .ld-spin{transform-box:fill-box;transform-origin:center;animation:ld-spin 1.1s linear infinite}
 .ld-shake{animation:ld-shake .35s infinite}.ld-z{animation:ld-z 2.4s infinite}.ld-z2{animation:ld-z 2.4s .8s infinite}
@@ -107,76 +100,74 @@ h2{font-size:25px;line-height:1.2;margin:6px 0 8px;letter-spacing:-.015em}
 @keyframes ld-z{0%{opacity:0;transform:translate(0,0)}30%{opacity:1}100%{opacity:0;transform:translate(5px,-12px)}}
 @keyframes ld-steam{0%{opacity:0;transform:translateY(2px)}50%{opacity:.85}100%{opacity:0;transform:translateY(-9px)}}
 @keyframes ld-drop{0%{opacity:0;transform:translateY(-2px)}30%{opacity:1}100%{opacity:0;transform:translateY(7px)}}
-/* польза и шаги */
 .gets{display:grid;gap:10px}.get{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px 14px}
 .get .ic{flex:none;width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff}
 .steps{counter-reset:s;display:grid;gap:8px;margin:0 0 16px;padding:0;list-style:none}
 .steps li{counter-increment:s;display:flex;gap:10px;align-items:baseline}.steps li:before{content:counter(s);flex:none;width:24px;height:24px;border-radius:50%;background:var(--fg);color:var(--bg);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
-code{font:13.5px ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:1px 6px}
-/* подвал */
-footer{padding:40px 0 70px;text-align:center}
+footer{padding:40px 16px 70px;text-align:center}
 .kz{display:inline-flex;align-items:center;gap:12px;text-decoration:none;color:var(--fg);background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px 16px;box-shadow:var(--sh);text-align:left}
-.kz .w{font-weight:900;font-size:20px;letter-spacing:.01em;color:#16325c;line-height:1}.kz .w i{font-style:normal;color:#2fae5b}
-@media (prefers-color-scheme:dark){.kz .w{color:#9cc0ff}}
-.kz .t{font-size:12px;color:var(--mut);line-height:1.3}
-.bot{width:34px;height:34px;flex:none}
-.links{margin-top:18px;font-size:14px}.links a{color:var(--fg);font-weight:650}
-.ver{font-size:12px;color:var(--faint);margin-top:10px}
+.kz .w{font-weight:900;font-size:20px;color:#16325c;line-height:1}.kz .w i{font-style:normal;color:#2fae5b}
+.kz .t{font-size:12px;color:var(--mut);line-height:1.3}.bot{width:34px;height:34px;flex:none}
+.links{margin-top:18px;font-size:14px}.links a{color:var(--fg);font-weight:650}.ver{font-size:12px;color:var(--faint);margin-top:10px}
 .pill{position:fixed;left:12px;bottom:12px;z-index:20;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--bd);border-radius:999px;padding:6px 8px 6px 12px;font-size:12.5px;box-shadow:0 6px 24px rgba(0,0,0,.18);transform:translateY(140%);transition:transform .35s}
 .pill.on{transform:none}.pill a{color:var(--fg);text-decoration:none}.pill .w{font-weight:900;color:#16325c}.pill .w i{font-style:normal;color:#2fae5b}
-@media (prefers-color-scheme:dark){.pill .w{color:#9cc0ff}}
 .pill button{border:0;background:var(--pn);color:var(--mut);width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:14px;line-height:1}
-/* появление */
-.rv{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}.rv.in{opacity:1;transform:none}
+@media (prefers-color-scheme:dark){.kz .w,.pill .w{color:#9cc0ff}}
+/* подсказка — как в отчёте */
+#tip{position:fixed;z-index:50;display:none;max-width:340px;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:12px;padding:10px 12px;font-size:13px;line-height:1.45;box-shadow:0 10px 30px rgba(0,0,0,.2);pointer-events:none;text-align:left}
+#tip .m{color:var(--mut)}#tip .tb{display:flex;height:8px;border-radius:4px;overflow:hidden;margin:6px 0 4px}#tip .tb i{display:block}
+#tip .cw{margin-top:8px;padding-top:8px;border-top:1px solid var(--bd)}
+#tip .cf{position:relative;height:8px;border-radius:4px;margin:7px 0 3px;background:linear-gradient(90deg,#12b76a,#f0b429 50%,#d92d20)}
+#tip .cf i{position:absolute;right:0;top:0;bottom:0;background:var(--pn);border-radius:0 4px 4px 0}
+#tip .dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;background:var(--c)}
+#tip .sw{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:-1px;margin-right:4px}
+.rv{opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s}.rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
-@media (min-width:700px){h2{font-size:28px}.hm i{height:18px}.dp{grid-template-columns:150px 1fr 46px}}
+@media (max-width:600px){.lead{margin-left:0;margin-right:0}#dl{margin:0 22px}.logo{width:118px;height:118px;margin-bottom:12px}h1{font-size:27px}.lead{margin:10px 0 20px;font-size:16.5px}.tw{margin-left:12px;margin-right:12px}
+ .bars{height:54px}.tr{grid-template-columns:38px 1fr;gap:6px}.tc{grid-template-columns:96px 1fr 92px}.dpr{grid-template-columns:96px 1fr 40px}}
 </style>
 </head>
 <body>
+
+<div class="hero" id="hero">
+<div class="hm0" id="hm0">
+ <svg class="arr" id="arr" aria-hidden="true"><defs>
+  <marker id="mr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1.5L8 5L1 8.5" fill="none" stroke="var(--hr)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="mg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1.5L8 5L1 8.5" fill="none" stroke="var(--hg)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+  <path id="pr" style="stroke:var(--hr)" marker-end="url(#mr)"/><path id="pg" style="stroke:var(--hg)" marker-end="url(#mg)"/></svg>
+ <svg class="logo" viewBox="0 0 32 32" aria-label="LimitDoctor"><rect width="32" height="32" rx="8" fill="#15181d"/><path d="M8.7 6.6h2.6v2.1h2.1v2.6h-2.1v2.1h-2.6v-2.1h-2.1v-2.6h2.1z" fill="#E24B4A"/><path d="M20.7 6.6h2.6v2.1h2.1v2.6h-2.1v2.1h-2.6v-2.1h-2.1v-2.6h2.1z" fill="#1D9E75"/><path d="M7 25L11 21.5L13.5 23.5" fill="none" stroke="#E24B4A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.5 23.5L18 19L20.5 20.5" fill="none" stroke="#EF9F27" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.5 20.5L25 16" fill="none" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ <h1>LimitDoctor<span class="beta">бета</span></h1>
+ <p class="lead">Показывает, на что ушёл лимит Claude&nbsp;Code:<br><span class="r" id="hr">какой чат сколько съел</span> и <span class="g" id="hg">сколько стоил бы на другой модели</span>.</p>
+ <a class="dl" id="dl" href="limitdoctor_0.4.7.py" download>Скачать limitdoctor_0.4.7.py</a>
+ <div class="run">Запуск: <code>python limitdoctor_0.4.7.py</code> — отчёт откроется в браузере. Всё считается по логам на твоём компьютере, наружу ничего не уходит.</div>
+ <div class="tw" id="w1"></div>
+ <div class="tw" id="w2"></div>
+ <a class="down" href="#s1">как это устроено ↓</a>
+</div>
+</div>
+
 <div class="wrap">
 
-<header class="hero" id="hero">
- <svg class="arrows" id="arr" aria-hidden="true"><defs>
-  <marker id="mr" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L8 5L1 9" fill="none" stroke="#E24B4A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>
-  <marker id="mg" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L8 5L1 9" fill="none" stroke="#1D9E75" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
-  <path id="pr" stroke="#E24B4A" marker-end="url(#mr)"/><path id="pg" stroke="#1D9E75" marker-end="url(#mg)"/></svg>
- <div class="brand"><span id="logo"></span><div><h1>LimitDoctor</h1><span class="beta">бета 0.4.7</span></div></div>
- <p class="lead">Показывает, на что ушёл лимит Claude&nbsp;Code:<br><span class="hl r" id="hlR">какой чат сколько съел</span><br><span class="hl g" id="hlG">и сколько стоил бы на другой модели</span></p>
- <a class="cta" id="dl1" href="limitdoctor_0.4.7.py" download>Скачать limitdoctor_0.4.7.py<small>Python 3.8+ · бесплатно</small></a>
- <div class="demo" id="demo">
-  <div class="dh"><span>чат <b>«Котики и CSS»</b></span><span>186 вызовов</span></div>
-  <div class="drow r" id="rowR"><div class="l"><span><i class="dot" style="background:#E24B4A"></i>как было · Fable</span><b style="color:#E24B4A">12,4% недели</b></div><div class="bars" id="barsR"></div></div>
-  <div class="drow g" id="rowG"><div class="l"><span><i class="dot" style="background:var(--grn)"></i>на Haiku</span><b style="color:var(--grn)">1,9% недели</b></div><div class="bars" id="barsG"></div></div>
-  <div class="dsub">Тот же чат, те же вопросы — <b style="color:var(--fg)">в 6,5 раза дешевле</b>. Каждый столбик — один вызов модели.</div>
- </div>
- <a class="down" href="#s0">листай — дальше интереснее ↓</a>
-</header>
-
-<section class="b rv" id="s0">
+<section class="b rv" id="s1">
  <div class="eb">Если не знаешь, что такое Claude Code</div>
  <h2>Лимит — как баланс на телефоне</h2>
- <p>Claude Code — ИИ-программист по подписке. У подписки есть лимит: сколько можно наработать за 5 часов и за неделю. Тариф ты знаешь, а <b>куда ушёл лимит — нет</b>: какой чат, какая модель, какой вызов. LimitDoctor — та самая детализация.</p>
- <div class="rc"><div class="t">ДЕТАЛИЗАЦИЯ ЗА НЕДЕЛЮ</div><div id="rcpt"></div><div class="rl rs"><span>Итого</span><span></span><span>27% недели</span></div></div>
+ <p>Claude Code — ИИ-программист по подписке, и у подписки есть лимит. Тариф знаешь, а <b>куда ушёл лимит — нет</b>. LimitDoctor показывает детализацию: какой чат сколько съел и на какой модели.</p>
+ <div class="card"><h4>Самые дорогие чаты</h4><div id="exp"></div><div class="cap">Цвет — модель. Справа — сколько чат съел лимита за неделю. В отчёте по клику открывается чат.</div></div>
 </section>
 
 <section class="b rv">
  <div class="eb">Главная фишка</div>
  <h2>Тот же чат — на каждой модели</h2>
- <p>Каждый чат пересчитан на Haiku, Sonnet, Opus и Fable по тем же вызовам. Одним взглядом видно, <b>где сильная модель избыточна</b>, а где дешёвая справилась бы не хуже.</p>
- <div class="card">
-  <div class="lg"><span><i style="background:var(--hk)"></i>Haiku</span><span><i style="background:var(--sn)"></i>Sonnet</span><span><i style="background:var(--op)"></i>Opus</span><span><i style="background:var(--fb)"></i>Fable</span><span><i style="background:none;box-shadow:inset 0 0 0 2px var(--fg)"></i>как было</span></div>
-  <div id="dots"></div>
-  <div class="flag">⚑ второстепенный чат съел больше главного проекта</div>
- </div>
- <p class="cap">Справа — сколько чат съел на самом деле, в % недельного лимита.</p>
+ <p>Каждый чат пересчитан на Haiku, Sonnet, Opus и Fable по тем же вызовам. Кольцо — сколько съел на самом деле. Сразу видно, <b>где сильная модель избыточна</b>.</p>
+ <div class="card"><div class="lg2"><span><i style="--c:var(--hk)"></i>Haiku</span><span><i style="--c:var(--sn)"></i>Sonnet</span><span><i style="--c:var(--op)"></i>Opus</span><span><i style="--c:var(--fb)"></i>Fable</span><span><i style="background:none;box-shadow:inset 0 0 0 2px var(--fg)"></i>как было</span></div><div id="cmp"></div>
+ <div class="cap">Чем дальше точки друг от друга, тем сильнее модель меняет цену чата. Справа — % лимита за неделю.</div></div>
 </section>
 
 <section class="b rv">
  <div class="eb">Каждый чат под микроскопом</div>
- <h2>Лента вызовов</h2>
- <p>Каждый столбик — один вызов модели: прочитала переписку и ответила. Выше — дороже. <b>Быстрое, простое понимание структуры расходов</b> по каждому чату.</p>
- <div class="card"><div class="dh"><span>чат <b>«Бэкенд магазина»</b> · Opus</span><span>8,1% недели</span></div><div class="tape" id="tape"></div>
-  <div class="note"><span class="sw"></span><span><b style="color:var(--fg)">Холодный старт.</b> Пауза 1 ч 40 мин — кэш остыл, переписку записали заново. Один такой вызов стоит как 15 обычных.</span></div></div>
+ <h2>Дашборд вызовов</h2>
+ <p>Каждый столбик — один вызов модели: прочитала переписку и ответила. Выше — дороже. <b>Быстрое, простое понимание структуры расходов</b> по каждому чату. Наведи на столбик.</p>
+ <div class="tw" id="w3" style="margin:0"></div>
 </section>
 
 <section class="b rv">
@@ -184,45 +175,45 @@ footer{padding:40px 0 70px;text-align:center}
  <h2>Хайку-токены</h2>
  <p>Модели стоят по-разному, кэш в десятки раз дешевле, effort раздувает мысли. Мы свели всё в <b>одну валюту</b> — теперь Fable и Haiku меряются на одной линейке.</p>
  <div class="card ht"><div class="big">1 ХТ</div><div class="eq">= один входной токен Haiku = $1 за миллион</div>
-  <div class="cap" style="margin-top:14px">Один токен ответа стоит:</div><div class="rate" style="margin-top:8px"><div><span class="m" style="color:var(--hk)">Haiku</span><b>5</b>ХТ</div><div><span class="m" style="color:var(--sn)">Sonnet</span><b>10</b>ХТ</div><div><span class="m" style="color:var(--op)">Opus</span><b>20</b>ХТ</div><div><span class="m" style="color:var(--fb)">Fable</span><b>50</b>ХТ</div></div>
+  <div class="cap" style="margin-top:14px">Один токен ответа стоит:</div><div class="rate"><div><span class="m" style="color:var(--hk)">Haiku</span><b>5</b>ХТ</div><div><span class="m" style="color:var(--sn)">Sonnet</span><b>10</b>ХТ</div><div><span class="m" style="color:var(--op)">Opus</span><b>20</b>ХТ</div><div><span class="m" style="color:var(--fb)">Fable</span><b>50</b>ХТ</div></div>
   <div class="cap">Перечитать переписку из кэша — 0,1–0,25 ХТ за токен. Записать заново — в 12–20 раз дороже.</div></div>
- <a class="cta" href="limitdoctor_0.4.7.py" download>Скачать limitdoctor_0.4.7.py<small>один файл, без установки</small></a>
 </section>
 
 <section class="b rv">
  <div class="eb">Кто и когда жрёт лимит</div>
  <h2>Когда горит лимит</h2>
- <p>День недели × час. Чем ярче клетка, тем больше лимита сгорело. Наведи в отчёте — увидишь, какие чаты жрали в этот час.</p>
- <div class="card"><div class="hm" id="hm"></div></div>
+ <p>День недели × час, в среднем за неделю. Чем ярче клетка, тем больше лимита сгорело. В отчёте при наведении — какие чаты жрали в этот час.</p>
+ <div class="card"><div class="hm" id="heat"></div></div>
 </section>
 
 <section class="b rv">
  <div class="eb">Детализация</div>
  <h2>Расход по дням</h2>
- <p>Цвет — модель, пунктир — дневная норма (неделя ÷ 7). Видно, в какой день улетела треть недели.</p>
+ <p>Цвет — модель, пунктир — дневная норма (неделя ÷ 7).</p>
  <div class="card" id="days"></div>
 </section>
 
 <section class="b rv">
  <div class="eb">Анатомия расхода</div>
  <h2>Куда ушли токены</h2>
- <p>Почти половина — <b>обвязка</b>: инструкции, инструменты и скиллы, которые модель перечитывает в каждом вызове. Её видно только здесь.</p>
+ <p>Почти половина — <b>обвязка</b>: инструкции, инструменты и скиллы, которые модель перечитывает в каждом вызове.</p>
  <div class="card"><div class="sb" id="sb"></div><div class="keys" id="keys"></div></div>
 </section>
 
 <section class="b rv">
  <div class="eb">Утечки</div>
  <h2>Холодные старты</h2>
- <p>Ушёл на обед — кэш остыл через час, и первый же вопрос переписал весь чат заново. LimitDoctor находит каждый такой старт и говорит, <b>можно ли было его избежать</b>.</p>
- <div class="two"><div class="num"><div class="big" style="color:var(--cold)">4,6%</div><div class="s">недели ушло на холодные старты</div></div><div class="num"><div class="big" style="color:var(--grn)">2,1%</div><div class="s">можно было сберечь компактом перед паузой</div></div></div>
+ <p>Пауза дольше часа — кэш остыл, и первый же вопрос переписал весь чат заново. LimitDoctor находит каждый такой старт и говорит, <b>можно ли было его избежать</b>.</p>
+ <div class="two"><div class="num"><div class="big" style="color:var(--k-cold)">4,6%</div><div class="s">недели ушло на холодные старты</div></div><div class="num"><div class="big" style="color:var(--ok)">2,1%</div><div class="s">можно было сберечь компактом перед паузой</div></div></div>
 </section>
 
 <section class="b rv">
- <div class="eb">Живой дашборд</div>
- <h2>Доктор следит за effort</h2>
- <p>Переключаешь effort — доктор меняется и говорит, во что обошлась бы неделя. Нажми на любого:</p>
+ <div class="eb">А если бы</div>
+ <h2>Моделирование расходов</h2>
+ <p>LimitDoctor пересчитывает настоящие вызовы на любую модель и effort. Доктор подсказывает, что стало бы с чатом, — нажми на любого:</p>
  <div class="faces" id="faces"></div>
  <div class="bub" id="bub"></div>
+ <div class="card"><h4>А если бы на другой модели — чат «Котики и CSS»</h4><div class="wcs" id="wcs"></div><div class="seg" id="eseg"></div></div>
 </section>
 
 <section class="b rv">
@@ -246,88 +237,146 @@ footer{padding:40px 0 70px;text-align:center}
  <div class="eb">Три шага</div>
  <h2>Поставить за минуту</h2>
  <ol class="steps"><li><span>Скачай <code>limitdoctor_0.4.7.py</code> куда угодно.</span></li><li><span>Запусти: <code>python limitdoctor_0.4.7.py</code></span></li><li><span>Отчёт откроется в браузере и останется лежать рядом с файлом.</span></li></ol>
- <a class="cta" href="limitdoctor_0.4.7.py" download>Скачать limitdoctor_0.4.7.py<small>бета · Windows, macOS, Linux</small></a>
+ <a class="dl" href="limitdoctor_0.4.7.py" download>Скачать limitdoctor_0.4.7.py</a>
 </section>
+</div>
 
 <footer>
  <a class="kz" href="https://kwork.ru/user/zennovierasen" target="_blank" rel="noopener">
   <svg class="bot" viewBox="0 0 34 34" aria-hidden="true"><rect x="5" y="9" width="24" height="19" rx="6" fill="#16325c"/><rect x="15.5" y="3" width="3" height="6" rx="1.5" fill="#16325c"/><circle cx="17" cy="3.5" r="2.5" fill="#2fae5b"/><circle cx="12.5" cy="17" r="3" fill="#2fae5b"/><circle cx="21.5" cy="17" r="3" fill="#2fae5b"/><rect x="11" y="22.5" width="12" height="2.2" rx="1.1" fill="#9cc0ff"/></svg>
   <span><span class="t">Сделано при поддержке</span><br><span class="w">KoZa<i>Vi</i>RT</span> <span class="t">· фабрика ваших ботов</span></span></a>
  <div class="links"><a href="v2.html">Лендинг v2 — как его видит сам доктор →</a></div>
- <div class="ver">LimitDoctor 0.4.7 · бета · данные на этой странице выдуманные</div>
+ <div class="ver">LimitDoctor 0.4.7 · бета · цифры — из настоящих логов, названия чатов изменены</div>
 </footer>
-</div>
 
 <div class="pill" id="pill"><a href="https://kwork.ru/user/zennovierasen" target="_blank" rel="noopener">при поддержке <span class="w">KoZa<i>Vi</i>RT</span></a><button id="px" aria-label="Скрыть">×</button></div>
+<div id="tip"></div>
 
 <script>
-/* доктор — тот же, что в отчёте */
-function face(st){const X=(cx,cy,f,k)=>{const a=3.4*k,w=1.3*k;return `<path d="M${cx-w} ${cy-a}h${2*w}v${a-w}h${a-w}v${2*w}h${-(a-w)}v${a-w}h${-2*w}v${-(a-w)}h${-(a-w)}v${-2*w}h${a-w}z" fill="${f}"/>`};
+/* настоящие вызовы из логов (названия чатов изменены): cat — чат на Fable, logs — отрывок чата на Opus;
+   comp/exp — чаты этой недели, heat — 4 недели в среднем за неделю, % недельного лимита */
+const DATA={"cat":{"k":[[1790132682,3,1,2,0,731029,41599,972,0,0,"",1],[1790132950,3,1,2,0,729707,44790,967,0,0,""],[1790133131,3,1,2,0,731139,44790,234,0,0,""],[1790133532,3,1,2,0,733300,44790,617,0,0,""],[1790133622,3,4,2,0,734001,44790,227,0,0,"Bash"],[1790133628,3,4,32,0,457,778791,11256,0,0,"Write"],[1790133862,3,4,32,0,11794,779248,668,0,0,""],[1790134241,3,1,2,0,815,791042,540,0,0,""],[1790134460,3,1,2,0,173,792396,3509,0,0,"Write"],[1790134535,3,1,32,0,3846,792569,382,0,0,""],[1790135010,3,1,2,0,186,796797,674,0,0,""],[1790404390,3,3,2,0,759148,41599,649,0,0,"Bash"],[1790404475,3,3,32,0,1343,800747,520,0,0,"Bash"],[1790404488,3,3,32,0,848,802090,1862,0,0,"Bash"],[1790404526,3,3,32,0,2301,802938,713,0,0,""],[1790404925,3,3,2,0,401,805952,324,0,0,""],[1790405119,3,3,2,0,75,806676,188,0,0,"Bash"],[1790405128,3,3,32,0,474,806751,142,0,0,""],[1790405175,3,3,2,0,176,807367,244,0,0,""],[1790405256,3,3,2,0,265,807786,436,0,0,""],[1790406264,3,4,2,0,25226,54931,6339,0,0,"Bash"],[1790406282,3,4,32,0,9569,80157,1602,0,0,"Bash"],[1790406334,3,4,32,0,4829,89726,3533,0,0,"ToolSearch, Bash"],[1790406378,3,4,32,0,5721,94555,5518,0,0,"MCP, Bash, Write"],[1790406479,3,4,32,0,6501,100276,7716,0,0,"Bash, Write"],[1790406509,3,4,32,0,8080,106777,585,0,0,"Bash"],[1790406525,3,4,32,0,1717,114857,2345,0,0,"Read"],[1790406558,3,4,32,0,50962,116574,4122,0,0,"Read"],[1790406602,3,4,32,0,366198,167536,1440,0,0,"Read, Bash"],[1790406964,3,4,32,0,31135,533734,19680,0,0,"Bash"],[1790407177,3,4,32,0,22002,564869,15804,0,0,"Write"],[1790407362,3,4,32,0,16127,586871,12970,0,0,"Write"],[1790407616,3,4,32,0,13205,602998,12531,0,0,"Write, Bash"],[1790407811,3,4,32,0,18549,616203,15229,0,0,"Edit, Write"],[1790407969,3,4,32,0,15676,634752,1471,0,0,"Edit, Bash, MCP"],[1790407997,3,4,32,0,3262,650428,1002,0,0,"MCP, Bash, Read"],[1790408025,3,4,32,0,1692,653690,1931,0,0,"Edit, MCP, Write"],[1790408054,3,4,32,0,2694,655382,600,0,0,"MCP, Bash"],[1790408082,3,4,32,0,3643,658076,1244,0,0,"Bash"],[1790408108,3,4,32,0,1479,661719,1012,0,0,""],[1790408254,3,4,4,0,411,664210,404,0,0,"Bash"],[1790408279,3,4,2,0,2253,664621,553,0,0,"Bash"],[1790408299,3,4,32,0,1579,666874,2186,0,0,"Edit"],[1790408324,3,4,32,0,2538,668453,306,0,0,""],[1790409495,3,4,2,0,2459,671297,14787,0,0,"Bash"],[1790409647,3,4,32,0,16820,673756,27154,0,0,"Write, Edit"],[1790409935,3,4,32,0,27592,690576,873,0,0,"Bash, MCP"],[1790409974,3,4,32,0,5531,718168,967,0,0,"Edit"],[1790409999,3,4,32,0,1152,723699,1025,0,0,""],[1790411012,3,4,2,0,3146,725876,9068,0,0,"Bash"],[1790411122,3,4,32,0,10914,729022,5287,0,0,"Bash, Edit"],[1790411184,3,4,32,0,5673,739936,22763,0,0,"Write, Bash"],[1790411437,3,4,32,0,23139,745609,1714,0,0,"Bash, MCP"],[1790411473,3,4,32,0,10732,768748,2013,0,0,"Edit, MCP"],[1790411503,3,4,32,0,2386,779480,368,0,0,"MCP"],[1790411526,3,4,32,0,1004,781866,585,0,0,"MCP"],[1790411555,3,4,32,0,1145,782870,825,0,0,""],[1790415976,3,4,2,0,746749,41495,42746,0,0,"Write"],[1790416439,3,4,32,0,42977,788244,2025,0,0,"Edit, Bash, MCP"],[1790416492,3,4,32,0,3085,831221,1299,0,0,""],[1790483467,2,2,2,0,696435,41495,487,0,0,"Bash",1],[1790483476,2,2,2,0,629,737930,291,0,0,""],[1790483518,2,2,2,0,454,738850,1904,0,0,"Bash"],[1790483525,2,2,2,0,3389,739304,2616,0,0,"Write"],[1790483568,2,2,2,0,2723,742693,671,0,0,""],[1790485022,2,2,2,0,276,746087,988,0,0,""],[1790486501,2,2,2,0,188,747351,1311,0,0,""],[1790492279,2,2,2,0,718200,41495,443,0,0,"Bash"],[1790492321,2,2,2,0,476,759695,564,0,0,"Bash"],[1790492386,2,2,2,0,784,760171,286,0,0,"Bash"],[1790492415,2,2,2,0,456,760955,189,0,0,"Edit"],[1790492428,2,2,2,0,295,761411,28,0,0,"MCP"],[1790492433,2,2,2,0,747,761706,79,0,0,"ToolSearch"],[1790492439,2,2,2,0,2120,762453,178,0,0,"MCP"],[1790492445,2,2,2,0,325,764573,153,0,0,""],[1791074996,2,2,2,0,43641,44170,388,0,0,"",1],[1791075337,2,2,4,0,1607,87811,1656,0,0,"ToolSearch"],[1791075340,2,2,2,0,3699,89418,199,0,0,"MCP"],[1791075347,2,2,2,0,439,93117,1316,0,0,""],[1791075894,2,2,2,0,1085,94872,9438,0,0,"Write"],[1791075942,2,2,2,0,9533,95957,953,0,0,""],[1791078919,2,2,4,0,1486,105490,712,0,0,"Write"],[1791078931,2,2,2,0,851,106976,381,0,0,""],[1791326880,2,2,2,0,68365,44170,376,6235,0,"Grep",1],[1791326883,2,2,2,0,2752,112535,125,0,0,"Read"],[1791326891,2,2,2,0,3116,115287,809,6595,0,"MCP"],[1791326900,2,2,2,0,1047,118403,486,4199,0,""],[1791327057,2,2,2,0,10911,119936,154,0,0,"Grep"],[1791327059,2,2,2,0,207,130847,122,0,0,"Read"],[1791327067,2,2,2,0,1929,131054,707,5711,0,"MCP"],[1791327074,2,2,2,0,943,132983,310,0,0,""],[1791425550,2,2,2,0,96179,44170,841,2251,0,"MCP",1],[1791425561,2,2,2,0,1345,140349,312,0,0,""],[1791425597,2,3,2,0,218,142006,670,6305,0,"Bash"],[1791425602,2,3,2,0,1258,142224,307,1195,0,"Bash"],[1791425609,2,3,2,0,7013,143482,462,3558,0,"Bash"],[1791425625,2,3,2,0,3971,150495,1006,13426,0,""],[1791425649,2,3,2,0,51,155472,243,2105,0,""],[1791425763,2,3,2,0,453,155766,973,3204,0,"MCP"],[1791425775,2,3,2,0,1214,156219,334,0,0,""],[1791425905,2,3,2,0,95,157767,147,1129,0,"MCP"],[1791425910,2,3,2,0,701,157862,413,4169,0,""],[1791425999,2,3,4,0,770,158976,2017,10563,0,"MCP"],[1791426018,2,3,2,0,2258,159746,514,0,0,""],[1791426296,2,3,2,0,138,162518,169,1815,0,"MCP"],[1791426301,2,3,2,0,723,162656,281,3026,0,""],[1791426417,2,3,4,0,455,163660,333,979,0,"MCP"],[1791426422,2,3,2,0,578,164115,141,0,0,""],[1791428880,2,3,4,0,642,164834,93,0,0,"Read"],[1791428896,2,3,2,0,1457,165476,3722,14114,0,"Write"],[1791428925,2,3,2,0,3824,166933,462,0,0,"MCP"],[1791428931,2,3,2,0,653,170757,554,0,0,""],[1791429841,2,3,2,0,472,171964,202,663,0,"ToolSearch"],[1791429843,2,3,2,0,1613,172436,113,0,0,"MCP"],[1791429846,2,3,2,0,1117,174049,239,1653,0,"MCP"],[1791429849,2,3,2,0,386,175166,113,0,0,"MCP"],[1791429870,2,3,2,0,4592,175552,2715,19481,0,"MCP"],[1791429890,2,3,2,0,2985,180144,752,0,0,""],[1791430471,2,3,2,0,367,183881,417,2261,0,"Grep"],[1791430479,2,3,2,0,676,184248,893,4485,0,"MCP"],[1791430490,2,3,2,0,1130,184924,367,0,0,""],[1791431456,2,3,2,0,83,186421,164,1456,0,""],[1791431471,2,3,2,0,37,186668,139,982,0,""],[1791431490,2,3,2,0,43,186844,228,1899,0,""],[1791431564,2,3,2,0,61,187115,314,3022,0,""],[1791431583,2,3,2,0,38,187490,634,1380,0,""],[1791431655,2,3,2,0,83,188162,643,2459,0,"MCP"],[1791431664,2,3,2,0,883,188245,273,0,0,""],[1791432249,2,3,2,0,175,189401,528,3710,0,"Bash"],[1791432254,2,3,2,0,1978,189576,461,1662,0,"Read"],[1791432274,2,3,2,0,9345,191554,1699,17318,0,"Bash, MCP"],[1791432278,2,3,2,0,2610,200899,257,872,0,"Read"],[1791432281,2,3,2,0,6101,203509,119,412,0,"Read"],[1791432321,2,3,2,0,8233,209610,3291,38064,0,"Grep"],[1791432330,2,3,2,0,5515,217843,796,5964,0,"Bash"],[1791432355,2,3,2,0,3653,223358,6146,21699,0,"Write"],[1791432406,2,3,2,0,6251,227011,853,0,0,"MCP"],[1791432413,2,3,2,0,1090,233262,889,5025,0,""],[1791432775,2,3,4,0,633,235241,92,0,0,"Read"],[1791432836,2,3,2,0,4405,235874,12795,59984,0,"Write"],[1791432958,2,3,2,0,13496,240279,8079,59530,0,"Write, MCP"],[1791432993,2,3,2,0,8447,253775,909,0,0,""],[1791432996,2,3,4,0,1313,262222,328,816,0,""],[1791433065,2,3,4,0,693,263865,503,3232,0,"MCP"],[1791433070,2,3,2,0,695,264558,259,0,0,""],[1791433082,2,3,4,0,436,265512,456,2572,0,"MCP"],[1791433089,2,3,2,0,695,265948,329,0,0,""],[1791433099,2,3,4,0,334,266972,352,1976,0,"MCP"],[1791433105,2,3,2,0,551,267306,284,0,0,""],[1791433113,2,3,4,0,622,267857,164,0,0,"MCP"],[1791433120,2,3,2,0,361,268479,588,5967,0,""],[1791433163,2,3,4,0,603,269428,89,0,0,"Read"],[1791433196,2,3,2,0,5398,270031,10953,31280,0,"Write"],[1791433259,2,3,2,0,11051,275429,374,0,0,"MCP"],[1791433268,2,3,2,0,616,286480,792,0,0,""],[1791433274,2,3,4,0,1325,287096,621,845,0,"MCP"],[1791433282,2,3,2,0,864,288421,287,0,0,""],[1791433582,2,3,2,0,65,289572,392,408,0,""],[1791435059,2,3,2,0,86,290029,137,390,0,"MCP"],[1791435062,2,3,2,0,282,290115,113,0,0,"MCP"],[1791435067,2,3,2,0,3196,290397,427,3946,0,"MCP"],[1791435080,2,3,2,0,916,293593,771,7222,0,""],[1791435170,2,3,4,0,553,295280,89,0,0,"Read"],[1791435191,2,3,2,0,4671,295833,8085,19404,0,"Write"],[1791435248,2,3,2,0,8183,300504,419,0,0,"MCP"],[1791435255,2,3,2,0,614,308687,632,0,0,""],[1791435365,2,3,4,0,264,309933,118,0,0,""],[1791436537,2,3,4,0,806,310317,156,897,0,"Read"],[1791436561,2,3,2,0,977,311123,4748,22863,0,"Write, MCP"],[1791436599,2,3,2,0,5070,312100,779,0,0,""],[1791437543,2,3,4,0,969,317949,205,0,0,"Bash"],[1791437547,2,3,2,0,3139,318918,304,2582,0,"Read"],[1791437555,2,3,2,0,5458,322057,749,6067,0,"Bash"],[1791437560,2,3,2,0,3001,327515,291,1872,0,"Read"],[1791437602,2,3,2,0,1703,330516,5695,27630,0,"Write, MCP"],[1791437647,2,3,2,0,6098,332219,945,0,0,""],[1791437665,2,3,4,0,1573,338317,3239,11548,0,"Write, MCP"],[1791437701,2,3,2,0,3566,339890,591,0,0,""]],"fl":772630,"s":4,"n":48},"logs":{"k":[[1790766834,2,1,2,0,401,101884,252,0,0,""],[1790766855,2,1,2,0,36,102537,58,0,0,"MCP"],[1790766864,2,1,2,0,631,102573,336,0,0,""],[1790766924,2,1,2,0,30,103540,58,0,0,"MCP"],[1790766931,2,1,2,0,2691,103570,329,0,0,"Read"],[1790767082,2,1,2,0,1032,106261,473,0,0,""],[1790769064,2,1,4,0,455,107766,379,0,0,"MCP, Bash"],[1790769069,2,1,2,0,2135,108221,236,0,0,"Read"],[1790769074,2,1,2,0,9790,110356,714,0,0,"PowerShell"],[1790769086,2,1,2,0,1098,120146,1346,0,0,"Write"],[1790769106,2,1,2,0,1465,121244,763,0,0,""],[1790769524,2,1,2,0,65,123472,58,0,0,"MCP"],[1790769530,2,1,2,0,4719,123537,439,0,0,""],[1790769659,2,1,2,0,36,128695,58,0,0,"MCP"],[1790769663,2,1,2,0,449,128731,207,0,0,""],[1790769702,2,1,2,0,57,129387,243,0,0,"Bash"],[1790769707,2,1,2,0,2623,129444,247,0,0,"Bash"],[1790769713,2,1,2,0,443,132067,188,0,0,"Bash"],[1790769719,2,1,2,0,1661,132510,316,0,0,""],[1790770383,2,1,2,0,522,134487,609,0,0,""],[1790770459,2,1,2,0,233,135618,473,0,0,""],[1790770520,2,1,2,0,44,136324,342,0,0,""],[1790770547,2,1,2,0,37,136710,211,0,0,"Bash"],[1790770556,2,1,2,0,337,136747,372,0,0,""],[1790770824,2,1,2,0,56,137456,445,0,0,""],[1790771130,2,1,2,0,38,137957,444,0,0,""],[1790771348,2,1,2,0,34,138439,204,0,0,"Bash"],[1790771360,2,1,2,0,1272,138473,176,0,0,"Bash"],[1790771365,2,1,2,0,687,139745,382,0,0,""],[1790771582,2,1,2,0,431,140814,289,0,0,"Bash"],[1790771594,2,1,2,0,1077,141245,484,0,0,"PowerShell"],[1790771603,2,1,2,0,972,142322,452,0,0,"PowerShell"],[1790771623,2,1,2,0,846,143294,214,0,0,"Bash"],[1790771634,2,1,2,0,3393,144140,887,0,0,""],[1790771669,2,1,2,0,902,148420,173,0,0,""],[1790771839,2,1,2,0,256,149495,157,0,0,"Read"],[1790771844,2,1,2,0,850,149751,353,0,0,"Edit"],[1790771848,2,1,2,0,461,150601,159,0,0,""],[1790772524,2,1,2,0,41,151221,1067,0,0,"PowerShell"],[1790772539,2,1,2,0,4270,151262,1033,0,0,"PowerShell"],[1790772553,2,1,2,0,3649,155532,303,0,0,"Read"],[1790772558,2,1,2,0,1257,159181,1060,0,0,"Bash"],[1790772593,2,1,2,0,2960,160438,277,0,0,"Bash"],[1790772604,2,1,2,0,1359,163398,1381,0,0,""],[1790772990,2,1,2,0,969,166138,281,0,0,"Bash"],[1790773001,2,1,2,0,1857,167107,900,0,0,""],[1790773158,2,1,2,0,480,169864,748,0,0,""],[1790773228,2,1,2,0,3960,171092,478,0,0,""],[1790773535,2,1,2,0,386,175530,1141,0,0,""],[1790791555,2,1,2,0,137153,40620,803,0,0,""],[1790791856,2,1,2,0,1033,177773,650,0,0,""],[1790791994,2,1,2,0,408,179456,491,0,0,""],[1790792038,2,1,2,0,57,180355,407,0,0,""],[1790792099,2,1,2,0,209,180819,338,0,0,""],[1790792187,2,1,2,0,147,181366,340,0,0,""],[1790792306,2,1,2,0,165,181853,337,0,0,""],[1790794309,2,1,2,0,3611,182355,701,0,0,"Bash"],[1790794322,2,1,2,0,1038,185966,500,0,0,""],[1790794409,2,1,2,0,251,187504,452,0,0,"Bash"],[1790794420,2,1,2,0,574,187755,599,0,0,""],[1790799376,2,1,2,0,148501,40620,208,0,0,"MCP"],[1790799382,2,1,2,0,256,189121,627,0,0,""],[1790799434,2,1,2,0,143,190004,274,0,0,"Bash"],[1790799438,2,1,2,0,1304,190147,664,0,0,"Bash"],[1790799459,2,1,2,0,894,191451,1095,0,0,""],[1790800573,2,1,2,0,765,193440,329,0,0,"Bash"],[1790800581,2,1,2,0,920,194205,424,0,0,""],[1790801930,2,1,2,0,7069,195549,534,0,0,"Bash"],[1790801940,2,1,2,0,733,202618,429,0,0,""],[1790801985,2,1,2,0,44,203780,302,0,0,""],[1790803896,2,1,2,0,75,204126,466,0,0,""],[1790847711,2,1,2,0,164997,40620,2191,0,0,"Bash"],[1790847718,2,1,2,0,2620,205617,4338,0,0,"Write"],[1790847781,2,1,2,0,4467,208237,640,0,0,"Edit"],[1790847851,2,1,2,0,926,212704,616,0,0,"PowerShell"],[1790847912,2,1,2,0,1114,213630,913,0,0,"PowerShell"],[1790847977,2,1,2,0,1037,214744,1998,0,0,"Edit"],[1790848064,2,1,2,0,2449,215781,459,0,0,"PowerShell"],[1790848119,2,1,2,0,696,218230,581,0,0,"PowerShell"],[1790848453,2,1,2,0,2022,218926,212,0,0,"Read"],[1790848491,2,1,2,0,769,220948,401,0,0,"ToolSearch"],[1790848598,2,1,2,0,753,221717,540,0,0,"MCP, PowerShell"],[1790848673,2,1,2,0,1718,222470,1080,0,0,"PowerShell"],[1790848970,2,1,2,0,1795,224188,960,0,0,"PowerShell"],[1790849225,2,1,2,0,2166,225983,848,0,0,"PowerShell"],[1790849424,2,1,2,0,1598,228149,924,0,0,"PowerShell"],[1790849491,2,1,2,0,982,229747,406,0,0,"PowerShell"],[1790849627,2,1,2,0,450,230729,2346,0,0,"PowerShell"],[1790849709,2,1,2,0,3541,231179,836,0,0,"MCP, PowerShell"],[1790849787,2,1,2,0,4112,234720,6395,0,0,"Write"],[1790849940,2,1,2,0,6524,238832,408,0,0,"Bash"],[1790850211,2,1,2,0,1120,245356,675,0,0,"PowerShell"],[1790852193,2,1,2,0,3411,246476,926,0,0,"Bash"],[1790852334,2,1,2,0,1239,249887,424,0,0,"Read, Bash"],[1790852593,2,1,2,0,2982,251126,568,0,0,"Bash"],[1790852686,2,1,2,0,2192,254108,155,0,0,"Read"],[1790852823,2,1,2,0,9390,256300,1551,0,0,"PowerShell"],[1790852979,2,1,2,0,3426,265690,512,0,0,"PowerShell"],[1790853103,2,1,2,0,810,269116,739,0,0,"PowerShell"],[1790853283,2,1,2,0,1629,269926,972,0,0,"Bash, Write"],[1790853342,2,1,2,0,1302,271555,517,0,0,"Bash, MCP"],[1790853391,2,1,2,0,813,272857,1841,0,0,""],[1790854426,2,1,2,0,2189,275511,1489,0,0,"Bash"],[1790854437,2,1,2,0,2324,277700,202,0,0,"Read"],[1790854453,2,1,2,0,1024,280024,8207,0,0,"Write"],[1790854509,2,1,2,0,8324,281048,826,0,0,"PowerShell"],[1790854538,2,1,2,0,1210,289372,509,0,0,"Bash"],[1790854543,2,1,2,0,1361,290582,155,0,0,"Read"],[1790854545,2,1,2,0,417,291943,5634,0,0,"Write"],[1790854589,2,1,2,0,6000,292360,1000,0,0,"PowerShell"],[1790854609,2,1,2,0,1181,298360,199,0,0,"Bash"],[1790854614,2,1,2,0,241,299541,264,0,0,"Edit"],[1790854619,2,1,2,0,414,299782,1830,0,0,"Write, PowerShell"],[1790854638,2,1,2,0,2056,300196,490,0,0,"PowerShell"],[1790854650,2,1,2,0,522,302252,958,0,0,""],[1790854870,2,1,2,0,793,303732,528,0,0,"Bash"],[1790854876,2,1,2,0,1796,304525,379,0,0,"Read"],[1790854881,2,1,2,0,7461,306321,503,0,0,"Bash"],[1790854887,2,1,2,0,993,313782,390,0,0,"Read, Bash"],[1790854891,2,1,2,0,3190,314775,175,0,0,"Read"]],"fl":623637},"comp":[["Интернет-магазин",5.037,[1.76,3.855,5.069,9.758]],["Телеграм-бот",2.966,[1.177,2.62,3.466,6.734]],["Разбор логов",2.237,[0.713,2.0,2.81,6.006]],["Диплом, глава 2",2.078,[0.664,1.464,2.078,4.267]],["Учу Rust",1.587,[0.566,1.265,1.594,2.926]],["Лендинг кофейни",1.365,[0.471,1.048,1.443,2.904]],["Игра на Godot",1.284,[0.596,1.192,1.707,3.422]],["Парсер вакансий",1.047,[0.38,0.759,1.064,2.092]]],"exp":[["Интернет-магазин",5.037,[0.013,0.0,5.024,0.0]],["Телеграм-бот",2.966,[0.073,0.899,1.994,0.0]],["Разбор логов",2.237,[0.067,0.0,2.17,0.0]],["Диплом, глава 2",2.078,[0.0,0.0,2.078,0.0]],["Учу Rust",1.587,[0.003,0.0,1.584,0.0]],["Лендинг кофейни",1.365,[0.005,0.15,1.21,0.0]],["Игра на Godot",1.284,[0.018,0.77,0.495,0.0]],["Парсер вакансий",1.047,[0.006,0.0,1.041,0.0]]],"heat":[0.0412,0.0363,0.0417,0.0444,0.016,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0628,0.0214,0.0,0.0808,0.104,0.0888,0.1105,0.1841,0.2039,0.1901,0.1885,0.2274,0.1638,0.1122,0.1191,0.0665,0.007,0.0,0.0,0.0194,0.0815,0.0785,0.1305,0.1949,0.1899,0.0119,0.0622,0.0534,0.0758,0.0831,0.0918,0.0683,0.13,0.4161,0.0265,0.063,0.022,0.0861,0.6494,0.0,0.0,0.0,0.0258,0.0,0.0272,0.0012,0.0899,0.0556,0.057,0.0637,0.1765,0.136,0.0844,0.1693,0.1479,0.3436,0.1027,0.1136,0.1605,0.2929,0.283,0.1911,0.1615,0.1955,0.041,0.0,0.031,0.0007,0.0309,0.0578,0.0854,0.1016,0.0421,0.0682,0.2408,0.078,0.0479,0.0132,0.0246,0.0844,0.0333,0.0,0.0,0.0,0.0,0.0,0.0,0.0057,0.049,0.0,0.0,0.0,0.0,0.0,0.0,0.0489,0.0172,0.1483,0.4089,0.0,0.0399,0.0294,0.0132,0.0603,0.1132,0.032,0.0693,0.0,0.0,0.0,0.0,0.0,0.009,0.386,0.3482,0.216,0.2589,0.0859,0.198,0.0,0.0,0.0,0.0918,0.0,0.0282,0.0235,0.0415,0.1544,0.0624,0.0811,0.2507,0.2133,0.8087,0.3476,0.099,0.129,0.0684,0.201,0.1149,0.0192,0.0003,0.0566,0.0198,0.0,0.1696,0.0504,0.1392,0.1637,0.1788,0.1856,0.2146,0.0748]};
+const $=id=>document.getElementById(id);
+/* --- движок отчёта: цена вызова, холодные старты, разложение цены, подсказка --- */
+const PR=[[1,5,.1,2],[2,10,.2,4],[4,20,.2,8],[10,50,.25,20]],MU=[[1,1,1,1,1],[.65,1,1.15,2.1,4.6],[.65,1,1.1,1.5,3.5],[.65,1,1.1,1.5,3.5]],WEEK=3.5e9,SUM=10000;
+const NM=['Haiku','Sonnet','Opus','Fable'],CL=['#1D9E75','#378ADD','#7F77DD','#D85A30'],EN=['low','medium','high','xhigh','max'];
+const BK=[{n:'Обвязка',c:'var(--k-hv)'},{n:'Переписка',c:'var(--k-hi)'},{n:'Холодные старты',c:'var(--k-cold)'},{n:'Ответы и мысли',c:'var(--k-out)'}];
+const f1=x=>x.toLocaleString('ru-RU',{maximumFractionDigits:1}),fI=x=>Math.round(x).toLocaleString('ru-RU'),fM=x=>f1(x/1e6);
+const fp=x=>x<0.001?'<0,001':x<0.1?x.toLocaleString('ru-RU',{maximumSignificantDigits:2}):x<10?x.toLocaleString('ru-RU',{maximumFractionDigits:1}):fI(x);
+const fx=x=>x<10?x.toLocaleString('ru-RU',{maximumFractionDigits:1}):fI(x);
+const fh2=x=>x>=1e6?fM(x)+' млн ХТ':x>=1e3?f1(x/1e3)+' тыс. ХТ':fI(x)+' ХТ',fK=x=>x>=1000?f1(x/1000)+' тыс.':fI(x);
+const z2=x=>(x<10?'0':'')+x,esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'),ea=s=>esc(s).replace(/"/g,'&quot;');
+const Dt=t=>new Date(t*1000),fdd=t=>z2(Dt(t).getDate())+'.'+z2(Dt(t).getMonth()+1),fh=t=>z2(Dt(t).getHours())+':'+z2(Dt(t).getMinutes()),fd=t=>fdd(t)+' '+fh(t);
+const fT=ms=>{const s=ms/1000;return s<60?fI(s)+' с':Math.floor(s/60)+' мин '+fI(s%60)+' с'},fG=s=>s>=3600?f1(s/3600)+' ч':fI(s/60)+' мин';
+const pl=(n,a,b,c)=>{const m=n%10,h=n%100;return m===1&&h!==11?a:m>=2&&m<=4&&(h<12||h>14)?b:c};
+const rz=v=>{const s=fx(v);return s.includes(',')?s+' раза':s+' '+pl(Math.round(v),'раз','раза','раз')};
+const dd=k=>{const d=(k-1)*100;return Math.abs(d)<0.5?'<span class="x">так же</span>':`<span class="x ${d>0?'up':'dn'}">${d>0?'+':'−'}${fx(Math.abs(d))}%</span>`};
+const ddt=k=>{const d=(k-1)*100;return Math.abs(d)<0.5?'столько же, сколько было':d>0?`на ${fx(d)}% дороже, чем было`:`на ${fx(-d)}% дешевле, чем было`};
+const ctx=c=>c[3]+c[4]+c[5]+c[6];
+function cost(c,sm,se){const m=sm<0?c[1]:sm,e0=c[2]<0?1:c[2],e=se<0?e0:se,p=PR[m],om=MU[m][e]/MU[c[1]][e0];
+ const rd=c[6]*p[2],wr=c[3]*p[0]+c[4]*p[0]*1.25+c[5]*p[3],ou=c[7]*om*p[1];return [rd+wr+ou,rd,wr,ou]}
+function totals(ch,sm,se){const k=sm+'|'+se;ch._t=ch._t||{};if(ch._t[k])return ch._t[k];let t=0;const cs=ch.k.map(c=>{const x=cost(c,sm,se);t+=x[0];return x});return ch._t[k]={t,cs}}
+const sumR=(ch,a,b,sm,se)=>{const T=totals(ch,sm,se);let s=0;for(let i=a;i<b;i++)s+=T.cs[i][0];return s};
+const EXP={ok:'Если сжать чат (компакт), пока кэш тёплый, после паузы записывать пришлось бы только короткую выжимку.'};
+const CAU={sw:{n:'смена модели',av:1,t:'Кэш привязан к модели: после смены модели всю переписку пришлось записать заново.'},idle:{n:'пауза',av:0,t:'Кэш живёт час: после паузы всю переписку пришлось записать заново.'},
+ cmp:{n:'после сжатия',av:0,t:'Переписка укоротилась, и новое начало пришлось записать. Это цена сжатия, а не потеря.'},upd:{n:'обновление',av:0,t:'Между вызовами сменилась версия Claude Code.'},
+ ttl5:{n:'кэш на 5 минут',av:0,t:'Кэш был записан на 5 минут, а пауза оказалась длиннее.'},unk:{n:'без причины',av:0,t:'Модель та же, пауза короче часа, а кэш пропал.'}};
+const why=r=>r.cs==='idle'?'пауза '+fG(r.gap):CAU[r.cs].n;
+function ci(ch){if(ch._ci)return ch._ci;const K=ch.k,main=[];K.forEach((c,i)=>{if(!c[9])main.push(i)});
+ const ws=main.map(i=>K[i][4]+K[i][5]).filter(w=>w<8000).sort((a,b)=>a-b),g=ws.length?ws[ws.length>>1]:1000,ev=[];
+ for(let p=1;p<main.length;p++){const i=main[p],c=K[i],pc=K[main[p-1]],Wr=c[4]+c[5],x=ctx(c),xp=ctx(pc),gap=c[0]-pc[0];
+  if(Wr>=Math.max(25000,.45*x))ev.push({i,p,W:Wr,x,xp,gap,cs:x<.6*xp?'cmp':gap>=3540?'idle':c[1]!==pc[1]?'sw':c[11]?'upd':x<.9*xp?'cmp':gap>=300&&pc[4]>pc[5]?'ttl5':'unk'})}
+ ev.forEach((e,k)=>{e.end=k+1<ev.length?ev[k+1].p:main.length});
+ return ch._ci={main,ev,g,floor:ch.fl||(main.length?ctx(K[main[0]]):0)}}
+function cc(ch){if(ch._cc)return ch._cc;const I=ci(ch),K=ch.k;const rows={};
+ I.ev.forEach(e=>{const c=K[e.i],p=PR[c[1]],pw=(c[4]*p[0]*1.25+c[5]*p[3])/e.W,pe=Math.max(0,e.W-I.g)*(pw-p[2]);
+  const pp=PR[K[I.main[e.p-1]][1]],xn=I.floor+SUM,gi=Math.max(0,e.x-e.xp),dl=e.xp-xn;let sv=0;
+  if(dl>0&&e.cs!=='cmp'){const old=e.W*pw+c[6]*p[2],cmp=e.xp*pp[2]+SUM*pp[1],nw=(xn+gi)*p[3];let fl=0;for(let q=e.p+1;q<e.end;q++)fl+=dl*PR[K[I.main[q]][1]][2];sv=old-(cmp+nw)+fl}
+  rows[e.i]={pen:pe,sv,gap:e.gap,cs:e.cs,av:CAU[e.cs].av||(e.cs==='idle'&&sv>0)}});
+ return ch._cc={rows}}
+function split(ch,i){const c=ch.k[i],x=cost(c,-1,-1),r=cc(ch).rows[i],pen=r?r.pen:0,fl=ci(ch).floor,base=Math.max(0,x[1]+x[2]-pen),s=fl?Math.min(1,fl/Math.max(1,ctx(c))):0;return [base*s,base*(1-s),pen,x[3]]}
+function tipCall(ch,i,sm){const c=ch.k[i],x=cost(c,-1,-1),sp=split(ch,i),t=x[0]||1,r=cc(ch).rows[i];
+ const eff=c[1]===0?'':` · effort ${c[2]<0?'не записан':EN[c[2]]}`,q=t/(totals(ch,-1,-1).t/ch.k.length),win=c[1]===0?2e5:1e6,fill=Math.min(1,ctx(c)/win);
+ let h=`<div><span class="dot" style="--c:${CL[c[1]]}"></span><b>${NM[c[1]]}</b>${eff}${c[9]?' · агент':''}</div><div class="m">вызов № ${i+1} · ${fd(c[0])}</div>
+ <div style="margin-top:6px">${q>=1.15?`<b>в ${rz(q)} дороже</b> среднего вызова этого чата`:q<=.87?`<b>в ${rz(1/q)} дешевле</b> среднего вызова этого чата`:'<b>как средний вызов</b> этого чата'} <span class="m">· ${fh2(x[0])}</span></div>
+ <div class="tb">${sp.map((v,j)=>v>0?`<i style="width:${v/t*100}%;background:${BK[j].c}"></i>`:'').join('')}</div>
+ <div class="m">${sp.map((v,j)=>v/t>=.005?`${BK[j].n.toLowerCase()} ${f1(v/t*100)}%`:'').filter(Boolean).join(' · ')}</div>
+ <div class="cf"><i style="width:${((1-fill)*100).toFixed(1)}%"></i></div><div class="m">контекст заполнен на ${fI(fill*100)}%: ${fK(ctx(c))} из ${win===1e6?'1 млн':'200 тыс.'} токенов</div>
+ <div style="margin-top:4px">написала ${fK(c[7])} токенов${c[8]?' · думала '+fT(c[8]):''}</div>${c[10]?`<div class="m">инструменты: ${esc(c[10])}</div>`:''}`;
+ if(r)h+=`<div class="cw"><span class="sw" style="background:var(--k-cold)"></span><b>Холодный старт</b>: ${why(r)}<br>${CAU[r.cs].t}${r.sv>0?' Компакт перед ним сэкономил бы '+fh2(r.sv)+'.':''}</div>`;
+ if(sm>=0){const y=cost(c,sm,-1)[0];h+=`<div class="cw">Этот вызов на ${NM[sm]}: <b>${ddt(y/t)}</b>.</div>`}
+ return h}
+/* --- лента: столбик — вызов, высота √(цена / самый дорогой), как в отчёте; sm — сценарий (левые 2 px — как было) --- */
+function rows(ch,key,a,b,sm,per){const A=totals(ch,-1,-1),T=sm>=0?totals(ch,sm,-1):A;let mx=0;for(let i=a;i<b;i++)mx=Math.max(mx,A.cs[i][0]);mx=mx||1;
+ const H=v=>`max(2px,${(Math.sqrt(v/mx)*90).toFixed(2)}%)`;let h='';
+ for(let s=a;s<b;s+=per){const e=Math.min(b,s+per),K=ch.k;let bs='';
+  for(let i=s;i<e;i++){const c=K[i];bs+=sm>=0?`<div class="sl" data-c="${key}" data-i="${i}" data-s="${sm}"><i class="was" style="height:${H(A.cs[i][0])};--c:${CL[c[1]]}"></i><i class="now" style="height:${H(T.cs[i][0])};--c:${CL[sm]}"></i></div>`
+   :`<div class="sl" data-c="${key}" data-i="${i}" data-s="-1"><i class="one" style="height:${H(A.cs[i][0])};--c:${CL[c[1]]}"></i></div>`}
+  h+=`<div class="tr"><div class="tt">${fdd(K[s][0])}<b>${fh(K[s][0])}</b>→ ${fh(K[e-1][0])}</div><div class="bars" style="grid-template-columns:repeat(${per},minmax(0,1fr))">${bs}</div></div>`}
+ return h}
+const CHS={cat:DATA.cat,logs:DATA.logs};
+function hero(){const ch=CHS.cat,n=innerWidth<600?30:ch.n,a=ch.s,b=ch.s+n,was=sumR(ch,a,b,-1,-1),hk=sumR(ch,a,b,0,-1);
+ $('w1').innerHTML=`<div class="th"><h3>Лента вызовов · «Котики и CSS»</h3><span class="v">как было: <b>${fp(was/WEEK*100)}%</b> лимита недели</span></div>
+  <div class="lgd"><span class="chip"><i style="--c:${CL[3]}"></i>Fable</span><span>каждый столбик — один вызов, выше — дороже</span></div>${rows(ch,'cat',a,b,-1,n)}`;
+ $('w2').innerHTML=`<div class="th"><h3>Тот же чат на Haiku</h3><span class="v">стало: <b>${fp(hk/WEEK*100)}%</b> ${dd(hk/was)}</span></div>
+  <div class="lgd"><span class="chip two"><i></i></span><span>тонкая линия слева — как было на Fable, остальное — на Haiku</span></div>${rows(ch,'cat',a,b,0,n)}`}
+function logs(){const ch=CHS.logs,mob=innerWidth<600,a=mob?40:0,b=mob?88:ch.k.length,t=sumR(ch,0,ch.k.length,-1,-1);
+ $('w3').innerHTML=`<div class="th"><h3>Лента вызовов · «Разбор логов»</h3><span class="v">${ch.k.length} вызовов · <b>${fp(t/WEEK*100)}%</b> недели</span></div>
+  <div class="lgd"><span class="chip"><i style="--c:${CL[2]}"></i>Opus</span><span>самые высокие — холодные старты</span></div>${rows(ch,'logs',a,b,-1,mob?48:60)}`}
+/* --- стрелки: полукругом от фразы к своему виджету, в один пиксель --- */
+function arrows(){const H=$('hm0').getBoundingClientRect(),rr=$('hr').getClientRects(),gr=$('hg').getClientRects();if(!rr.length||!gr.length)return;
+ const R=r=>({l:r.left-H.left,r:r.right-H.left,t:r.top-H.top,b:r.bottom-H.top,m:(r.top+r.bottom)/2-H.top}),B=R($('dl').getBoundingClientRect());
+ const r0=R(rr[0]),g1=R(gr[gr.length-1]),w1=R($('w1').getBoundingClientRect()),w2=R($('w2').getBoundingClientRect()),b1=R($('w1').querySelector('.bars').getBoundingClientRect()),b2=R($('w2').querySelector('.bars').getBoundingClientRect());
+ /* фраза шире кнопки — дуга-скобка; на узком экране — сначала к краю, потом скруглённо вниз, чтобы не задеть кнопку */
+ const br=(x0,y0,gx,x1,y1,d)=>{const r=Math.min(22,Math.abs(y1-y0)/2);return `M${x0} ${y0}H${gx-d*r}Q${gx} ${y0} ${gx} ${y0+r}V${y1-r}Q${gx} ${y1} ${gx-d*r} ${y1}H${x1}`};
+ const sx=r0.l-5,sy=r0.m,ex=w1.l-2,ey=b1.m,lim=Math.min(B.l,w1.l)-14;
+ $('pr').setAttribute('d',sx>lim+40?`M${sx} ${sy}C${Math.min(sx-30,(8*lim-sx-ex)/6)} ${sy} ${Math.min(sx-30,(8*lim-sx-ex)/6)} ${ey} ${ex} ${ey}`:br(sx,sy,Math.min(lim,sx-8),ex,ey,-1));
+ const tx=g1.r+5,ty=g1.m,fx2=w2.r+2,fy=b2.m,lim2=Math.max(B.r,w1.r,w2.r)+14;
+ $('pg').setAttribute('d',tx<lim2-40?br(tx,ty,Math.max(lim2,tx+8),fx2,fy,1):`M${tx} ${ty}C${Math.max(tx+30,(8*lim2-tx-fx2)/6)} ${ty} ${Math.max(tx+30,(8*lim2-tx-fx2)/6)} ${fy} ${fx2} ${fy}`)}
+/* --- самые дорогие чаты и тот же чат на каждой модели --- */
+function lists(){const E=DATA.exp,mx=Math.max(...E.map(r=>r[1]));
+ $('exp').innerHTML=E.map(r=>`<div class="tc"><div class="n">${r[0]}</div><div class="k" style="width:${(r[1]/mx*100).toFixed(1)}%">${r[2].map((v,m)=>v>0?`<i style="width:${v/r[1]*100}%;background:${CL[m]}"></i>`:'').join('')}</div><div class="r"><b style="color:var(--fg)">${fp(r[1])}%</b> за неделю</div></div>`).join('');
+ const C=DATA.comp,cm=Math.max(...C.map(r=>Math.max(r[1],...r[2])))/.96,X=v=>(v/cm*100).toFixed(2),tk=[.24,.48,.72,.96].map(f=>`<i class="ax" style="left:${f*100}%"></i>`).join('');
+ $('cmp').innerHTML=C.map(r=>{const v=r[2],lo=Math.min(...v),hi=Math.max(...v);return `<div class="dpr"><div class="n">${r[0]}</div><div class="dtk">${tk}<i class="rng" style="left:${X(lo)}%;width:${(X(hi)-X(lo)).toFixed(2)}%"></i>${v.map((x,m)=>`<i class="d" style="left:${X(x)}%;--c:${CL[m]}" data-tip="${ea(`<b>${r[0]} на ${NM[m]}</b><br>${fp(x)}% лимита за неделю · ${ddt(x/r[1])}`)}"></i>`).join('')}<i class="ring" style="left:${X(r[1])}%" data-tip="${ea(`<b>${r[0]}: как было</b><br>${fp(r[1])}% лимита за неделю`)}"></i></div><div class="r">${fp(r[1])}%</div></div>`}).join('')}
+/* --- тепловая карта: настоящие 4 недели --- */
+function heat(){const v=DATA.heat,mx=Math.max(...v),W=['пн','вт','ср','чт','пт','сб','вс'];let h='<span></span>'+[...Array(24)].map((_,j)=>`<span style="text-align:center">${j%6?'':j}</span>`).join('');
+ for(let d=0;d<7;d++){h+=`<span>${W[d]}</span>`;for(let j=0;j<24;j++){const x=v[d*24+j];h+=`<i style="background:${x>0?`color-mix(in srgb,var(--heat) ${Math.max(8,Math.sqrt(x/mx)*100).toFixed(0)}%,var(--pn))`:'var(--pn)'}" data-tip="${ea(`<b>${W[d]}, ${z2(j)}:00–${z2((j+1)%24)}:00</b><br>${x>0?fp(x)+'% лимита за неделю, в среднем':'ничего не потрачено'}`)}"></i>`}}
+ $('heat').innerHTML=h}
+/* --- дни и анатомия --- */
+const DY=[['пн',[2,10,38,0]],['вт',[1,14,52,20]],['ср',[3,8,61,68]],['чт',[0,12,40,8]],['пт',[2,6,30,0]],['сб',[4,18,22,0]],['вс',[1,9,35,12]]],DM=150;
+$('days').innerHTML=DY.map(([n,v])=>{const t=v.reduce((a,b)=>a+b,0);return `<div class="dr${t>100?' over':''}"><span>${n}</span><div class="dt"><div class="k" style="width:${t/DM*100}%">${v.map((x,m)=>x?`<i style="width:${x/t*100}%;background:${CL[m]}"></i>`:'').join('')}</div><i class="lim" style="left:${100/DM*100}%"></i></div><span class="v">${t}%</span></div>`}).join('');
+const AN=[['Обвязка',43,'var(--k-hv)'],['Переписка',17,'var(--k-hi)'],['Холодные старты',22,'var(--k-cold)'],['Ответы и мысли',18,'var(--k-out)']];
+$('sb').innerHTML=AN.map(b=>`<i style="width:${b[1]}%;background:${b[2]}"></i>`).join('');$('keys').innerHTML=AN.map(b=>`<span><i style="background:${b[2]}"></i>${b[0]} <b>${b[1]}%</b></span>`).join('');
+/* --- моделирование: доктор-подсказка + карточка «а если бы» для всего чата «Котики и CSS» --- */
+function face(st){const Xc=(cx,cy,f,k)=>{const a=3.4*k,w=1.3*k;return `<path d="M${cx-w} ${cy-a}h${2*w}v${a-w}h${a-w}v${2*w}h${-(a-w)}v${a-w}h${-2*w}v${-(a-w)}h${-(a-w)}v${-2*w}h${a-w}z" fill="${f}"/>`};
  const mouth=pts=>{const P=pts.map(q=>q.join(' '));return `<path d="M${P[0]}L${P[1]}L${P[2]}" fill="none" stroke="#E24B4A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M${P[2]}L${P[3]}L${P[4]}" fill="none" stroke="#EF9F27" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M${P[4]}L${P[5]}" fill="none" stroke="#1D9E75" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>`};
- const norm=[[7,25],[11,21.5],[13.5,23.5],[18,19],[20.5,20.5],[25,16]];
- let eyes=`<g class="ld-blink">${X(10,10,'#E24B4A',1)}</g><g class="ld-blink">${X(22,10,'#1D9E75',1)}</g>`,m=mouth(norm),extra='',sh='';
- if(st===0){eyes='<path d="M6.5 10.5h7" stroke="#E24B4A" stroke-width="2.4" stroke-linecap="round"/><path d="M18.5 10.5h7" stroke="#1D9E75" stroke-width="2.4" stroke-linecap="round"/>';
-  m=mouth([[8,24],[11.5,23],[13.5,23.6],[18,22.4],[20.5,22.9],[24.5,21.6]]);
+ let eyes=`<g class="ld-blink">${Xc(10,10,'#E24B4A',1)}</g><g class="ld-blink">${Xc(22,10,'#1D9E75',1)}</g>`,m=mouth([[7,25],[11,21.5],[13.5,23.5],[18,19],[20.5,20.5],[25,16]]),extra='',sh='';
+ if(st===0){eyes='<path d="M6.5 10.5h7" stroke="#E24B4A" stroke-width="2.4" stroke-linecap="round"/><path d="M18.5 10.5h7" stroke="#1D9E75" stroke-width="2.4" stroke-linecap="round"/>';m=mouth([[8,24],[11.5,23],[13.5,23.6],[18,22.4],[20.5,22.9],[24.5,21.6]]);
   extra='<text class="ld-z" x="27" y="4" font-size="6" font-weight="700" fill="#98a2b3">z</text><text class="ld-z2" x="30" y="-1" font-size="8" font-weight="700" fill="#98a2b3">Z</text>'}
  else if(st===1){m=mouth([[7,24],[11,21.8],[13.5,23],[18,20],[20.5,20.8],[25,18]]);extra='<path d="M6.5 3.8l7 .8M18.5 4.6l7-.8" stroke="#98a2b3" stroke-width="1.6" stroke-linecap="round"/>'}
  else if(st===2)extra='<circle cx="10" cy="10" r="5.4" fill="none" stroke="#e9ebee" stroke-width="1.3"/><circle cx="22" cy="10" r="5.4" fill="none" stroke="#e9ebee" stroke-width="1.3"/><path d="M15.4 10h1.2" stroke="#e9ebee" stroke-width="1.3"/>';
- else if(st===3){eyes=`<g class="ld-blink">${X(10,10,'#E24B4A',1.25)}</g><g class="ld-blink">${X(22,10,'#1D9E75',1.25)}</g>`;m=mouth([[6.5,26],[10.5,20],[13,24],[18,16],[20.5,19],[25.5,12]]);
-  extra='<path class="ld-drop" d="M29 7c1.6 2.2 2.2 3.4 2.2 4.3a2.2 2.2 0 0 1-4.4 0c0-.9.6-2.1 2.2-4.3z" fill="#378ADD"/>'}
- else if(st===4){eyes=`<g class="ld-spin">${X(10,10,'#E24B4A',1.2)}</g><g class="ld-spin">${X(22,10,'#1D9E75',1.2)}</g>`;m=mouth([[6,27],[10,17],[13,25],[18,11],[21,20],[26,5]]);sh=' class="ld-shake"';
+ else if(st===3){eyes=`<g class="ld-blink">${Xc(10,10,'#E24B4A',1.25)}</g><g class="ld-blink">${Xc(22,10,'#1D9E75',1.25)}</g>`;m=mouth([[6.5,26],[10.5,20],[13,24],[18,16],[20.5,19],[25.5,12]]);extra='<path class="ld-drop" d="M29 7c1.6 2.2 2.2 3.4 2.2 4.3a2.2 2.2 0 0 1-4.4 0c0-.9.6-2.1 2.2-4.3z" fill="#378ADD"/>'}
+ else if(st===4){eyes=`<g class="ld-spin">${Xc(10,10,'#E24B4A',1.2)}</g><g class="ld-spin">${Xc(22,10,'#1D9E75',1.2)}</g>`;m=mouth([[6,27],[10,17],[13,25],[18,11],[21,20],[26,5]]);sh=' class="ld-shake"';
   extra='<circle class="ld-steam" cx="8" cy="-3" r="2.2" fill="#98a2b3"/><circle class="ld-steam2" cx="16" cy="-5" r="2.6" fill="#98a2b3"/><circle class="ld-steam" cx="24" cy="-3" r="2.2" fill="#98a2b3"/>'}
  return `<svg viewBox="-3 -9 38 44"${sh} aria-hidden="true"><rect width="32" height="32" rx="8" fill="#15181d"/>${eyes}${m}${extra}</svg>`}
-const $=id=>document.getElementById(id);
-$('logo').innerHTML=face(-1);
-
-/* первый экран: один и тот же чат на Fable и на Haiku; Haiku в 6,5 раза дешевле, шкала общая */
-const T=[];for(let i=0;i<46;i++){const s=i%15;T.push(s===0&&i>0?1:.3+.5*s/14+(i*7%5)*.015)}
-const bar=(el,col,k,h)=>{el.innerHTML=T.map(()=>`<i style="background:${col}"></i>`).join('');requestAnimationFrame(()=>setTimeout(()=>[...el.children].forEach((b,i)=>b.style.height=Math.max(2,T[i]*k*h)+'px'),120))};
-bar($('barsR'),'#E24B4A',1,58);bar($('barsG'),'var(--grn)',1/6.5,58);
-
-/* стрелки: от красной фразы — слева вокруг кнопки к строке Fable, от зелёной — справа к строке Haiku */
-function arrows(){const H=$('hero').getBoundingClientRect(),R=id=>{const r=$(id).getBoundingClientRect();return {l:r.left-H.left,r:r.right-H.left,t:r.top-H.top,b:r.bottom-H.top,m:(r.top+r.bottom)/2-H.top}};
- const a=R('hlR'),g=R('hlG'),btn=R('dl1'),c=R('demo'),rr=R('rowR'),rg=R('rowG'),rad=12,s=$('arr');
- s.setAttribute('viewBox',`0 0 ${H.width} ${H.height}`);
- /* стрелки идут вдоль краёв: левее всего, что между фразой и строкой, и правее */
- const gl=Math.max(-10,Math.min(c.l,btn.l,g.l,a.l)-12),gr=Math.min(H.width+10,Math.max(c.r,btn.r,g.r,a.r)+12),yr=rr.t+9,yg=rg.t+9;
- $('pr').setAttribute('d',`M${a.l-3} ${a.m}H${gl+rad}Q${gl} ${a.m} ${gl} ${a.m+rad}V${yr-rad}Q${gl} ${yr} ${gl+rad} ${yr}H${c.l+4}`);
- $('pg').setAttribute('d',`M${g.r+3} ${g.m}H${gr-rad}Q${gr} ${g.m} ${gr} ${g.m+rad}V${yg-rad}Q${gr} ${yg} ${gr-rad} ${yg}H${c.r-4}`);
- ['pr','pg'].forEach(id=>{const p=$(id),L=p.getTotalLength();p.style.strokeDasharray=L;if(!p.dataset.done){p.style.strokeDashoffset=L;p.getBoundingClientRect();p.style.transition='stroke-dashoffset 1.1s ease .5s';p.style.strokeDashoffset=0;p.dataset.done=1}else p.style.strokeDashoffset=0})}
-addEventListener('load',arrows);addEventListener('resize',arrows);document.fonts&&document.fonts.ready.then(arrows);
-
-/* чек */
-const CH=[['Котики и CSS',3,[1.9,3.8,7.1,12.4]],['Бэкенд магазина',2,[2.1,4.4,8.1,18]],['Телеграм-бот',2,[.8,1.7,3.1,7]],['Диплом, глава 2',1,[.9,1.6,3,6.8]],['Письмо арендодателю',3,[.1,.2,.4,1.1]],['Учу Rust',0,[.6,1.1,2,4.6]]];
-const f1=x=>x.toLocaleString('ru-RU',{maximumFractionDigits:1});
-$('rcpt').innerHTML=CH.map((c,i)=>`<div class="rl${i?'':' hot'}"><span>${c[0]}</span><span></span><span>${f1(c[2][c[1]])}%</span></div>`).join('');
-
-/* тот же чат на каждой модели */
-const MC=['var(--hk)','var(--sn)','var(--op)','var(--fb)'],MX=19,X=v=>(v/MX*100).toFixed(1);
-$('dots').innerHTML=CH.map((c,i)=>{const v=c[2],a=v[c[1]];return `<div class="dp${i?'':' hot'}"><div class="n">${c[0]}</div><div class="trk">${[.25,.5,.75].map(f=>`<i class="ax" style="left:${f*100}%"></i>`).join('')}<i class="rg" style="left:${X(v[0])}%;width:${X(v[3]-v[0])}%"></i>${v.map((x,m)=>`<i class="d" style="left:${X(x)}%;background:${MC[m]}"></i>`).join('')}<i class="rn" style="left:${X(a)}%"></i></div><div class="v">${f1(a)}%</div></div>`}).join('');
-
-/* лента: Opus, растущий контекст, три холодных старта */
-let tp='';for(let i=0;i<84;i++){const s=i%28,c=s===0&&i>0;tp+=`<i class="${c?'c':''}" style="height:${c?92:(10+46*s/27+(i*13%7)*1.2).toFixed(0)}%"></i>`}$('tape').innerHTML=tp;
-
-/* тепловая карта: вечера будней, суббота днём, ночь на понедельник */
-const WD=['пн','вт','ср','чт','пт','сб','вс'];let r=7,hm='<span></span>'+[...Array(24)].map((_,h)=>`<span style="text-align:center">${h%6?'':h}</span>`).join('');
-const rnd=()=>(r=(r*9301+49297)%233280)/233280;
-for(let d=0;d<7;d++){hm+=`<span>${WD[d]}</span>`;for(let h=0;h<24;h++){let v=0;if(d<5&&h>=19&&h<=23)v=.55+rnd()*.45;else if(d<5&&h>=10&&h<=17)v=rnd()<.55?.12+rnd()*.3:0;else if(d===5&&h>=11&&h<=17)v=.4+rnd()*.5;else if(d===6&&h<=2)v=.5+rnd()*.4;else if(h>=0&&h<=1&&d<5)v=rnd()<.4?.3:0;
- hm+=`<i style="background:${v?`color-mix(in srgb,var(--heat) ${Math.round(18+v*82)}%,var(--pn))`:'var(--pn)'}"></i>`}}$('hm').innerHTML=hm;
-
-/* дни: Haiku, Sonnet, Opus, Fable — в % дневной нормы */
-const DY=[['пн',[2,10,38,0]],['вт',[1,14,52,20]],['ср',[3,8,61,68]],['чт',[0,12,40,8]],['пт',[2,6,30,0]],['сб',[4,18,22,0]],['вс',[1,9,35,12]]],DM=150;
-$('days').innerHTML=DY.map(([n,v])=>{const t=v.reduce((a,b)=>a+b,0);return `<div class="dr${t>100?' over':''}"><span>${n}</span><div class="dt"><div class="k" style="width:${t/DM*100}%">${v.map((x,m)=>x?`<i style="width:${x/t*100}%;background:${MC[m]}"></i>`:'').join('')}</div><i class="lim" style="left:${100/DM*100}%"></i></div><span class="v">${t}%</span></div>`}).join('')+'<div class="cap">В среду — 140% дневной нормы: два чата на Fable весь вечер.</div>';
-
-/* куда ушли токены */
-const BK=[['Обвязка',44,'var(--hv)'],['Переписка',17,'var(--hi)'],['Холодные старты',22,'var(--cold)'],['Ответы и мысли',17,'var(--out)']];
-$('sb').innerHTML=BK.map(b=>`<i style="width:${b[1]}%;background:${b[2]}"></i>`).join('');$('keys').innerHTML=BK.map(b=>`<span><i style="background:${b[2]}"></i>${b[0]} <b>${b[1]}%</b></span>`).join('');
-
-/* доктор: шесть лиц, у каждого — что стало бы с неделей */
-const FT=[['как было','Неделя: съедено 22% лимита; в таком темпе к сбросу будет ≈37%.'],['low','Effort low на всю неделю: 19% лимита — на 14% дешевле. Но думает вполглаза.'],['medium','Effort medium: 20% лимита — на 9% дешевле, чем было.'],['high','Effort high: 21% лимита — почти столько же. Очки надеты.'],['xhigh','Effort xhigh: 23% лимита — на 5% дороже. Потеет, но держится.'],['max','Effort max: 26% лимита — на 20% дороже. Мозг кипит.']];
-let FS=0;const drawF=()=>{$('faces').innerHTML=FT.map((f,i)=>`<button class="fc${i===FS?' on':''}" data-i="${i}">${face(i-1)}${f[0]}</button>`).join('');$('bub').textContent=FT[FS][1]};drawF();
-$('faces').addEventListener('click',e=>{const b=e.target.closest('.fc');if(b){FS=+b.dataset.i;drawF()}});
-
-/* появление блоков и плашка KoZaViRT ближе к концу */
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+let SE=-1;const FN=['как было','low','medium','high','xhigh','max'];
+function model(){const ch=CHS.cat,A=totals(ch,-1,-1).t,cur=totals(ch,-1,SE).t,vals=[-1,0,1,2,3].map(m=>({m,t:totals(ch,m,SE).t})),mx=Math.max(...vals.map(v=>v.t)),wk=x=>fp(x/WEEK*100);
+ $('faces').innerHTML=FN.map((n,i)=>`<button class="fc${i-1===SE?' on':''}" data-e="${i-1}">${face(i-1)}${n}</button>`).join('');
+ $('bub').innerHTML=SE<0?`Чат «Котики и CSS» съел <b>${wk(A)}%</b> недели, хотя на Fable — лишь ${fI(ch.k.filter(c=>c[1]===3).length/ch.k.length*100)}% вызовов. Весь на Sonnet — ${wk(totals(ch,1,-1).t)}%.`:`Effort ${EN[SE]} на весь чат: <b>${wk(cur)}%</b> недели — ${ddt(cur/A)}.`;
+ const mix=[0,0,0,0];ch.k.forEach((c,i)=>mix[c[1]]+=totals(ch,-1,SE).cs[i][0]);
+ $('wcs').innerHTML=vals.map(v=>{const h=Math.max(3,v.t/mx*104),inner=v.m<0?mix.map((x,m)=>x>0?`<i style="height:${x/v.t*100}%;background:${CL[m]}"></i>`:'').join(''):`<i style="height:100%;background:${CL[v.m]}"></i>`;
+  return `<div class="wc"><div class="wv">${wk(v.t)}%</div><div class="wb" style="height:${h}px">${inner}</div><div class="wn">${v.m<0?'как было':NM[v.m]}</div><div class="wd">${v.m<0&&SE<0?'':dd(v.t/A)}</div></div>`}).join('');
+ $('eseg').innerHTML=['effort как был'].concat(EN).map((n,i)=>`<button class="${i-1===SE?'on':''}" data-e="${i-1}">${n}</button>`).join('')}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-e]');if(b){SE=+b.dataset.e;model()}});
+/* --- подсказки как в отчёте: столбики ленты и всё с data-tip --- */
+document.addEventListener('mousemove',ev=>{const t=$('tip'),sl=ev.target.closest('.sl'),dt=ev.target.closest('[data-tip]');let h=null;
+ if(sl)h=tipCall(CHS[sl.dataset.c],+sl.dataset.i,+sl.dataset.s);else if(dt)h=dt.dataset.tip;
+ if(!h){t.style.display='none';return}t.innerHTML=h;t.style.display='block';let x=ev.clientX+16,y=ev.clientY+16;
+ if(x+t.offsetWidth>innerWidth-8)x=ev.clientX-t.offsetWidth-16;if(y+t.offsetHeight>innerHeight-8)y=Math.max(8,ev.clientY-t.offsetHeight-16);t.style.left=x+'px';t.style.top=y+'px'});
+document.addEventListener('scroll',()=>{$('tip').style.display='none'},{passive:true});
+hero();logs();lists();heat();model();arrows();
+let rzT;addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{hero();logs();arrows()},120)});addEventListener('load',arrows);document.fonts&&document.fonts.ready.then(arrows);
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 let px=false;$('px').onclick=()=>{px=true;$('pill').classList.remove('on')};
 addEventListener('scroll',()=>{const k=scrollY/(document.body.scrollHeight-innerHeight),ft=document.querySelector('footer').getBoundingClientRect().top<innerHeight;$('pill').classList.toggle('on',!px&&k>.45&&!ft)},{passive:true});
 </script>
