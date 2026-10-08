@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>LimitDoctor Clinic — главврач для команды</title>
+<meta name="description" content="Видение: LimitDoctor для компаний и студий. Кто, на каком проекте и сколько лимита Claude Code сжёг — и как лечить перерасход до того, как он случился.">
+<meta property="og:title" content="LimitDoctor Clinic — главврач для команды">
+<meta property="og:description" content="Видение продукта: учёт лимита Claude Code по людям и проектам, защита, автопилот экономии, отчёт руководителю.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2315181d'/%3E%3Cpath d='M8.2 5.6h3.6v2.6h2.6v3.6h-2.6v2.6H8.2v-2.6H5.6V8.2h2.6z' fill='%23E24B4A'/%3E%3Cpath d='M20.2 5.6h3.6v2.6h2.6v3.6h-2.6v2.6h-3.6v-2.6h-2.6V8.2h2.6z' fill='%231D9E75'/%3E%3Cpath d='M7 25L11 21.5L13.5 23.5' fill='none' stroke='%23E24B4A' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M13.5 23.5L18 19L20.5 20.5' fill='none' stroke='%23EF9F27' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M20.5 20.5L25 16' fill='none' stroke='%231D9E75' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#f3f8f6;--card:#fff;--fg:#11201b;--mut:#5b6b65;--faint:#8fa29a;--bd:#dbe8e2;--pn:#eaf3ef;--mint:#1D9E75;--mintbg:#dff4ec;--red:#E24B4A;--redbg:#fde8e8;--amb:#EF9F27;--ambbg:#fdf0db;--sh:0 1px 2px rgba(16,40,30,.05),0 6px 20px rgba(16,40,30,.06);
+ --hk:#1D9E75;--sn:#378ADD;--op:#7F77DD;--fb:#D85A30}
+@media (prefers-color-scheme:dark){:root{--bg:#0d1412;--card:#152019;--fg:#e4efe9;--mut:#93a89f;--faint:#6b7f77;--bd:#24332c;--pn:#1b2822;--mintbg:#173a2d;--redbg:#3a1d1d;--ambbg:#3a2e17;--sh:none}}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.w{max-width:980px;margin:0 auto;padding:0 16px}b{font-weight:700}
+.top{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}.brand svg{width:34px;height:34px}
+.brand small{display:block;font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint)}
+.tag{font-size:12px;font-weight:700;color:var(--amb);border:1.5px solid var(--amb);border-radius:999px;padding:2px 10px}
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:34px;align-items:center;padding:30px 0 40px}
+h1{font-size:44px;line-height:1.05;letter-spacing:-.025em;margin:0}
+h1 em{font-style:normal;color:var(--mint)}
+.lead{font-size:18px;color:var(--mut);margin:16px 0 22px}.lead b{color:var(--fg)}
+.btn{display:inline-block;background:var(--fg);color:var(--bg);text-decoration:none;font-weight:700;border-radius:12px;padding:13px 18px}
+.btn.alt{background:transparent;color:var(--fg);border:1.5px solid var(--bd);margin-left:8px}
+.note{font-size:12.5px;color:var(--faint);margin-top:12px}
+/* пульт главврача */
+.desk{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:16px;box-shadow:var(--sh)}
+.dh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:10px}.dh b{font-size:15px}.dh span{font-size:12.5px;color:var(--mut)}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.kpi div{background:var(--pn);border-radius:12px;padding:8px 10px}.kpi .k{font-size:11px;color:var(--mut)}.kpi .v{font-size:22px;font-weight:800;letter-spacing:-.01em}
+.pr{display:grid;grid-template-columns:32px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--bd)}
+.av{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#fff}
+.pn{font-size:13.5px;font-weight:650}.pn small{display:block;font-weight:400;font-size:12px;color:var(--mut)}
+.pb{height:7px;border-radius:4px;background:var(--pn);overflow:hidden;margin-top:5px}.pb i{display:block;height:100%;border-radius:4px}
+.st{font-size:11.5px;font-weight:700;border-radius:8px;padding:3px 8px;white-space:nowrap}
+.ok{color:var(--mint);background:var(--mintbg)}.warn{color:#b26b00;background:var(--ambbg)}.bad{color:var(--red);background:var(--redbg)}
+@media (prefers-color-scheme:dark){.warn{color:var(--amb)}}
+.projs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.projs span{font-size:12px;background:var(--pn);border-radius:8px;padding:3px 8px}
+.rx{margin-top:10px;font-size:12.5px;background:var(--mintbg);color:var(--fg);border-radius:10px;padding:8px 10px}.rx b{color:var(--mint)}
+/* отделения */
+section{padding:34px 0}
+.eb{font-size:12px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--mint)}
+h2{font-size:30px;line-height:1.15;letter-spacing:-.02em;margin:6px 0 10px}
+.sub{color:var(--mut);max-width:680px;margin:0 0 18px}
+.deps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.dep{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px 15px;box-shadow:var(--sh)}
+.dep .ic{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:8px}
+.dep h3{margin:0 0 4px;font-size:16px}.dep p{margin:0;color:var(--mut);font-size:14px}.dep .ex{margin-top:8px;font-size:12.5px;background:var(--pn);border-radius:9px;padding:6px 9px;color:var(--fg)}
+/* как устроено */
+.flow{display:grid;grid-template-columns:1fr 60px 1fr 60px 1fr;align-items:center;gap:0}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;text-align:center;box-shadow:var(--sh)}.box b{display:block;margin-bottom:4px}.box span{font-size:13px;color:var(--mut)}
+.ar{text-align:center;color:var(--faint);font-size:12px}.ar svg{width:52px;height:20px;display:block;margin:0 auto}
+/* дорога */
+.road{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;counter-reset:r}
+.st5{position:relative;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px;font-size:13.5px}
+.st5 .n{font-size:11px;font-weight:800;color:var(--faint);letter-spacing:.06em;text-transform:uppercase}.st5 b{display:block;margin:2px 0 4px;font-size:15px}.st5 span{color:var(--mut)}
+.st5.now{border:2px solid var(--mint)}.st5.now .n{color:var(--mint)}
+.quote{background:var(--card);border-left:4px solid var(--mint);border-radius:0 14px 14px 0;padding:14px 18px;font-size:17px;margin-top:18px}
+.cta{background:var(--fg);color:var(--bg);border-radius:20px;padding:26px 22px;text-align:center}
+.cta h2{color:var(--bg);margin:0 0 6px}.cta p{opacity:.8;margin:0 0 16px}.cta .btn{background:var(--mint);color:#fff}
+footer{padding:34px 0 50px;text-align:center}
+.kz{display:inline-flex;align-items:center;gap:12px;text-decoration:none;color:var(--fg);background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px 16px;text-align:left}
+.kz .wm{font-weight:900;font-size:20px;color:#16325c;line-height:1}.kz .wm i{font-style:normal;color:#2fae5b}
+@media (prefers-color-scheme:dark){.kz .wm{color:#9cc0ff}}
+.kz .t{font-size:12px;color:var(--mut);line-height:1.3}.bot{width:34px;height:34px;flex:none}
+.lk{margin-top:16px;font-size:14px}.lk a{color:var(--fg);font-weight:700}.vr{font-size:12px;color:var(--faint);margin-top:10px}
+.rv{opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s}.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+@media (max-width:820px){.hero{grid-template-columns:1fr;gap:22px;padding-top:10px}h1{font-size:34px}.deps{grid-template-columns:1fr 1fr}.road{grid-template-columns:1fr 1fr}
+ .flow{grid-template-columns:1fr}.ar svg{transform:rotate(90deg);margin:6px auto}}
+@media (max-width:520px){.deps,.road{grid-template-columns:1fr}.btn.alt{margin:8px 0 0}h2{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="w">
+<div class="top"><div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#15181d"/><path d="M8.7 6.6h2.6v2.1h2.1v2.6h-2.1v2.1h-2.6v-2.1h-2.1v-2.6h2.1z" fill="#E24B4A"/><path d="M20.7 6.6h2.6v2.1h2.1v2.6h-2.1v2.1h-2.6v-2.1h-2.1v-2.6h2.1z" fill="#1D9E75"/><path d="M7 25L11 21.5L13.5 23.5" fill="none" stroke="#E24B4A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.5 23.5L18 19L20.5 20.5" fill="none" stroke="#EF9F27" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.5 20.5L25 16" fill="none" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>LimitDoctor<small>Clinic</small></span></div><span class="tag">видение</span></div>
+
+<div class="hero">
+ <div>
+  <h1>Главврач для команды на <em>Claude&nbsp;Code</em></h1>
+  <p class="lead">Ты руководитель, у команды подписки. Клиника показывает, <b>кто, на каком проекте и сколько лимита сжёг</b> — и лечит перерасход до того, как лимит кончился в среду.</p>
+  <a class="btn" href="./">LimitDoctor для одного — уже есть</a><a class="btn alt" href="#deps">Что будет в клинике</a>
+  <div class="note">Это видение продукта: на что вырастет LimitDoctor. Цифры на пульте — пример.</div>
+ </div>
+ <div class="desk" aria-label="Пример: пульт главврача">
+  <div class="dh"><b>Пульт главврача · неделя</b><span>студия «Пример» · 5 мест Max</span></div>
+  <div class="kpi"><div><div class="k">лимит команды</div><div class="v">64%</div></div><div><div class="k">к сбросу будет</div><div class="v" style="color:var(--red)">≈91%</div></div><div><div class="k">окупилось</div><div class="v" style="color:var(--mint)">×23</div></div></div>
+  <div id="team"></div>
+  <div class="projs" id="projs"></div>
+  <div class="rx"><b>Назначение:</b> аналитика — с Fable на Sonnet для отчётов. Команда сбережёт ≈14% недели.</div>
+ </div>
+</div>
+
+<section class="rv" id="deps">
+ <div class="eb">Отделения клиники</div>
+ <h2>Всё лучшее из 46 инструментов — в одной клинике</h2>
+ <p class="sub">Мы разобрали 46 открытых проектов вокруг расхода Claude Code. У каждого — одна-две сильные идеи. Клиника собирает их вместе и добавляет то, чего нет ни у кого: пересчёт на другую модель и effort, по каждому человеку и проекту.</p>
+ <div class="deps" id="depsg"></div>
+</section>
+
+<section class="rv">
+ <div class="eb">Как устроено</div>
+ <h2>Тексты не уходят. Только цифры.</h2>
+ <p class="sub">На каждом компьютере живёт тот же LimitDoctor: читает логи, считает хайку-токены. Наружу — только агрегаты: чат, проект, модель, сколько процентов. Промпты и код никогда не покидают машину.</p>
+ <div class="flow">
+  <div class="box"><b>💻 Компьютеры команды</b><span>LimitDoctor считает расход локально</span></div>
+  <div class="ar"><svg viewBox="0 0 52 20"><path d="M2 10H46M40 4L47 10L40 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>только цифры</div>
+  <div class="box"><b>🏥 Клиника</b><span>сводит людей, проекты и места подписки</span></div>
+  <div class="ar"><svg viewBox="0 0 52 20"><path d="M2 10H46M40 4L47 10L40 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>отчёт и тревоги</div>
+  <div class="box"><b>🩺 Главврач</b><span>пульт, Telegram, отчёт по понедельникам</span></div>
+ </div>
+</section>
+
+<section class="rv">
+ <div class="eb">Из чего вырастет</div>
+ <h2>От одного файла до клиники</h2>
+ <div class="road">
+  <div class="st5 now"><div class="n">Сейчас</div><b>LimitDoctor</b><span>один файл, один человек: какой чат сколько съел и сколько стоил бы на другой модели</span></div>
+  <div class="st5"><div class="n">Шаг 2</div><b>Пульс</b><span>статус-строка и трей: лимит, темп, «кэш остынет через 12 мин»</span></div>
+  <div class="st5"><div class="n">Шаг 3</div><b>Общий аккаунт</b><span>чьи чаты сколько едят от одной подписки — уже видно на графике «весь аккаунт и наши чаты»</span></div>
+  <div class="st5"><div class="n">Шаг 4</div><b>Клиника</b><span>люди, проекты, места подписки, бюджеты, политики моделей, отчёт главврачу</span></div>
+  <div class="st5"><div class="n">Шаг 5</div><b>Автопилот</b><span>компакт перед паузой, дешёвая модель для рутины, уборка обвязки — сам, с откатом</span></div>
+ </div>
+ <div class="quote">Сегодня LimitDoctor уже видит, что твои чаты — 85% расхода общего аккаунта. Клиника покажет остальные 15%: кто, когда и на что.</div>
+</section>
+
+<section class="rv">
+ <div class="cta"><h2>Пока клиника строится</h2><p>LimitDoctor для одного человека уже работает: один файл, отчёт за неделю, всё на твоём компьютере.</p><a class="btn" href="limitdoctor_0.4.7.py" download>Скачать limitdoctor_0.4.7.py</a></div>
+</section>
+</div>
+
+<footer>
+ <a class="kz" href="https://kwork.ru/user/zennovierasen" target="_blank" rel="noopener">
+  <svg class="bot" viewBox="0 0 34 34" aria-hidden="true"><rect x="5" y="9" width="24" height="19" rx="6" fill="#16325c"/><rect x="15.5" y="3" width="3" height="6" rx="1.5" fill="#16325c"/><circle cx="17" cy="3.5" r="2.5" fill="#2fae5b"/><circle cx="12.5" cy="17" r="3" fill="#2fae5b"/><circle cx="21.5" cy="17" r="3" fill="#2fae5b"/><rect x="11" y="22.5" width="12" height="2.2" rx="1.1" fill="#9cc0ff"/></svg>
+  <span><span class="t">Сделано при поддержке</span><br><span class="wm">KoZa<i>Vi</i>RT</span> <span class="t">· фабрика ваших ботов</span></span></a>
+ <div class="lk"><a href="./">← Лендинг v1</a> · <a href="v2.html">v2 — медкарта</a></div>
+ <div class="vr">LimitDoctor Clinic — видение, рабочее имя · команда и цифры на этой странице выдуманные</div>
+</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+/* пульт главврача: места подписки — % недельного лимита места; статус по прогнозу */
+const T=[['ТЛ','Тимлид','Opus · high',18,'ok','здоров','#7F77DD'],['БЭ','Бэкенд','Opus · max',61,'warn','на грани','#7F77DD'],['ФР','Фронтенд','Sonnet · medium',23,'ok','здоров','#378ADD'],
+ ['АН','Аналитик','Fable · xhigh',88,'bad','реанимация','#D85A30'],['СТ','Стажёр','Fable · max',47,'warn','лишний Fable','#D85A30']];
+$('team').innerHTML=T.map(r=>`<div class="pr"><span class="av" style="background:${r[6]}">${r[0]}</span><span class="pn">${r[1]}<small>${r[2]} · ${r[3]}% места</small><span class="pb"><i style="width:${r[3]}%;background:${r[4]==='bad'?'var(--red)':r[4]==='warn'?'var(--amb)':'var(--mint)'}"></i></span></span><span class="st ${r[4]}">${r[5]}</span></div>`).join('');
+$('projs').innerHTML=[['Интернет-магазин',41],['Телеграм-бот',22],['Отчёты клиенту',27],['Внутренка',10]].map(p=>`<span>${p[0]} · <b>${p[1]}%</b></span>`).join('');
+/* отделения: идея → что делает для руководителя */
+const D=[['📋','Регистратура','Учёт по людям, проектам и местам подписки: кто, где и сколько. Общий аккаунт делится честно.','«Бэкенд» съел 61% своего места, из них 40% — проект «Магазин».','var(--mintbg)'],
+ ['📟','Приёмный покой','Живой пульс у каждого: лимит и темп в статус-строке и трее, «упрёшься в 15:36», «кэш остынет через 12 мин».','Значок краснеет до того, как лимит кончился.','var(--ambbg)'],
+ ['🚑','Реанимация','Стоп-кран на N% места, совет перед дорогим шагом, сохранение работы перед упором в лимит.','«Кэш остыл, контекст 400 тыс. — сначала компакт? Сбережёшь 3%».','var(--redbg)'],
+ ['💊','Аптека','Автопилот экономии: дешёвая модель для рутины, компакт перед паузой, уборка мёртвых MCP и скиллов — с откатом.','Обвязка похудела на 30% — минус 6% недели у всей команды.','var(--mintbg)'],
+ ['🧪','Лаборатория','То, чего нет ни у кого: каждый человек и проект, пересчитанные на другую модель и effort.','Стажёр с Fable на Sonnet — команда сбережёт 9% недели.','var(--pn)'],
+ ['🧾','Бухгалтерия','Расход по проектам и клиентам: студия видит, сколько лимита ушло на каждого заказчика, и окупаемость каждого места.','«Отчёты клиенту» — $1 840 по ценам API за неделю.','var(--pn)'],
+ ['🩺','Кабинет главврача','Отчёт по понедельникам в Telegram или почту, тревоги об аномалиях: агент ушёл в цикл, ночной всплеск.','«Вт 03:10 — агент 40 минут читал один файл: 2% недели».','var(--ambbg)'],
+ ['🏋️','Тренер','Оценка 0–100 по практикам у каждого и советы с ценой — раз в неделю, без морали.','«Fable на письма — минус 3% недели. Попробуй Sonnet».','var(--pn)'],
+ ['🤖','Агент знает бюджет','Сервер MCP: Claude сам видит «команде осталось 12% недели» и выбирает модель и effort бережнее.','Модель сама переходит на medium, когда неделя на исходе.','var(--mintbg)']];
+$('depsg').innerHTML=D.map(d=>`<div class="dep"><div class="ic" style="background:${d[4]}">${d[0]}</div><h3>${d[1]}</h3><p>${d[2]}</p><div class="ex">${d[3]}</div></div>`).join('');
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

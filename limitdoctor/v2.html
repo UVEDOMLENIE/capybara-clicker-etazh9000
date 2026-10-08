@@ -169,7 +169,7 @@ footer{padding:34px 0 50px;text-align:center}
  <a class="kz" href="https://kwork.ru/user/zennovierasen" target="_blank" rel="noopener">
   <svg class="bot" viewBox="0 0 34 34" aria-hidden="true"><rect x="5" y="9" width="24" height="19" rx="6" fill="#16325c"/><rect x="15.5" y="3" width="3" height="6" rx="1.5" fill="#16325c"/><circle cx="17" cy="3.5" r="2.5" fill="#2fae5b"/><circle cx="12.5" cy="17" r="3" fill="#2fae5b"/><circle cx="21.5" cy="17" r="3" fill="#2fae5b"/><rect x="11" y="22.5" width="12" height="2.2" rx="1.1" fill="#9cc0ff"/></svg>
   <span><span class="t">Сделано при поддержке</span><br><span class="wm">KoZa<i>Vi</i>RT</span> <span class="t">· фабрика ваших ботов</span></span></a>
- <div class="lk"><a href="./">← Лендинг v1</a></div>
+ <div class="lk"><a href="./">← Лендинг v1</a> · <a href="v3.html">v3 — клиника для команд →</a></div>
  <div class="vr">LimitDoctor 0.4.7 · бета · пациент на этой странице выдуманный</div>
 </footer>
 </main>
@@ -217,7 +217,7 @@ $('doc').innerHTML=`<svg viewBox="0 0 60 96"><path d="M14 48Q30 40 46 48L50 88Q3
  <path d="M14 52L7 72" stroke="#f4f5f7" stroke-width="6" stroke-linecap="round"/><path d="M46 52L53 70" stroke="#f4f5f7" stroke-width="6" stroke-linecap="round"/>
  <path d="M23 47Q20 64 30 67Q40 64 37 47" fill="none" stroke="#378ADD" stroke-width="1.6"/><circle cx="30" cy="69" r="2.8" fill="#378ADD"/>
  <path d="M40 74h2.4v-2.4h2.4v2.4h2.4v2.4h-2.4v2.4h-2.4v-2.4H40z" fill="#E24B4A"/><rect x="18" y="90" width="7" height="6" rx="2" fill="#15181d"/><rect x="35" y="90" width="7" height="6" rx="2" fill="#15181d"/>
- <g transform="translate(14 6)">${face().replace('<svg viewBox="-3 -9 38 44" aria-hidden="true">','<svg width="32" height="32" viewBox="0 0 32 32">')}</g></svg>`;
+ <g transform="translate(14 6)">${face().replace('<svg viewBox="-3 -9 38 44" aria-hidden="true">','<svg width="32" height="32" viewBox="0 0 32 32">').replace('fill="#15181d"','fill="#c5cad3"')}</g></svg>`;
 
 /* появление и штамп */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.25});
