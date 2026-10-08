@@ -2,35 +2,334 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LimitDoctor</title>
-<meta name="description" content="Показывает, на что ушёл лимит Claude Code: какой чат сколько съел и сколько стоил бы на другой модели.">
-<meta property="og:title" content="LimitDoctor — бета">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>LimitDoctor — на что ушёл лимит Claude Code</title>
+<meta name="description" content="Показывает, на что ушёл лимит Claude Code: какой чат сколько съел и сколько стоил бы на другой модели. Бета 0.4.7.">
+<meta property="og:title" content="LimitDoctor — бета 0.4.7">
 <meta property="og:description" content="Показывает, на что ушёл лимит Claude Code: какой чат сколько съел и сколько стоил бы на другой модели.">
+<meta name="theme-color" content="#15181d">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2315181d'/%3E%3Cpath d='M8.2 5.6h3.6v2.6h2.6v3.6h-2.6v2.6H8.2v-2.6H5.6V8.2h2.6z' fill='%23E24B4A'/%3E%3Cpath d='M20.2 5.6h3.6v2.6h2.6v3.6h-2.6v2.6h-3.6v-2.6h-2.6V8.2h2.6z' fill='%231D9E75'/%3E%3Cpath d='M7 25L11 21.5L13.5 23.5' fill='none' stroke='%23E24B4A' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M13.5 23.5L18 19L20.5 20.5' fill='none' stroke='%23EF9F27' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M20.5 20.5L25 16' fill='none' stroke='%231D9E75' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
-:root{--bg:#f4f5f7;--card:#fff;--fg:#15181d;--mut:#667085;--bd:#e4e7ec;--acc:#1D9E75}
-@media (prefers-color-scheme:dark){:root{--bg:#0f1114;--card:#181b20;--fg:#e9ebee;--mut:#9aa1ab;--bd:#2a2f36;--acc:#32d583}}
+:root{--bg:#f4f5f7;--card:#fff;--fg:#15181d;--mut:#667085;--faint:#98a2b3;--bd:#e4e7ec;--pn:#eef0f3;--sh:0 1px 2px rgba(16,24,40,.05),0 2px 8px rgba(16,24,40,.06);
+ --red:#E24B4A;--redbg:rgba(226,75,74,.16);--amb:#EF9F27;--grn:#1D9E75;--grnbg:rgba(29,158,117,.16);
+ --hk:#1D9E75;--sn:#378ADD;--op:#7F77DD;--fb:#D85A30;--cold:#f0b429;--hv:#98a2b3;--hi:#d0d5dd;--out:#475467;--heat:#e8590c}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1114;--card:#181b20;--fg:#e9ebee;--mut:#9aa1ab;--faint:#6b7280;--bd:#2a2f36;--pn:#22262c;--sh:none;
+ --redbg:rgba(226,75,74,.24);--grnbg:rgba(50,213,131,.2);--grn:#32d583;--hi:#3e4550;--out:#a9b6cc;--hv:#7a8494;--heat:#ff7a3d}}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:24px 16px}
-main{width:100%;max-width:440px;text-align:center}
-.logo{width:150px;height:150px;display:block;margin:0 auto 18px}
-h1{font-size:30px;margin:0;letter-spacing:-.01em}
-.beta{display:inline-block;vertical-align:middle;margin-left:8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#EF9F27;border:1.5px solid #EF9F27;border-radius:999px;padding:2px 9px}
-p{color:var(--mut);margin:12px 0 26px;font-size:17px}
-a.dl{display:block;background:var(--fg);color:var(--bg);text-decoration:none;font-weight:650;border-radius:12px;padding:14px 18px;font-size:17px}
-a.dl:active{transform:scale(.98)}
-.run{margin-top:14px;font-size:13.5px;color:var(--mut)}
-code{font-family:ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:1px 6px;color:var(--fg)}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px}
+b{font-weight:700}
+/* первый экран */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:18px 0 22px;text-align:center}
+.brand{display:flex;align-items:center;justify-content:center;gap:12px}
+.brand svg{width:58px;height:66px;overflow:visible}
+.brand h1{font-size:29px;line-height:1.1;margin:0;letter-spacing:-.02em;text-align:left}
+.beta{display:inline-block;margin-top:5px;font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--amb);border:1.5px solid var(--amb);border-radius:999px;padding:1px 9px}
+.lead{margin:16px 0 0;font-size:17.5px;line-height:1.5;color:var(--mut)}
+.lead .hl{display:inline-block;font-weight:750;padding:0 6px;border-radius:6px;margin:3px 0}
+.hl.r{color:var(--red);background:var(--redbg)}.hl.g{color:var(--grn);background:var(--grnbg)}
+.cta{display:block;width:100%;max-width:268px;margin:22px auto 0;background:var(--fg);color:var(--bg);text-decoration:none;font-weight:700;font-size:16px;border-radius:13px;padding:14px 12px;transition:transform .12s}
+.cta:active{transform:scale(.97)}.cta small{display:block;font-weight:500;font-size:12px;opacity:.7;margin-top:1px}
+.meta{font-size:12.5px;color:var(--faint);margin-top:8px}
+.demo{margin:22px 26px 0;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px 14px 10px;box-shadow:var(--sh);text-align:left}
+.dh{display:flex;justify-content:space-between;font-size:12.5px;color:var(--mut);margin-bottom:4px}.dh b{color:var(--fg)}
+.drow{margin-top:6px}.drow .l{display:flex;justify-content:space-between;align-items:baseline;font-size:13px}
+.drow .l b{font-size:15px}.dot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;vertical-align:0}
+.bars{display:flex;align-items:flex-end;gap:2px;height:58px;margin-top:3px;border-bottom:1px solid var(--bd)}
+.bars i{flex:1;min-width:0;border-radius:2px 2px 0 0;height:2px;transition:height .9s cubic-bezier(.2,.8,.2,1)}
+.drow.g .bars{height:22px}
+.dsub{font-size:13px;color:var(--mut);margin-top:8px}
+.arrows{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.arrows path{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.down{margin-top:14px;font-size:12.5px;color:var(--faint);text-decoration:none}
+/* блоки */
+section.b{padding:46px 0 10px}
+.eb{font-size:12px;font-weight:750;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+h2{font-size:25px;line-height:1.2;margin:6px 0 8px;letter-spacing:-.015em}
+.b p{margin:0 0 14px;color:var(--mut)}.b p b{color:var(--fg)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;box-shadow:var(--sh)}
+.cap{font-size:13px;color:var(--mut);margin-top:10px}
+.flag{display:inline-block;font-size:12px;font-weight:700;color:var(--red);background:var(--redbg);border-radius:7px;padding:2px 8px;margin-top:10px}
+.gain{display:inline-block;font-size:12px;font-weight:700;color:var(--grn);background:var(--grnbg);border-radius:7px;padding:2px 8px}
+/* чек */
+.rc{font:14px/1.75 ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--bd);border-radius:6px 6px 0 0;padding:14px 16px 18px;position:relative;box-shadow:var(--sh)}
+.rc:after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:8px;background:linear-gradient(-45deg,transparent 6px,var(--card) 0) 0 0/12px 8px repeat-x,linear-gradient(45deg,transparent 6px,var(--card) 0) 0 0/12px 8px repeat-x}
+.rc .t{text-align:center;font-weight:700;margin-bottom:6px}.rl{display:flex;gap:6px}.rl span:nth-child(2){flex:1;border-bottom:1px dotted var(--faint);margin-bottom:7px}
+.rl.hot{color:var(--red);font-weight:700}.rs{border-top:1px dashed var(--faint);margin-top:6px;padding-top:4px;font-weight:700}
+/* точки */
+.dp{display:grid;grid-template-columns:108px 1fr 42px;gap:8px;align-items:center;font-size:13px;padding:5px 0}
+.dp .n{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dp .v{text-align:right;color:var(--mut);font-weight:650}
+.trk{position:relative;height:22px}.trk .ax{position:absolute;top:0;bottom:0;width:1px;background:var(--bd)}
+.trk .rg{position:absolute;top:9px;height:4px;border-radius:2px;background:var(--hi)}
+.trk .d{position:absolute;top:5px;width:12px;height:12px;margin-left:-6px;border-radius:50%}
+.trk .rn{position:absolute;top:2px;width:18px;height:18px;margin-left:-9px;border-radius:50%;border:2px solid var(--fg)}
+.dp.hot .n{color:var(--red);font-weight:700}
+.lg{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--mut);margin-bottom:6px}.lg i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+/* лента */
+.tape{display:flex;align-items:flex-end;gap:1.5px;height:96px;border-bottom:1px solid var(--bd)}
+.tape i{flex:1;min-width:0;border-radius:2px 2px 0 0;background:var(--op)}.tape i.c{background:var(--cold)}
+.note{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin-top:10px;color:var(--mut)}.note .sw{flex:none;width:10px;height:10px;border-radius:3px;background:var(--cold);margin-top:5px}
+/* хайку-токены */
+.ht{text-align:center;padding:18px 14px}
+.ht .big{font-size:40px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.ht .eq{color:var(--mut);margin-top:4px}
+.rate{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px}
+.rate div{background:var(--pn);border-radius:12px;padding:10px 4px;font-size:12px;color:var(--mut)}
+.rate b{display:block;font-size:22px;color:var(--fg)}.rate .m{font-weight:700;font-size:13px}
+/* карта */
+.hm{display:grid;grid-template-columns:20px repeat(24,minmax(0,1fr));gap:2px;font-size:10.5px;color:var(--faint)}
+.hm i{display:block;height:15px;border-radius:3px}
+/* дни */
+.dr{display:grid;grid-template-columns:24px 1fr 46px;gap:8px;align-items:center;font-size:13px;margin:5px 0}
+.dt{position:relative;height:16px}.dt .k{display:flex;height:100%;border-radius:4px;overflow:hidden}.dt .k i{display:block;height:100%}
+.dt .lim{position:absolute;top:-4px;bottom:-4px;border-left:2px dashed var(--fg);opacity:.45}
+.dr .v{text-align:right;color:var(--mut);font-weight:650}.dr.over .v{color:var(--red)}
+/* куда ушли */
+.sb{display:flex;height:30px;border-radius:9px;overflow:hidden}.sb i{display:block;height:100%}
+.keys{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;font-size:13px;margin-top:12px}.keys i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
+/* цифры */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.num{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;box-shadow:var(--sh)}
+.num .big{font-size:34px;font-weight:800;letter-spacing:-.02em;line-height:1.05}.num .s{font-size:13px;color:var(--mut);margin-top:4px}
+/* доктор */
+.faces{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.fc{border:0;background:var(--pn);border-radius:12px;padding:6px 2px 6px;cursor:pointer;color:var(--mut);font:inherit;font-size:11.5px}
+.fc svg{width:100%;height:auto;max-width:62px;display:block;margin:0 auto 2px;overflow:visible}.fc.on{background:var(--card);box-shadow:0 0 0 2px var(--fg);color:var(--fg);font-weight:700}
+.bub{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;margin-top:10px;font-size:14.5px;min-height:48px}
+.ld-blink{transform-box:fill-box;transform-origin:center;animation:ld-blink 4.5s infinite}
+.ld-spin{transform-box:fill-box;transform-origin:center;animation:ld-spin 1.1s linear infinite}
+.ld-shake{animation:ld-shake .35s infinite}.ld-z{animation:ld-z 2.4s infinite}.ld-z2{animation:ld-z 2.4s .8s infinite}
+.ld-steam{animation:ld-steam 1.4s infinite}.ld-steam2{animation:ld-steam 1.4s .45s infinite}.ld-drop{animation:ld-drop 1.6s infinite}
+@keyframes ld-blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@keyframes ld-spin{to{transform:rotate(360deg)}}
+@keyframes ld-shake{0%,100%{transform:translate(0,0) rotate(0)}25%{transform:translate(-1.5px,1px) rotate(-2deg)}75%{transform:translate(1.5px,-1px) rotate(2deg)}}
+@keyframes ld-z{0%{opacity:0;transform:translate(0,0)}30%{opacity:1}100%{opacity:0;transform:translate(5px,-12px)}}
+@keyframes ld-steam{0%{opacity:0;transform:translateY(2px)}50%{opacity:.85}100%{opacity:0;transform:translateY(-9px)}}
+@keyframes ld-drop{0%{opacity:0;transform:translateY(-2px)}30%{opacity:1}100%{opacity:0;transform:translateY(7px)}}
+/* польза и шаги */
+.gets{display:grid;gap:10px}.get{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px 14px}
+.get .ic{flex:none;width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff}
+.steps{counter-reset:s;display:grid;gap:8px;margin:0 0 16px;padding:0;list-style:none}
+.steps li{counter-increment:s;display:flex;gap:10px;align-items:baseline}.steps li:before{content:counter(s);flex:none;width:24px;height:24px;border-radius:50%;background:var(--fg);color:var(--bg);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+code{font:13.5px ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:1px 6px}
+/* подвал */
+footer{padding:40px 0 70px;text-align:center}
+.kz{display:inline-flex;align-items:center;gap:12px;text-decoration:none;color:var(--fg);background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px 16px;box-shadow:var(--sh);text-align:left}
+.kz .w{font-weight:900;font-size:20px;letter-spacing:.01em;color:#16325c;line-height:1}.kz .w i{font-style:normal;color:#2fae5b}
+@media (prefers-color-scheme:dark){.kz .w{color:#9cc0ff}}
+.kz .t{font-size:12px;color:var(--mut);line-height:1.3}
+.bot{width:34px;height:34px;flex:none}
+.links{margin-top:18px;font-size:14px}.links a{color:var(--fg);font-weight:650}
+.ver{font-size:12px;color:var(--faint);margin-top:10px}
+.pill{position:fixed;left:12px;bottom:12px;z-index:20;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--bd);border-radius:999px;padding:6px 8px 6px 12px;font-size:12.5px;box-shadow:0 6px 24px rgba(0,0,0,.18);transform:translateY(140%);transition:transform .35s}
+.pill.on{transform:none}.pill a{color:var(--fg);text-decoration:none}.pill .w{font-weight:900;color:#16325c}.pill .w i{font-style:normal;color:#2fae5b}
+@media (prefers-color-scheme:dark){.pill .w{color:#9cc0ff}}
+.pill button{border:0;background:var(--pn);color:var(--mut);width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:14px;line-height:1}
+/* появление */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+@media (min-width:700px){h2{font-size:28px}.hm i{height:18px}.dp{grid-template-columns:150px 1fr 46px}}
 </style>
 </head>
 <body>
-<main>
-<svg class="logo" viewBox="0 0 32 32" aria-label="LimitDoctor"><rect width="32" height="32" rx="8" fill="#15181d"/><path d="M8.7 6.6h2.6v2.1h2.1v2.6h-2.1v2.1h-2.6v-2.1h-2.1v-2.6h2.1z" fill="#E24B4A"/><path d="M20.7 6.6h2.6v2.1h2.1v2.6h-2.1v2.1h-2.6v-2.1h-2.1v-2.6h2.1z" fill="#1D9E75"/><path d="M7 25L11 21.5L13.5 23.5" fill="none" stroke="#E24B4A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.5 23.5L18 19L20.5 20.5" fill="none" stroke="#EF9F27" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.5 20.5L25 16" fill="none" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-<h1>LimitDoctor<span class="beta">бета</span></h1>
-<p>Показывает, на что ушёл лимит Claude Code: какой чат сколько съел и сколько стоил бы на другой модели.</p>
-<a class="dl" href="limitdoctor.py" download>Скачать limitdoctor.py</a>
-<div class="run">Запуск: <code>python limitdoctor.py</code> — отчёт откроется в браузере. Всё считается по логам на твоём компьютере, наружу ничего не уходит.</div>
-</main>
+<div class="wrap">
+
+<header class="hero" id="hero">
+ <svg class="arrows" id="arr" aria-hidden="true"><defs>
+  <marker id="mr" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L8 5L1 9" fill="none" stroke="#E24B4A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="mg" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L8 5L1 9" fill="none" stroke="#1D9E75" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+  <path id="pr" stroke="#E24B4A" marker-end="url(#mr)"/><path id="pg" stroke="#1D9E75" marker-end="url(#mg)"/></svg>
+ <div class="brand"><span id="logo"></span><div><h1>LimitDoctor</h1><span class="beta">бета 0.4.7</span></div></div>
+ <p class="lead">Показывает, на что ушёл лимит Claude&nbsp;Code:<br><span class="hl r" id="hlR">какой чат сколько съел</span><br><span class="hl g" id="hlG">и сколько стоил бы на другой модели</span></p>
+ <a class="cta" id="dl1" href="limitdoctor_0.4.7.py" download>Скачать limitdoctor_0.4.7.py<small>Python 3.8+ · бесплатно</small></a>
+ <div class="demo" id="demo">
+  <div class="dh"><span>чат <b>«Котики и CSS»</b></span><span>186 вызовов</span></div>
+  <div class="drow r" id="rowR"><div class="l"><span><i class="dot" style="background:#E24B4A"></i>как было · Fable</span><b style="color:#E24B4A">12,4% недели</b></div><div class="bars" id="barsR"></div></div>
+  <div class="drow g" id="rowG"><div class="l"><span><i class="dot" style="background:var(--grn)"></i>на Haiku</span><b style="color:var(--grn)">1,9% недели</b></div><div class="bars" id="barsG"></div></div>
+  <div class="dsub">Тот же чат, те же вопросы — <b style="color:var(--fg)">в 6,5 раза дешевле</b>. Каждый столбик — один вызов модели.</div>
+ </div>
+ <a class="down" href="#s0">листай — дальше интереснее ↓</a>
+</header>
+
+<section class="b rv" id="s0">
+ <div class="eb">Если не знаешь, что такое Claude Code</div>
+ <h2>Лимит — как баланс на телефоне</h2>
+ <p>Claude Code — ИИ-программист по подписке. У подписки есть лимит: сколько можно наработать за 5 часов и за неделю. Тариф ты знаешь, а <b>куда ушёл лимит — нет</b>: какой чат, какая модель, какой вызов. LimitDoctor — та самая детализация.</p>
+ <div class="rc"><div class="t">ДЕТАЛИЗАЦИЯ ЗА НЕДЕЛЮ</div><div id="rcpt"></div><div class="rl rs"><span>Итого</span><span></span><span>27% недели</span></div></div>
+</section>
+
+<section class="b rv">
+ <div class="eb">Главная фишка</div>
+ <h2>Тот же чат — на каждой модели</h2>
+ <p>Каждый чат пересчитан на Haiku, Sonnet, Opus и Fable по тем же вызовам. Одним взглядом видно, <b>где сильная модель избыточна</b>, а где дешёвая справилась бы не хуже.</p>
+ <div class="card">
+  <div class="lg"><span><i style="background:var(--hk)"></i>Haiku</span><span><i style="background:var(--sn)"></i>Sonnet</span><span><i style="background:var(--op)"></i>Opus</span><span><i style="background:var(--fb)"></i>Fable</span><span><i style="background:none;box-shadow:inset 0 0 0 2px var(--fg)"></i>как было</span></div>
+  <div id="dots"></div>
+  <div class="flag">⚑ второстепенный чат съел больше главного проекта</div>
+ </div>
+ <p class="cap">Справа — сколько чат съел на самом деле, в % недельного лимита.</p>
+</section>
+
+<section class="b rv">
+ <div class="eb">Каждый чат под микроскопом</div>
+ <h2>Лента вызовов</h2>
+ <p>Каждый столбик — один вызов модели: прочитала переписку и ответила. Выше — дороже. <b>Быстрое, простое понимание структуры расходов</b> по каждому чату.</p>
+ <div class="card"><div class="dh"><span>чат <b>«Бэкенд магазина»</b> · Opus</span><span>8,1% недели</span></div><div class="tape" id="tape"></div>
+  <div class="note"><span class="sw"></span><span><b style="color:var(--fg)">Холодный старт.</b> Пауза 1 ч 40 мин — кэш остыл, переписку записали заново. Один такой вызов стоит как 15 обычных.</span></div></div>
+</section>
+
+<section class="b rv">
+ <div class="eb">Своя единица измерения</div>
+ <h2>Хайку-токены</h2>
+ <p>Модели стоят по-разному, кэш в десятки раз дешевле, effort раздувает мысли. Мы свели всё в <b>одну валюту</b> — теперь Fable и Haiku меряются на одной линейке.</p>
+ <div class="card ht"><div class="big">1 ХТ</div><div class="eq">= один входной токен Haiku = $1 за миллион</div>
+  <div class="cap" style="margin-top:14px">Один токен ответа стоит:</div><div class="rate" style="margin-top:8px"><div><span class="m" style="color:var(--hk)">Haiku</span><b>5</b>ХТ</div><div><span class="m" style="color:var(--sn)">Sonnet</span><b>10</b>ХТ</div><div><span class="m" style="color:var(--op)">Opus</span><b>20</b>ХТ</div><div><span class="m" style="color:var(--fb)">Fable</span><b>50</b>ХТ</div></div>
+  <div class="cap">Перечитать переписку из кэша — 0,1–0,25 ХТ за токен. Записать заново — в 12–20 раз дороже.</div></div>
+ <a class="cta" href="limitdoctor_0.4.7.py" download>Скачать limitdoctor_0.4.7.py<small>один файл, без установки</small></a>
+</section>
+
+<section class="b rv">
+ <div class="eb">Кто и когда жрёт лимит</div>
+ <h2>Когда горит лимит</h2>
+ <p>День недели × час. Чем ярче клетка, тем больше лимита сгорело. Наведи в отчёте — увидишь, какие чаты жрали в этот час.</p>
+ <div class="card"><div class="hm" id="hm"></div></div>
+</section>
+
+<section class="b rv">
+ <div class="eb">Детализация</div>
+ <h2>Расход по дням</h2>
+ <p>Цвет — модель, пунктир — дневная норма (неделя ÷ 7). Видно, в какой день улетела треть недели.</p>
+ <div class="card" id="days"></div>
+</section>
+
+<section class="b rv">
+ <div class="eb">Анатомия расхода</div>
+ <h2>Куда ушли токены</h2>
+ <p>Почти половина — <b>обвязка</b>: инструкции, инструменты и скиллы, которые модель перечитывает в каждом вызове. Её видно только здесь.</p>
+ <div class="card"><div class="sb" id="sb"></div><div class="keys" id="keys"></div></div>
+</section>
+
+<section class="b rv">
+ <div class="eb">Утечки</div>
+ <h2>Холодные старты</h2>
+ <p>Ушёл на обед — кэш остыл через час, и первый же вопрос переписал весь чат заново. LimitDoctor находит каждый такой старт и говорит, <b>можно ли было его избежать</b>.</p>
+ <div class="two"><div class="num"><div class="big" style="color:var(--cold)">4,6%</div><div class="s">недели ушло на холодные старты</div></div><div class="num"><div class="big" style="color:var(--grn)">2,1%</div><div class="s">можно было сберечь компактом перед паузой</div></div></div>
+</section>
+
+<section class="b rv">
+ <div class="eb">Живой дашборд</div>
+ <h2>Доктор следит за effort</h2>
+ <p>Переключаешь effort — доктор меняется и говорит, во что обошлась бы неделя. Нажми на любого:</p>
+ <div class="faces" id="faces"></div>
+ <div class="bub" id="bub"></div>
+</section>
+
+<section class="b rv">
+ <div class="eb">Итоги недели</div>
+ <h2>Подписка окупилась?</h2>
+ <div class="two"><div class="num"><div class="big">×27</div><div class="s">те же вызовы по ценам API стоили бы $711 против $26 подписки</div></div><div class="num"><div class="big">≈37%</div><div class="s">будет к сбросу недели в таком темпе</div></div></div>
+</section>
+
+<section class="b rv">
+ <div class="eb">Что ты получишь</div>
+ <h2>Лимит перестанет кончаться внезапно</h2>
+ <div class="gets">
+  <div class="get"><span class="ic" style="background:var(--red)">!</span><span><b>Какие чаты вызывают перерасход</b> — и почему: длинная переписка, холодные старты, лишний Fable.</span></div>
+  <div class="get"><span class="ic" style="background:var(--grn)">↑</span><span><b>Где можно смелее</b> брать сильную модель и высокий effort — лимит выдержит.</span></div>
+  <div class="get"><span class="ic" style="background:var(--amb)">↓</span><span><b>Какие чаты ограничить</b> или перевести на модель попроще — с цифрой, сколько это сбережёт.</span></div>
+  <div class="get"><span class="ic" style="background:var(--fg);color:var(--bg)">✓</span><span><b>Всё на твоём компьютере.</b> Отчёт строится по локальным логам, наружу ничего не уходит.</span></div>
+ </div>
+</section>
+
+<section class="b rv">
+ <div class="eb">Три шага</div>
+ <h2>Поставить за минуту</h2>
+ <ol class="steps"><li><span>Скачай <code>limitdoctor_0.4.7.py</code> куда угодно.</span></li><li><span>Запусти: <code>python limitdoctor_0.4.7.py</code></span></li><li><span>Отчёт откроется в браузере и останется лежать рядом с файлом.</span></li></ol>
+ <a class="cta" href="limitdoctor_0.4.7.py" download>Скачать limitdoctor_0.4.7.py<small>бета · Windows, macOS, Linux</small></a>
+</section>
+
+<footer>
+ <a class="kz" href="https://kwork.ru/user/zennovierasen" target="_blank" rel="noopener">
+  <svg class="bot" viewBox="0 0 34 34" aria-hidden="true"><rect x="5" y="9" width="24" height="19" rx="6" fill="#16325c"/><rect x="15.5" y="3" width="3" height="6" rx="1.5" fill="#16325c"/><circle cx="17" cy="3.5" r="2.5" fill="#2fae5b"/><circle cx="12.5" cy="17" r="3" fill="#2fae5b"/><circle cx="21.5" cy="17" r="3" fill="#2fae5b"/><rect x="11" y="22.5" width="12" height="2.2" rx="1.1" fill="#9cc0ff"/></svg>
+  <span><span class="t">Сделано при поддержке</span><br><span class="w">KoZa<i>Vi</i>RT</span> <span class="t">· фабрика ваших ботов</span></span></a>
+ <div class="links"><a href="v2.html">Лендинг v2 — как его видит сам доктор →</a></div>
+ <div class="ver">LimitDoctor 0.4.7 · бета · данные на этой странице выдуманные</div>
+</footer>
+</div>
+
+<div class="pill" id="pill"><a href="https://kwork.ru/user/zennovierasen" target="_blank" rel="noopener">при поддержке <span class="w">KoZa<i>Vi</i>RT</span></a><button id="px" aria-label="Скрыть">×</button></div>
+
+<script>
+/* доктор — тот же, что в отчёте */
+function face(st){const X=(cx,cy,f,k)=>{const a=3.4*k,w=1.3*k;return `<path d="M${cx-w} ${cy-a}h${2*w}v${a-w}h${a-w}v${2*w}h${-(a-w)}v${a-w}h${-2*w}v${-(a-w)}h${-(a-w)}v${-2*w}h${a-w}z" fill="${f}"/>`};
+ const mouth=pts=>{const P=pts.map(q=>q.join(' '));return `<path d="M${P[0]}L${P[1]}L${P[2]}" fill="none" stroke="#E24B4A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M${P[2]}L${P[3]}L${P[4]}" fill="none" stroke="#EF9F27" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M${P[4]}L${P[5]}" fill="none" stroke="#1D9E75" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>`};
+ const norm=[[7,25],[11,21.5],[13.5,23.5],[18,19],[20.5,20.5],[25,16]];
+ let eyes=`<g class="ld-blink">${X(10,10,'#E24B4A',1)}</g><g class="ld-blink">${X(22,10,'#1D9E75',1)}</g>`,m=mouth(norm),extra='',sh='';
+ if(st===0){eyes='<path d="M6.5 10.5h7" stroke="#E24B4A" stroke-width="2.4" stroke-linecap="round"/><path d="M18.5 10.5h7" stroke="#1D9E75" stroke-width="2.4" stroke-linecap="round"/>';
+  m=mouth([[8,24],[11.5,23],[13.5,23.6],[18,22.4],[20.5,22.9],[24.5,21.6]]);
+  extra='<text class="ld-z" x="27" y="4" font-size="6" font-weight="700" fill="#98a2b3">z</text><text class="ld-z2" x="30" y="-1" font-size="8" font-weight="700" fill="#98a2b3">Z</text>'}
+ else if(st===1){m=mouth([[7,24],[11,21.8],[13.5,23],[18,20],[20.5,20.8],[25,18]]);extra='<path d="M6.5 3.8l7 .8M18.5 4.6l7-.8" stroke="#98a2b3" stroke-width="1.6" stroke-linecap="round"/>'}
+ else if(st===2)extra='<circle cx="10" cy="10" r="5.4" fill="none" stroke="#e9ebee" stroke-width="1.3"/><circle cx="22" cy="10" r="5.4" fill="none" stroke="#e9ebee" stroke-width="1.3"/><path d="M15.4 10h1.2" stroke="#e9ebee" stroke-width="1.3"/>';
+ else if(st===3){eyes=`<g class="ld-blink">${X(10,10,'#E24B4A',1.25)}</g><g class="ld-blink">${X(22,10,'#1D9E75',1.25)}</g>`;m=mouth([[6.5,26],[10.5,20],[13,24],[18,16],[20.5,19],[25.5,12]]);
+  extra='<path class="ld-drop" d="M29 7c1.6 2.2 2.2 3.4 2.2 4.3a2.2 2.2 0 0 1-4.4 0c0-.9.6-2.1 2.2-4.3z" fill="#378ADD"/>'}
+ else if(st===4){eyes=`<g class="ld-spin">${X(10,10,'#E24B4A',1.2)}</g><g class="ld-spin">${X(22,10,'#1D9E75',1.2)}</g>`;m=mouth([[6,27],[10,17],[13,25],[18,11],[21,20],[26,5]]);sh=' class="ld-shake"';
+  extra='<circle class="ld-steam" cx="8" cy="-3" r="2.2" fill="#98a2b3"/><circle class="ld-steam2" cx="16" cy="-5" r="2.6" fill="#98a2b3"/><circle class="ld-steam" cx="24" cy="-3" r="2.2" fill="#98a2b3"/>'}
+ return `<svg viewBox="-3 -9 38 44"${sh} aria-hidden="true"><rect width="32" height="32" rx="8" fill="#15181d"/>${eyes}${m}${extra}</svg>`}
+const $=id=>document.getElementById(id);
+$('logo').innerHTML=face(-1);
+
+/* первый экран: один и тот же чат на Fable и на Haiku; Haiku в 6,5 раза дешевле, шкала общая */
+const T=[];for(let i=0;i<46;i++){const s=i%15;T.push(s===0&&i>0?1:.3+.5*s/14+(i*7%5)*.015)}
+const bar=(el,col,k,h)=>{el.innerHTML=T.map(()=>`<i style="background:${col}"></i>`).join('');requestAnimationFrame(()=>setTimeout(()=>[...el.children].forEach((b,i)=>b.style.height=Math.max(2,T[i]*k*h)+'px'),120))};
+bar($('barsR'),'#E24B4A',1,58);bar($('barsG'),'var(--grn)',1/6.5,58);
+
+/* стрелки: от красной фразы — слева вокруг кнопки к строке Fable, от зелёной — справа к строке Haiku */
+function arrows(){const H=$('hero').getBoundingClientRect(),R=id=>{const r=$(id).getBoundingClientRect();return {l:r.left-H.left,r:r.right-H.left,t:r.top-H.top,b:r.bottom-H.top,m:(r.top+r.bottom)/2-H.top}};
+ const a=R('hlR'),g=R('hlG'),btn=R('dl1'),c=R('demo'),rr=R('rowR'),rg=R('rowG'),rad=12,s=$('arr');
+ s.setAttribute('viewBox',`0 0 ${H.width} ${H.height}`);
+ /* стрелки идут вдоль краёв: левее всего, что между фразой и строкой, и правее */
+ const gl=Math.max(-10,Math.min(c.l,btn.l,g.l,a.l)-12),gr=Math.min(H.width+10,Math.max(c.r,btn.r,g.r,a.r)+12),yr=rr.t+9,yg=rg.t+9;
+ $('pr').setAttribute('d',`M${a.l-3} ${a.m}H${gl+rad}Q${gl} ${a.m} ${gl} ${a.m+rad}V${yr-rad}Q${gl} ${yr} ${gl+rad} ${yr}H${c.l+4}`);
+ $('pg').setAttribute('d',`M${g.r+3} ${g.m}H${gr-rad}Q${gr} ${g.m} ${gr} ${g.m+rad}V${yg-rad}Q${gr} ${yg} ${gr-rad} ${yg}H${c.r-4}`);
+ ['pr','pg'].forEach(id=>{const p=$(id),L=p.getTotalLength();p.style.strokeDasharray=L;if(!p.dataset.done){p.style.strokeDashoffset=L;p.getBoundingClientRect();p.style.transition='stroke-dashoffset 1.1s ease .5s';p.style.strokeDashoffset=0;p.dataset.done=1}else p.style.strokeDashoffset=0})}
+addEventListener('load',arrows);addEventListener('resize',arrows);document.fonts&&document.fonts.ready.then(arrows);
+
+/* чек */
+const CH=[['Котики и CSS',3,[1.9,3.8,7.1,12.4]],['Бэкенд магазина',2,[2.1,4.4,8.1,18]],['Телеграм-бот',2,[.8,1.7,3.1,7]],['Диплом, глава 2',1,[.9,1.6,3,6.8]],['Письмо арендодателю',3,[.1,.2,.4,1.1]],['Учу Rust',0,[.6,1.1,2,4.6]]];
+const f1=x=>x.toLocaleString('ru-RU',{maximumFractionDigits:1});
+$('rcpt').innerHTML=CH.map((c,i)=>`<div class="rl${i?'':' hot'}"><span>${c[0]}</span><span></span><span>${f1(c[2][c[1]])}%</span></div>`).join('');
+
+/* тот же чат на каждой модели */
+const MC=['var(--hk)','var(--sn)','var(--op)','var(--fb)'],MX=19,X=v=>(v/MX*100).toFixed(1);
+$('dots').innerHTML=CH.map((c,i)=>{const v=c[2],a=v[c[1]];return `<div class="dp${i?'':' hot'}"><div class="n">${c[0]}</div><div class="trk">${[.25,.5,.75].map(f=>`<i class="ax" style="left:${f*100}%"></i>`).join('')}<i class="rg" style="left:${X(v[0])}%;width:${X(v[3]-v[0])}%"></i>${v.map((x,m)=>`<i class="d" style="left:${X(x)}%;background:${MC[m]}"></i>`).join('')}<i class="rn" style="left:${X(a)}%"></i></div><div class="v">${f1(a)}%</div></div>`}).join('');
+
+/* лента: Opus, растущий контекст, три холодных старта */
+let tp='';for(let i=0;i<84;i++){const s=i%28,c=s===0&&i>0;tp+=`<i class="${c?'c':''}" style="height:${c?92:(10+46*s/27+(i*13%7)*1.2).toFixed(0)}%"></i>`}$('tape').innerHTML=tp;
+
+/* тепловая карта: вечера будней, суббота днём, ночь на понедельник */
+const WD=['пн','вт','ср','чт','пт','сб','вс'];let r=7,hm='<span></span>'+[...Array(24)].map((_,h)=>`<span style="text-align:center">${h%6?'':h}</span>`).join('');
+const rnd=()=>(r=(r*9301+49297)%233280)/233280;
+for(let d=0;d<7;d++){hm+=`<span>${WD[d]}</span>`;for(let h=0;h<24;h++){let v=0;if(d<5&&h>=19&&h<=23)v=.55+rnd()*.45;else if(d<5&&h>=10&&h<=17)v=rnd()<.55?.12+rnd()*.3:0;else if(d===5&&h>=11&&h<=17)v=.4+rnd()*.5;else if(d===6&&h<=2)v=.5+rnd()*.4;else if(h>=0&&h<=1&&d<5)v=rnd()<.4?.3:0;
+ hm+=`<i style="background:${v?`color-mix(in srgb,var(--heat) ${Math.round(18+v*82)}%,var(--pn))`:'var(--pn)'}"></i>`}}$('hm').innerHTML=hm;
+
+/* дни: Haiku, Sonnet, Opus, Fable — в % дневной нормы */
+const DY=[['пн',[2,10,38,0]],['вт',[1,14,52,20]],['ср',[3,8,61,68]],['чт',[0,12,40,8]],['пт',[2,6,30,0]],['сб',[4,18,22,0]],['вс',[1,9,35,12]]],DM=150;
+$('days').innerHTML=DY.map(([n,v])=>{const t=v.reduce((a,b)=>a+b,0);return `<div class="dr${t>100?' over':''}"><span>${n}</span><div class="dt"><div class="k" style="width:${t/DM*100}%">${v.map((x,m)=>x?`<i style="width:${x/t*100}%;background:${MC[m]}"></i>`:'').join('')}</div><i class="lim" style="left:${100/DM*100}%"></i></div><span class="v">${t}%</span></div>`}).join('')+'<div class="cap">В среду — 140% дневной нормы: два чата на Fable весь вечер.</div>';
+
+/* куда ушли токены */
+const BK=[['Обвязка',44,'var(--hv)'],['Переписка',17,'var(--hi)'],['Холодные старты',22,'var(--cold)'],['Ответы и мысли',17,'var(--out)']];
+$('sb').innerHTML=BK.map(b=>`<i style="width:${b[1]}%;background:${b[2]}"></i>`).join('');$('keys').innerHTML=BK.map(b=>`<span><i style="background:${b[2]}"></i>${b[0]} <b>${b[1]}%</b></span>`).join('');
+
+/* доктор: шесть лиц, у каждого — что стало бы с неделей */
+const FT=[['как было','Неделя: съедено 22% лимита; в таком темпе к сбросу будет ≈37%.'],['low','Effort low на всю неделю: 19% лимита — на 14% дешевле. Но думает вполглаза.'],['medium','Effort medium: 20% лимита — на 9% дешевле, чем было.'],['high','Effort high: 21% лимита — почти столько же. Очки надеты.'],['xhigh','Effort xhigh: 23% лимита — на 5% дороже. Потеет, но держится.'],['max','Effort max: 26% лимита — на 20% дороже. Мозг кипит.']];
+let FS=0;const drawF=()=>{$('faces').innerHTML=FT.map((f,i)=>`<button class="fc${i===FS?' on':''}" data-i="${i}">${face(i-1)}${f[0]}</button>`).join('');$('bub').textContent=FT[FS][1]};drawF();
+$('faces').addEventListener('click',e=>{const b=e.target.closest('.fc');if(b){FS=+b.dataset.i;drawF()}});
+
+/* появление блоков и плашка KoZaViRT ближе к концу */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+let px=false;$('px').onclick=()=>{px=true;$('pill').classList.remove('on')};
+addEventListener('scroll',()=>{const k=scrollY/(document.body.scrollHeight-innerHeight),ft=document.querySelector('footer').getBoundingClientRect().top<innerHeight;$('pill').classList.toggle('on',!px&&k>.45&&!ft)},{passive:true});
+</script>
 </body>
 </html>

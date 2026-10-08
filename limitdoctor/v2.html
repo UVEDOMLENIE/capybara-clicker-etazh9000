@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>LimitDoctor — медкарта твоего лимита</title>
+<meta name="description" content="Осмотр лимита Claude Code за 10 секунд: какой чат сколько съел и сколько стоил бы на другой модели. Бета 0.4.7.">
+<meta property="og:title" content="LimitDoctor — медкарта твоего лимита">
+<meta property="og:description" content="Осмотр лимита Claude Code: какой чат сколько съел и сколько стоил бы на другой модели.">
+<meta name="theme-color" content="#0b0e12">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2315181d'/%3E%3Cpath d='M8.2 5.6h3.6v2.6h2.6v3.6h-2.6v2.6H8.2v-2.6H5.6V8.2h2.6z' fill='%23E24B4A'/%3E%3Cpath d='M20.2 5.6h3.6v2.6h2.6v3.6h-2.6v2.6h-3.6v-2.6h-2.6V8.2h2.6z' fill='%231D9E75'/%3E%3Cpath d='M7 25L11 21.5L13.5 23.5' fill='none' stroke='%23E24B4A' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M13.5 23.5L18 19L20.5 20.5' fill='none' stroke='%23EF9F27' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M20.5 20.5L25 16' fill='none' stroke='%231D9E75' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root{--mon:#0b0e12;--grid:rgba(57,217,138,.07);--ecg:#39d98a;--amb:#f5a524;--red:#e5484d;--grn:#1D9E75;
+ --paper:#f6f3ec;--ink:#1b1f24;--mut:#6b6658;--line:#d9d2c3;--card:#fffdf8;--stamp:#d23b3b;
+ --hk:#1D9E75;--sn:#378ADD;--op:#7F77DD;--fb:#D85A30}
+@media (prefers-color-scheme:dark){:root{--paper:#14171c;--ink:#e8e4da;--mut:#9b9688;--line:#2c3038;--card:#1a1e24}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.mono{font-family:ui-monospace,"Cascadia Mono",Consolas,monospace}
+.w{max-width:620px;margin:0 auto;padding:0 16px}
+/* монитор */
+.mon{background:var(--mon);color:#d7f5e6;position:relative;overflow:hidden;min-height:100vh;min-height:100svh;display:flex;flex-direction:column}
+.mon:before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+.bar{position:relative;display:flex;justify-content:space-between;align-items:center;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:#7fae98;padding:14px 16px 0;max-width:980px;margin:0 auto;width:100%}
+.rec{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-right:7px;animation:rec 1.2s infinite}
+@keyframes rec{50%{opacity:.2}}
+.mid{position:relative;flex:1;display:flex;flex-direction:column;justify-content:center;max-width:980px;margin:0 auto;width:100%;padding:10px 16px 26px}
+.vit{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.vt{border:1px solid rgba(127,174,152,.25);border-radius:10px;padding:8px 10px}
+.vt .k{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#7fae98}
+.vt .v{font:800 26px/1.1 ui-monospace,Consolas,monospace;margin-top:2px}
+.ecg{width:100%;height:170px;margin:16px 0 6px;overflow:visible}
+.ecg .tr{fill:none;stroke:var(--ecg);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 4px rgba(57,217,138,.55))}
+.ecg .cs{fill:var(--amb)}
+.ecg .lbl{fill:var(--amb);font:600 11px ui-monospace,Consolas,monospace}
+.hd{display:flex;align-items:center;gap:14px;margin-top:8px}
+.hd svg{width:62px;height:72px;flex:none;overflow:visible}
+h1{font-size:30px;line-height:1.12;margin:0;letter-spacing:-.02em;color:#fff}
+.sub{color:#a8c9b8;margin:12px 0 0;font-size:16.5px;max-width:560px}.sub b{color:#fff}
+.go{display:inline-block;margin-top:18px;background:var(--ecg);color:#05140c;text-decoration:none;font-weight:800;border-radius:12px;padding:14px 18px;font-size:16px}
+.go small{display:block;font-weight:600;font-size:12px;opacity:.75}
+.go:active{transform:scale(.97)}
+/* карта */
+.form{padding:44px 0 6px}
+.fh{display:flex;align-items:baseline;gap:10px;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:14px}
+.fh .no{font:700 12px ui-monospace,Consolas,monospace;color:var(--mut)}.fh h2{margin:0;font-size:22px;letter-spacing:.01em;text-transform:uppercase}
+.form p{margin:0 0 12px;color:var(--mut)}.form p b{color:var(--ink)}
+.cmp{display:grid;gap:10px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px 14px 14px 4px;padding:12px 14px;font-style:italic;font-size:17px;box-shadow:0 1px 0 var(--line)}
+.q:nth-child(2){margin-left:22px;border-radius:14px 14px 4px 14px}.q:nth-child(3){margin-left:8px}
+.q span{display:block;font-style:normal;font-size:12px;color:var(--mut);margin-top:4px}
+.strip{background:var(--mon);border-radius:12px;padding:12px 12px 8px;position:relative;overflow:hidden}
+.strip:before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:16px 16px}
+.strip .t{position:relative;display:flex;justify-content:space-between;font:11.5px ui-monospace,Consolas,monospace;color:#7fae98;margin-bottom:6px}
+.cols{position:relative;display:flex;align-items:flex-end;gap:2px;height:90px}
+.cols i{flex:1;min-width:0;background:var(--ecg);border-radius:2px 2px 0 0;opacity:.85}.cols i.c{background:var(--amb);opacity:1}
+.ann{position:relative;font:12px ui-monospace,Consolas,monospace;color:var(--amb);margin-top:6px}
+.lab{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.lr{display:grid;grid-template-columns:1fr 64px 64px 28px;gap:6px;align-items:center;padding:9px 12px;border-top:1px solid var(--line);font-size:14px}
+.lr:first-child{border-top:0;font:11px ui-monospace,Consolas,monospace;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);padding:7px 12px}
+.lr .n{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lr .x{font:600 13px ui-monospace,Consolas,monospace;text-align:right}
+.lr .f{font-weight:900;text-align:center}.up{color:var(--red)}.ok{color:var(--grn)}
+.mdl{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;vertical-align:0}
+.dx{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 16px 16px}
+.stamp{display:inline-block;border:3px solid var(--stamp);color:var(--stamp);font:900 20px/1.15 ui-monospace,Consolas,monospace;text-transform:uppercase;letter-spacing:.04em;padding:8px 12px;border-radius:8px;transform:rotate(-5deg) scale(1.6);opacity:0;transition:transform .45s cubic-bezier(.2,1.6,.4,1),opacity .2s;mix-blend-mode:multiply}
+@media (prefers-color-scheme:dark){.stamp{mix-blend-mode:normal}}
+.dx.in .stamp{transform:rotate(-5deg) scale(1);opacity:.92}
+.dx p{margin:14px 0 0;color:var(--mut)}.dx p b{color:var(--ink)}
+.rx{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px 12px;position:relative}
+.rx .rh{display:flex;justify-content:space-between;align-items:center;border-bottom:1px dashed var(--line);padding-bottom:8px;margin-bottom:6px;font:12px ui-monospace,Consolas,monospace;color:var(--mut)}
+.rx .R{font:italic 900 30px Georgia,serif;color:var(--ink)}
+.it{display:grid;grid-template-columns:22px 1fr auto;gap:8px;padding:9px 0;border-bottom:1px dashed var(--line);align-items:baseline}
+.it .i{font:700 13px ui-monospace,Consolas,monospace;color:var(--mut)}.it .e{font:800 14px ui-monospace,Consolas,monospace;color:var(--grn);white-space:nowrap}
+.it small{display:block;color:var(--mut);font-size:13px}
+.sig{display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-top:10px;font:italic 15px Georgia,serif;color:var(--mut)}
+.sig svg{width:40px;height:46px;transform:rotate(8deg);opacity:.9}
+.out{background:var(--ink);color:var(--paper);border-radius:16px;padding:20px 18px;text-align:center}
+.out h3{margin:0 0 6px;font-size:22px}.out p{color:inherit;opacity:.75;margin:0 0 14px}
+.out .go{background:var(--ecg);color:#05140c}
+.steps{display:grid;gap:6px;text-align:left;margin:16px auto 0;max-width:420px;font-size:14.5px;opacity:.9}
+.steps code{font:13px ui-monospace,Consolas,monospace;background:rgba(127,127,127,.18);border-radius:5px;padding:1px 6px}
+footer{padding:34px 0 50px;text-align:center}
+.kz{display:inline-flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 16px;text-align:left}
+.kz .wm{font-weight:900;font-size:20px;color:#16325c;line-height:1}.kz .wm i{font-style:normal;color:#2fae5b}
+@media (prefers-color-scheme:dark){.kz .wm{color:#9cc0ff}}
+.kz .t{font-size:12px;color:var(--mut);line-height:1.3}.bot{width:34px;height:34px;flex:none}
+.lk{margin-top:16px;font-size:14px}.lk a{color:var(--ink);font-weight:700}
+.vr{font:12px ui-monospace,Consolas,monospace;color:var(--mut);margin-top:10px}
+.rv{opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s}.rv.in{opacity:1;transform:none}
+.ld-blink{transform-box:fill-box;transform-origin:center;animation:ld-blink 4.5s infinite}@keyframes ld-blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.stamp{opacity:.92;transform:rotate(-5deg)}}
+@media (max-width:560px){.vit{grid-template-columns:repeat(2,1fr)}.vt .v{font-size:22px}h1{font-size:26px}.ecg{height:130px}.lr{grid-template-columns:1fr 54px 54px 22px}}
+</style>
+</head>
+<body>
+
+<header class="mon">
+ <div class="bar mono"><span><span class="rec"></span>LimitDoctor · монитор лимита</span><span>бета 0.4.7</span></div>
+ <div class="mid">
+  <div class="vit mono">
+   <div class="vt"><div class="k">лимит недели</div><div class="v" style="color:var(--ecg)" data-n="22" data-s="%">0%</div></div>
+   <div class="vt"><div class="k">к сбросу</div><div class="v" style="color:#d7f5e6" data-n="37" data-s="%" data-p="≈">0%</div></div>
+   <div class="vt"><div class="k">холодные старты</div><div class="v" style="color:var(--amb)" data-n="4.6" data-s="%">0%</div></div>
+   <div class="vt"><div class="k">подписка окупилась</div><div class="v" style="color:#fff" data-n="27" data-p="×">×0</div></div>
+  </div>
+  <svg class="ecg" id="ecg" aria-hidden="true"><path class="tr" id="tr"/><g id="cs"></g></svg>
+  <div class="hd"><span id="logo"></span><h1>Медкарта твоего лимита Claude&nbsp;Code</h1></div>
+  <p class="sub">Каждый пик на кардиограмме — один вызов модели. LimitDoctor ставит диагноз за 10 секунд: <b>какой чат сколько съел</b> и <b>сколько стоил бы на другой модели</b>.</p>
+  <div><a class="go" href="limitdoctor_0.4.7.py" download>Пройти осмотр — скачать limitdoctor_0.4.7.py<small>Python 3.8+ · бесплатно · всё на твоём компьютере</small></a></div>
+ </div>
+</header>
+
+<main class="w">
+
+<section class="form rv">
+ <div class="fh"><span class="no">01</span><h2>Жалобы</h2></div>
+ <div class="cmp">
+  <div class="q">«Лимит кончается к среде, а я вроде ничего не делал»<span>— пациент, Max за $200</span></div>
+  <div class="q">«Какой чат всё съел — непонятно»<span>— пациент с 40 открытыми чатами</span></div>
+  <div class="q">«Max или xhigh — есть вообще разница?»<span>— пациент на effort max</span></div>
+ </div>
+</section>
+
+<section class="form rv">
+ <div class="fh"><span class="no">02</span><h2>Обследование</h2></div>
+ <p>Кардиограмма одного чата: каждый столбик — вызов модели. Модель не помнит разговор и <b>перечитывает всю переписку</b> на каждом шаге — поэтому столбики растут.</p>
+ <div class="strip"><div class="t"><span>чат «Бэкенд магазина» · Opus</span><span>8,1% недели</span></div><div class="cols" id="cols"></div>
+  <div class="ann">▲ пауза 1 ч 40 мин — кэш остыл, переписку записали заново: ×15 к цене вызова</div></div>
+</section>
+
+<section class="form rv">
+ <div class="fh"><span class="no">03</span><h2>Анализы</h2></div>
+ <p>Каждый чат пересчитан на другие модели по тем же вызовам. Стрелка — где показатель выше нормы.</p>
+ <div class="lab" id="lab"></div>
+</section>
+
+<section class="form">
+ <div class="fh"><span class="no">04</span><h2>Диагноз</h2></div>
+ <div class="dx" id="dx"><span class="stamp">Хронический<br>Fable</span>
+  <p>Второстепенный чат <b>«Котики и CSS»</b> на Fable съел <b>12,4% недели</b> — больше главного проекта. На Sonnet было бы 3,8%. Обвязка — 44% всего расхода, холодные старты — 4,6% недели.</p></div>
+</section>
+
+<section class="form rv">
+ <div class="fh"><span class="no">05</span><h2>Назначения</h2></div>
+ <div class="rx">
+  <div class="rh"><span class="R">Rx</span><span>на 1 неделю · по цифрам пациента</span></div>
+  <div class="it"><span class="i">1.</span><span>«Котики и CSS» — перевести на Sonnet<small>CSS не требует Fable</small></span><span class="e">−8,6%</span></div>
+  <div class="it"><span class="i">2.</span><span>Компакт перед обедом и сном<small>чтобы после паузы не переписывать весь чат</small></span><span class="e">−2,1%</span></div>
+  <div class="it"><span class="i">3.</span><span>Effort xhigh вместо max<small>max дороже на 20%, разницу заметишь не всегда</small></span><span class="e">−3%</span></div>
+  <div class="it" style="border-bottom:0"><span class="i">4.</span><span>Смотреть ленту раз в неделю<small>лимит перестанет кончаться внезапно</small></span><span class="e">∞</span></div>
+  <div class="sig"><span>LimitDoctor</span><span id="sig"></span></div>
+ </div>
+ <p style="margin-top:10px;font-size:13px">Проценты — от недельного лимита. Назначения считаются по твоим логам, здесь — пример.</p>
+</section>
+
+<section class="form rv">
+ <div class="fh"><span class="no">06</span><h2>Выписка</h2></div>
+ <div class="out"><h3>Осмотр — одна команда</h3><p>Один файл, без установки. Отчёт откроется в браузере и останется лежать рядом с файлом.</p>
+  <a class="go" href="limitdoctor_0.4.7.py" download>Скачать limitdoctor_0.4.7.py<small>бета · Windows, macOS, Linux</small></a>
+  <div class="steps"><div>1. Скачай файл куда угодно.</div><div>2. Запусти <code>python limitdoctor_0.4.7.py</code></div><div>3. Смотри медкарту: чаты, модели, холодные старты, лента вызовов.</div><div>Логи читаются на твоём компьютере, наружу ничего не уходит.</div></div></div>
+</section>
+
+<footer>
+ <a class="kz" href="https://kwork.ru/user/zennovierasen" target="_blank" rel="noopener">
+  <svg class="bot" viewBox="0 0 34 34" aria-hidden="true"><rect x="5" y="9" width="24" height="19" rx="6" fill="#16325c"/><rect x="15.5" y="3" width="3" height="6" rx="1.5" fill="#16325c"/><circle cx="17" cy="3.5" r="2.5" fill="#2fae5b"/><circle cx="12.5" cy="17" r="3" fill="#2fae5b"/><circle cx="21.5" cy="17" r="3" fill="#2fae5b"/><rect x="11" y="22.5" width="12" height="2.2" rx="1.1" fill="#9cc0ff"/></svg>
+  <span><span class="t">Сделано при поддержке</span><br><span class="wm">KoZa<i>Vi</i>RT</span> <span class="t">· фабрика ваших ботов</span></span></a>
+ <div class="lk"><a href="./">← Лендинг v1</a></div>
+ <div class="vr">LimitDoctor 0.4.7 · бета · пациент на этой странице выдуманный</div>
+</footer>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+function face(){const X=(cx,cy,f)=>`<path d="M${cx-1.3} ${cy-3.4}h2.6v2.1h2.1v2.6h-2.1v2.1h-2.6v-2.1h-2.1v-2.6h2.1z" fill="${f}"/>`;
+ return `<svg viewBox="-3 -9 38 44" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#15181d"/><g class="ld-blink">${X(10,10,'#E24B4A')}</g><g class="ld-blink">${X(22,10,'#1D9E75')}</g><path d="M7 25L11 21.5L13.5 23.5" fill="none" stroke="#E24B4A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.5 23.5L18 19L20.5 20.5" fill="none" stroke="#EF9F27" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.5 20.5L25 16" fill="none" stroke="#1D9E75" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`}
+$('logo').innerHTML=face();$('sig').innerHTML=face();
+
+/* кардиограмма расхода: удары — вызовы, высота растёт вместе с перепиской; янтарные пики — холодные старты.
+   Строится под реальную ширину, чтобы пики и подписи не растягивались */
+function ecg(){const sv=$('ecg'),W=sv.clientWidth,H=sv.clientHeight,base=H*.74,st=W<600?24:34;sv.setAttribute('viewBox',`0 0 ${W} ${H}`);
+ let d=`M0 ${base}`,x=0,k=0,cs='';
+ while(x<W){const beat=(k%11)+1,cold=k>0&&k%11===0,amp=cold?H*.62:H*(.08+beat*.022)+(k*7%5)*1.5;
+  d+=` L${x+st*.2} ${base} L${x+st*.3} ${base-4} L${x+st*.38} ${base+3} L${x+st*.46} ${base-amp} L${x+st*.54} ${base+H*.06} L${x+st*.64} ${base} L${x+st} ${base}`;
+  if(cold)cs+=`<circle class="cs" cx="${x+st*.46}" cy="${base-amp-7}" r="4"/><text class="lbl" x="${x+st*.46+9}" y="${base-amp-3}">холодный старт</text>`;
+  x+=st;k++}
+ $('tr').setAttribute('d',d);$('cs').innerHTML=cs;const p=$('tr'),L=p.getTotalLength();p.style.strokeDasharray=L;
+ p.animate([{strokeDashoffset:L},{strokeDashoffset:0}],{duration:3600,easing:'linear',fill:'forwards'})}
+ecg();let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(ecg,200)});
+
+/* показатели монитора: счёт с нуля */
+document.querySelectorAll('[data-n]').forEach(el=>{const n=+el.dataset.n,s=el.dataset.s||'',p=el.dataset.p||'',t0=performance.now(),fr=n%1?1:0;
+ const step=t=>{const q=Math.min(1,(t-t0)/1400),v=n*(1-Math.pow(1-q,3));el.textContent=p+v.toLocaleString('ru-RU',{minimumFractionDigits:fr,maximumFractionDigits:fr})+s;if(q<1)requestAnimationFrame(step)};requestAnimationFrame(step)});
+
+/* обследование */
+let c='';for(let i=0;i<84;i++){const s=i%28,cold=s===0&&i>0;c+=`<i class="${cold?'c':''}" style="height:${cold?96:(10+46*s/27+(i*13%7)*1.2).toFixed(0)}%"></i>`}$('cols').innerHTML=c;
+
+/* анализы: как было и на Sonnet; стрелка — модель избыточна */
+const MC=['var(--hk)','var(--sn)','var(--op)','var(--fb)'],MN=['Haiku','Sonnet','Opus','Fable'];
+const CH=[['Котики и CSS',3,12.4,3.8,'up'],['Бэкенд магазина',2,8.1,4.4,''],['Телеграм-бот',2,3.1,1.7,''],['Диплом, глава 2',1,1.6,1.6,'ok'],['Письмо арендодателю',3,1.1,.2,'up'],['Учу Rust',0,.6,1.1,'ok']];
+const f1=x=>x.toLocaleString('ru-RU',{maximumFractionDigits:1});
+$('lab').innerHTML='<div class="lr"><span>чат · модель</span><span style="text-align:right">было</span><span style="text-align:right">Sonnet</span><span></span></div>'
+ +CH.map(r=>`<div class="lr"><span class="n"><i class="mdl" style="background:${MC[r[1]]}"></i>${r[0]}</span><span class="x">${f1(r[2])}%</span><span class="x" style="color:var(--mut)">${f1(r[3])}%</span><span class="f ${r[4]}">${r[4]==='up'?'↑':r[4]==='ok'?'✓':''}</span></div>`).join('');
+
+/* появление и штамп */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.25});
+document.querySelectorAll('.rv,#dx').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

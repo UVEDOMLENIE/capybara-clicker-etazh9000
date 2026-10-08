@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-r"""LimitDoctor 0.4.6 — отчёт о расходе лимита Claude Code по локальным логам. Один файл, без зависимостей, Python 3.8+.
+r"""LimitDoctor 0.4.7 — отчёт о расходе лимита Claude Code по локальным логам. Один файл, без зависимостей, Python 3.8+.
 
-  python limitdoctor.py                 отчёт по всем чатам за неделю лимита → usage_report_<дата_время>.html, открывается сам
+  python limitdoctor.py                 отчёт по всем чатам за неделю лимита → usage_report_<дата_время>.html рядом с этим файлом, открывается сам
   python limitdoctor.py --chat [ID]     один чат: текущий (по папке запуска) или по началу id / пути к .jsonl
   python limitdoctor.py --week-reset 2026-10-11T02:00Z   когда Claude обнуляет неделю (один раз; неделя отчёта — от сброса)
   python limitdoctor.py --effort-check  пересчитать множители effort по своим логам
@@ -73,14 +73,16 @@ Effort. PARAMS["mult"] — множитель выхода против medium. 
 import argparse, json, math, os, re, sys, time, datetime as dt
 from pathlib import Path
 
-NAME, VER = "LimitDoctor", "0.4.6"
+NAME, VER = "LimitDoctor", "0.4.7"
 sys.stdout.reconfigure(encoding="utf-8")
 HERE = Path(__file__).resolve().parent          # src\
 REPO = HERE.parent                               # папка репозитория
-# Куда писать отчёты и журнал замеров: LIMITDOCTOR_DIR, если задан; в мастерской разработчика рядом с репозиторием лежит
-# reports\ — туда; иначе ~/limitdoctor (после установки пакетом писать рядом с кодом некуда).
+# Куда писать отчёт: $LIMITDOCTOR_DIR, если задан; в мастерской разработчика (git-репозиторий, рядом с ним reports\) —
+# туда; иначе — в ту же папку, где лежит этот файл: на чужом компьютере никаких новых папок. Нет прав — ~/limitdoctor.
+_WS = REPO.parent / "reports"
 REPORTS = (Path(os.environ["LIMITDOCTOR_DIR"]) if os.environ.get("LIMITDOCTOR_DIR")
-           else REPO.parent / "reports" if (REPO.parent / "reports").is_dir() else Path.home() / "limitdoctor")
+           else _WS if _WS.is_dir() and (REPO / ".git").exists()
+           else HERE if os.access(HERE, os.W_OK) else Path.home() / "limitdoctor")
 CAL = REPORTS / "calibration.json"
 ACCT = REPORTS / "account.jsonl"           # проценты Claude по времени: --statusline и замеры get_usage
 FAM = ["haiku", "sonnet", "opus", "fable"]
@@ -680,7 +682,7 @@ function mascHtml(all,vals,fc,BA,days){const wk=x=>fp(x/CAP[2]*100),sumT=(m,e)=>
   `Если бы всё шло на effort max: ${wk(mxT)}% лимита — ${ddt(mxT/all)}.`].filter(Boolean);
  MI=Math.min(MI,MQ.length-1);
  const eff=S.e>=0?`Effort ${EN[S.e]} на всю неделю: ${wk(v(-1))}% лимита — ${ddt(v(-1)/all)}.`:'';
- return `<div class="card masc"><div class="mrow">${face(S.e)}<div class="mb" id="mb">${eff||MQ[MI]}</div></div>${MCL?'':'<div class="hint" id="mh">Нажми на доктора — расскажет про неделю</div>'}</div>`}
+ return `<div class="card masc"><div class="mrow">${face(S.e)}<div class="mb" id="mb">${eff||MQ[MI]}</div></div>${MCL?'':'<div class="hint" id="mh">Нажми на доктора</div>'}</div>`}
 const $=id=>document.getElementById(id);
 const LOGO=`<svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#15181d"/><path d="M8.2 5.6h3.6v2.6h2.6v3.6h-2.6v2.6H8.2v-2.6H5.6V8.2h2.6z" fill="#E24B4A"/><path d="M20.2 5.6h3.6v2.6h2.6v3.6h-2.6v2.6h-3.6v-2.6h-2.6V8.2h2.6z" fill="#1D9E75"/><path d="M7 25L11 21.5L13.5 23.5" fill="none" stroke="#E24B4A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.5 23.5L18 19L20.5 20.5" fill="none" stroke="#EF9F27" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.5 20.5L25 16" fill="none" stroke="#1D9E75" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const SYS=`<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">${CL.map((c,m)=>`<rect x="${m%2*8.5}" y="${(m>>1)*8.5}" width="7.5" height="7.5" rx="2" fill="${c}"/>`).join('')}</svg>`;
