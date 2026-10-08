@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>НОЙ — нейропротез для трудоустройства</title>
+<meta name="description" content="Ты ноешь — он откликается. НОЙ собирает резюме под каждую вакансию, заполняет формы и жмёт «Откликнуться». Тебе остаётся одно слово.">
+<meta property="og:title" content="НОЙ — ты ноешь, он откликается">
+<meta property="og:description" content="Нейропротез для поиска работы: голосом жалуешься — он делает всю говнорутину с резюме и откликами.">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M8 34h48l-7 14H15z' fill='%23ffb547'/%3E%3Cpath d='M22 34V22h20v12' fill='%235eead4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0a1120; --bg2:#101a2f; --card:#141f38; --line:#22304f;
+    --ink:#eef2ff; --muted:#9ba8c9; --accent:#ffb547; --accent-ink:#1d1300;
+    --sea:#5eead4; --cringe:#ff7a7a; --radius:22px;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 "Manrope",system-ui,sans-serif; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  a { color:inherit; }
+  .wrap { width:min(1120px, 100% - 32px); margin-inline:auto; }
+  h1,h2,h3 { font-family:"Unbounded",system-ui,sans-serif; line-height:1.1; margin:0; letter-spacing:-.01em; }
+  h2 { font-size:clamp(28px,4.2vw,46px); }
+  .eyebrow { display:inline-flex; gap:8px; align-items:center; padding:6px 14px; border:1px solid var(--line); border-radius:999px; color:var(--muted); font-size:14px; background:#ffffff08; }
+  .dot { width:8px; height:8px; border-radius:50%; background:var(--sea); box-shadow:0 0 12px var(--sea); }
+  .btn { display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:16px 26px; border-radius:16px; font:700 16px "Manrope",sans-serif; text-decoration:none; cursor:pointer; border:0; transition:transform .15s, box-shadow .15s; }
+  .btn:hover { transform:translateY(-2px); }
+  .btn-main { background:var(--accent); color:var(--accent-ink); box-shadow:0 10px 30px #ffb54733; }
+  .btn-ghost { background:transparent; color:var(--ink); border:1px solid var(--line); }
+  section { padding:96px 0; }
+  .sub { color:var(--muted); font-size:clamp(16px,1.6vw,19px); max-width:640px; }
+
+  /* nav */
+  nav { position:sticky; top:0; z-index:10; backdrop-filter:blur(12px); background:#0a1120cc; border-bottom:1px solid #ffffff0d; }
+  nav .wrap { display:flex; align-items:center; justify-content:space-between; height:68px; gap:16px; }
+  .logo { display:flex; align-items:center; gap:10px; text-decoration:none; font:800 22px "Unbounded",sans-serif; }
+  .logo small { font:500 12px "Manrope",sans-serif; color:var(--muted); display:block; letter-spacing:0; }
+  .navlinks { display:flex; gap:26px; font-size:15px; color:var(--muted); }
+  .navlinks a { text-decoration:none; } .navlinks a:hover { color:var(--ink); }
+  nav .btn { padding:10px 18px; font-size:14px; border-radius:12px; white-space:nowrap; }
+
+  /* hero */
+  .hero { padding:72px 0 40px; position:relative; overflow:hidden; }
+  .hero::before { content:""; position:absolute; inset:-120px -20% auto; height:620px; background:radial-gradient(600px 300px at 20% 30%, #ffb5471f, transparent 70%), radial-gradient(520px 320px at 85% 20%, #5eead41a, transparent 70%); pointer-events:none; }
+  .hero .wrap { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); gap:48px; align-items:center; position:relative; }
+  .hero h1 { font-size:clamp(36px,4.6vw,64px); margin:22px 0 22px; }
+  .hero h1 em { font-style:normal; color:var(--accent); }
+  .cta { display:flex; flex-wrap:wrap; gap:14px; margin-top:30px; }
+  .note { margin-top:18px; font-size:13px; color:var(--muted); }
+
+  /* chat demo */
+  .phone { background:linear-gradient(180deg,#152241,#0f182c); border:1px solid var(--line); border-radius:30px; padding:22px; min-height:440px; box-shadow:0 30px 80px #00000066; display:flex; flex-direction:column; }
+  .phone-head { display:flex; align-items:center; gap:10px; padding-bottom:14px; border-bottom:1px solid var(--line); margin-bottom:16px; font-weight:700; }
+  .phone-head span { font-size:12px; color:var(--sea); font-weight:500; }
+  .chat { display:flex; flex-direction:column; gap:12px; flex:1; }
+  .msg { max-width:86%; padding:12px 16px; border-radius:18px; font-size:15px; line-height:1.45; opacity:0; transform:translateY(8px); animation:pop .35s forwards; }
+  .msg.me { align-self:flex-end; background:#26365e; border-bottom-right-radius:6px; }
+  .msg.noy { align-self:flex-start; background:#ffb5471a; border:1px solid #ffb54740; border-bottom-left-radius:6px; }
+  .msg.me.voice::before { content:"🎙 "; }
+  .msg.cmd { align-self:flex-end; background:var(--accent); color:var(--accent-ink); font-weight:800; }
+  @keyframes pop { to { opacity:1; transform:none; } }
+  .typing { align-self:flex-start; display:flex; gap:5px; padding:14px 16px; background:#ffb5471a; border-radius:18px; }
+  .typing i { width:7px; height:7px; border-radius:50%; background:var(--accent); animation:blink 1s infinite; }
+  .typing i:nth-child(2){ animation-delay:.15s } .typing i:nth-child(3){ animation-delay:.3s }
+  @keyframes blink { 50% { opacity:.25 } }
+
+  /* stats */
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; padding-top:24px; }
+  .stat { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:24px; }
+  .stat b { display:block; font:800 clamp(30px,3.6vw,42px) "Unbounded",sans-serif; color:var(--accent); }
+  .stat span { color:var(--muted); font-size:14px; }
+  .foot-note { color:var(--muted); font-size:12px; margin-top:12px; }
+
+  /* pain */
+  .pain { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; }
+  .pain ul { list-style:none; margin:0; padding:0; display:grid; gap:14px; }
+  .pain li { background:var(--card); border:1px solid var(--line); border-left:4px solid var(--cringe); border-radius:16px; padding:16px 18px; }
+
+  /* steps */
+  .steps { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:44px; }
+  .step { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:26px; position:relative; }
+  .step .n { font:800 14px "Unbounded",sans-serif; color:var(--sea); }
+  .step h3 { font-size:20px; margin:14px 0 10px; }
+  .step p { margin:0; color:var(--muted); font-size:15px; }
+
+  /* features */
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:44px; }
+  .feat { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:26px; }
+  .feat .ic { font-size:30px; }
+  .feat h3 { font-size:18px; margin:12px 0 8px; }
+  .feat p { margin:0; color:var(--muted); font-size:15px; }
+  .soon { display:inline-block; font:700 11px "Manrope",sans-serif; color:var(--sea); border:1px solid #5eead455; border-radius:999px; padding:2px 8px; margin-left:6px; vertical-align:middle; }
+
+  /* quotes */
+  .quotes { display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:16px; margin-top:44px; }
+  .q { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:26px; display:flex; flex-direction:column; justify-content:space-between; gap:18px; }
+  .q.real { background:linear-gradient(160deg,#ffb5472b,#141f38 60%); border-color:#ffb54766; }
+  .q p { margin:0; font-size:17px; }
+  .q.real p { font:700 22px/1.3 "Unbounded",sans-serif; }
+  .q small { color:var(--muted); }
+
+  /* roadmap */
+  .road { display:grid; gap:12px; margin-top:40px; max-width:760px; }
+  .road div { display:flex; gap:16px; align-items:baseline; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px 20px; }
+  .road b { min-width:28px; }
+  .road span { color:var(--muted); }
+
+  /* pricing */
+  .prices { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:44px; align-items:stretch; }
+  .price { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:30px; display:flex; flex-direction:column; gap:14px; }
+  .price.hot { border:2px solid var(--accent); transform:translateY(-8px); box-shadow:0 20px 50px #ffb54722; }
+  .price .tag { font:700 12px "Manrope",sans-serif; color:var(--accent-ink); background:var(--accent); border-radius:999px; padding:4px 10px; align-self:flex-start; }
+  .price h3 { font-size:22px; }
+  .price .sum { font:800 30px "Unbounded",sans-serif; }
+  .price .sum small { font:500 14px "Manrope",sans-serif; color:var(--muted); display:block; }
+  .price ul { margin:0; padding-left:18px; color:var(--muted); flex:1; }
+  .price .btn { width:100%; }
+
+  /* faq */
+  .faq { display:grid; gap:12px; margin-top:40px; max-width:820px; }
+  details { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px 22px; }
+  summary { cursor:pointer; font-weight:700; font-size:17px; list-style:none; }
+  summary::after { content:"+"; float:right; color:var(--accent); font-weight:800; }
+  details[open] summary::after { content:"–"; }
+  details p { color:var(--muted); margin:12px 0 0; }
+
+  /* final */
+  .final { text-align:center; background:radial-gradient(700px 300px at 50% 0%, #ffb54726, transparent 70%); }
+  .final h2 { font-size:clamp(34px,6vw,68px); }
+  .final .cta { justify-content:center; }
+  footer { border-top:1px solid #ffffff0d; padding:36px 0 48px; color:var(--muted); font-size:13px; }
+  footer p { margin:6px 0; max-width:780px; }
+
+  /* modal */
+  .modal { position:fixed; inset:0; background:#050a14cc; backdrop-filter:blur(6px); display:none; align-items:center; justify-content:center; padding:16px; z-index:50; }
+  .modal.open { display:flex; }
+  .modal-box { background:var(--bg2); border:1px solid var(--line); border-radius:26px; padding:34px; max-width:440px; text-align:center; }
+  .modal-box .big { font-size:54px; }
+  .modal-box h3 { font-size:24px; margin:10px 0 12px; }
+  .modal-box p { color:var(--muted); margin:0 0 22px; }
+
+  .waves { display:block; width:100%; height:60px; }
+
+  @media (max-width:900px) {
+    .hero .wrap, .pain { grid-template-columns:minmax(0,1fr); }
+    .hero h1 { font-size:clamp(36px,9vw,64px); }
+    .steps, .stats { grid-template-columns:1fr 1fr; }
+    .grid, .quotes, .prices { grid-template-columns:1fr; }
+    .price.hot { transform:none; }
+    .navlinks { display:none; }
+    section { padding:72px 0; }
+  }
+  @media (max-width:520px) {
+    .steps, .stats { grid-template-columns:1fr; }
+    .phone { min-height:400px; }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    .msg { animation:none; opacity:1; transform:none; }
+    .btn:hover { transform:none; }
+    html { scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="НОЙ">
+      <svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><path d="M6 34h52l-8 16H14z" fill="#ffb547"/><path d="M20 34V20h24v14" fill="#5eead4"/><path d="M28 20v-8h8v8" fill="#eef2ff"/><path d="M2 56c6 0 6-4 12-4s6 4 12 4 6-4 12-4 6 4 12 4 6-4 12-4" stroke="#5eead4" stroke-width="3" fill="none"/></svg>
+      <span>НОЙ<small>нейропротез для трудоустройства</small></span>
+    </a>
+    <div class="navlinks"><a href="#how">Как работает</a><a href="#features">Фичи</a><a href="#price">Тарифы</a><a href="#faq">FAQ</a></div>
+    <button class="btn btn-main" data-wait>В ковчег</button>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow"><i class="dot"></i>Закрытая бета · 1 пользователь · он доволен</span>
+      <h1>Ты ноешь.<br><em>Он откликается.</em></h1>
+      <p class="sub">НОЙ — нейропротез для поиска работы. Расскажи голосом, как тебе страшно, лень и всё бесит. Он соберёт резюме под каждую вакансию, заполнит формы на сайте и нажмёт «Откликнуться». Тебе останется сказать одно слово.</p>
+      <div class="cta">
+        <button class="btn btn-main" data-wait>Занять место в ковчеге →</button>
+        <a class="btn btn-ghost" href="#how">Как это работает</a>
+      </div>
+      <p class="note">Без анкет. Без «расскажите о себе в трёх словах». Можно с матом.</p>
+    </div>
+    <div class="phone" aria-label="Пример диалога с НОЕМ">
+      <div class="phone-head">НОЙ <span>● слушает твоё нытьё</span></div>
+      <div class="chat" id="chat"></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><b>1 год</b><span>столько человек собирался залить резюме</span></div>
+    <div class="stat"><b>1 вечер</b><span>столько понадобилось НОЮ</span></div>
+    <div class="stat"><b>17</b><span>вакансий снято и разложено по полочкам</span></div>
+    <div class="stat"><b>17</b><span>резюме — своё под каждую, без копипасты</span></div>
+  </div>
+  <p class="foot-note">* Данные закрытой беты, выборка: один пожилой разгильдяй. Статистически незначимо, эмоционально — очень.</p>
+</div>
+
+<section>
+  <div class="wrap pain">
+    <div>
+      <h2>Резюме — это не про навыки. Это про&nbsp;страх.</h2>
+      <p class="sub" style="margin-top:20px">Ты умеешь кучу всего. Но открыть сайт с вакансиями, перечитать своё резюме и нажать кнопку — физически больно. НОЙ забирает именно эту часть.</p>
+    </div>
+    <ul>
+      <li>Открываешь сайт с вакансиями — закрываешь сайт с вакансиями.</li>
+      <li>Перечитываешь своё резюме — хочется провалиться сквозь землю от кринжа.</li>
+      <li>«Резюме надо писать под вакансию» — а ты и одно-то третий месяц не допишешь.</li>
+      <li>Формы на десять шагов, «сохранить и продолжить», «выберите из списка»… и снова закрываешь.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="how" style="background:var(--bg2)">
+  <div class="wrap">
+    <h2>Четыре шага. Твой — только первый и последний.</h2>
+    <div class="steps">
+      <div class="step"><span class="n">01</span><h3>Ной</h3><p>Голосом, сумбуром, как есть. Распознавание путает слова? Норм — НОЙ переспросит, если не понял.</p></div>
+      <div class="step"><span class="n">02</span><h3>Раскопки</h3><p>Читает твои старые резюме, папки и переписки с нейросетями. Собирает «родословную»: что ты на самом деле умеешь.</p></div>
+      <div class="step"><span class="n">03</span><h3>Прицел</h3><p>Под каждую вакансию — свой стек навыков из твоей правды. Идёшь в джуны — без «руководителя отдела». Убирать можно, выдумывать нельзя.</p></div>
+      <div class="step"><span class="n">04</span><h3>«Отправляй»</h3><p>Сам заполняет форму на сайте и останавливается перед кнопкой. Жмёт, только когда ты скажешь одно слово.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <h2>Что внутри</h2>
+    <div class="grid">
+      <div class="feat"><div class="ic">🧯</div><h3>Антипафос-фильтр</h3><p>Вырезает «строил вселенные» и «10 лет опыта во всём». Кадровики больше не ржут — они звонят.</p></div>
+      <div class="feat"><div class="ic">👀</div><h3>Вычитка без чтения</h3><p>Перечитывать своё резюме целиком не нужно (мы знаем, это больно). НОЙ показывает варианты — ты кликаешь.</p></div>
+      <div class="feat"><div class="ic">🎯</div><h3>Резюме под каждую вакансию</h3><p>17 вакансий — 17 разных резюме. Не спам, а прицельный огонь. И у каждого — заметка, что сказать на собесе.</p></div>
+      <div class="feat"><div class="ic">🗂</div><h3>Карта откликов</h3><p>Все вакансии, резюме и статусы — в заметках со значками: ✅ откликнулись, 🟢 опубликовано, 📝 черновик. Работает в Obsidian.</p></div>
+      <div class="feat"><div class="ic">🤝</div><h3>Честность по умолчанию</h3><p>Входишь на сайт ты. Отправляешь ты. Пароли НОЙ не трогает, капчи не обходит, кадровикам за тебя не пишет.</p></div>
+      <div class="feat"><div class="ic">🎙</div><h3>Кадровик-интервьюер <span class="soon">скоро</span></h3><p>Расспросит тебя про жизнь, как настоящий HR, и соберёт репозиторий твоих навыков. А из него — резюме под что угодно.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg2)">
+  <div class="wrap">
+    <h2>Отзывы из будущего<br><span style="color:var(--muted);font-size:.55em">и один из настоящего</span></h2>
+    <div class="quotes">
+      <div class="q real"><p>«Нейропротез спасает пажылого разгильдяя от голодной смерти»</p><small>Бета-тестер №1, 08.10.2026 — настоящий отзыв, сразу после двух откликов</small></div>
+      <div class="q"><p>«Он не сказал мне „иди спать“. Он спросил „отправляй?“. Я чуть не заплакал.»</p><small>Прокрастинатор со стажем, 2027 · вымышленный</small></div>
+      <div class="q"><p>«Впервые вижу резюме без слова „стрессоустойчивость“. Пригласила на собес из любопытства.»</p><small>HR-менеджер, 2027 · вымышленная</small></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Куда плывёт ковчег</h2>
+    <div class="road">
+      <div><b>✅</b><p style="margin:0">Кабинет вакансий Школы 21 — <span>работает. Проверено на одном человеке, человек жив.</span></p></div>
+      <div><b>🔜</b><p style="margin:0">hh.ru и другие площадки — <span>шьём обувь, которую носим сами: подключим, как только создатель сам пойдёт там продаваться.</span></p></div>
+      <div><b>🔮</b><p style="margin:0">Черновики писем кадровикам — <span>НОЙ пишет, ты читаешь и отправляешь.</span></p></div>
+      <div><b>🔮</b><p style="margin:0">Тренажёр собеседований голосом — <span>чтобы первые три собеса были не пристрелочными.</span></p></div>
+    </div>
+  </div>
+</section>
+
+<section id="price" style="background:var(--bg2)">
+  <div class="wrap">
+    <h2>Тарифы</h2>
+    <div class="prices">
+      <div class="price">
+        <h3>Нытик</h3>
+        <div class="sum">0 ₽<small>навсегда</small></div>
+        <ul><li>Ноешь — он сочувствует</li><li>Резюме не делает</li><li>Как друзья, только отвечает быстрее</li></ul>
+        <button class="btn btn-ghost" data-wait>Просто поныть</button>
+      </div>
+      <div class="price hot">
+        <span class="tag">Выбор бета-тестера</span>
+        <h3>Протез</h3>
+        <div class="sum">≈ 1 подписка<small>на нейросеть, которую ты на эту работу и купишь</small></div>
+        <ul><li>Ноешь — он откликается</li><li>Резюме под каждую вакансию</li><li>Формы, шаги, кнопки — всё сам</li><li>Карта откликов со значками</li></ul>
+        <button class="btn btn-main" data-wait>Хочу протез</button>
+      </div>
+      <div class="price">
+        <h3>Ковчег</h3>
+        <div class="sum">1 стажировка<small>шутка, денег не берём — это концепт</small></div>
+        <ul><li>Всё из «Протеза»</li><li>Черновики писем кадровикам</li><li>Кадровик-интервьюер и репозиторий навыков</li></ul>
+        <button class="btn btn-ghost" data-wait>Взойти на борт</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>Частые вопросы</h2>
+    <div class="faq">
+      <details><summary>Это спам-бот?</summary><p>Нет. Спамер шлёт одно резюме всем подряд. НОЙ под каждую вакансию собирает своё — честное и в тему. Спамер бы так не заморачивался.</p></details>
+      <details><summary>Он врёт за меня?</summary><p>Нет. Правило одно: убирать можно, выдумывать нельзя. Из твоего реального опыта он берёт только то, что нужно вакансии, — чтобы на собесе не пришлось краснеть.</p></details>
+      <details><summary>Ему нужны мои пароли?</summary><p>Нет. Входишь на сайт ты сам. НОЙ вежливо ждёт за дверью, а потом работает в уже открытом кабинете.</p></details>
+      <details><summary>А капчи?</summary><p>Не обходит. Увидел капчу — зовёт тебя. Мы за честных роботов.</p></details>
+      <details><summary>Он сам переписывается с кадровиками?</summary><p>Пишет черновик. Отправляешь ты. Живым людям от твоего имени он не пишет.</p></details>
+      <details><summary>Когда релиз?</summary><p>Когда создатель найдёт работу. Прямо сейчас это и проверяем — следите за новостями.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2>Хватит ныть в&nbsp;пустоту.<br><span style="color:var(--accent)">Ной в НОЙ.</span></h2>
+    <p class="sub" style="margin:22px auto 0">Ковчег строится. Места пока не продаются, но очередь уже есть — в ней один человек, и он доволен.</p>
+    <div class="cta"><button class="btn btn-main" data-wait>Хочу в ковчег</button></div>
+  </div>
+</section>
+
+<svg class="waves" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 Q 75 0 150 30 T 300 30 T 450 30 T 600 30 T 750 30 T 900 30 T 1050 30 T 1200 30 V60 H0 Z" fill="#101a2f"/></svg>
+<footer style="background:var(--bg2)">
+  <div class="wrap">
+    <p><b style="color:var(--ink)">НОЙ</b> — концепт продукта и шутка с серьёзными намерениями. Денег не берём, данные не собираем.</p>
+    <p>Не связан со Сбером, Школой 21, hh.ru и Ноем (библейским). Названия площадок — просто чтобы было понятно, о чём речь.</p>
+    <p>Сделано нейропротезом за вечер, пока его хозяин занимался своими делами · 2026</p>
+  </div>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mtitle">
+  <div class="modal-box">
+    <div class="big">🚢</div>
+    <h3 id="mtitle">Ты в очереди на ковчег!</h3>
+    <p>Шучу — никакой очереди нет, мы ничего не собираем. Но ковчег строится, а первый пассажир уже откликается на вакансии. Загляни позже.</p>
+    <button class="btn btn-main" id="mclose">Ладно, поною пока</button>
+  </div>
+</div>
+
+<script>
+  // Демо-диалог в «телефоне»
+  const script = [
+    { who:'me voice', text:'короче мне страшно… я год не могу залить резюме… там кринж… я ничтожество' },
+    { who:'noy', text:'Понял. Нытьё принято 🫡 Нашёл 17 вакансий, под каждую собрал своё резюме. Пафос вырезал, «10 лет тестировщиком» убрал.' },
+    { who:'noy', text:'Форма на сайте заполнена, стою перед кнопкой. Откликаемся?' },
+    { who:'cmd', text:'отправляй' },
+    { who:'noy', text:'✅ Отправлено. Иди занимайся своими делами, я тут сам.' }
+  ];
+  const chat = document.getElementById('chat');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  function bubble(m){ const d=document.createElement('div'); d.className='msg '+m.who; d.textContent=m.text; chat.appendChild(d); }
+  async function play(){
+    if (reduce) { script.forEach(bubble); return; }
+    while (true) {
+      chat.innerHTML='';
+      for (const m of script) {
+        if (m.who==='noy') { const t=document.createElement('div'); t.className='typing'; t.innerHTML='<i></i><i></i><i></i>'; chat.appendChild(t); await sleep(1100); t.remove(); }
+        else await sleep(700);
+        bubble(m); await sleep(m.who==='noy' ? 1400 : 900);
+      }
+      await sleep(5000);
+    }
+  }
+  play();
+
+  // «Лист ожидания» — честный: ничего не собирает
+  const modal = document.getElementById('modal');
+  document.querySelectorAll('[data-wait]').forEach(b => b.addEventListener('click', () => modal.classList.add('open')));
+  document.getElementById('mclose').addEventListener('click', () => modal.classList.remove('open'));
+  modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.remove('open'); });
+</script>
+</body>
+</html>
