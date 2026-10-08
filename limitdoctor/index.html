@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LimitDoctor</title>
+<meta name="description" content="Показывает, на что ушёл лимит Claude Code: какой чат сколько съел и сколько стоил бы на другой модели.">
+<meta property="og:title" content="LimitDoctor — бета">
+<meta property="og:description" content="Показывает, на что ушёл лимит Claude Code: какой чат сколько съел и сколько стоил бы на другой модели.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2315181d'/%3E%3Cpath d='M8.2 5.6h3.6v2.6h2.6v3.6h-2.6v2.6H8.2v-2.6H5.6V8.2h2.6z' fill='%23E24B4A'/%3E%3Cpath d='M20.2 5.6h3.6v2.6h2.6v3.6h-2.6v2.6h-3.6v-2.6h-2.6V8.2h2.6z' fill='%231D9E75'/%3E%3Cpath d='M7 25L11 21.5L13.5 23.5' fill='none' stroke='%23E24B4A' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M13.5 23.5L18 19L20.5 20.5' fill='none' stroke='%23EF9F27' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M20.5 20.5L25 16' fill='none' stroke='%231D9E75' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#f4f5f7;--card:#fff;--fg:#15181d;--mut:#667085;--bd:#e4e7ec;--acc:#1D9E75}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1114;--card:#181b20;--fg:#e9ebee;--mut:#9aa1ab;--bd:#2a2f36;--acc:#32d583}}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:24px 16px}
+main{width:100%;max-width:440px;text-align:center}
+.logo{width:150px;height:150px;display:block;margin:0 auto 18px}
+h1{font-size:30px;margin:0;letter-spacing:-.01em}
+.beta{display:inline-block;vertical-align:middle;margin-left:8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#EF9F27;border:1.5px solid #EF9F27;border-radius:999px;padding:2px 9px}
+p{color:var(--mut);margin:12px 0 26px;font-size:17px}
+a.dl{display:block;background:var(--fg);color:var(--bg);text-decoration:none;font-weight:650;border-radius:12px;padding:14px 18px;font-size:17px}
+a.dl:active{transform:scale(.98)}
+.run{margin-top:14px;font-size:13.5px;color:var(--mut)}
+code{font-family:ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:1px 6px;color:var(--fg)}
+</style>
+</head>
+<body>
+<main>
+<svg class="logo" viewBox="0 0 32 32" aria-label="LimitDoctor"><rect width="32" height="32" rx="8" fill="#15181d"/><path d="M8.7 6.6h2.6v2.1h2.1v2.6h-2.1v2.1h-2.6v-2.1h-2.1v-2.6h2.1z" fill="#E24B4A"/><path d="M20.7 6.6h2.6v2.1h2.1v2.6h-2.1v2.1h-2.6v-2.1h-2.1v-2.6h2.1z" fill="#1D9E75"/><path d="M7 25L11 21.5L13.5 23.5" fill="none" stroke="#E24B4A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.5 23.5L18 19L20.5 20.5" fill="none" stroke="#EF9F27" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.5 20.5L25 16" fill="none" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<h1>LimitDoctor<span class="beta">бета</span></h1>
+<p>Показывает, на что ушёл лимит Claude Code: какой чат сколько съел и сколько стоил бы на другой модели.</p>
+<a class="dl" href="limitdoctor.py" download>Скачать limitdoctor.py</a>
+<div class="run">Запуск: <code>python limitdoctor.py</code> — отчёт откроется в браузере. Всё считается по логам на твоём компьютере, наружу ничего не уходит.</div>
+</main>
+</body>
+</html>
