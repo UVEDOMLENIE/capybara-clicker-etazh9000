@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>НОЙ — ИИ-помощник для поиска работы</title>
+<meta name="description" content="Ты ноешь — он откликается. НОЙ слушает твои жалобы голосом, собирает резюме под каждую вакансию, заполняет формы и жмёт «Откликнуться».">
+<meta property="og:title" content="НОЙ — ты ноешь, он откликается">
+<meta property="og:description" content="ИИ-помощник для поиска работы: голосом жалуешься — он делает всю рутину с резюме и откликами.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M6 34h52l-8 16H14z' fill='%23b8732a'/%3E%3Cpath d='M20 34V20h24v14' fill='%23f5efe4'/%3E%3Cpath d='M2 56c6 0 6-4 12-4s6 4 12 4 6-4 12-4 6 4 12 4 6-4 12-4' stroke='%232a9d8f' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --storm1:#0a1524; --storm2:#13233a; --sink:#e9eef6; --smuted:#9fb0c8;
+    --sand:#f5efe4; --sand2:#ece2d1; --paper:#fffdf8; --ink:#1d2433; --muted:#6f685d; --line:#e2d6c2;
+    --wood:#b8732a; --amber:#f0a53a; --amber-ink:#2a1700; --sea:#2a9d8f; --sea-soft:#d9efe9;
+    --cringe:#e2583e; --cringe-soft:#fbe3db; --r:24px;
+    --shadow:0 1px 2px #1d243314, 0 14px 36px #1d24331c;
+    --serif:"Playfair Display",Georgia,serif; --sans:"Manrope",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--sand);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit}
+  .wrap{width:min(1160px,100% - 32px);margin-inline:auto}
+  h1,h2,h3{margin:0;line-height:1.08}
+  h1,h2{font-family:var(--serif);font-weight:800;letter-spacing:-.015em}
+  h2{font-size:clamp(32px,4.4vw,54px)}
+  h2 i,h1 i{font-style:italic;font-weight:700}
+  h3{font:800 19px/1.25 var(--sans)}
+  .lead{font-size:clamp(16px,1.6vw,19px);color:var(--muted);max-width:620px}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font:700 13px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--wood)}
+  .kicker::before{content:"";width:22px;height:2px;background:currentColor}
+  section{padding:104px 0;position:relative}
+  .grain{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .ic{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 26px;border-radius:999px;font:800 16px var(--sans);text-decoration:none;cursor:pointer;border:0;transition:transform .15s,box-shadow .15s;white-space:nowrap}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-amber{background:var(--amber);color:var(--amber-ink);box-shadow:0 10px 30px #f0a53a40}
+  .btn-line{background:transparent;color:inherit;border:1.5px solid currentColor}
+  .btn-ink{background:var(--ink);color:var(--paper)}
+
+  /* ---------- NAV ---------- */
+  nav{position:fixed;inset:0 0 auto;z-index:20;transition:background .3s,box-shadow .3s}
+  nav.solid{background:#fffdf8e6;backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:16px}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 22px var(--sans);color:var(--sink);letter-spacing:.02em}
+  nav.solid .logo{color:var(--ink)}
+  .navlinks{display:flex;gap:28px;font:600 15px var(--sans);color:var(--smuted)}
+  nav.solid .navlinks{color:var(--muted)}
+  .navlinks a{text-decoration:none}.navlinks a:hover{color:var(--amber)}
+  .ver{font:700 12px var(--sans);color:var(--smuted);border:1px solid #ffffff2e;border-radius:999px;padding:5px 10px;text-decoration:none;white-space:nowrap}
+  nav.solid .ver{color:var(--muted);border-color:var(--line)}
+  nav .btn{padding:11px 18px;font-size:14px}
+  .navright{display:flex;align-items:center;gap:12px}
+
+  /* ---------- HERO (шторм) ---------- */
+  .hero{background:radial-gradient(900px 500px at 15% 10%,#1f3a5c 0%,transparent 60%),radial-gradient(700px 420px at 90% 30%,#16324a 0%,transparent 60%),linear-gradient(180deg,var(--storm1),var(--storm2));color:var(--sink);padding:150px 0 140px;overflow:hidden;position:relative}
+  .hero::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(105deg,transparent 0 22px,#ffffff06 22px 23px);pointer-events:none}
+  .hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:56px;align-items:center;position:relative;z-index:1}
+  .pill{display:inline-flex;align-items:center;gap:10px;padding:7px 14px;border-radius:999px;background:#ffffff0f;border:1px solid #ffffff1f;color:var(--smuted);font-size:14px}
+  .pill i{width:8px;height:8px;border-radius:50%;background:#5eead4;box-shadow:0 0 12px #5eead4}
+  .hero h1{font-size:clamp(46px,6.4vw,84px);margin:22px 0 22px}
+  .hero h1 i{color:var(--amber)}
+  .hero h1 .u{position:relative;white-space:nowrap}
+  .hero h1 .u svg{position:absolute;left:0;bottom:-.12em;width:100%;height:.28em}
+  .hero .lead{color:var(--smuted)}
+  .cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
+  .hero .btn-line{color:var(--sink);border-color:#ffffff40}
+  .hero .fine{margin-top:18px;font-size:13px;color:#7f92ad}
+
+  /* устройство-демо */
+  .device{background:linear-gradient(160deg,#ffffff14,#ffffff07);border:1px solid #ffffff22;border-radius:32px;padding:22px;backdrop-filter:blur(10px);box-shadow:0 40px 100px #0008,inset 0 1px 0 #ffffff1a;min-height:470px;display:flex;flex-direction:column;gap:14px}
+  .dev-top{display:flex;align-items:center;gap:10px;font:700 14px var(--sans);color:var(--sink)}
+  .rec{width:10px;height:10px;border-radius:50%;background:var(--cringe);box-shadow:0 0 0 0 #e2583e88;animation:rec 1.4s infinite}
+  @keyframes rec{70%{box-shadow:0 0 0 10px #e2583e00}}
+  .eq{display:flex;gap:3px;align-items:center;height:22px;margin-left:auto}
+  .eq i{width:3px;border-radius:3px;background:var(--amber);height:30%;animation:eq 1s infinite ease-in-out}
+  .eq i:nth-child(2n){animation-delay:.15s}.eq i:nth-child(3n){animation-delay:.3s}.eq i:nth-child(5n){animation-delay:.45s}
+  @keyframes eq{50%{height:100%}}
+  .device.calm .eq i{animation:none;height:20%;background:#5eead4}
+  .transcript{min-height:84px;background:#0a1524aa;border:1px solid #ffffff14;border-radius:18px 18px 18px 6px;padding:14px 16px;font-size:15px;color:#d7e0ee;font-style:italic}
+  .transcript::after{content:"▍";color:var(--amber);animation:blink 1s infinite;margin-left:2px;font-style:normal}
+  .device.calm .transcript::after{content:""}
+  @keyframes blink{50%{opacity:0}}
+  .thinking{font:700 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#7f92ad;display:flex;align-items:center;gap:8px}
+  .thinking::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,#ffffff33,transparent)}
+  .stack{display:grid;gap:10px}
+  .rcard{display:flex;align-items:center;gap:12px;background:var(--paper);color:var(--ink);border-radius:14px;padding:11px 14px;font-size:14px;font-weight:700;box-shadow:0 8px 20px #0006;opacity:0;transform:translateX(24px) rotate(1.5deg);transition:all .5s cubic-bezier(.2,.8,.2,1)}
+  .rcard .doc{width:26px;height:32px;border-radius:5px;background:var(--sand2);position:relative;flex:none}
+  .rcard .doc::before{content:"";position:absolute;inset:8px 5px auto;height:2px;background:#c9b998;box-shadow:0 5px 0 #c9b998,0 10px 0 #c9b998}
+  .rcard b{margin-left:auto;font-size:12px;color:var(--sea);background:var(--sea-soft);border-radius:999px;padding:3px 9px}
+  .rcard.in{opacity:1;transform:none}
+  .meter{margin-top:auto}
+  .meter-h{display:flex;justify-content:space-between;font:700 13px var(--sans);color:#c5d1e3;margin-bottom:8px}
+  .meter-h b{font:800 18px var(--sans)}
+  .mbar{height:12px;border-radius:999px;background:#ffffff14;overflow:hidden}
+  .mbar i{display:block;height:100%;width:92%;border-radius:999px;background:linear-gradient(90deg,#e2583e,#f0a53a);transition:width 1.6s cubic-bezier(.3,.7,.2,1),background 1.6s}
+  .device.calm .mbar i{background:linear-gradient(90deg,#2a9d8f,#5eead4)}
+  .sent{display:flex;align-items:center;gap:10px;font-weight:800;color:#0a1524;background:#5eead4;border-radius:14px;padding:12px 16px;opacity:0;transform:translateY(10px);transition:all .5s}
+  .sent.in{opacity:1;transform:none}
+
+  .storm-wave{position:absolute;left:0;bottom:-1px;width:100%;height:90px;z-index:1;display:block}
+
+  /* ---------- PROOF STRIP ---------- */
+  .proof{padding:0;margin-top:-58px;position:relative;z-index:3}
+  .proof .row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:var(--paper);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+  .proof .cell{padding:26px 24px;border-right:1px solid var(--line);display:flex;gap:14px;align-items:center}
+  .proof .cell:last-child{border-right:0}
+  .proof .num{font:800 34px/1 var(--serif);color:var(--ink);white-space:nowrap}
+  .proof .num small{font-size:.55em;color:var(--wood)}
+  .proof .cap{font-size:14px;color:var(--muted);line-height:1.35}
+  .proof-note{font-size:12px;color:var(--muted);margin:12px 4px 0}
+
+  /* ---------- БЫЛО / СТАЛО ---------- */
+  .ba{display:grid;grid-template-columns:minmax(0,1fr) 84px minmax(0,1fr);gap:0;align-items:center;margin-top:52px}
+  .bac{background:var(--paper);border-radius:var(--r);padding:30px;box-shadow:var(--shadow);position:relative;min-height:100%}
+  .bac.before{rotate:-1.2deg;background:#fffaf5}
+  .bac.after{rotate:.8deg}
+  .bal{font:700 12px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+  .bac h3{font:800 24px/1.2 var(--serif);margin-bottom:12px}
+  .bac p{margin:0 0 18px;color:#4b4a46}
+  mark.cr{background:none;color:inherit;text-decoration:underline wavy var(--cringe);text-decoration-thickness:2px;text-underline-offset:5px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0 0 16px}
+  .tags li{font:700 13px var(--sans);background:var(--sea-soft);color:#17665d;border-radius:999px;padding:6px 12px}
+  .cm{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;font:700 13px var(--sans);color:var(--muted)}
+  .cm .mbar{background:var(--sand2);height:10px}
+  .cm .mbar i{transition:none}
+  .cm.ok .mbar i{background:var(--sea)}
+  .cm b{color:var(--ink);font-size:15px}
+  .bam{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--wood);font:800 13px var(--sans);z-index:2}
+  .bam span{background:var(--ink);color:var(--paper);border-radius:999px;padding:8px 12px;letter-spacing:.06em}
+  .stamp{position:absolute;right:22px;top:-16px;transform:rotate(9deg);border:3px solid var(--sea);color:var(--sea);border-radius:12px;padding:6px 12px;font:800 13px/1.15 var(--sans);letter-spacing:.08em;text-align:center;background:#fffdf8ee}
+
+  /* ---------- ШАГИ ---------- */
+  .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:56px;position:relative}
+  .steps::before{content:"";position:absolute;top:38px;left:8%;right:8%;border-top:2px dashed #cdbb9c;z-index:0}
+  .step{position:relative;z-index:1;text-align:left}
+  .sic{width:76px;height:76px;border-radius:24px;display:grid;place-items:center;background:var(--paper);box-shadow:var(--shadow);color:var(--wood);margin-bottom:20px}
+  .sic .ic{width:34px;height:34px}
+  .step:nth-child(4) .sic{background:var(--amber);color:var(--amber-ink)}
+  .step .n{font:800 13px var(--sans);color:var(--wood);letter-spacing:.08em}
+  .step h3{margin:6px 0 8px;font-size:21px}
+  .step p{margin:0;color:var(--muted);font-size:15px}
+
+  /* ---------- ДОСКА ОТКЛИКОВ ---------- */
+  .dark{background:var(--ink);color:var(--paper)}
+  .dark .lead{color:#b9b3a6}
+  .dark .kicker{color:var(--amber)}
+  .board-wrap{margin-top:48px;background:#262e40;border:1px solid #ffffff14;border-radius:28px;padding:18px;box-shadow:0 30px 80px #0006}
+  .board-top{display:flex;align-items:center;gap:8px;padding:4px 6px 16px}
+  .board-top i{width:11px;height:11px;border-radius:50%;background:#ff6b6b}.board-top i:nth-child(2){background:#f0a53a}.board-top i:nth-child(3){background:#5eead4}
+  .board-top span{margin-left:12px;font:700 13px var(--sans);color:#9aa3b5}
+  .board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .col{background:#1d2433;border-radius:20px;padding:14px;display:grid;gap:10px;align-content:start}
+  .colh{display:flex;justify-content:space-between;font:800 14px var(--sans);color:#d6d0c3;padding:4px 4px 6px}
+  .colh b{background:#ffffff14;border-radius:999px;padding:1px 10px}
+  .tk{background:var(--paper);color:var(--ink);border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center}
+  .tk strong{font:800 14px var(--sans)}
+  .tk span{grid-column:1;font-size:12px;color:var(--muted)}
+  .tk em{grid-row:1 / span 2;grid-column:2;font-style:normal;font-size:20px}
+  .tk.done{box-shadow:inset 4px 0 0 var(--sea)}
+  .legend{display:flex;flex-wrap:wrap;gap:18px;margin-top:16px;font-size:14px;color:#b9b3a6}
+
+  /* ---------- НАСТОЯЩИЕ ДИАЛОГИ ---------- */
+  .dlgs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:52px}
+  .dlg{background:var(--paper);border-radius:var(--r);padding:24px;box-shadow:var(--shadow);display:grid;gap:12px}
+  .voice{display:flex;align-items:center;gap:12px;background:#e9f0fb;border-radius:18px 18px 18px 6px;padding:10px 14px;max-width:92%}
+  .play{width:34px;height:34px;border-radius:50%;background:#3b6fd8;display:grid;place-items:center;flex:none}
+  .play::before{content:"";border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent;margin-left:3px}
+  .voice svg{flex:1;height:26px;min-width:0}
+  .voice .dur{font:700 12px var(--sans);color:#5d6f8f}
+  .vt{margin:0;font-size:15px;color:#3f4757;font-style:italic;padding-left:4px}
+  .reply{justify-self:end;max-width:88%;background:var(--ink);color:var(--paper);border-radius:18px 18px 6px 18px;padding:12px 16px;font-size:15px}
+  .reply b{color:var(--amber)}
+  .who{font:700 12px var(--sans);color:var(--muted);letter-spacing:.04em}
+
+  /* ---------- ФИЧИ ---------- */
+  .feats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:52px}
+  .feat{background:var(--paper);border-radius:var(--r);padding:28px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+  .tile{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:var(--sand2);color:var(--wood)}
+  .tile.sea{background:var(--sea-soft);color:#17665d}.tile.red{background:var(--cringe-soft);color:var(--cringe)}.tile.amb{background:#fde9c8;color:#8a5410}
+  .feat p{margin:0;color:var(--muted);font-size:15px}
+  .mini{margin-top:auto;padding-top:8px;display:flex;flex-wrap:wrap;gap:8px}
+  .chip{font:700 12px var(--sans);border-radius:999px;padding:6px 11px;background:var(--sand);border:1px solid var(--line);color:var(--muted)}
+  .chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .chip.yes{background:var(--sea-soft);border-color:#b5ddd5;color:#17665d}
+  .chip.no{background:var(--cringe-soft);border-color:#f3c3b5;color:#b2402a;text-decoration:line-through}
+  .soon{font:800 11px var(--sans);color:#17665d;background:var(--sea-soft);border-radius:999px;padding:3px 9px;margin-left:6px;vertical-align:middle;letter-spacing:.04em}
+
+  /* ---------- ОТЗЫВЫ ---------- */
+  .revs{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:auto auto;gap:20px;margin-top:52px}
+  .rev{background:var(--paper);border-radius:var(--r);padding:26px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:16px}
+  .rev.real{grid-row:span 2;background:linear-gradient(165deg,#fde9c8,var(--paper) 55%);justify-content:space-between}
+  .rev.real q{font:800 clamp(26px,2.6vw,34px)/1.2 var(--serif)}
+  .rev q{font:600 17px/1.5 var(--sans);quotes:"«" "»"}
+  .stars{color:var(--amber);letter-spacing:2px;font-size:18px}
+  .person{display:flex;align-items:center;gap:12px}
+  .ava{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:22px;flex:none}
+  .person b{display:block;font-size:15px}
+  .person small{color:var(--muted);font-size:12px}
+  .badge{display:inline-block;font:800 11px var(--sans);border-radius:999px;padding:3px 9px;letter-spacing:.04em}
+  .badge.real{background:var(--sea);color:#fff}.badge.fake{background:var(--sand2);color:var(--muted)}
+
+  /* ---------- МАРШРУТ ---------- */
+  .route{margin-top:48px;background:var(--paper);border-radius:28px;box-shadow:var(--shadow);padding:30px 28px 26px}
+  .route svg{width:100%;height:auto;display:block}
+  .ports{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:6px}
+  .port b{display:block;font:800 16px var(--sans);margin-bottom:4px}
+  .port span{font-size:14px;color:var(--muted)}
+  .port .st{font:800 11px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--sea)}
+  .port.next .st{color:var(--wood)}.port.far .st{color:#9a9183}
+  .ship{animation:bob 3s ease-in-out infinite;transform-origin:center}
+  @keyframes bob{50%{transform:translateY(-4px) rotate(-2deg)}}
+
+  /* ---------- ТАРИФЫ ---------- */
+  .prices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:52px;align-items:stretch}
+  .price{background:var(--paper);border-radius:var(--r);padding:30px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px}
+  .price.hot{background:var(--ink);color:var(--paper);translate:0 -10px}
+  .price .tag{align-self:flex-start;font:800 12px var(--sans);background:var(--amber);color:var(--amber-ink);border-radius:999px;padding:4px 11px}
+  .price h3{font:800 26px var(--serif)}
+  .sum{font:800 32px/1.1 var(--sans)}
+  .sum small{display:block;font:500 14px var(--sans);color:var(--muted);margin-top:4px}
+  .price.hot .sum small{color:#b9b3a6}
+  .price ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;flex:1}
+  .price li{display:flex;gap:10px;font-size:15px}
+  .price li::before{content:"✓";color:var(--sea);font-weight:800}
+  .price.hot li::before{color:#5eead4}
+  .price .btn{width:100%}
+
+  /* ---------- FAQ ---------- */
+  .faq{display:grid;gap:12px;margin-top:44px;max-width:860px}
+  details{background:var(--paper);border-radius:18px;padding:20px 24px;box-shadow:0 1px 2px #1d243314}
+  summary{cursor:pointer;font:800 17px var(--sans);list-style:none;display:flex;justify-content:space-between;gap:16px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:var(--wood);font-size:22px;line-height:1}
+  details[open] summary::after{content:"–"}
+  details p{margin:12px 0 0;color:var(--muted)}
+
+  /* ---------- ФИНАЛ ---------- */
+  .final{text-align:center;padding-bottom:0;overflow:hidden}
+  .final h2{font-size:clamp(38px,6vw,76px)}
+  .final h2 i{color:var(--wood)}
+  .final .lead{margin:22px auto 0}
+  .final .cta{justify-content:center}
+  .ark{display:block;width:min(560px,90%);margin:40px auto -6px;animation:bob 4s ease-in-out infinite}
+  footer{background:var(--ink);color:#b9b3a6;padding:40px 0 52px;font-size:14px}
+  footer .wrap{display:grid;gap:8px}
+  footer b{color:var(--paper)}
+  footer a{color:var(--amber)}
+
+  /* ---------- МОДАЛКА ---------- */
+  .modal{position:fixed;inset:0;background:#0a1524b3;backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:16px;z-index:60}
+  .modal.open{display:flex}
+  .mbox{background:var(--paper);border-radius:28px;padding:34px;max-width:440px;text-align:center;box-shadow:0 30px 80px #0008}
+  .mbox .big{font-size:56px}
+  .mbox h3{font:800 26px var(--serif);margin:8px 0 12px}
+  .mbox p{color:var(--muted);margin:0 0 22px}
+
+  /* ---------- reveal ---------- */
+  .rv{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+  .rv.on{opacity:1;transform:none}
+
+  /* ---------- адаптив ---------- */
+  @media (max-width:980px){
+    .hero .wrap{grid-template-columns:minmax(0,1fr)}
+    .hero{padding:124px 0 130px}
+    .navlinks{display:none}
+    .proof .row{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .proof .cell:nth-child(2){border-right:0}
+    .proof .cell:nth-child(-n+2){border-bottom:1px solid var(--line)}
+    .ba{grid-template-columns:minmax(0,1fr);gap:18px}
+    .bam{flex-direction:row}
+    .bam svg{transform:rotate(90deg)}
+    .steps{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:36px}
+    .steps::before{display:none}
+    .feats{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .revs{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+    .rev.real{grid-row:auto;grid-column:1 / -1}
+    .prices{grid-template-columns:minmax(0,1fr)}
+    .price.hot{translate:none}
+    section{padding:84px 0}
+  }
+  @media (max-width:720px){
+    .board{grid-template-columns:minmax(0,1fr)}
+    .dlgs,.feats,.revs{grid-template-columns:minmax(0,1fr)}
+    .route svg{display:none}
+    .ports{grid-template-columns:minmax(0,1fr)}
+    .port{border-left:3px solid var(--sea-soft);padding-left:14px}
+    .ver{display:none}
+  }
+  @media (max-width:520px){
+    .steps{grid-template-columns:minmax(0,1fr)}
+    .proof .row{grid-template-columns:minmax(0,1fr)}
+    .proof .cell{border-right:0;border-bottom:1px solid var(--line);flex-direction:column;align-items:flex-start;gap:6px}
+    .proof .cell:last-child{border-bottom:0}
+    .hero h1{font-size:clamp(40px,11vw,56px)}
+    .bac{padding:24px}
+    nav .btn{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .rv{opacity:1;transform:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
+  <symbol id="i-dig" viewBox="0 0 24 24"><path d="M3 7h6l2 2h10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="14.5" cy="14" r="2.5"/><path d="M16.5 16l2 2"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12 20 4l-6 16-2-6z"/><path d="M12 14l8-10"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 5h16l-6 7v6l-4 2v-8z"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M10.6 6.1A10 10 0 0 1 12 6c6 0 10 6 10 6a17 17 0 0 1-3.2 3.7M6.5 7.6C3.8 9.5 2 12 2 12s4 6 10 6a9.6 9.6 0 0 0 4-.9"/></symbol>
+  <symbol id="i-cards" viewBox="0 0 24 24"><rect x="4" y="7" width="12" height="13" rx="2"/><path d="M8 4h10a2 2 0 0 1 2 2v11"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v10H9l-5 4z"/><path d="M8 9h8M8 12h5"/></symbol>
+  <symbol id="i-voicewave" viewBox="0 0 200 26"><g fill="#3b6fd8"><rect x="0" y="10" width="3" height="6" rx="1.5"/><rect x="7" y="7" width="3" height="12" rx="1.5"/><rect x="14" y="3" width="3" height="20" rx="1.5"/><rect x="21" y="8" width="3" height="10" rx="1.5"/><rect x="28" y="5" width="3" height="16" rx="1.5"/><rect x="35" y="1" width="3" height="24" rx="1.5"/><rect x="42" y="6" width="3" height="14" rx="1.5"/><rect x="49" y="9" width="3" height="8" rx="1.5"/><rect x="56" y="4" width="3" height="18" rx="1.5"/><rect x="63" y="7" width="3" height="12" rx="1.5"/><rect x="70" y="2" width="3" height="22" rx="1.5"/><rect x="77" y="8" width="3" height="10" rx="1.5"/><rect x="84" y="5" width="3" height="16" rx="1.5"/></g><g fill="#a9bce6"><rect x="91" y="9" width="3" height="8" rx="1.5"/><rect x="98" y="6" width="3" height="14" rx="1.5"/><rect x="105" y="3" width="3" height="20" rx="1.5"/><rect x="112" y="8" width="3" height="10" rx="1.5"/><rect x="119" y="5" width="3" height="16" rx="1.5"/><rect x="126" y="10" width="3" height="6" rx="1.5"/><rect x="133" y="6" width="3" height="14" rx="1.5"/><rect x="140" y="2" width="3" height="22" rx="1.5"/><rect x="147" y="8" width="3" height="10" rx="1.5"/><rect x="154" y="5" width="3" height="16" rx="1.5"/><rect x="161" y="9" width="3" height="8" rx="1.5"/><rect x="168" y="6" width="3" height="14" rx="1.5"/><rect x="175" y="10" width="3" height="6" rx="1.5"/><rect x="182" y="7" width="3" height="12" rx="1.5"/><rect x="189" y="9" width="3" height="8" rx="1.5"/></g></symbol>
+</svg>
+
+<nav id="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="НОЙ">
+      <svg width="36" height="36" viewBox="0 0 64 64" aria-hidden="true"><path d="M6 34h52l-8 16H14z" fill="#b8732a"/><path d="M20 34V21h24v13" fill="#f5efe4"/><path d="M28 21v-8h8v8" fill="#f0a53a"/><path d="M2 56c6 0 6-4 12-4s6 4 12 4 6-4 12-4 6 4 12 4 6-4 12-4" stroke="#2a9d8f" stroke-width="3.5" fill="none"/></svg>
+      НОЙ
+    </a>
+    <div class="navlinks"><a href="#how">Как работает</a><a href="#proof">Живые диалоги</a><a href="#price">Тарифы</a><a href="#faq">Вопросы</a></div>
+    <div class="navright">
+      <a class="ver" href="./" title="Первая версия лендинга">v1 · смотреть v0</a>
+      <button class="btn btn-amber" data-wait>В ковчег</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO: шторм -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="pill"><i></i>Закрытая бета · 1 пользователь · 2 отклика за вечер</span>
+      <h1>Ты <i>ноешь</i>.<br><span class="u">Он откликается.<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 14 C 80 4, 160 4, 297 10" stroke="#f0a53a" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span></h1>
+      <p class="lead">НОЙ — ИИ-помощник для поиска работы. Расскажи голосом, как тебе страшно и лень. Он соберёт резюме под каждую вакансию, заполнит формы на сайте и нажмёт «Откликнуться». От тебя — одно слово: «отправляй».</p>
+      <div class="cta">
+        <button class="btn btn-amber" data-wait>Занять место в ковчеге →</button>
+        <a class="btn btn-line" href="#how">Как это работает</a>
+      </div>
+      <p class="fine">Без анкет и «расскажите о себе в трёх словах». Можно сбивчиво — и даже с крепким словцом.</p>
+    </div>
+
+    <div class="device" id="device" aria-label="Демонстрация: жалоба превращается в отклики">
+      <div class="dev-top"><span class="rec"></span><span id="devstate">Слушаю тебя…</span>
+        <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+      <div class="transcript" id="tr"></div>
+      <div class="thinking">НОЙ разбирается</div>
+      <div class="stack">
+        <div class="rcard"><span class="doc"></span>Резюме · Тестировщик<b>готово</b></div>
+        <div class="rcard"><span class="doc"></span>Резюме · Автотесты<b>готово</b></div>
+        <div class="rcard"><span class="doc"></span>Резюме · Аналитик<b>готово</b></div>
+      </div>
+      <div class="meter">
+        <div class="meter-h"><span>Уровень паники</span><b id="pn">92%</b></div>
+        <div class="mbar"><i id="pb"></i></div>
+      </div>
+      <div class="sent" id="sent">✅ Отклики отправлены. Иди отдыхай.</div>
+    </div>
+  </div>
+  <svg class="storm-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40 C 180 90, 360 0, 540 40 S 900 80, 1080 40 S 1320 10, 1440 40 V90 H0Z" fill="#f5efe4"/></svg>
+</header>
+
+<!-- цифры беты -->
+<section class="proof">
+  <div class="wrap">
+    <div class="row">
+      <div class="cell"><div class="num">1 год<small> → 1 вечер</small></div><div class="cap">столько откладывал — и столько понадобилось НОЮ</div></div>
+      <div class="cell"><div class="num">17</div><div class="cap">вакансий найдено и разложено по полочкам</div></div>
+      <div class="cell"><div class="num">17</div><div class="cap">резюме — своё под каждую вакансию</div></div>
+      <div class="cell"><div class="num">2</div><div class="cap">отклика на стажировки в первый же день</div></div>
+    </div>
+    <p class="proof-note">Данные закрытой беты. Пользователь один, но очень довольный.</p>
+  </div>
+</section>
+
+<!-- БЫЛО / СТАЛО -->
+<section class="grain">
+  <div class="wrap">
+    <span class="kicker rv">Было → стало</span>
+    <h2 class="rv" style="margin-top:14px">Резюме, которое страшно перечитать, — <i>в резюме, на которое отвечают</i></h2>
+    <div class="ba">
+      <div class="bac before rv">
+        <div class="bal">Было · написано в три часа ночи</div>
+        <h3>Тестировщик с <mark class="cr">10+ годами опыта во всём</mark></h3>
+        <p><mark class="cr">Строил вселенные, государства и пирамиды.</mark> <mark class="cr">Руководитель, руководитель, руководитель.</mark> Стрессоустойчив, коммуникабелен, <mark class="cr">универсальный солдат</mark>.</p>
+        <div class="cm"><span>Кринж-метр</span><div class="mbar"><i style="width:87%"></i></div><b>87%</b></div>
+      </div>
+      <div class="bam" aria-hidden="true">
+        <span>НОЙ</span>
+        <svg width="44" height="24" viewBox="0 0 44 24"><path d="M2 12h36M30 4l8 8-8 8" stroke="#b8732a" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="bac after rv">
+        <div class="stamp">ОТКЛИК<br>ОТПРАВЛЕН</div>
+        <div class="bal">Стало · под конкретную вакансию</div>
+        <h3>Инженер по тестированию · Junior</h3>
+        <ul class="tags"><li>Тест-кейсы</li><li>Баг-репорты</li><li>REST API</li><li>Jira</li><li>Python + Playwright</li></ul>
+        <p>Учусь на треке тестирования. До этого — техподдержка и внедрение финтех-платформ: проверял перед запуском, ставил задачи разработчикам.</p>
+        <div class="cm ok"><span>Кринж-метр</span><div class="mbar"><i style="width:4%"></i></div><b>3%</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- КАК РАБОТАЕТ -->
+<section id="how" style="background:var(--sand2)">
+  <div class="wrap">
+    <span class="kicker rv">Как это работает</span>
+    <h2 class="rv" style="margin-top:14px">Четыре шага. Твои — <i>первый и последний</i></h2>
+    <div class="steps">
+      <div class="step rv"><div class="sic"><svg class="ic"><use href="#i-mic"/></svg></div><div class="n">ШАГ 01</div><h3>Поной</h3><p>Голосом, сбивчиво, как есть. Распознавание путает слова — не беда: НОЙ переспросит, если не понял.</p></div>
+      <div class="step rv"><div class="sic"><svg class="ic"><use href="#i-dig"/></svg></div><div class="n">ШАГ 02</div><h3>Раскопки</h3><p>Читает твои старые резюме, папки и переписки с нейросетями и собирает «родословную»: что ты умеешь на самом деле.</p></div>
+      <div class="step rv"><div class="sic"><svg class="ic"><use href="#i-target"/></svg></div><div class="n">ШАГ 03</div><h3>Прицел</h3><p>Под каждую вакансию — свой набор навыков из твоей правды. Убирать можно, выдумывать нельзя.</p></div>
+      <div class="step rv"><div class="sic"><svg class="ic"><use href="#i-send"/></svg></div><div class="n">ШАГ 04</div><h3>«Отправляй»</h3><p>Сам заполняет форму на сайте и замирает перед кнопкой. Жмёт, только когда ты скажешь одно слово.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ДОСКА -->
+<section class="dark">
+  <div class="wrap">
+    <span class="kicker rv">Карта откликов</span>
+    <h2 class="rv" style="margin-top:14px">Все вакансии, резюме и отклики — <i>на одном экране</i></h2>
+    <p class="lead rv" style="margin-top:18px">НОЙ раскладывает поиск работы по полочкам и честно говорит, насколько ты подходишь под каждую вакансию. Работает прямо в заметках Obsidian.</p>
+    <div class="board-wrap rv">
+      <div class="board-top"><i></i><i></i><i></i><span>Поиск работы · октябрь</span></div>
+      <div class="board">
+        <div class="col">
+          <div class="colh">Найдено <b>17</b></div>
+          <div class="tk"><strong>Инженер по тестированию</strong><span>Фитнес-стартап · удалённо</span><em>💪</em></div>
+          <div class="tk"><strong>Системный аналитик</strong><span>Банк · Москва</span><em>💪</em></div>
+          <div class="tk"><strong>ML-инженер</strong><span>Банк · дроны и зрение</span><em>🤏</em></div>
+        </div>
+        <div class="col">
+          <div class="colh">Резюме готово <b>15</b></div>
+          <div class="tk"><strong>ИИ-инженер</strong><span>Банк · 20 часов</span><em>👌</em></div>
+          <div class="tk"><strong>Python-разработчик</strong><span>Стартап · удалённо</span><em>👌</em></div>
+          <div class="tk"><strong>Инженер по сопровождению</strong><span>Банк · Linux</span><em>👌</em></div>
+        </div>
+        <div class="col">
+          <div class="colh">Отклик отправлен <b>2</b></div>
+          <div class="tk done"><strong>Ручное тестирование</strong><span>Банк · стажировка</span><em>✅</em></div>
+          <div class="tk done"><strong>Автотесты</strong><span>Банк · стажировка</span><em>✅</em></div>
+        </div>
+      </div>
+    </div>
+    <div class="legend rv"><span>💪 хорошо подходишь</span><span>👌 средне</span><span>🤏 слабо — НОЙ честно предупредит</span></div>
+  </div>
+</section>
+
+<!-- НАСТОЯЩИЕ ДИАЛОГИ -->
+<section id="proof" class="grain">
+  <div class="wrap">
+    <span class="kicker rv">Живые диалоги</span>
+    <h2 class="rv" style="margin-top:14px">Так это выглядит <i>на самом деле</i></h2>
+    <p class="lead rv" style="margin-top:18px">Настоящие голосовые бета-тестера и ответы НОЯ. Мы только убрали крепкие слова.</p>
+    <div class="dlgs">
+      <div class="dlg rv">
+        <div class="who">БЕТА-ТЕСТЕР · ГОЛОСОВОЕ</div>
+        <div class="voice"><span class="play"></span><svg viewBox="0 0 200 26" preserveAspectRatio="none"><use href="#i-voicewave"/></svg><span class="dur">0:41</span></div>
+        <p class="vt">«У меня страх. Мне надо вычитать резюме — это слом. Я на несколько дней забил на этот проект вообще. Мне надо, чтобы мне дали варианты, и я просто легко выбирал.»</p>
+        <div class="reply">Читать ничего не нужно. Я сам всё вычитал и свёл к <b>трём вопросам</b> — просто кликни варианты.</div>
+      </div>
+      <div class="dlg rv">
+        <div class="who">БЕТА-ТЕСТЕР · ГОЛОСОВОЕ</div>
+        <div class="voice"><span class="play"></span><svg viewBox="0 0 200 26" preserveAspectRatio="none"><use href="#i-voicewave"/></svg><span class="dur">1:12</span></div>
+        <p class="vt">«Если я там руководитель, руководитель, руководитель, а иду на тестировщика — все будут ржать: что это за дед такой.»</p>
+        <div class="reply">Понял. Под эту вакансию — <b>скромные должности</b>, опыт оставляем. Под аналитика верну «руководителя проекта».</div>
+      </div>
+      <div class="dlg rv">
+        <div class="who">БЕТА-ТЕСТЕР · ГОЛОСОВОЕ</div>
+        <div class="voice"><span class="play"></span><svg viewBox="0 0 200 26" preserveAspectRatio="none"><use href="#i-voicewave"/></svg><span class="dur">0:27</span></div>
+        <p class="vt">«У меня образование Шрёдингера: формально не окончено — там одной подписи нет, а так оно окончено.»</p>
+        <div class="reply">Пишем <b>без пометки</b>. Спросят на собеседовании — расскажешь сам.</div>
+      </div>
+      <div class="dlg rv">
+        <div class="who">БЕТА-ТЕСТЕР · ГОЛОСОВОЕ</div>
+        <div class="voice"><span class="play"></span><svg viewBox="0 0 200 26" preserveAspectRatio="none"><use href="#i-voicewave"/></svg><span class="dur">0:04</span></div>
+        <p class="vt">«Давай ты нажми кнопочку „опубликовать“, а то мне лень.»</p>
+        <div class="reply">Опубликовано. <b>Отклик отправлен ✅</b> Иди занимайся своими делами.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ФИЧИ -->
+<section style="background:var(--sand2)">
+  <div class="wrap">
+    <span class="kicker rv">Что внутри</span>
+    <h2 class="rv" style="margin-top:14px">Сделан для тех, кому <i>страшно</i>, а не для тех, кому скучно</h2>
+    <div class="feats">
+      <div class="feat rv"><div class="tile"><svg class="ic"><use href="#i-mic"/></svg></div><h3>Голос вместо анкеты</h3><p>Говори как есть: с паузами, повторами и отступлениями. Из сумбура НОЙ сам достанет факты.</p></div>
+      <div class="feat rv"><div class="tile red"><svg class="ic"><use href="#i-filter"/></svg></div><h3>Кринж-фильтр</h3><p>Вырезает «строил вселенные» и «10 лет опыта во всём». Кадровики больше не смеются — они звонят.</p>
+        <div class="mini"><span class="chip no">стрессоустойчивость</span><span class="chip no">универсальный солдат</span></div></div>
+      <div class="feat rv"><div class="tile sea"><svg class="ic"><use href="#i-eye"/></svg></div><h3>Вычитка без чтения</h3><p>Перечитывать своё резюме не нужно — мы знаем, это больно. НОЙ показывает готовые варианты, ты кликаешь.</p>
+        <div class="mini"><span class="chip on">Вариант А ✓</span><span class="chip">Вариант Б</span><span class="chip">Свой</span></div></div>
+      <div class="feat rv"><div class="tile amb"><svg class="ic"><use href="#i-cards"/></svg></div><h3>Резюме под каждую вакансию</h3><p>17 вакансий — 17 разных резюме. И к каждому — шпаргалка, что рассказать на собеседовании.</p></div>
+      <div class="feat rv"><div class="tile sea"><svg class="ic"><use href="#i-shield"/></svg></div><h3>Честность встроена</h3><p>Входишь на сайт ты, отправляешь ты. Пароли НОЙ не трогает, капчи не обходит, кадровикам за тебя не пишет.</p>
+        <div class="mini"><span class="chip yes">убирать ✓</span><span class="chip no">выдумывать</span></div></div>
+      <div class="feat rv"><div class="tile"><svg class="ic"><use href="#i-chat"/></svg></div><h3>Кадровик-интервьюер <span class="soon">СКОРО</span></h3><p>Расспросит про жизнь, как настоящий HR, и соберёт карту твоих навыков. А из неё — резюме под что угодно.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ОТЗЫВЫ -->
+<section class="grain">
+  <div class="wrap">
+    <span class="kicker rv">Отзывы</span>
+    <h2 class="rv" style="margin-top:14px">Один настоящий — <i>и три из будущего</i></h2>
+    <div class="revs">
+      <div class="rev real rv">
+        <div><span class="badge real">НАСТОЯЩИЙ ОТЗЫВ</span><div class="stars" style="margin-top:14px">★★★★★</div></div>
+        <q>«Даже года не прошло, а резюме уже опубликовано»</q>
+        <div class="person"><div class="ava" style="background:#fde9c8">🧔</div><div><b>Бета-тестер №1</b><small>8 октября 2026, сразу после двух откликов</small></div></div>
+      </div>
+      <div class="rev rv">
+        <span class="badge fake">ИЗ 2027 · ВЫМЫШЛЕННЫЙ</span>
+        <q>Он не сказал мне «иди спать». Он спросил «отправляем?» — и я чуть не заплакал.</q>
+        <div class="person"><div class="ava" style="background:#e3ecfb">😮‍💨</div><div><b>Прокрастинатор со стажем</b><small>★★★★★</small></div></div>
+      </div>
+      <div class="rev rv">
+        <span class="badge fake">ИЗ 2027 · ВЫМЫШЛЕННЫЙ</span>
+        <q>Впервые вижу резюме без «стрессоустойчивости». Позвала на собеседование из любопытства.</q>
+        <div class="person"><div class="ava" style="background:#d9efe9">👩‍💼</div><div><b>HR-менеджер</b><small>★★★★☆</small></div></div>
+      </div>
+      <div class="rev rv">
+        <span class="badge fake">ИЗ 2027 · ВЫМЫШЛЕННЫЙ</span>
+        <q>Наговорил двадцать минут жалоб в метро. Вышел — а у меня три отклика.</q>
+        <div class="person"><div class="ava" style="background:#fbe3db">🎧</div><div><b>Студент</b><small>★★★★★</small></div></div>
+      </div>
+      <div class="rev rv">
+        <span class="badge fake">ИЗ 2027 · ВЫМЫШЛЕННЫЙ</span>
+        <q>Мама спросила, когда я найду работу. Я впервые ответил «я уже откликнулся».</q>
+        <div class="person"><div class="ava" style="background:#ece2d1">🧑‍🎓</div><div><b>Выпускник</b><small>★★★★★</small></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- МАРШРУТ -->
+<section style="background:var(--sand2)">
+  <div class="wrap">
+    <span class="kicker rv">Маршрут ковчега</span>
+    <h2 class="rv" style="margin-top:14px">Шьём обувь, <i>которую носим сами</i></h2>
+    <p class="lead rv" style="margin-top:18px">Новую площадку подключаем, только когда создатель сам пойдёт по ней искать работу. Иначе не проверить, удобно ли.</p>
+    <div class="route rv">
+      <svg viewBox="0 0 1000 120" aria-hidden="true">
+        <path d="M60 70 C 200 20, 300 110, 380 70 S 560 30, 640 70 S 820 110, 940 60" stroke="#cdbb9c" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" fill="none"/>
+        <path d="M60 70 C 200 20, 300 110, 380 70" stroke="#2a9d8f" stroke-width="4" stroke-linecap="round" fill="none"/>
+        <g><circle cx="60" cy="70" r="14" fill="#2a9d8f"/><path d="M53 70l5 5 9-10" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>
+        <g><circle cx="380" cy="70" r="14" fill="#f0a53a"/><circle cx="380" cy="70" r="5" fill="#fff"/></g>
+        <g><circle cx="640" cy="70" r="12" fill="#fffdf8" stroke="#cdbb9c" stroke-width="3"/></g>
+        <g><circle cx="940" cy="60" r="12" fill="#fffdf8" stroke="#cdbb9c" stroke-width="3"/></g>
+        <g class="ship" transform="translate(205 18)"><path d="M0 26h46l-7 12H7z" fill="#b8732a"/><path d="M12 26V15h22v11" fill="#f5efe4" stroke="#b8732a" stroke-width="2"/><path d="M23 15V3l10 6-10 3" fill="#f0a53a"/></g>
+      </svg>
+      <div class="ports">
+        <div class="port"><span class="st">Работает</span><b>Кабинет вакансий Школы 21</b><span>Проверено на одном человеке. Человек жив и доволен.</span></div>
+        <div class="port next"><span class="st">Следующий порт</span><b>hh.ru и крупные площадки</b><span>Как только создатель сам пойдёт туда искать работу.</span></div>
+        <div class="port far"><span class="st">На горизонте</span><b>Письма кадровикам</b><span>НОЙ пишет черновик — ты читаешь и отправляешь.</span></div>
+        <div class="port far"><span class="st">На горизонте</span><b>Тренажёр собеседований</b><span>Голосом, чтобы первое собеседование не было пробным.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ТАРИФЫ -->
+<section id="price" class="grain">
+  <div class="wrap">
+    <span class="kicker rv">Тарифы</span>
+    <h2 class="rv" style="margin-top:14px">Выбери, <i>сколько ныть</i></h2>
+    <div class="prices">
+      <div class="price rv">
+        <h3>Нытик</h3>
+        <div class="sum">0 ₽<small>навсегда</small></div>
+        <ul><li>Ноешь — он сочувствует</li><li>Резюме не делает</li><li>Как друзья, только отвечает быстрее</li></ul>
+        <button class="btn btn-line" data-wait>Просто поныть</button>
+      </div>
+      <div class="price hot rv">
+        <span class="tag">Выбор бета-тестера</span>
+        <h3>Протез</h3>
+        <div class="sum">≈ 1 подписка<small>на нейросеть — ту самую, которую ты на эту работу и купишь</small></div>
+        <ul><li>Ноешь — он откликается</li><li>Резюме под каждую вакансию</li><li>Формы, шаги, кнопки — всё сам</li><li>Карта откликов со значками</li></ul>
+        <button class="btn btn-amber" data-wait>Хочу протез</button>
+      </div>
+      <div class="price rv">
+        <h3>Ковчег</h3>
+        <div class="sum">1 стажировка<small>шутка: денег не берём, это концепт</small></div>
+        <ul><li>Всё из «Протеза»</li><li>Черновики писем кадровикам</li><li>Кадровик-интервьюер и карта навыков</li></ul>
+        <button class="btn btn-ink" data-wait>Взойти на борт</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="background:var(--sand2)">
+  <div class="wrap">
+    <span class="kicker rv">Вопросы</span>
+    <h2 class="rv" style="margin-top:14px">Честно отвечаем</h2>
+    <div class="faq">
+      <details><summary>Это спам-бот?</summary><p>Нет. Спамер рассылает одно резюме всем подряд. НОЙ под каждую вакансию собирает своё — честное и в тему. Спамер бы так не заморачивался.</p></details>
+      <details><summary>Он не будет врать за меня?</summary><p>Не будет. Правило одно: убирать можно, выдумывать нельзя. Из твоего реального опыта он берёт только то, что нужно вакансии, — чтобы на собеседовании не пришлось краснеть.</p></details>
+      <details><summary>Ему нужны мои пароли?</summary><p>Нет. На сайт входишь ты сам. НОЙ вежливо ждёт за дверью, а потом работает в уже открытом кабинете.</p></details>
+      <details><summary>А капчи?</summary><p>Не обходит. Увидел капчу — зовёт тебя. Мы за честных роботов.</p></details>
+      <details><summary>Он сам переписывается с кадровиками?</summary><p>Пишет черновик. Отправляешь ты. Живым людям от твоего имени он не пишет.</p></details>
+      <details><summary>Когда релиз?</summary><p>Когда создатель найдёт работу. Прямо сейчас это и проверяем.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ФИНАЛ -->
+<section class="final grain">
+  <div class="wrap">
+    <h2 class="rv">Хватит ныть в пустоту.<br><i>Ной в НОЙ.</i></h2>
+    <p class="lead rv">Ковчег строится. Места пока не продаются, но очередь уже есть: в ней один человек, и он доволен.</p>
+    <div class="cta rv"><button class="btn btn-amber" data-wait>Хочу в ковчег</button></div>
+    <svg class="ark" viewBox="0 0 560 220" aria-hidden="true">
+      <path d="M0 175 C 70 150, 140 200, 210 175 S 350 150, 420 175 S 520 195, 560 172 V220 H0Z" fill="#2a9d8f" opacity=".25"/>
+      <path d="M70 120h420l-50 70H120z" fill="#b8732a"/>
+      <path d="M86 132h388M100 150h360M114 168h332" stroke="#8f561c" stroke-width="3" opacity=".55"/>
+      <rect x="170" y="62" width="220" height="58" rx="6" fill="#f5efe4" stroke="#b8732a" stroke-width="4"/>
+      <path d="M160 66 280 22 400 66" fill="#f0a53a" stroke="#b8732a" stroke-width="4" stroke-linejoin="round"/>
+      <g fill="#fffdf8" stroke="#cdbb9c" stroke-width="2"><rect x="196" y="76" width="34" height="40" rx="4"/><rect x="246" y="76" width="34" height="40" rx="4"/><rect x="296" y="76" width="34" height="40" rx="4"/><rect x="346" y="76" width="30" height="40" rx="4"/></g>
+      <g stroke="#cdbb9c" stroke-width="2"><path d="M203 88h20M203 96h20M203 104h14M253 88h20M253 96h20M253 104h14M303 88h20M303 96h20M303 104h14M352 88h18M352 96h18"/></g>
+      <path d="M280 22V4l28 9-28 7" fill="#2a9d8f"/>
+      <path d="M0 196 C 70 172, 140 220, 210 196 S 350 172, 420 196 S 520 214, 560 194 V220 H0Z" fill="#2a9d8f"/>
+    </svg>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p style="margin:0"><b>НОЙ</b> — концепт продукта и шутка с серьёзными намерениями. Денег не берём, данные не собираем.</p>
+    <p style="margin:0">Не связан со Сбером, Школой 21, hh.ru и Ноем (библейским). Названия площадок — просто чтобы было понятно, о чём речь.</p>
+    <p style="margin:0">Версия 1 сделана нейропротезом по одному голосовому сообщению с правками. Сравни с <a href="./">версией 0</a>. · 2026</p>
+  </div>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mt">
+  <div class="mbox">
+    <div class="big">🚢</div>
+    <h3 id="mt">Ты в очереди на ковчег!</h3>
+    <p>Шучу — никакой очереди нет, мы ничего не собираем. Но ковчег строится, а первый пассажир уже откликается на вакансии. Загляни позже.</p>
+    <button class="btn btn-amber" id="mclose">Ладно, поною пока</button>
+  </div>
+</div>
+
+<script>
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = s => document.querySelector(s);
+
+  // навигация: прозрачная над штормом, плотная ниже
+  const nav = $('#nav');
+  const onScroll = () => nav.classList.toggle('solid', scrollY > 40);
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  // появление блоков
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } }), {threshold:.12});
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  // демо: нытьё → резюме → отклики, паника падает
+  const dev = $('#device'), tr = $('#tr'), pn = $('#pn'), pb = $('#pb'), sent = $('#sent'), st = $('#devstate');
+  const cards = [...document.querySelectorAll('.rcard')];
+  const text = 'короче… мне страшно… я год не могу залить резюме… его стыдно перечитывать… помоги, а?';
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  function setPanic(v){ pn.textContent = Math.round(v) + '%'; pb.style.width = v + '%'; }
+  async function panicTo(from, to, ms){ const t0 = performance.now(); return new Promise(res => { (function f(now){ const k = Math.min(1,(now-t0)/ms), e = 1-Math.pow(1-k,3); setPanic(from + (to-from)*e); k<1 ? requestAnimationFrame(f) : res(); })(t0); }); }
+  async function loop(){
+    if (reduce) { tr.textContent = text; cards.forEach(c => c.classList.add('in')); dev.classList.add('calm'); setPanic(8); sent.classList.add('in'); st.textContent = 'Готово'; return; }
+    while (true) {
+      dev.classList.remove('calm'); sent.classList.remove('in'); cards.forEach(c => c.classList.remove('in'));
+      tr.textContent = ''; setPanic(92); st.textContent = 'Слушаю тебя…';
+      await sleep(600);
+      for (const ch of text) { tr.textContent += ch; await sleep(ch === '…' ? 260 : 38); }
+      await sleep(500); st.textContent = 'Собираю резюме…'; dev.classList.add('calm');
+      for (const c of cards) { c.classList.add('in'); await sleep(550); }
+      st.textContent = 'Откликаюсь…';
+      await panicTo(92, 8, 1600);
+      sent.classList.add('in'); st.textContent = 'Готово';
+      await sleep(5200);
+    }
+  }
+  loop();
+
+  // «лист ожидания» — честный: ничего не собирает
+  const modal = $('#modal');
+  document.querySelectorAll('[data-wait]').forEach(b => b.addEventListener('click', () => modal.classList.add('open')));
+  $('#mclose').addEventListener('click', () => modal.classList.remove('open'));
+  modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.remove('open'); });
+</script>
+</body>
+</html>
