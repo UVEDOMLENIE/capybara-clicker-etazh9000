@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ПРЕЛЮДИЯ — докрутка воронок продаж</title>
+<meta name="description" content="Ваши продажники лезут без прелюдии. Мы тайно проходим вашу воронку как обычный клиент и показываем три находки бесплатно.">
+<meta property="og:title" content="ПРЕЛЮДИЯ — ваши продажники лезут без прелюдии">
+<meta property="og:description" content="Тайный покупатель + разбор воронки + готовые фразы для менеджеров. Три находки — бесплатно.">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23ff2fb9'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' font-family='Arial Black,sans-serif' fill='%23c8ff1a'%3EП%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0018; --bg2:#14012a; --card:#1c0838; --line:#3a1a66;
+    --ink:#fff7ff; --muted:#d6c3ee;
+    --acid:#c8ff1a; --pink:#ff2fb9; --cyan:#2ef2ff; --yellow:#ffe600; --red:#ff4d4d;
+    --display:"Dela Gothic One","Arial Black",Impact,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth; overflow-x:clip}
+  .mq-wrap{overflow:hidden; padding:14px 0}
+  body{
+    margin:0; color:var(--ink); font:17px/1.55 "Rubik",system-ui,sans-serif;
+    background:
+      radial-gradient(700px 500px at 10% 0%, #ff2fb933, transparent 70%),
+      radial-gradient(600px 500px at 100% 20%, #2ef2ff22, transparent 70%),
+      linear-gradient(#ffffff08 1px, transparent 1px) 0 0/32px 32px,
+      linear-gradient(90deg,#ffffff08 1px, transparent 1px) 0 0/32px 32px,
+      var(--bg);
+    overflow-x:hidden; -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+  .wrap{width:min(1180px, 100% - 32px); margin-inline:auto}
+  h1,h2,h3{font-family:var(--display); font-weight:400; line-height:1.02; margin:0; text-transform:uppercase; letter-spacing:-.01em}
+  h2{font-size:clamp(32px,7.4vw,76px)}
+  h2.h2-sm{font-size:clamp(24px,6.6vw,64px)}
+  section{padding:88px 0; position:relative}
+  .lead{font-size:clamp(17px,2vw,21px); color:var(--muted); max-width:680px}
+  .neon-pink{color:var(--pink); text-shadow:0 0 18px #ff2fb988}
+  .neon-acid{color:var(--acid); text-shadow:0 0 18px #c8ff1a77}
+  .neon-cyan{color:var(--cyan); text-shadow:0 0 18px #2ef2ff77}
+  .hl{background:linear-gradient(var(--acid),var(--acid)) 0 100%/100% 84% no-repeat; color:#120020; padding:0 .12em; box-decoration-break:clone; -webkit-box-decoration-break:clone; text-shadow:none}
+  .tilt-l{transform:rotate(-2.5deg)} .tilt-r{transform:rotate(2deg)}
+
+  /* ---------- marquee ---------- */
+  .marquee{background:var(--acid); color:#120020; overflow:hidden; white-space:nowrap; font:900 15px/1 "Rubik",sans-serif; text-transform:uppercase; letter-spacing:.04em; border-block:3px solid #120020}
+  .marquee.pink{background:var(--pink); color:#fff; transform:rotate(-1.5deg); margin:0 -20px; border-color:#fff}
+  .marquee__track{display:inline-flex; gap:0; padding:12px 0; animation:run 28s linear infinite}
+  .marquee span{padding-right:2.4em}
+  .marquee.pink .marquee__track{animation-duration:34s; animation-direction:reverse}
+  @keyframes run{to{transform:translateX(-50%)}}
+
+  /* ---------- nav ---------- */
+  nav{position:sticky; top:0; z-index:20; background:#0c0018e6; backdrop-filter:blur(10px); border-bottom:2px solid var(--line)}
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; height:64px}
+  .logo{font:400 clamp(20px,4.6vw,26px)/1 var(--display); text-decoration:none; letter-spacing:.02em; color:var(--ink)}
+  .logo b{color:var(--pink); font-weight:400}
+  .navlinks{display:flex; gap:22px; font-weight:700; font-size:15px}
+  .navlinks a{text-decoration:none; color:var(--muted)} .navlinks a:hover{color:var(--acid)}
+
+  /* ---------- buttons ---------- */
+  .btn{display:inline-flex; align-items:center; justify-content:center; gap:10px; border:3px solid #120020; border-radius:14px; padding:16px 24px; font:900 17px/1.1 "Rubik",sans-serif; text-transform:uppercase; text-decoration:none; cursor:pointer; color:#120020; background:var(--acid); box-shadow:6px 6px 0 var(--pink); transition:transform .12s, box-shadow .12s; text-align:center}
+  .btn:hover{transform:translate(-2px,-2px); box-shadow:9px 9px 0 var(--pink)}
+  .btn:active{transform:translate(3px,3px); box-shadow:2px 2px 0 var(--pink)}
+  .btn.ghost{background:transparent; color:var(--ink); border-color:var(--ink); box-shadow:6px 6px 0 var(--cyan)}
+  nav .btn{padding:10px 14px; font-size:13px; box-shadow:4px 4px 0 var(--pink); white-space:nowrap}
+  .btn-giant{font-size:clamp(20px,4.6vw,40px); padding:clamp(20px,3vw,34px) clamp(22px,4vw,56px); border-radius:22px; box-shadow:10px 10px 0 var(--pink), 0 0 60px #c8ff1a66; animation:throb 1.6s ease-in-out infinite}
+  @keyframes throb{50%{transform:scale(1.04) rotate(-1deg)}}
+
+  /* ---------- stickers ---------- */
+  .sticker{display:inline-block; font:900 13px/1.15 "Rubik",sans-serif; text-transform:uppercase; padding:8px 12px; border:2px solid #120020; border-radius:10px; box-shadow:3px 3px 0 #120020; color:#120020; background:var(--yellow)}
+  .sticker.pink{background:var(--pink); color:#fff} .sticker.cyan{background:var(--cyan)} .sticker.acid{background:var(--acid)} .sticker.white{background:#fff}
+  .wobble{animation:wob 3.2s ease-in-out infinite}
+  @keyframes wob{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg) translateY(-3px)}}
+  .float{animation:flo 5s ease-in-out infinite}
+  @keyframes flo{50%{transform:translateY(-10px) rotate(6deg)}}
+
+  /* ---------- hero ---------- */
+  .hero{padding:48px 0 72px; overflow:hidden}
+  .hero-side{padding-top:20px}
+  .hero .wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:48px; align-items:center}
+  .beta{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px}
+  .hero h1{font-size:clamp(34px,9.2vw,100px); line-height:1.1}
+  .hero h1 .row{display:block}
+  .hero h1 .strike{position:relative; display:inline-block}
+  .hero .lead{margin:26px 0 30px}
+  .cta{display:flex; flex-wrap:wrap; gap:18px; align-items:center}
+  .tiny{font-size:13px; color:var(--muted)}
+  .hero-side{position:relative}
+  .badge-spin{position:absolute; width:138px; height:138px; right:-18px; top:-52px; z-index:3; animation:spin 14s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .badge-spin text{font:900 12.5px "Rubik",sans-serif; letter-spacing:2px; fill:#120020; text-transform:uppercase}
+  .badge-core{position:absolute; right:30px; top:-6px; z-index:4; font-size:40px; pointer-events:none}
+
+  /* chat */
+  .chat{background:#fff; color:#141414; border:3px solid #120020; border-radius:26px; box-shadow:12px 12px 0 var(--cyan), 0 0 80px #ff2fb944; padding:18px; transform:rotate(1.5deg); position:relative}
+  .chat-head{display:flex; align-items:center; gap:10px; padding-bottom:12px; border-bottom:2px dashed #ddd; margin-bottom:12px; font-weight:700; font-size:15px}
+  .ava{width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,var(--pink),var(--yellow)); display:grid; place-items:center; font-size:18px}
+  .chat-head small{display:block; color:#2a9d3b; font-weight:500; font-size:12px}
+  .chat-body{display:flex; flex-direction:column; gap:10px; min-height:300px}
+  .msg{max-width:88%; padding:10px 14px; border-radius:18px; font-size:15px; line-height:1.4; animation:pop .3s ease-out both}
+  .msg.mgr{align-self:flex-start; background:#eee; border-bottom-left-radius:5px}
+  .msg.me{align-self:flex-end; background:#dcf8c6; border-bottom-right-radius:5px}
+  .msg.price{font-weight:900; font-size:17px; background:var(--yellow)}
+  @keyframes pop{from{opacity:0; transform:translateY(8px) scale(.96)}}
+  .stamp{align-self:center; margin-top:6px; font:400 22px/1 var(--display); color:var(--red); border:4px solid var(--red); border-radius:10px; padding:8px 14px; transform:rotate(-8deg); text-transform:uppercase; animation:slam .35s cubic-bezier(.2,2,.4,1) both; background:#fff}
+  @keyframes slam{from{opacity:0; transform:rotate(-8deg) scale(2.4)}}
+  .chat-note{margin-top:12px; font-size:12px; color:#555}
+
+  /* stats */
+  .stats{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; margin-top:8px}
+  .stat{background:var(--card); border:2px solid var(--line); border-radius:18px; padding:20px}
+  .stat b{display:block; font:400 clamp(28px,4vw,44px)/1 var(--display); color:var(--acid); margin-bottom:8px; overflow-wrap:anywhere}
+  .stat:nth-child(2) b{color:var(--pink)} .stat:nth-child(3) b{color:var(--cyan)} .stat:nth-child(4) b{color:var(--yellow)}
+  .stat span{color:var(--muted); font-size:15px}
+  .foot{font-size:13px; color:var(--muted); margin-top:12px}
+
+  /* ---------- fails ---------- */
+  .fails{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px; margin-top:44px}
+  .fail{background:var(--card); border:2px solid var(--pink); border-radius:18px; padding:22px; position:relative; transition:transform .2s}
+  .fail:nth-child(odd){transform:rotate(-1.6deg)} .fail:nth-child(even){transform:rotate(1.4deg)}
+  .fail:hover{transform:rotate(0) scale(1.03); border-color:var(--acid)}
+  .fail .em{font-size:38px; line-height:1}
+  .fail h3{font-size:19px; margin:12px 0 8px; color:var(--yellow)}
+  .fail p{margin:0; color:var(--muted); font-size:15px}
+  .fail .sticker{position:absolute; top:-14px; right:12px; font-size:11px; padding:5px 8px}
+
+  /* ---------- steps ---------- */
+  .steps{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px; margin-top:44px; counter-reset:s}
+  .step{background:#fff; color:#160022; border:3px solid #120020; border-radius:20px; padding:24px; box-shadow:7px 7px 0 var(--acid)}
+  .step:nth-child(2){box-shadow:7px 7px 0 var(--pink)} .step:nth-child(3){box-shadow:7px 7px 0 var(--cyan)} .step:nth-child(4){box-shadow:7px 7px 0 var(--yellow)}
+  .step .n{font:400 46px/1 var(--display); color:var(--pink)}
+  .step h3{font-size:22px; margin:10px 0 10px}
+  .step p{margin:0; font-size:15.5px; color:#3a2a48}
+  .step .joke{display:block; margin-top:12px; font-size:13px; font-weight:700; color:#8a2fb9}
+  .after{margin-top:34px; font-size:18px; font-weight:700}
+  .after span{background:var(--pink); color:#fff; padding:2px 8px; border-radius:6px}
+
+  /* ---------- case ---------- */
+  .case{margin-top:40px; background:#f6f1e6; color:#1c1424; border:3px solid #120020; border-radius:8px; padding:clamp(18px,4vw,40px); box-shadow:14px 14px 0 var(--pink); position:relative; transform:rotate(-.6deg)}
+  .case::before{content:"СЕКРЕТНО · ТОЛЬКО ДЛЯ СОБСТВЕННИКА"; position:absolute; top:-16px; left:20px; background:var(--red); color:#fff; font:900 12px/1 "Rubik",sans-serif; padding:8px 12px; border:2px solid #120020; letter-spacing:.06em}
+  .case-head{display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; align-items:flex-start; border-bottom:2px dashed #b9ab96; padding-bottom:16px; margin-bottom:8px}
+  .case-head h3{font-size:clamp(22px,4vw,34px)}
+  .case-head p{margin:6px 0 0; color:#5b4e66; font-size:14px}
+  .score{font:400 clamp(20px,3vw,28px)/1 var(--display); color:var(--red); border:4px solid var(--red); padding:10px 14px; border-radius:10px; transform:rotate(6deg); text-align:center}
+  .score small{display:block; font:900 11px "Rubik",sans-serif; letter-spacing:.06em}
+  .find{display:grid; grid-template-columns:60px minmax(0,1fr); gap:16px; padding:20px 0; border-bottom:2px dashed #d8ccb8}
+  .find:last-of-type{border-bottom:0}
+  .find .num{font:400 44px/1 var(--display); color:var(--pink); -webkit-text-stroke:2px #120020}
+  .find h4{margin:0 0 6px; font:900 19px/1.25 "Rubik",sans-serif; text-transform:uppercase}
+  .find p{margin:0 0 10px; color:#3d3346; font-size:15.5px}
+  .fix{background:#fff; border-left:5px solid #20b04b; padding:10px 14px; border-radius:6px; font-size:15px}
+  .fix b{color:#178a3a}
+  .quote-box{font-style:italic}
+  .case-foot{margin-top:18px; font-size:13px; color:#6b5e77}
+
+  /* ---------- team ---------- */
+  .team{display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:44px}
+  .member{background:var(--card); border:3px solid var(--line); border-radius:24px; padding:28px; position:relative; overflow:hidden}
+  .member.t{border-color:var(--pink); transform:rotate(-1.2deg)}
+  .member.k{border-color:var(--cyan); transform:rotate(1.2deg)}
+  .member .face{font-size:64px; line-height:1}
+  .member h3{font-size:clamp(28px,4vw,40px); margin:14px 0 4px}
+  .member .role{font:900 14px "Rubik",sans-serif; text-transform:uppercase; letter-spacing:.05em}
+  .member.t .role{color:var(--pink)} .member.k .role{color:var(--cyan)}
+  .member p{color:var(--muted); margin:14px 0 16px}
+  .chips{display:flex; flex-wrap:wrap; gap:8px}
+  .chips .sticker{font-size:11.5px; padding:6px 9px}
+  .honest{margin-top:40px; background:var(--yellow); color:#120020; border:3px solid #120020; border-radius:16px; padding:20px 22px; font-weight:700; font-size:18px; box-shadow:8px 8px 0 var(--cyan); transform:rotate(-.8deg)}
+
+  /* ---------- prices ---------- */
+  .prices{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; margin-top:48px; align-items:stretch}
+  .price{background:var(--card); border:3px solid var(--line); border-radius:24px; padding:28px; display:flex; flex-direction:column; gap:14px; position:relative}
+  .price.hot{background:linear-gradient(160deg,#ff2fb93a,var(--card) 60%); border-color:var(--pink); box-shadow:0 0 50px #ff2fb955; transform:translateY(-10px)}
+  .price .em{font-size:44px; line-height:1}
+  .price h3{font-size:clamp(22px,2.6vw,28px)}
+  .price .sum{font:400 clamp(24px,3vw,32px)/1.05 var(--display); color:var(--acid)}
+  .price .sum small{display:block; font:500 14px "Rubik",sans-serif; color:var(--muted); margin-top:6px}
+  .price ul{margin:0; padding-left:20px; color:var(--muted); flex:1}
+  .price li{margin-bottom:6px}
+  .price .btn{width:100%}
+  .price > .sticker{position:absolute; top:-16px; right:16px}
+
+  /* ---------- reviews ---------- */
+  .reviews{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px; margin-top:44px}
+  .rev{background:#fff; color:#170020; border:3px solid #120020; border-radius:20px 20px 20px 4px; padding:20px; display:flex; flex-direction:column; justify-content:space-between; gap:14px}
+  .rev:nth-child(1){transform:rotate(-2deg); box-shadow:6px 6px 0 var(--acid)}
+  .rev:nth-child(2){transform:rotate(1.5deg); box-shadow:6px 6px 0 var(--cyan)}
+  .rev:nth-child(3){transform:rotate(-1deg); box-shadow:6px 6px 0 var(--pink)}
+  .rev.real{background:var(--pink); color:#fff; transform:rotate(2deg); box-shadow:6px 6px 0 var(--yellow)}
+  .rev p{margin:0; font-size:16px; font-weight:500}
+  .rev.real p{font:400 21px/1.2 var(--display); text-transform:uppercase}
+  .rev small{font-size:13px; color:#5c4a6a}
+  .rev.real small{color:#fff}
+  .fake{display:inline-block; background:var(--red); color:#fff; font-weight:900; font-size:11px; padding:2px 6px; border-radius:4px; text-transform:uppercase; letter-spacing:.04em}
+  .rev.real .fake{background:var(--acid); color:#120020}
+
+  /* ---------- faq ---------- */
+  .faq{display:grid; gap:12px; margin-top:40px; max-width:860px}
+  details{background:var(--card); border:2px solid var(--line); border-radius:16px; padding:18px 20px; transition:border-color .2s}
+  details[open]{border-color:var(--acid)}
+  summary{cursor:pointer; font-weight:900; font-size:18px; list-style:none; display:flex; justify-content:space-between; gap:16px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+"; color:var(--pink); font:400 26px/1 var(--display); transition:transform .2s; flex:none}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{color:var(--muted); margin:12px 0 0}
+
+  /* ---------- final ---------- */
+  .final{text-align:center; padding:110px 0 120px; overflow:hidden}
+  .final h2{font-size:clamp(38px,10vw,120px)}
+  .final .lead{margin:24px auto 44px}
+  .final .floaters span{position:absolute; font-size:clamp(34px,6vw,64px); pointer-events:none}
+  .counter{margin-top:34px; font-weight:700; color:var(--muted)}
+  .counter b{color:var(--acid); font-family:var(--display); font-weight:400; font-size:24px}
+
+  footer{border-top:2px solid var(--line); padding:32px 0 48px; color:var(--muted); font-size:13.5px}
+  footer p{margin:6px 0; max-width:820px}
+  footer b{color:var(--ink)}
+
+  /* ---------- modal ---------- */
+  .modal{position:fixed; inset:0; background:#0c0018dd; backdrop-filter:blur(6px); display:none; align-items:center; justify-content:center; padding:16px; z-index:60}
+  .modal.open{display:flex}
+  .modal-box{background:#fff; color:#170020; border:4px solid #120020; border-radius:26px; padding:30px 26px; max-width:460px; text-align:center; box-shadow:12px 12px 0 var(--pink); animation:pop .25s ease-out}
+  .modal-box .big{font-size:60px; line-height:1}
+  .modal-box h3{font-size:26px; margin:12px 0}
+  .modal-box p{color:#4b3a5a; margin:0 0 16px}
+  .modal-box .phone{display:block; font:400 24px var(--display); color:#170020; margin:4px 0 20px; text-decoration:none}
+
+  .burst{position:fixed; pointer-events:none; z-index:70; font-size:28px; animation:fly 1.1s ease-out forwards}
+  @keyframes fly{to{transform:translate(var(--dx),var(--dy)) rotate(var(--r)); opacity:0}}
+
+  /* ---------- responsive ---------- */
+  @media (min-width:981px){ .hero h1{font-size:clamp(44px,5.2vw,68px)} }
+  @media (max-width:980px){
+    .hero .wrap{grid-template-columns:minmax(0,1fr)}
+    .hero-side{max-width:520px; margin:40px auto 0; width:100%}
+    .fails,.steps,.reviews{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .prices,.team{grid-template-columns:minmax(0,1fr)}
+    .price.hot{transform:none}
+    .navlinks{display:none}
+    section{padding:68px 0}
+  }
+  @media (max-width:600px){
+    body{font-size:16px}
+    .fails,.steps,.reviews{grid-template-columns:minmax(0,1fr)}
+    .badge-spin{width:104px; height:104px; right:0; top:-46px}
+    .badge-core{right:36px; top:-12px; font-size:30px}
+    .chat{transform:none; box-shadow:8px 8px 0 var(--cyan)}
+    .find{grid-template-columns:minmax(0,1fr); gap:6px}
+    .member.t,.member.k,.case{transform:none}
+    .btn{width:100%}
+    nav .btn{width:auto}
+    .cta .tiny{width:100%}
+    .reviews{gap:26px}
+    .final .floaters span:nth-child(n+3){display:none}
+    .final .floaters span:nth-child(1){top:2%; left:2%}
+    .final .floaters span:nth-child(2){top:1%; right:2%}
+    .marquee.pink{margin:0 -8px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none !important; transition:none !important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<div class="marquee" aria-hidden="true"><div class="marquee__track" id="mq1"><span>💐 три находки бесплатно</span><span>🔥 ваши продажники лезут без прелюдии</span><span>🕵️ тайный покупатель уже у вас в воронке</span><span>📈 замер «было/стало» через 2–4 недели</span><span>🤖 нейропротез расшифровывает всё</span><span>🚫 без ценника в первой фразе</span></div></div>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top">ПРЕЛЮ<b>ДИЯ</b></a>
+    <div class="navlinks"><a href="#fails">Косяки</a><a href="#how">Как</a><a href="#case">Разбор</a><a href="#team">Кто</a><a href="#price">Тарифы</a><a href="#faq">FAQ</a></div>
+    <a class="btn" href="#" data-open>3 находки 💐</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <div class="beta">
+        <span class="sticker pink wobble">Закрытая бета</span>
+        <span class="sticker cyan tilt-r">Выборка — один человек</span>
+        <span class="sticker white tilt-l">0+ всё прилично</span>
+      </div>
+      <h1>
+        <span class="row">Ваши</span>
+        <span class="row neon-cyan">продажники</span>
+        <span class="row">лезут</span>
+        <span class="row"><span class="hl">без прелюдии</span></span>
+      </h1>
+      <p class="lead">Мы тайно проходим вашу воронку как обычный клиент: сайт, заявка, звонок, мессенджеры, почта. Всё записываем и находим, где клиент остывает, а менеджер спотыкается. <b style="color:var(--ink)">Три находки показываем бесплатно.</b> Дальше — серьёзные отношения по договору.</p>
+      <div class="cta">
+        <a class="btn" href="#" data-open>Хочу 3 находки бесплатно 💐</a>
+        <a class="btn ghost" href="#case">Показать разбор</a>
+        <span class="tiny">Без ценника в первой фразе. Мы же не они.</span>
+      </div>
+    </div>
+
+    <div class="hero-side">
+      <svg class="badge-spin" viewBox="0 0 140 140" aria-hidden="true">
+        <defs><path id="circ" d="M70,70 m-52,0 a52,52 0 1,1 104,0 a52,52 0 1,1 -104,0"/></defs>
+        <circle cx="70" cy="70" r="68" fill="#ffe600" stroke="#120020" stroke-width="3"/>
+        <text><textPath href="#circ">3 находки бесплатно ★ 3 находки бесплатно ★</textPath></text>
+      </svg>
+      <span class="badge-core" aria-hidden="true">💐</span>
+      <div class="chat" aria-label="Сцена: менеджер онлайн-школы и тайный покупатель">
+        <div class="chat-head"><span class="ava">🎓</span><div>Менеджер онлайн-школы<small>● в сети, голоден</small></div></div>
+        <div class="chat-body" id="chat"></div>
+        <p class="chat-note">По мотивам реального тайного захода. Реплика клиента — почти дословно, менеджер — художественный пересказ.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><b>1&nbsp;млн&nbsp;₽</b><span>цена курса, которую назвали в первой фразе</span></div>
+    <div class="stat"><b>0</b><span>цветочков подарено клиенту до оплаты</span></div>
+    <div class="stat"><b>1</b><span>тайный покупатель, который ушёл и основал контору</span></div>
+    <div class="stat"><b>∞</b><span>кринжа в воронках, которые мы ещё не видели</span></div>
+  </div>
+  <p class="foot">* Цифры шуточные. Выборка — один человек. Статистически ничтожно, эмоционально — ого.</p>
+</div>
+
+<div class="mq-wrap" style="margin-top:58px"><div class="marquee pink" aria-hidden="true"><div class="marquee__track" id="mq2"><span>продажи без прелюдии не возбуждают (интерес)</span><span>✦ сначала свидание, потом счёт</span><span>✦ менеджер, верни цветочек</span><span>✦ «а можно вводную бесплатную дозу?»</span><span>✦ клиент остыл ❄️</span></div></div></div>
+
+<section id="fails">
+  <div class="wrap">
+    <span class="sticker acid tilt-l">Узнали? Согласны?</span>
+    <h2 style="margin-top:18px">Как ваши менеджеры лезут <span class="neon-pink">без прелюдии</span></h2>
+    <p class="lead" style="margin-top:18px">Типичные косяки, на которых тихо утекают клиенты. Собственник их не видит: он же не звонит в свою фирму как незнакомец. А мы звоним.</p>
+    <div class="fails">
+      <div class="fail"><span class="sticker">топ-1</span><div class="em">💸</div><h3>Ценник с порога</h3><p>Ещё не спросил, как зовут, а уже «оплата картой или в рассрочку?»</p></div>
+      <div class="fail"><div class="em">📵</div><h3>Не перезвонил</h3><p>Заявка лежит три часа. Клиент за это время сходил к конкуренту и вернулся сказать «уже не надо».</p></div>
+      <div class="fail"><div class="em">🎁</div><h3>Обещал и не дал</h3><p>«Сейчас пришлю PDF». Не прислал. Ни сейчас, ни потом, ни после напоминания.</p></div>
+      <div class="fail"><div class="em">🐌</div><h3>Сайт динамит</h3><p>Лендинг грузится через раз, форма заявки молча не отправляется. Клиент думает, что это он дурак.</p></div>
+      <div class="fail"><div class="em">👻</div><h3>Прочитал и пропал</h3><p>В мессенджере две галочки и тишина. Через два дня: «Актуально?» Уже нет.</p></div>
+      <div class="fail"><div class="em">🤖</div><h3>Скрипт с бумажки</h3><p>Читает текст, не слышит вопрос. Клиент говорит «дорого» — менеджер дальше про преимущества.</p></div>
+      <div class="fail"><div class="em">🤷</div><h3>«Ну вы подумайте»</h3><p>Разговор кончился, а следующего шага нет: ни даты, ни звонка, ни письма.</p></div>
+      <div class="fail"><span class="sticker cyan">классика</span><div class="em">📭</div><h3>Письмо в спам</h3><p>Автоответ с «подарком» уходит в спам или не приходит вовсе. Подарок так и не подарен.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="how" style="background:linear-gradient(180deg,transparent,#ff2fb912 40%,transparent)">
+  <div class="wrap">
+    <span class="sticker cyan tilt-r">Нежно. Поэтапно. По согласию.</span>
+    <h2 style="margin-top:18px">Как работаем: <span class="neon-acid">4 шага</span></h2>
+    <div class="steps">
+      <div class="step"><div class="n">01</div><h3>Знакомство</h3><p>Тайно заходим к вам как обычный клиент: сайт, заявка, звонок, мессенджеры, почта.</p><span class="joke">Менеджер не знает. Мама тоже.</span></div>
+      <div class="step"><div class="n">02</div><h3>Разбор полётов</h3><p>Записи и переписку расшифровываем и прогоняем через ИИ. Ищем, где клиент остыл и почему.</p><span class="joke">Каждое «эээ» на счету.</span></div>
+      <div class="step"><div class="n">03</div><h3>Первое свидание</h3><p>Показываем собственнику три самые жирные находки. Бесплатно и без обязательств.</p><span class="joke">Цветочек за наш счёт 💐</span></div>
+      <div class="step"><div class="n">04</div><h3>Серьёзные отношения</h3><p>По договору: полный разбор, готовые фразы и скрипты, которые сработают даже у слабого менеджера. Через 2–4 недели меряем конверсию «было/стало».</p><span class="joke">Цифры, а не «ну вроде лучше стало».</span></div>
+    </div>
+    <p class="after">Не сложилось после шага 3? <span>Расстаёмся друзьями</span>, находки оставьте себе.</p>
+  </div>
+</section>
+
+<section id="case">
+  <div class="wrap">
+    <span class="sticker pink wobble">Вскрытие</span>
+    <h2 style="margin-top:18px">Пример разбора</h2>
+    <p class="lead" style="margin-top:18px">Онлайн-школа. Название не скажем: мы джентльмены. Вот как выглядят три бесплатные находки.</p>
+
+    <article class="case">
+      <div class="case-head">
+        <div>
+          <h3>Онлайн-школа «N»</h3>
+          <p>Канал: лендинг → лид-магнит → менеджер в мессенджере · тайный покупатель: Командор</p>
+        </div>
+        <div class="score">0 / 10<small>прелюдии</small></div>
+      </div>
+
+      <div class="find">
+        <div class="num">1</div>
+        <div>
+          <h4>🐌 Лендинг без отключения VPN не грузится</h4>
+          <p>Человек с включённым VPN видит белый экран. Он не знает, что дело в VPN: он просто уходит. Часть рекламного бюджета льётся в пустоту.</p>
+          <div class="fix"><b>Что делать:</b> проверить доступность сайта из разных сетей и с VPN, поправить хостинг или защиту. Задача на день, а не на квартал.</div>
+        </div>
+      </div>
+
+      <div class="find">
+        <div class="num">2</div>
+        <div>
+          <h4>🎁 Обещанный PDF «так и не дали»</h4>
+          <p>Лид-магнит — первое обещание школы клиенту. Его не выполнили. Дальше клиент уже не верит ничему, даже честному.</p>
+          <div class="fix"><b>Что делать:</b> автоматическая отправка файла сразу после заявки + проверка, что письмо не в спаме. Один раз настроить — и забыть.</div>
+        </div>
+      </div>
+
+      <div class="find">
+        <div class="num">3</div>
+        <div>
+          <h4>💸 Менеджер с первой фразы — «курс за миллион»</h4>
+          <p>Ни вопроса, ни интереса, ни вводного шага. Клиент ответил: «как-то без прелюдии сразу… может, у вас вводная бесплатная доза есть?» Так и родилось наше имя.</p>
+          <div class="fix quote-box"><b>Готовая фраза:</b> «Расскажите, что хотите получить от обучения? Подберу, с чего начать. Кстати, есть бесплатный вводный урок, можно сначала посмотреть».</div>
+        </div>
+      </div>
+
+      <p class="case-foot">Школа обезличена. Детали — по реальному тайному заходу, формулировки упрощены. В полном разборе таких пунктов обычно не три.</p>
+    </article>
+  </div>
+</section>
+
+<section id="team" style="background:linear-gradient(180deg,transparent,#2ef2ff10 40%,transparent)">
+  <div class="wrap">
+    <h2 class="h2-sm">Один ходит и грузит. <span class="neon-cyan">Другой сидит в глуши</span> и всё автоматизирует.</h2>
+    <div class="team">
+      <div class="member t">
+        <div class="face">🎩</div>
+        <h3>Таур</h3>
+        <div class="role">В полях · маэстро прелюдии</div>
+        <p>Переговорщик и маэстро разговора. Выходит прямо на собственников. Читает людей по паузе: вы ещё молчите, а он уже понял. Сам ходит к вам тайным покупателем.</p>
+        <div class="chips"><span class="sticker pink">говорит</span><span class="sticker white">слышит паузу</span><span class="sticker acid">грузит по делу</span></div>
+      </div>
+      <div class="member k">
+        <div class="face">🛰️</div>
+        <h3>Командор</h3>
+        <div class="role">В тылу · технарь-интроверт</div>
+        <p>Сидит в глуши под Питером. Записи, расшифровки, отчёты и автоматизация на ИИ — его нейропротез. Лимит живого общения исчерпан на три недели вперёд, поэтому разговаривает с нейросетями.</p>
+        <div class="chips"><span class="sticker cyan">нейропротез</span><span class="sticker white">не звонит</span><span class="sticker yellow">всё записал</span></div>
+      </div>
+    </div>
+    <p class="honest">Честно: поначалу мы просто по рофлу чью-то воронку препарируем. Можете стать первыми подопытными. То есть клиентами. То есть партнёрами. 🤝</p>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true"><div class="marquee__track" id="mq3"><span>⚡ сначала свидание</span><span>⚡ потом договор</span><span>⚡ потом цифры «было/стало»</span><span>⚡ потом живём вместе</span><span>⚡ сумм на сайте нет — мы не называем ценник с порога</span></div></div>
+
+<section id="price">
+  <div class="wrap">
+    <h2>Тарифы <span class="neon-pink">отношений</span></h2>
+    <p class="lead" style="margin-top:18px">Сумм тут нет. Сначала знакомимся, потом говорим о деньгах. Учимся на чужих ошибках.</p>
+    <div class="prices">
+      <div class="price">
+        <div class="em">💐</div>
+        <h3>Первое свидание</h3>
+        <div class="sum">Бесплатно<small>три находки, без обязательств</small></div>
+        <ul><li>Тайный заход в вашу воронку</li><li>Три самых жирных косяка</li><li>Показываем собственнику лично</li></ul>
+        <a class="btn" href="#" data-open>Хочу на свидание</a>
+      </div>
+      <div class="price hot">
+        <span class="sticker acid wobble">Хит сезона</span>
+        <div class="em">💍</div>
+        <h3>Серьёзные отношения</h3>
+        <div class="sum">По договору<small>после свидания, если понравились</small></div>
+        <ul><li>Полный разбор всех каналов: сайт, заявка, звонок, мессенджеры, почта</li><li>Готовые фразы и скрипты, которые вытянет даже слабый менеджер</li><li>Замер конверсии «было/стало» через 2–4 недели</li></ul>
+        <a class="btn" href="#" data-open>Сделать предложение</a>
+      </div>
+      <div class="price">
+        <div class="em">🏠</div>
+        <h3>Живём вместе</h3>
+        <div class="sum">По договору<small>допы, когда уже не стесняемся</small></div>
+        <ul><li>Тексты и сайт</li><li>CRM, чтобы заявки не терялись</li><li>Обучение менеджеров</li><li>Автоматизация на ИИ</li></ul>
+        <a class="btn ghost" href="#" data-open>Съехаться</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:linear-gradient(180deg,transparent,#c8ff1a0d 40%,transparent)">
+  <div class="wrap">
+    <span class="sticker yellow tilt-l">Внимание: машина времени</span>
+    <h2 style="margin-top:18px">Отзывы <span class="neon-acid">из будущего</span></h2>
+    <p class="lead" style="margin-top:18px">Клиентов пока нет, поэтому отзывы мы честно выдумали. Кроме одного.</p>
+    <div class="reviews">
+      <div class="rev"><p>«Менеджер перестал называть цену в первой фразе. Теперь сначала спрашивает имя. Прогресс.»</p><small>Собственник автосалона, 2027 · <span class="fake">вымышленный</span></small></div>
+      <div class="rev"><p>«Нам дали запись, где мой лучший продажник одиннадцать раз за минуту говорит „ну это, короче“. Больно, но полезно.»</p><small>РОП стройфирмы, 2027 · <span class="fake">вымышленный</span></small></div>
+      <div class="rev"><p>«Сначала думал, что это агентство знакомств. Потом конверсия выросла. Теперь не знаю, что думать.»</p><small>Директор оптовой фирмы, 2028 · <span class="fake">вымышленный</span></small></div>
+      <div class="rev real"><p>«Как-то без прелюдии сразу…»</p><small>Командор, тайный покупатель · <span class="fake">настоящий</span> — с этой фразы всё и началось</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>Вопросы, которые <span class="neon-cyan">стыдно задать</span></h2>
+    <div class="faq">
+      <details><summary>Это что, агентство знакомств?</summary><p>Нет. Это докрутка воронок продаж. Название подмигивает, отчёт — нет: внутри записи, находки, готовые фразы и цифры. Нужно показать совету директоров — пришлём версию на скучном бланке без единого эмодзи.</p></details>
+      <details><summary>Почему «Прелюдия»?</summary><p>Менеджер одной онлайн-школы предложил нашему тайному покупателю курс за миллион с первой же фразы. Покупатель попросил хоть немного прелюдии: свидание, цветочек, бесплатную вводную дозу. Не дали. Так родилась контора.</p></details>
+      <details><summary>Вы же покажете ошибки, а мы всё исправим сами бесплатно?</summary><p>Можете. Три находки — подарок, без подвоха. Но где три, там обычно ещё десяток. Плюс готовые фразы, скрипты и замер «было/стало», чтобы понять, что исправления правда сработали.</p></details>
+      <details><summary>Наши менеджеры слабые, скрипты не вытянут.</summary><p>Именно под них и пишем. Короткие фразы, понятный следующий шаг, никакой импровизации. Если сработает у слабого — у сильного тем более.</p></details>
+      <details><summary>Тайно проходить нашу воронку — это законно?</summary><p>Мы делаем ровно то, что делает любой ваш клиент: заходим на сайт, оставляем заявку, звоним, пишем. Записи нужны только для разбора и отдаются вам. Если нужно — подпишем соглашение о конфиденциальности.</p></details>
+      <details><summary>Сколько стоит?</summary><p>Три находки — бесплатно. Остальное по договору, после знакомства, под размер вашей воронки. Ценник с первой фразы не называем принципиально.</p></details>
+      <details><summary>Вы вообще опытные?</summary><p>Честно: закрытая бета, выборка — один человек. Зато вы получаете обоих основателей лично, а не стажёра с методичкой.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="floaters" aria-hidden="true">
+    <span class="float" style="left:6%;top:14%">💐</span>
+    <span class="float" style="right:8%;top:10%;animation-delay:-1.5s">🌹</span>
+    <span class="float" style="left:12%;bottom:12%;animation-delay:-3s">🕵️</span>
+    <span class="float" style="right:12%;bottom:16%;animation-delay:-2s">📈</span>
+  </div>
+  <div class="wrap">
+    <span class="sticker pink wobble">Последний шанс на прелюдию</span>
+    <h2 style="margin-top:22px">Начнём <span class="neon-pink">с прелюдии</span></h2>
+    <p class="lead">Три находки в вашей воронке — бесплатно. Если не понравится, разойдёмся красиво.</p>
+    <a class="btn btn-giant" href="#" data-open>Хочу 3 находки бесплатно 💐</a>
+    <p class="counter">Менеджеров, назвавших цену с порога, пока вы читали: <b id="cnt">0</b><br><span class="tiny">(счётчик выдуманный, но вы поняли)</span></p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><b>ПРЕЛЮДИЯ</b> — докрутка воронок продаж. Тайный покупатель, разбор, готовые фразы, замер «было/стало».</p>
+    <p>Отзывы на странице вымышлены, цифры шуточные. Настоящая только фраза про прелюдию. Реальные компании и люди не названы.</p>
+    <p>Телефон: +7 (000) 000-00-00 (заглушка) · 2026</p>
+  </div>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mtitle">
+  <div class="modal-box">
+    <div class="big">💐</div>
+    <h3 id="mtitle">Свидание назначено*</h3>
+    <p>*Почти. Это макет страницы: заявка никуда не ушла, мы ничего не собираем. Позвоните нам сами — Таур ответит.</p>
+    <a class="phone" href="#">+7 (000) 000-00-00</a>
+    <button class="btn" id="mclose" type="button">Пойду наберу</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // бегущие строки: дублируем содержимое для бесшовной прокрутки
+  ['mq1','mq2','mq3'].forEach(function(id){ var t=document.getElementById(id); t.innerHTML += t.innerHTML; });
+
+  // сцена в чате
+  var lines = [
+    {c:'mgr', t:'Здравствуйте! 👋'},
+    {c:'mgr price', t:'Курс за 1 000 000 ₽. Оплачиваете картой?'},
+    {c:'me', t:'Эм… как-то без прелюдии сразу. Давайте хоть на свидание сходим, цветочек подарите? Может, у вас вводная бесплатная доза есть?'},
+    {c:'mgr', t:'Есть рассрочка на 36 месяцев 🙂'},
+    {c:'stamp', t:'❄️ Клиент остыл'}
+  ];
+  var chat = document.getElementById('chat');
+  function add(l){ var d=document.createElement('div'); d.className = l.c==='stamp' ? 'stamp' : 'msg '+l.c; d.textContent=l.t; chat.appendChild(d); }
+  if (reduce) { lines.forEach(add); }
+  else {
+    var i=0;
+    (function tick(){
+      if (i===0) chat.innerHTML='';
+      add(lines[i]); i++;
+      if (i<lines.length) setTimeout(tick, i===3 ? 2600 : 1300);
+      else { i=0; setTimeout(tick, 4500); }
+    })();
+  }
+
+  // выдуманный счётчик
+  var cnt=document.getElementById('cnt'), n=0;
+  if (!reduce) setInterval(function(){ n += Math.floor(Math.random()*3)+1; cnt.textContent=n; }, 1400);
+  else cnt.textContent='много';
+
+  // взрыв цветочков + модалка
+  var modal=document.getElementById('modal');
+  var em=['💐','🌹','💘','✨','🌷'];
+  function burst(x,y){
+    if (reduce) return;
+    for (var k=0;k<14;k++){
+      var s=document.createElement('span'); s.className='burst'; s.textContent=em[k%em.length];
+      s.style.left=x+'px'; s.style.top=y+'px';
+      var a=Math.random()*Math.PI*2, r=80+Math.random()*140;
+      s.style.setProperty('--dx', Math.cos(a)*r+'px'); s.style.setProperty('--dy', Math.sin(a)*r-60+'px'); s.style.setProperty('--r', (Math.random()*360-180)+'deg');
+      document.body.appendChild(s); setTimeout(function(e){ e.remove(); }, 1200, s);
+    }
+  }
+  document.querySelectorAll('[data-open]').forEach(function(b){
+    b.addEventListener('click', function(e){ e.preventDefault(); burst(e.clientX, e.clientY); setTimeout(function(){ modal.classList.add('open'); }, reduce?0:350); });
+  });
+  function close(){ modal.classList.remove('open'); }
+  document.getElementById('mclose').addEventListener('click', close);
+  modal.addEventListener('click', function(e){ if (e.target===modal) close(); });
+  document.addEventListener('keydown', function(e){ if (e.key==='Escape') close(); });
+})();
+</script>
+</body>
+</html>
