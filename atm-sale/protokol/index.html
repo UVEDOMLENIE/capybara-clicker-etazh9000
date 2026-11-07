@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ПРОТОКОЛ — аудит коммерческих коммуникаций</title>
+<meta name="description" content="Независимый аудит воронки продаж методом контрольного обращения: сайт, заявка, звонок, мессенджеры, почта. Отчёт, скрипты, контрольный замер.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Serif:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;
+    --paper:#f5f5f3;
+    --ink:#111214;
+    --graphite:#2a2c30;
+    --muted:#6a6d73;
+    --line:#d8d9db;
+    --line-strong:#111214;
+    --dark:#15161a;
+    --dark-line:#3a3c42;
+    --dark-muted:#9a9ca2;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+    --serif:"IBM Plex Serif",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+    --gutter:16px;
+    --max:1200px;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;font-weight:400;overflow-x:hidden}
+  img,svg{max-width:100%;display:block}
+  a{color:inherit}
+  h1,h2,h3,p,ul,ol,dl,dd,figure{margin:0}
+  ul,ol{padding:0;list-style:none}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+  .mono{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+  .muted{color:var(--muted)}
+  :focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+
+  /* ---------- header ---------- */
+  .top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid var(--line)}
+  .top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px}
+  .brand{display:flex;flex-direction:column;text-decoration:none;line-height:1.1}
+  .brand b{font-weight:600;letter-spacing:.32em;font-size:15px}
+  .brand span{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+  .nav{display:none;gap:28px;font-size:13.5px}
+  .nav a{text-decoration:none;color:var(--graphite)}
+  .nav a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:4px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border:1px solid var(--ink);background:var(--ink);color:#fff;font:500 14.5px/1 var(--sans);letter-spacing:.02em;text-decoration:none;cursor:pointer;transition:background .15s,color .15s}
+  .btn:hover{background:#fff;color:var(--ink)}
+  .btn.ghost{background:transparent;color:var(--ink)}
+  .btn.ghost:hover{background:var(--ink);color:#fff}
+  .btn.sm{min-height:38px;padding:0 14px;font-size:13px}
+  .top .btn{display:none}
+
+  /* ---------- hero ---------- */
+  .hero{border-bottom:1px solid var(--line)}
+  .docline{display:flex;flex-wrap:wrap;gap:6px 20px;padding:20px 0 0;color:var(--muted)}
+  .hero-grid{display:grid;gap:40px;padding:36px 0 48px}
+  .hero h1{font-family:var(--serif);font-weight:300;font-size:clamp(32px,8.4vw,60px);line-height:1.08;letter-spacing:-.01em}
+  .hero h1 em{font-style:normal;font-weight:500}
+  .lead{margin-top:22px;font-size:17px;line-height:1.6;color:var(--graphite);max-width:40em}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+  .hero-actions .btn{flex:1 1 220px}
+
+  .specimen{border:1px solid var(--ink);background:#fff;font-size:13.5px}
+  .specimen-head{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--ink);background:var(--paper)}
+  .specimen dl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr)}
+  .specimen dt,.specimen dd{padding:10px 16px;border-bottom:1px solid var(--line)}
+  .specimen dt{color:var(--muted)}
+  .specimen dd{font-family:var(--mono);font-size:12.5px;border-left:1px solid var(--line);overflow-wrap:anywhere}
+  .specimen .flag{display:inline-block;border:1px solid var(--ink);padding:1px 6px;font-size:11px;letter-spacing:.06em}
+  .specimen-foot{padding:10px 16px;color:var(--muted);font-size:12px}
+
+  .facts{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+  .fact{padding:22px 0 24px;border-bottom:1px solid var(--line)}
+  .fact:nth-child(odd){padding-right:12px;border-right:1px solid var(--line)}
+  .fact:nth-child(even){padding-left:16px}
+  .fact b{display:block;font-family:var(--serif);font-weight:300;font-size:40px;line-height:1}
+  .fact span{display:block;margin-top:8px;font-size:13.5px;color:var(--graphite);line-height:1.4}
+
+  /* ---------- sections ---------- */
+  section{scroll-margin-top:70px}
+  .sec{padding:64px 0;border-bottom:1px solid var(--line)}
+  .sec-grid{display:grid;gap:28px}
+  .sec-head .num{font-family:var(--mono);font-size:13px;letter-spacing:.06em;color:var(--muted)}
+  .sec-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,6.6vw,40px);line-height:1.15;margin-top:10px;hyphens:auto;overflow-wrap:break-word}
+  .sec-head p{margin-top:16px;color:var(--graphite);max-width:34em}
+  .rule{height:1px;background:var(--line-strong);margin-top:22px;width:48px}
+
+  .clauses > li{display:grid;grid-template-columns:52px minmax(0,1fr);gap:0 12px;padding:20px 0;border-top:1px solid var(--line)}
+  .clauses > li:last-child{border-bottom:1px solid var(--line)}
+  .clauses .n{font-family:var(--mono);font-size:13px;color:var(--muted);padding-top:3px}
+  .clauses h3{font-size:17px;font-weight:600;line-height:1.35}
+  .clauses p{margin-top:6px;color:var(--graphite);font-size:15.5px}
+  .note{margin-top:28px;padding:18px 20px;border-left:2px solid var(--ink);background:var(--paper);font-size:15px;color:var(--graphite)}
+
+  /* stages */
+  .stages{counter-reset:st}
+  .stage{position:relative;padding:24px 0 26px 0;border-top:1px solid var(--ink)}
+  .stage:last-child{border-bottom:1px solid var(--ink)}
+  .stage-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .stage-top .mono{color:var(--muted)}
+  .stage h3{font-family:var(--serif);font-weight:400;font-size:24px;line-height:1.25;margin-top:8px}
+  .stage p{margin-top:10px;color:var(--graphite);font-size:15.5px}
+  .stage ul{margin-top:12px}
+  .stage li{position:relative;padding-left:18px;font-size:15px;color:var(--graphite);margin-top:4px}
+  .stage li::before{content:"";position:absolute;left:0;top:.8em;width:8px;height:1px;background:var(--ink)}
+  .stage .out{margin-top:14px;font-size:13.5px;color:var(--ink)}
+  .stage .out b{font-weight:600}
+
+  /* results */
+  .results{display:grid;gap:0}
+  .result{padding:26px 0;border-top:1px solid var(--line)}
+  .result:last-child{border-bottom:1px solid var(--line)}
+  .result .mono{color:var(--muted)}
+  .result h3{font-family:var(--serif);font-weight:400;font-size:24px;margin-top:8px;line-height:1.25}
+  .result p{margin-top:10px;color:var(--graphite);font-size:15.5px}
+  .result li{position:relative;padding-left:18px;font-size:15px;color:var(--graphite);margin-top:5px}
+  .result li::before{content:"";position:absolute;left:0;top:.8em;width:8px;height:1px;background:var(--ink)}
+  .result ul{margin-top:12px}
+  .script{margin-top:16px;border:1px solid var(--line);font-size:14.5px}
+  .script div{padding:12px 14px}
+  .script div + div{border-top:1px solid var(--line)}
+  .script .lbl{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+  .script .was{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1px}
+
+  /* dark section */
+  .dark{background:var(--dark);color:#fff;border-bottom:none}
+  .dark .sec-head .num{color:var(--dark-muted)}
+  .dark .sec-head p{color:#c9cace}
+  .dark .rule{background:#fff}
+  .dark .clauses > li{border-color:var(--dark-line)}
+  .dark .clauses .n{color:var(--dark-muted)}
+  .dark .clauses p{color:#c9cace}
+
+  /* team */
+  .team{display:grid;gap:20px}
+  .person{border:1px solid var(--line);padding:24px 20px}
+  .person-top{display:flex;gap:16px;align-items:center}
+  .mono-mark{flex:0 0 64px;height:64px;border:1px solid var(--ink);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:30px;font-weight:300}
+  .person h3{font-size:20px;font-weight:600;line-height:1.2}
+  .person .role{font-size:13.5px;color:var(--muted);margin-top:4px}
+  .person p{margin-top:16px;color:var(--graphite);font-size:15.5px}
+  .person ul{margin-top:12px;border-top:1px solid var(--line)}
+  .person li{padding:9px 0;border-bottom:1px solid var(--line);font-size:14.5px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px}
+  .person li span:last-child{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;align-self:center}
+
+  /* case */
+  .case-meta{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--ink);font-size:14px}
+  .case-meta div{padding:12px 14px;border-bottom:1px solid var(--line)}
+  .case-meta div:nth-child(odd){border-right:1px solid var(--line)}
+  .case-meta div:nth-last-child(-n+2){border-bottom:none}
+  .case-meta .mono{display:block;color:var(--muted);font-size:11px;margin-bottom:2px}
+  .stamp{display:inline-block;margin-bottom:18px;border:1px solid var(--ink);padding:5px 10px}
+  .finding{margin-top:20px;border:1px solid var(--line)}
+  .finding-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--paper)}
+  .finding-head .mono{color:var(--graphite)}
+  .sev{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border:1px solid var(--ink);white-space:nowrap}
+  .sev.hi{background:var(--ink);color:#fff}
+  .finding h3{padding:16px 16px 0;font-size:18px;font-weight:600;line-height:1.35}
+  .finding dl{padding:6px 16px 16px}
+  .finding dt{margin-top:12px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .finding dd{margin-top:3px;color:var(--graphite);font-size:15px}
+
+  /* terms */
+  .terms{display:grid;gap:0}
+  .term{padding:24px 0;border-top:1px solid var(--ink)}
+  .term:last-child{border-bottom:1px solid var(--ink)}
+  .term-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .term .mono{color:var(--muted)}
+  .term h3{font-family:var(--serif);font-weight:400;font-size:24px;margin-top:6px;line-height:1.25}
+  .term .basis{font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+  .term p{margin-top:10px;color:var(--graphite);font-size:15.5px}
+
+  /* faq */
+  .faq details{border-top:1px solid var(--line)}
+  .faq details:last-child{border-bottom:1px solid var(--line)}
+  .faq summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:52px minmax(0,1fr) 20px;gap:12px;padding:18px 0;font-weight:500;font-size:16.5px;line-height:1.4}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary .n{font-family:var(--mono);font-size:13px;color:var(--muted);padding-top:2px;font-weight:400}
+  .faq summary .pm{position:relative;width:14px;height:14px;margin-top:5px}
+  .faq summary .pm::before,.faq summary .pm::after{content:"";position:absolute;left:0;top:6.5px;width:14px;height:1px;background:var(--ink);transition:transform .2s}
+  .faq summary .pm::after{transform:rotate(90deg)}
+  .faq details[open] summary .pm::after{transform:rotate(0)}
+  .faq .ans{padding:0 0 20px 64px;color:var(--graphite);font-size:15.5px}
+
+  /* form */
+  .form{display:grid;gap:18px}
+  .field label,.field legend{display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .field input,.field textarea,.field select{width:100%;border:0;border-bottom:1px solid var(--ink);background:transparent;padding:10px 0;font:400 16px/1.4 var(--sans);color:var(--ink);border-radius:0;appearance:none}
+  .field textarea{min-height:92px;resize:vertical;border:1px solid var(--line);padding:10px 12px}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--ink);box-shadow:0 1px 0 0 var(--ink)}
+  fieldset.field{border:0;margin:0;padding:0;min-width:0}
+  .checks{display:flex;flex-wrap:wrap;gap:8px}
+  .checks label{position:relative;display:inline-flex;margin:0;font-family:var(--sans);font-size:14px;letter-spacing:0;text-transform:none;color:var(--ink)}
+  .checks input{position:absolute;opacity:0;width:1px;height:1px}
+  .checks span{display:inline-block;border:1px solid var(--line);padding:8px 14px;cursor:pointer;user-select:none}
+  .checks input:checked + span{border-color:var(--ink);background:var(--ink);color:#fff}
+  .checks input:focus-visible + span{outline:2px solid var(--ink);outline-offset:2px}
+  .consent{display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;font-size:13.5px;color:var(--graphite);align-items:start}
+  .consent input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--ink)}
+  .form-note{font-size:13px;color:var(--muted)}
+  .form-done{display:none;border:1px solid var(--ink);padding:18px 20px;font-size:15px}
+  .contacts{margin-top:26px;border-top:1px solid var(--line)}
+  .contacts li{display:grid;grid-template-columns:110px minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .contacts .mono{color:var(--muted);padding-top:2px}
+  .contacts a{text-decoration:none;border-bottom:1px solid var(--line)}
+  .contacts a:hover{border-color:var(--ink)}
+
+  /* footer */
+  footer{padding:40px 0 48px;font-size:13px;color:var(--muted)}
+  footer .wrap{display:grid;gap:18px}
+  footer .brand b{color:var(--ink)}
+  .foot-links{display:flex;flex-wrap:wrap;gap:8px 22px}
+  .foot-links a{text-decoration:none}
+  .foot-links a:hover{color:var(--ink)}
+
+  /* ---------- tablet / desktop ---------- */
+  @media (min-width:720px){
+    :root{--gutter:32px}
+    .facts{grid-template-columns:repeat(4,1fr)}
+    .fact{border-bottom:none;padding:28px 20px 30px!important;border-right:1px solid var(--line)}
+    .fact:first-child{padding-left:0!important}
+    .fact:last-child{border-right:none}
+    .team{grid-template-columns:1fr 1fr}
+    .case-meta{grid-template-columns:repeat(4,1fr)}
+    .case-meta div{border-bottom:none;border-right:1px solid var(--line)}
+    .case-meta div:last-child{border-right:none}
+    .form .row{display:grid;grid-template-columns:1fr 1fr;gap:18px 28px}
+    .form .row > .field + .field{margin-top:0}
+  }
+  @media (max-width:719px){
+    .form .row{display:grid;gap:18px}
+  }
+  @media (min-width:1024px){
+    :root{--gutter:40px}
+    .nav{display:flex}
+    .top .btn{display:inline-flex}
+    .top .wrap{height:68px}
+    .hero-grid{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:64px;align-items:end;padding:56px 0 64px}
+    .hero-actions .btn{flex:0 0 auto}
+    .sec{padding:96px 0}
+    .sec-grid{grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:64px}
+    .sec-head{position:sticky;top:100px;align-self:start}
+    .stages{display:grid;grid-template-columns:1fr 1fr;column-gap:40px}
+    .stage:nth-last-child(2){border-bottom:1px solid var(--ink)}
+    .results{grid-template-columns:1fr}
+    footer .wrap{grid-template-columns:1fr auto;align-items:end}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="ПРОТОКОЛ, на главную">
+      <b>ПРОТОКОЛ</b>
+      <span>Аудит коммерческих коммуникаций</span>
+    </a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="#predmet">Предмет</a>
+      <a href="#poryadok">Порядок работ</a>
+      <a href="#rezultat">Результат</a>
+      <a href="#konf">Конфиденциальность</a>
+      <a href="#usloviya">Условия</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <a class="btn sm" href="#zapros">Запросить пилот</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- 0. Первый экран -->
+<section class="hero" aria-labelledby="h-hero">
+  <div class="wrap">
+    <div class="docline mono">
+      <span>ПРОТОКОЛ</span>
+      <span>Раздел 0 · Общие положения</span>
+      <span>Ред. 1.0 · 2026</span>
+    </div>
+    <div class="hero-grid">
+      <div>
+        <h1 id="h-hero">Проверяем, как ваша компания <em>отвечает клиенту</em>. Под видом клиента.</h1>
+        <p class="lead">Проходим вашу воронку продаж как обычный покупатель: сайт, заявка, звонок, мессенджеры, почта. Фиксируем каждый контакт, находим, где теряются обращения, и передаём руководителю протокол с готовыми решениями.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#zapros">Запросить пилотный аудит</a>
+          <a class="btn ghost" href="#poryadok">Порядок работ</a>
+        </div>
+      </div>
+
+      <aside class="specimen" aria-label="Образец записи в протоколе">
+        <div class="specimen-head">
+          <span class="mono">Протокол контакта · 04</span>
+          <span class="mono muted">Образец</span>
+        </div>
+        <dl>
+          <dt>Канал</dt><dd>Заявка с сайта</dd>
+          <dt>Отправлена</dt><dd>Пн, 10:14</dd>
+          <dt>Первый ответ</dt><dd>Ср, 16:52</dd>
+          <dt>Время реакции</dt><dd>54 ч 38 мин</dd>
+          <dt>Вопрос о задаче</dt><dd>Не задан</dd>
+          <dt>Следующий шаг</dt><dd>Не назначен</dd>
+          <dt>Оценка</dt><dd><span class="flag">ПОТЕРЯ ОБРАЩЕНИЯ</span></dd>
+        </dl>
+        <p class="specimen-foot">Образец формы записи. Значения условные.</p>
+      </aside>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><b>5</b><span>каналов связи проверяем одним проходом</span></div>
+      <div class="fact"><b>4</b><span>этапа работ с приёмкой результата на каждом</span></div>
+      <div class="fact"><b>3</b><span>находки показываем бесплатно, до договора</span></div>
+      <div class="fact"><b>2–4</b><span>недели до контрольного замера «было / стало»</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 1. Предмет аудита -->
+<section class="sec" id="predmet" aria-labelledby="h1">
+  <div class="wrap sec-grid">
+    <div class="sec-head">
+      <div class="num">Раздел 1</div>
+      <h2 id="h1">Предмет аудита</h2>
+      <div class="rule"></div>
+      <p>Реклама приводит обращения. Дальше их обрабатывают люди и сайт, и именно здесь компания теряет деньги, которые уже заплатила за привлечение.</p>
+    </div>
+    <div>
+      <ol class="clauses">
+        <li><span class="n">1.1</span><div><h3>Сайт и посадочные страницы</h3><p>Открывается ли страница у всех, понятно ли, что делать дальше, работает ли форма. Ошибка здесь не видна в отчётах отдела продаж: клиент просто уходит.</p></div></li>
+        <li><span class="n">1.2</span><div><h3>Заявка</h3><p>Сколько времени проходит до первого ответа, кто отвечает, получает ли клиент то, что ему обещали в форме.</p></div></li>
+        <li><span class="n">1.3</span><div><h3>Телефонный звонок</h3><p>Дозвон, приветствие, выяснение задачи, работа с возражением, договорённость о следующем шаге. Слушаем не только слова, но и паузы.</p></div></li>
+        <li><span class="n">1.4</span><div><h3>Мессенджеры</h3><p>Скорость ответа, тон, переход от переписки к звонку или встрече. Канал, который чаще всего остаётся без присмотра руководителя.</p></div></li>
+        <li><span class="n">1.5</span><div><h3>Электронная почта и коммерческое предложение</h3><p>Квалифицирован ли клиент до отправки КП, соответствует ли предложение его задаче, есть ли повторный контакт после отправки.</p></div></li>
+        <li><span class="n">1.6</span><div><h3>Повторный контакт</h3><p>Возвращается ли менеджер к клиенту, который не принял решение сразу. Или обращение тихо закрывается само собой.</p></div></li>
+      </ol>
+      <p class="note">Клиент редко жалуется. Он уходит к тому, кто ответил первым, и в CRM это выглядит как «не дозвонились».</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. Порядок работ -->
+<section class="sec" id="poryadok" aria-labelledby="h2">
+  <div class="wrap sec-grid">
+    <div class="sec-head">
+      <div class="num">Раздел 2</div>
+      <h2 id="h2">Порядок работ</h2>
+      <div class="rule"></div>
+      <p>Четыре этапа. У каждого есть результат, который вы принимаете до перехода к следующему.</p>
+    </div>
+    <ol class="stages">
+      <li class="stage">
+        <div class="stage-top"><span class="mono">Этап 2.1</span><span class="mono">1–2 недели</span></div>
+        <h3>Пилотный проход</h3>
+        <p>Обращаемся в компанию как обычный клиент по одному-двум каналам. О проверке знает только руководитель.</p>
+        <p class="out"><b>Результат:</b> три находки, показанные собственнику лично. Бесплатно.</p>
+      </li>
+      <li class="stage">
+        <div class="stage-top"><span class="mono">Этап 2.2</span><span class="mono">2–3 недели</span></div>
+        <h3>Полный аудит</h3>
+        <p>После подписания договора и соглашения о конфиденциальности.</p>
+        <ul>
+          <li>проход по всем каналам из раздела 1</li>
+          <li>запись и расшифровка каждого контакта</li>
+          <li>хронометраж ответов</li>
+        </ul>
+        <p class="out"><b>Результат:</b> протокол всех контактов.</p>
+      </li>
+      <li class="stage">
+        <div class="stage-top"><span class="mono">Этап 2.3</span><span class="mono">1 неделя</span></div>
+        <h3>Отчёт и внедрение</h3>
+        <p>Разбираем протокол с руководителем, передаём готовые фразы и скрипты, при необходимости проводим разбор с менеджерами.</p>
+        <p class="out"><b>Результат:</b> отчёт, скрипты, регламент обработки обращений.</p>
+      </li>
+      <li class="stage">
+        <div class="stage-top"><span class="mono">Этап 2.4</span><span class="mono">через 2–4 недели</span></div>
+        <h3>Контрольный замер</h3>
+        <p>Повторный проход по тем же каналам и сравнение с исходными данными.</p>
+        <p class="out"><b>Результат:</b> таблица «было / стало» по каждой точке потери.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- 3. Результат -->
+<section class="sec" id="rezultat" aria-labelledby="h3">
+  <div class="wrap sec-grid">
+    <div class="sec-head">
+      <div class="num">Раздел 3</div>
+      <h2 id="h3">Результат</h2>
+      <div class="rule"></div>
+      <p>Три документа, с которыми можно работать на следующий день после сдачи.</p>
+    </div>
+    <div class="results">
+      <div class="result">
+        <span class="mono">3.1</span>
+        <h3>Отчёт</h3>
+        <p>Хронология каждого контакта с записями и расшифровками. Точки потери обращений, ранжированные по влиянию на выручку.</p>
+        <ul>
+          <li>что произошло, с отметкой времени</li>
+          <li>чем это грозит компании</li>
+          <li>что сделать и в каком порядке</li>
+        </ul>
+      </div>
+      <div class="result">
+        <span class="mono">3.2</span>
+        <h3>Скрипты и готовые фразы</h3>
+        <p>Не методичка, а конкретные реплики для конкретных ситуаций вашей воронки. Написаны так, чтобы сработать и у слабого менеджера.</p>
+        <div class="script" aria-label="Пример замены реплики">
+          <div><span class="lbl">Было</span><span class="was">«Отправьте мне ваши реквизиты, я вышлю КП».</span></div>
+          <div><span class="lbl">Стало</span>«Чтобы предложение было точным, уточню три вещи: объём, сроки и кто принимает решение. Займёт минуту».</div>
+          <div><span class="lbl">Пометка</span><span class="muted">Пример. В отчёте реплики пишутся под вашу отрасль и ваших менеджеров.</span></div>
+        </div>
+      </div>
+      <div class="result">
+        <span class="mono">3.3</span>
+        <h3>Контрольный замер</h3>
+        <p>Через 2–4 недели после внедрения проходим воронку повторно и сравниваем: время ответа, долю обработанных обращений, наличие следующего шага, конверсию во встречу или счёт.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Конфиденциальность -->
+<section class="sec dark" id="konf" aria-labelledby="h4">
+  <div class="wrap sec-grid">
+    <div class="sec-head">
+      <div class="num">Раздел 4</div>
+      <h2 id="h4">Конфиден&shy;циальность</h2>
+      <div class="rule"></div>
+      <p>Записи разговоров ваших сотрудников и внутренние данные о продажах — чувствительная информация. Обращаемся с ней соответственно.</p>
+    </div>
+    <ol class="clauses">
+      <li><span class="n">4.1</span><div><h3>Соглашение о неразглашении до начала работ</h3><p>NDA подписываем до полного аудита. Пилотный проход не требует от вас передачи внутренних данных.</p></div></li>
+      <li><span class="n">4.2</span><div><h3>Хранение у нас, а не в сторонних сервисах</h3><p>Записи, расшифровки и отчёты хранятся на нашем оборудовании. В облачные сервисы третьих лиц не загружаются.</p></div></li>
+      <li><span class="n">4.3</span><div><h3>Узкий круг доступа</h3><p>К материалам имеют доступ два человека: ведущий аудитор и технический директор. Отчёт передаётся только лицу, указанному в договоре.</p></div></li>
+      <li><span class="n">4.4</span><div><h3>Уничтожение по завершении</h3><p>По вашему запросу материалы удаляются после контрольного замера. Факт удаления подтверждаем письменно.</p></div></li>
+      <li><span class="n">4.5</span><div><h3>Без публикаций без согласия</h3><p>Название компании и любые детали не упоминаются публично. Обезличенный пример — только с письменного согласия.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 5. Команда -->
+<section class="sec" id="komanda" aria-labelledby="h5">
+  <div class="wrap sec-grid">
+    <div class="sec-head">
+      <div class="num">Раздел 5</div>
+      <h2 id="h5">Команда</h2>
+      <div class="rule"></div>
+      <p>Двое. Один работает с людьми, другой — с данными. Посредников между вами и исполнителями нет.</p>
+    </div>
+    <div class="team">
+      <article class="person">
+        <div class="person-top">
+          <div class="mono-mark" aria-hidden="true">Т</div>
+          <div><h3>Таур</h3><div class="role">Ведущий аудитор</div></div>
+        </div>
+        <p>Работает в полях. Проходит воронку под видом клиента, выходит напрямую на собственников, читает собеседника по паузе и интонации. Превращает находки в живые фразы для менеджеров.</p>
+        <ul>
+          <li><span>Контрольные обращения</span><span>2.1–2.2</span></li>
+          <li><span>Разбор с руководителем</span><span>2.3</span></li>
+          <li><span>Скрипты и реплики</span><span>3.2</span></li>
+        </ul>
+      </article>
+      <article class="person">
+        <div class="person-top">
+          <div class="mono-mark" aria-hidden="true">К</div>
+          <div><h3>Командор</h3><div class="role">Технический директор</div></div>
+        </div>
+        <p>Работает в тылу. Записи, расшифровки, хронометраж, отчёты и регламенты. Автоматизация обработки обращений с помощью ИИ на этапе сопровождения.</p>
+        <ul>
+          <li><span>Записи и расшифровки</span><span>2.2</span></li>
+          <li><span>Отчёт и регламент</span><span>3.1</span></li>
+          <li><span>Контрольный замер</span><span>3.3</span></li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Пример -->
+<section class="sec" id="primer" aria-labelledby="h6">
+  <div class="wrap sec-grid">
+    <div class="sec-head">
+      <div class="num">Раздел 6</div>
+      <h2 id="h6">Пример находок</h2>
+      <div class="rule"></div>
+      <p>Так выглядят три находки пилотного прохода. Объект обезличен, формулировки сокращены.</p>
+    </div>
+    <div>
+      <span class="stamp mono">Пример · Данные обезличены</span>
+      <div class="case-meta">
+        <div><span class="mono">Объект</span>Образовательный проект</div>
+        <div><span class="mono">Этап</span>Пилотный проход</div>
+        <div><span class="mono">Каналы</span>Сайт, заявка, почта</div>
+        <div><span class="mono">Находок</span>3</div>
+      </div>
+
+      <article class="finding">
+        <div class="finding-head"><span class="mono">Находка 6.1 · Сайт</span><span class="sev hi">Высокий</span></div>
+        <h3>Посадочная страница не открывается без отключения VPN</h3>
+        <dl>
+          <dt>Что зафиксировано</dt>
+          <dd>При включённом VPN страница с предложением не загружается. Сообщения об ошибке или подсказки нет.</dd>
+          <dt>Чем грозит</dt>
+          <dd>Часть посетителей, за переход которых уже заплачено, видит пустой экран и уходит. В статистике это выглядит как обычный отказ.</dd>
+          <dt>Что сделать</dt>
+          <dd>Проверить настройки хостинга и защиты от ботов, открыть доступ для распространённых VPN-сетей.</dd>
+        </dl>
+      </article>
+
+      <article class="finding">
+        <div class="finding-head"><span class="mono">Находка 6.2 · Заявка</span><span class="sev hi">Высокий</span></div>
+        <h3>Обещанный в форме материал не выдан</h3>
+        <dl>
+          <dt>Что зафиксировано</dt>
+          <dd>Форма обещает материал в обмен на контакты. После отправки заявки материал не пришёл ни на почту, ни в мессенджер.</dd>
+          <dt>Чем грозит</dt>
+          <dd>Первое обещание компании не выполнено ещё до разговора с менеджером. К звонку клиент уже настроен недоверчиво.</dd>
+          <dt>Что сделать</dt>
+          <dd>Настроить автоматическую выдачу материала и проверить её контрольной заявкой. Менеджеру начинать звонок с подтверждения, что материал получен.</dd>
+        </dl>
+      </article>
+
+      <article class="finding">
+        <div class="finding-head"><span class="mono">Находка 6.3 · Почта</span><span class="sev">Средний</span></div>
+        <h3>Коммерческое предложение отправлено без квалификации клиента</h3>
+        <dl>
+          <dt>Что зафиксировано</dt>
+          <dd>Менеджер выслал типовое КП, не спросив о задаче, сроках и бюджете. Повторного контакта после отправки не было.</dd>
+          <dt>Чем грозит</dt>
+          <dd>Клиент получает предложение «для всех» и сравнивает только цену. Менеджер не знает, почему сделка не состоялась.</dd>
+          <dt>Что сделать</dt>
+          <dd>Три обязательных вопроса до отправки КП и звонок через день после неё. Формулировки — в скрипте.</dd>
+        </dl>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 7. Условия -->
+<section class="sec" id="usloviya" aria-labelledby="h7">
+  <div class="wrap sec-grid">
+    <div class="sec-head">
+      <div class="num">Раздел 7</div>
+      <h2 id="h7">Условия</h2>
+      <div class="rule"></div>
+      <p>Практика новая, и мы говорим об этом прямо: сейчас разбираем первые воронки и собираем кейсы. Поэтому пилот бесплатный.</p>
+    </div>
+    <div class="terms">
+      <div class="term">
+        <div class="term-top"><span class="mono">7.1</span><span class="basis">Бесплатно</span></div>
+        <h3>Пилотный разбор</h3>
+        <p>Контрольное обращение по одному-двум каналам и три находки, представленные собственнику. Без договора и без обязательств продолжать.</p>
+      </div>
+      <div class="term">
+        <div class="term-top"><span class="mono">7.2</span><span class="basis">По договору</span></div>
+        <h3>Полный аудит</h3>
+        <p>Все каналы, протокол контактов, отчёт, скрипты и контрольный замер. Стоимость определяется после пилота, исходя из числа каналов и объёма обращений. Оплата поэтапно, с приёмкой каждого этапа.</p>
+      </div>
+      <div class="term">
+        <div class="term-top"><span class="mono">7.3</span><span class="basis">Отдельное соглашение</span></div>
+        <h3>Сопровождение</h3>
+        <p>Тексты и сайт, настройка CRM, обучение менеджеров, автоматизация обработки обращений с помощью ИИ. Объём и сроки согласуются отдельно по итогам аудита.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. FAQ -->
+<section class="sec faq" id="faq" aria-labelledby="h8">
+  <div class="wrap sec-grid">
+    <div class="sec-head">
+      <div class="num">Раздел 8</div>
+      <h2 id="h8">Вопросы и ответы</h2>
+      <div class="rule"></div>
+    </div>
+    <div>
+      <details>
+        <summary><span class="n">8.1</span><span>Узнают ли менеджеры о проверке?</span><span class="pm" aria-hidden="true"></span></summary>
+        <p class="ans">Нет. О проверке знает только руководитель, который её заказал. Иначе проверять будет нечего.</p>
+      </details>
+      <details>
+        <summary><span class="n">8.2</span><span>Что требуется от нас для пилота?</span><span class="pm" aria-hidden="true"></span></summary>
+        <p class="ans">Ничего, кроме согласия руководителя и получаса на встречу по итогам. Доступы к CRM и внутренним данным на этом этапе не нужны.</p>
+      </details>
+      <details>
+        <summary><span class="n">8.3</span><span>Кому подходит аудит?</span><span class="pm" aria-hidden="true"></span></summary>
+        <p class="ans">Компаниям, у которых уже есть отдел продаж и постоянный поток обращений. Если заявок пока нет, проблема не в их обработке, и мы честно об этом скажем.</p>
+      </details>
+      <details>
+        <summary><span class="n">8.4</span><span>Можно ли провести работы через отдел закупок?</span><span class="pm" aria-hidden="true"></span></summary>
+        <p class="ans">Да. Работаем по договору с техническим заданием, поэтапной приёмкой и актами. Комплект документов для вашей процедуры обсуждаем на старте.</p>
+      </details>
+      <details>
+        <summary><span class="n">8.5</span><span>Не нарушает ли запись разговоров права сотрудников?</span><span class="pm" aria-hidden="true"></span></summary>
+        <p class="ans">Мы записываем разговор, в котором сами участвуем как клиент. Порядок использования записей внутри компании фиксируем в договоре и NDA, а вопросы по вашей кадровой политике согласуем с вашим юристом.</p>
+      </details>
+      <details>
+        <summary><span class="n">8.6</span><span>Чем это отличается от отчёта CRM?</span><span class="pm" aria-hidden="true"></span></summary>
+        <p class="ans">CRM показывает, что обращение закрыто. Аудит показывает, почему: что услышал клиент, сколько ждал и в какой момент решил уйти.</p>
+      </details>
+      <details>
+        <summary><span class="n">8.7</span><span>Что, если пилот не найдёт проблем?</span><span class="pm" aria-hidden="true"></span></summary>
+        <p class="ans">Тогда вы получите независимое подтверждение, что воронка работает, и ничего за это не заплатите.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 9. Запрос -->
+<section class="sec" id="zapros" aria-labelledby="h9">
+  <div class="wrap sec-grid">
+    <div class="sec-head">
+      <div class="num">Раздел 9</div>
+      <h2 id="h9">Запросить пилотный аудит</h2>
+      <div class="rule"></div>
+      <p>Оставьте контакты. Ведущий аудитор свяжется лично в течение одного рабочего дня и согласует порядок пилота.</p>
+      <ul class="contacts">
+        <li><span class="mono">Телефон</span><a href="#">+7 (000) 000-00-00</a></li>
+        <li><span class="mono">Почта</span><a href="#">mail@example.com</a></li>
+      </ul>
+    </div>
+    <div>
+      <form class="form" id="req" action="#" novalidate>
+        <div class="row">
+          <div class="field"><label for="f-org">Организация</label><input id="f-org" name="org" autocomplete="organization" required></div>
+          <div class="field"><label for="f-name">Контактное лицо</label><input id="f-name" name="name" autocomplete="name" required></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="f-pos">Должность</label><input id="f-pos" name="position" autocomplete="organization-title"></div>
+          <div class="field"><label for="f-contact">Телефон или почта</label><input id="f-contact" name="contact" required></div>
+        </div>
+        <fieldset class="field">
+          <legend>Каналы, которые важно проверить</legend>
+          <div class="checks">
+            <label><input type="checkbox" name="ch" value="site"><span>Сайт</span></label>
+            <label><input type="checkbox" name="ch" value="lead"><span>Заявка</span></label>
+            <label><input type="checkbox" name="ch" value="call"><span>Звонок</span></label>
+            <label><input type="checkbox" name="ch" value="im"><span>Мессенджеры</span></label>
+            <label><input type="checkbox" name="ch" value="mail"><span>Почта</span></label>
+          </div>
+        </fieldset>
+        <div class="field"><label for="f-msg">Комментарий</label><textarea id="f-msg" name="msg" placeholder="Отрасль, примерный объём обращений, что вызывает сомнения"></textarea></div>
+        <label class="consent"><input type="checkbox" required id="f-ok"><span>Согласен на обработку контактных данных для ответа на запрос.</span></label>
+        <div><button class="btn" type="submit">Направить запрос</button></div>
+        <p class="form-note">Запрос ни к чему не обязывает. Данные не передаются третьим лицам.</p>
+        <div class="form-done" id="done" role="status">Запрос зарегистрирован. Это демонстрационная форма: в рабочей версии здесь будет отправка.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="brand" href="#top"><b>ПРОТОКОЛ</b><span>Аудит коммерческих коммуникаций</span></a>
+      <p style="margin-top:14px">© 2026. Настоящая страница носит информационный характер и не является публичной офертой.</p>
+    </div>
+    <div class="foot-links">
+      <a href="#">Политика обработки данных</a>
+      <a href="#">+7 (000) 000-00-00</a>
+      <a href="#">mail@example.com</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var f=document.getElementById('req'),d=document.getElementById('done');
+    if(!f)return;
+    f.addEventListener('submit',function(e){
+      e.preventDefault();
+      if(!f.checkValidity()){f.reportValidity();return;}
+      d.style.display='block';
+      f.querySelector('button[type=submit]').disabled=true;
+    });
+  })();
+</script>
+</body>
+</html>
