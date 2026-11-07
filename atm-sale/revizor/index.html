@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ре:Визор — тайная проверка воронки продаж</title>
+<meta name="description" content="Проходим вашу воронку продаж как обычный клиент и показываем, где теряются деньги. Три находки — бесплатно.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0e1622;
+  --ink-2:#142031;
+  --ink-3:#1b2a40;
+  --paper:#ece6d9;
+  --paper-2:#f5f1e8;
+  --muted:#a3abb8;
+  --line:rgba(236,230,217,.14);
+  --accent:#c4473a;
+  --accent-ink:#a8382d;
+  --serif:"Playfair Display", Georgia, "Times New Roman", serif;
+  --sans:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:clip}
+body{margin:0;background:var(--ink);color:var(--paper);font:400 16px/1.6 var(--sans);overflow-x:hidden}
+a{color:inherit}
+img,svg{max-width:100%;display:block}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.12;margin:0;letter-spacing:-.005em}
+h2{font-size:clamp(30px,6.4vw,46px)}
+h3{font-size:21px}
+p{margin:0}
+.c{color:var(--accent)}
+.kicker{font:600 12px/1.4 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.lead{font-size:18px;color:#d4cfc4;max-width:640px}
+section{padding:72px 0;border-top:1px solid var(--line)}
+.sec-head{display:grid;gap:14px;margin-bottom:36px}
+
+/* header */
+.top{position:sticky;top:0;z-index:10;background:rgba(14,22,34,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:12px}
+.logo{font:700 24px/1 var(--serif);text-decoration:none;letter-spacing:.01em;white-space:nowrap}
+.top .btn{padding:10px 16px;font-size:14px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:15px 24px;border-radius:2px;font:600 16px/1.2 var(--sans);text-decoration:none;border:1px solid transparent;transition:background .2s,border-color .2s,color .2s;cursor:pointer;text-align:center}
+.btn-main{background:var(--accent);color:#fff}
+.btn-main:hover{background:var(--accent-ink)}
+.btn-ghost{border-color:rgba(236,230,217,.35);color:var(--paper)}
+.btn-ghost:hover{border-color:var(--paper)}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btns .btn{flex:1 1 220px}
+
+/* hero */
+.hero{padding:48px 0 72px;border-top:0;position:relative}
+.hero-grid{display:grid;gap:44px}
+.hero h1{font-size:clamp(42px,11vw,82px);margin:18px 0 22px}
+.hero h1 em{font-style:italic;font-weight:600;color:var(--muted);font-size:.55em;display:block;margin-top:10px;letter-spacing:0}
+.hero .lead{margin-bottom:28px}
+.offer{border-left:3px solid var(--accent);padding:4px 0 4px 16px;margin:0 0 30px}
+.offer b{display:block;font:700 22px/1.3 var(--serif)}
+.offer span{color:var(--muted);font-size:15px}
+
+.order{position:relative;background:var(--paper-2);color:var(--ink);padding:28px 22px 30px;border-radius:2px;box-shadow:0 30px 60px -30px rgba(0,0,0,.7);max-width:440px;width:100%;justify-self:center}
+.order::before{content:"";position:absolute;inset:8px;border:1px solid rgba(14,22,34,.18);pointer-events:none}
+.order .kicker{color:#6a6f78;text-align:center}
+.order h3{text-align:center;font-size:26px;margin:6px 0 20px;letter-spacing:.08em;text-transform:uppercase}
+.order dl{margin:0;display:grid;gap:12px}
+.order dt{font:600 11px/1.3 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#7a7f88}
+.order dd{margin:2px 0 0;font-size:15px;line-height:1.45;border-bottom:1px dotted rgba(14,22,34,.3);padding-bottom:8px}
+.order .sign{display:flex;justify-content:space-between;align-items:flex-end;margin-top:12px;min-height:118px;font-size:13px;color:#6a6f78;gap:8px;border-bottom:1px solid rgba(14,22,34,.3);padding-bottom:6px}
+.order .sign i{font-family:var(--serif);font-size:20px;color:var(--ink)}
+.stamp{position:absolute;width:116px;height:116px;left:50%;margin-left:-58px;bottom:22px;transform:rotate(-14deg);opacity:.9;mix-blend-mode:multiply;pointer-events:none}
+
+/* pain */
+.cards{display:grid;gap:12px}
+.card{background:var(--ink-2);border:1px solid var(--line);padding:22px 20px;border-radius:2px}
+.card .n{font:600 12px/1 var(--sans);letter-spacing:.14em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;display:block}
+.card p{color:#cfcabf}
+.card h3{margin-bottom:8px}
+.quote{margin-top:36px;padding:24px 0 0;border-top:1px solid var(--line);display:grid;gap:10px}
+.quote q{font:italic 600 24px/1.3 var(--serif);quotes:"«" "»"}
+.quote span{color:var(--muted);font-size:15px}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:s}
+.steps li{display:grid;grid-template-columns:56px 1fr;gap:4px 14px;padding:22px 0;border-bottom:1px solid var(--line)}
+.steps li:first-child{border-top:1px solid var(--line)}
+.steps .num{font:700 34px/1 var(--serif);color:var(--accent);grid-row:span 2}
+.steps h3{font-size:22px}
+.steps p{color:#cfcabf;grid-column:2}
+.tag{display:inline-block;font:600 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--accent);color:var(--accent);padding:5px 7px;margin-left:8px;vertical-align:4px;border-radius:2px}
+
+/* get */
+.get{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.get li{position:relative;padding:18px 18px 18px 52px;background:var(--ink-2);border:1px solid var(--line);border-radius:2px}
+.get li::before{content:"";position:absolute;left:18px;top:21px;width:18px;height:18px;border:1.5px solid var(--accent);border-radius:50%}
+.get li::after{content:"";position:absolute;left:24px;top:25px;width:5px;height:9px;border:solid var(--accent);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.get b{display:block;font-weight:600;margin-bottom:2px}
+.get span{color:#c4bfb4;font-size:15px}
+
+/* team */
+.team{display:grid;gap:12px}
+.person{background:var(--ink-2);border:1px solid var(--line);padding:26px 22px;border-radius:2px;position:relative}
+.person .role{font:600 12px/1.3 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;display:block}
+.person h3{font-size:34px;margin-bottom:12px}
+.person p{color:#cfcabf}
+.note{margin-top:22px;color:var(--muted);font-size:15px}
+
+/* act (sample) */
+.act-sec{background:var(--paper);color:var(--ink);border-top:0}
+.act-sec .kicker{color:#6a6f78}
+.act-sec .lead{color:#3c4350}
+.act{background:var(--paper-2);border:1px solid rgba(14,22,34,.16);padding:26px 20px;position:relative;border-radius:2px;box-shadow:0 20px 40px -28px rgba(14,22,34,.45)}
+.act-head{display:grid;gap:4px;padding:0 92px 18px 0;min-height:70px;border-bottom:2px solid var(--ink);margin-bottom:6px}
+.act-head .t{font:700 24px/1.2 var(--serif)}
+.act-head .m{font-size:14px;color:#5b616b}
+.find{padding:22px 0;border-bottom:1px solid rgba(14,22,34,.15);display:grid;gap:10px}
+.find:last-of-type{border-bottom:0}
+.find .no{font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+.find h3{font-size:22px}
+.find p{color:#333a46}
+.fix{background:#e8e1d2;border-left:3px solid var(--ink);padding:12px 14px;font-size:15px;color:#252c38}
+.fix b{font-weight:600}
+.say{font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.45;display:block;margin-top:6px}
+.act .stamp2{position:absolute;top:8px;right:8px;width:96px;height:96px;transform:rotate(12deg);opacity:.85;mix-blend-mode:multiply;pointer-events:none}
+.act-foot{margin-top:18px;font-size:14px;color:#5b616b}
+
+/* plans */
+.plans{display:grid;gap:12px}
+.plan{border:1px solid var(--line);background:var(--ink-2);padding:26px 22px;border-radius:2px;display:flex;flex-direction:column;gap:12px}
+.plan.hot{border-color:var(--accent);position:relative}
+.plan .lbl{font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.plan.hot .lbl{color:var(--accent)}
+.plan h3{font-size:26px}
+.plan p{color:#cfcabf}
+.plan .price{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);font:italic 600 19px/1.3 var(--serif)}
+.beta{margin-top:24px;display:flex;gap:14px;align-items:flex-start;padding:18px 20px;border:1px dashed rgba(236,230,217,.3);border-radius:2px}
+.beta b{color:var(--paper)}
+.beta p{color:#cfcabf;font-size:15px}
+.dot{flex:0 0 10px;height:10px;border-radius:50%;background:var(--accent);margin-top:7px;box-shadow:0 0 0 4px rgba(196,71,58,.2)}
+
+/* faq */
+.faq{display:grid;gap:0;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:20px 40px 20px 0;position:relative;font:700 20px/1.3 var(--serif)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:15px;font:400 28px/1 var(--sans);color:var(--accent);transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 0 22px;color:#cfcabf;max-width:720px}
+
+/* contact */
+.contact{text-align:left}
+.contact h2{font-size:clamp(34px,8vw,60px);margin:14px 0 18px}
+.contact .lead{margin-bottom:30px}
+.ways{display:grid;gap:10px;margin-top:22px}
+.way{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;border:1px solid var(--line);border-radius:2px;text-decoration:none;background:var(--ink-2);transition:border-color .2s}
+.way:hover{border-color:var(--paper)}
+.way small{color:var(--muted);font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.way span{font-weight:600;word-break:break-all;text-align:right}
+footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+
+@media (min-width:700px){
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .get{grid-template-columns:repeat(2,1fr)}
+  .team{grid-template-columns:repeat(2,1fr)}
+  .ways{grid-template-columns:repeat(3,1fr)}
+  .way{flex-direction:column;align-items:flex-start}
+  .way span{text-align:left}
+  .act{padding:40px 44px}
+  .act .stamp2{width:130px;height:130px;top:16px;right:30px}
+  .act-head{padding-right:130px}
+}
+@media (min-width:960px){
+  section{padding:104px 0}
+  .hero{padding:80px 0 104px}
+  .hero-grid{grid-template-columns:1.25fr .75fr;align-items:center;gap:56px}
+  .sec-head{grid-template-columns:1fr 1fr;align-items:end;gap:40px;margin-bottom:48px}
+  .cards{grid-template-columns:repeat(3,1fr)}
+  .steps{grid-template-columns:repeat(4,1fr);gap:0 28px}
+  .steps li{grid-template-columns:1fr;border:0!important;border-top:2px solid var(--line)!important;padding:24px 0 0}
+  .steps .num{grid-row:auto;margin-bottom:14px}
+  .steps p{grid-column:auto}
+  .get{grid-template-columns:repeat(3,1fr)}
+  .plans{grid-template-columns:repeat(3,1fr)}
+  .act-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start}
+  .act-wrap .sec-head{grid-template-columns:1fr;position:sticky;top:100px}
+  .contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:end}
+  .ways{grid-template-columns:1fr;margin-top:0}
+  .way{flex-direction:row;align-items:center}
+  .way span{text-align:right}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#">Ре<span class="c">:</span>Визор</a>
+    <a class="btn btn-main" href="#contact">Заказать проверку</a>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="kicker">Тайная проверка воронки продаж</div>
+      <h1>К вам едет Ре<span class="c">:</span>Визор<em>Инкогнито. Ваши менеджеры его не узнают.</em></h1>
+      <p class="lead">Мы приходим к вам как обычный клиент: сайт, заявка, звонок, мессенджеры, почта. Всё записываем и показываем, где клиенты уходят, а менеджеры спотыкаются.</p>
+      <div class="offer">
+        <b>Три находки — бесплатно.</b>
+        <span>Без договора и предоплаты. С записями, а не на словах.</span>
+      </div>
+      <div class="btns">
+        <a class="btn btn-main" href="#contact">Вызвать ревизора</a>
+        <a class="btn btn-ghost" href="#sample">Посмотреть пример разбора</a>
+      </div>
+    </div>
+
+    <aside class="order" aria-label="Предписание на проверку">
+      <div class="kicker">Ре:Визор · форма 001</div>
+      <h3>Предписание</h3>
+      <dl>
+        <div><dt>Объект проверки</dt><dd>Ваш отдел продаж</dd></div>
+        <div><dt>Способ</dt><dd>Инкогнито, под видом клиента</dd></div>
+        <div><dt>Каналы</dt><dd>Сайт · заявка · звонок · мессенджеры · почта</dd></div>
+        <div><dt>Результат</dt><dd>Три находки собственнику — бесплатно</dd></div>
+      </dl>
+      <div class="sign"><span>Ревизор</span><i>Таур</i></div>
+      <svg class="stamp" viewBox="0 0 200 200" aria-hidden="true">
+        <defs><path id="ring" d="M100,100 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0"/></defs>
+        <circle cx="100" cy="100" r="94" fill="none" stroke="#c4473a" stroke-width="5"/>
+        <circle cx="100" cy="100" r="84" fill="none" stroke="#c4473a" stroke-width="1.5"/>
+        <circle cx="100" cy="100" r="54" fill="none" stroke="#c4473a" stroke-width="1.5"/>
+        <text fill="#c4473a" font-family="Inter, sans-serif" font-weight="600" font-size="15" letter-spacing="3.2"><textPath href="#ring">РЕ:ВИЗОР · ПРОВЕРЕНО ИНКОГНИТО ·</textPath></text>
+        <text x="100" y="96" text-anchor="middle" fill="#c4473a" font-family="Playfair Display, serif" font-weight="700" font-size="40">3</text>
+        <text x="100" y="118" text-anchor="middle" fill="#c4473a" font-family="Inter, sans-serif" font-weight="600" font-size="12" letter-spacing="1.5">НАХОДКИ</text>
+        <text x="100" y="133" text-anchor="middle" fill="#c4473a" font-family="Inter, sans-serif" font-weight="600" font-size="9" letter-spacing="1.2">БЕСПЛАТНО</text>
+      </svg>
+    </aside>
+  </div>
+</section>
+
+<!-- PAIN -->
+<section id="pain">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="kicker">Где теряются клиенты</div>
+        <h2 style="margin-top:12px">Заявки есть. Продаж меньше, чем должно быть.</h2>
+      </div>
+      <p class="lead">Чаще всего дело не в рекламе. Клиент дошёл до вас, а дальше его потеряли. Изнутри этого не видно: менеджеры уверены, что работают хорошо.</p>
+    </div>
+    <div class="cards">
+      <div class="card"><span class="n">Заявка</span><h3>Перезвонили через день</h3><p>За это время клиент уже купил у соседа. Он оставлял заявку в три места, а не только к вам.</p></div>
+      <div class="card"><span class="n">Звонок</span><h3>Сразу прайс, ни одного вопроса</h3><p>Менеджер не спросил, что нужно человеку. Цифры без контекста — и клиент «подумает».</p></div>
+      <div class="card"><span class="n">Мессенджер</span><h3>«Прочитано» — и тишина</h3><p>Сообщение увидели, ответить забыли. Клиент запомнил именно это.</p></div>
+      <div class="card"><span class="n">Сайт</span><h3>Форма уходит в никуда</h3><p>Заявки падают на почту, которую давно никто не открывает. Или не падают вовсе.</p></div>
+      <div class="card"><span class="n">Возражение</span><h3>«Дорого» — и менеджер сдался</h3><p>Вместо разговора о ценности — скидка или «ну, как решите». Деньги остались у клиента.</p></div>
+      <div class="card"><span class="n">Почта</span><h3>Обещали — не прислали</h3><p>КП, расчёт, материалы «вышлю сегодня». Не выслали. Первое обещание фирмы — и уже нарушено.</p></div>
+    </div>
+    <div class="quote">
+      <q>Чему смеётесь? Над собою смеётесь!</q>
+      <span>Гоголь знал. Узнать себя в списке — нормально. Ненормально — не проверять.</span>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="kicker">Как работаем</div>
+        <h2 style="margin-top:12px">Четыре шага. Без шума.</h2>
+      </div>
+      <p class="lead">О проверке знает только собственник. Менеджеры работают как обычно — в этом весь смысл.</p>
+    </div>
+    <ol class="steps">
+      <li><span class="num">01</span><h3>Проверка инкогнито</h3><p>Проходим путь клиента по всем каналам: сайт, заявка, звонок, мессенджеры, почта. Всё записываем.</p></li>
+      <li><span class="num">02</span><h3>Три находки <span class="tag">бесплатно</span></h3><p>Показываем собственнику три места, где теряются клиенты. С записями и скриншотами.</p></li>
+      <li><span class="num">03</span><h3>Полный разбор</h3><p>По договору. Вся воронка, плюс готовые фразы и скрипты, которые вытянет даже слабый менеджер.</p></li>
+      <li><span class="num">04</span><h3>Замер «было / стало»</h3><p>Через 2–4 недели проходим воронку заново и сравниваем конверсию до и после.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- GET -->
+<section id="get">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="kicker">Что получите</div>
+        <h2 style="margin-top:12px">Не отчёт «для галочки», а то, что можно внедрить завтра</h2>
+      </div>
+      <p class="lead">Каждая находка — с доказательством и готовым исправлением. Спорить с записью звонка сложно.</p>
+    </div>
+    <ul class="get">
+      <li><b>Записи и расшифровки</b><span>Звонки, переписки, скриншоты. Ваша фирма глазами клиента.</span></li>
+      <li><b>Карта утечек</b><span>Где по пути от заявки до оплаты теряется клиент и почему.</span></li>
+      <li><b>Живые фразы и скрипты</b><span>Под ваш продукт и ваших клиентов, а не из книжки про продажи.</span></li>
+      <li><b>Короткий регламент</b><span>Для менеджеров. Такой, который реально прочитают.</span></li>
+      <li><b>Замер «было / стало»</b><span>Повторная проверка через 2–4 недели. Видно, что сработало.</span></li>
+      <li><b>План допов</b><span>Что ещё стоит докрутить: тексты, сайт, CRM, обучение, ИИ. Только если нужно.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="kicker">Кто мы</div>
+        <h2 style="margin-top:12px">Двое. Один в полях, второй в тылу.</h2>
+      </div>
+      <p class="lead">Маленькая контора. Зато с вами говорит тот, кто сам звонил вашим менеджерам.</p>
+    </div>
+    <div class="team">
+      <div class="person">
+        <span class="role">В полях</span>
+        <h3>Таур</h3>
+        <p>Переговорщик. Выходит прямо на собственников. Ходит тайным покупателем и читает людей по паузе и интонации. Разбирает воронку и превращает находки в живые фразы, которые менеджер может сказать уже завтра.</p>
+      </div>
+      <div class="person">
+        <span class="role">В тылу</span>
+        <h3>Командор</h3>
+        <p>Технарь. Записи, расшифровки, отчёты, регламенты. Автоматизирует рутину через ИИ — чтобы находки не потерялись в чате, а превратились в понятный документ.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SAMPLE -->
+<section id="sample" class="act-sec">
+  <div class="wrap act-wrap">
+    <div class="sec-head">
+      <div>
+        <div class="kicker">Пример разбора</div>
+        <h2 style="margin-top:12px">Так выглядят три находки</h2>
+      </div>
+      <p class="lead">Онлайн-школа, название убрано. Три места, где клиент ушёл, так и не дойдя до оплаты.</p>
+    </div>
+
+    <article class="act">
+      <svg class="stamp2" viewBox="0 0 200 200" aria-hidden="true">
+        <rect x="14" y="62" width="172" height="76" rx="6" fill="none" stroke="#a8382d" stroke-width="5"/>
+        <rect x="24" y="72" width="152" height="56" rx="3" fill="none" stroke="#a8382d" stroke-width="1.5"/>
+        <text x="100" y="110" text-anchor="middle" fill="#a8382d" font-family="Inter, sans-serif" font-weight="700" font-size="26" letter-spacing="4">ПРИМЕР</text>
+      </svg>
+      <div class="act-head">
+        <span class="t">Акт проверки</span>
+        <span class="m">Объект: онлайн-школа · Способ: инкогнито</span>
+      </div>
+
+      <div class="find">
+        <span class="no">Находка № 1 · Сайт</span>
+        <h3>Лендинг не открывается с VPN</h3>
+        <p>С включённым VPN страница не грузится. Многие сидят с ним постоянно. Человек видит пустой экран и уходит — и в аналитике его нет вообще, будто и не приходил.</p>
+        <div class="fix"><b>Что делать:</b> проверить хостинг и защиту от ботов, открыть доступ. Раз в неделю заходить на сайт с VPN.</div>
+      </div>
+
+      <div class="find">
+        <span class="no">Находка № 2 · Почта</span>
+        <h3>Обещанный PDF так и не пришёл</h3>
+        <p>Оставили почту ради бесплатного материала. Его не выдали ни сразу, ни через день. Первое обещание школы — и уже не выполнено. С таким началом курс за большие деньги не покупают.</p>
+        <div class="fix"><b>Что делать:</b> автовыдача сразу после заявки, письмо со ссылкой и проверка цепочки раз в неделю.</div>
+      </div>
+
+      <div class="find">
+        <span class="no">Находка № 3 · Звонок</span>
+        <h3>С первой фразы — дорогой курс</h3>
+        <p>Человек пришёл за бесплатным PDF. Менеджер с порога предлагает флагманский курс. Ни одного вопроса: кто он, зачем пришёл, что ему нужно.</p>
+        <div class="fix"><b>Как сказать иначе:</b>
+          <span class="say">«Здравствуйте! Вы брали у нас материал — получилось открыть? Подскажите, вы сейчас для себя смотрите или под конкретную задачу?»</span>
+        </div>
+      </div>
+
+      <p class="act-foot">Пример обезличен. Цифр конверсии тут нет: их даёт только замер «было / стало».</p>
+    </article>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section id="plans">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="kicker">Условия</div>
+        <h2 style="margin-top:12px">Сначала польза. Потом договор.</h2>
+      </div>
+      <p class="lead">Цену полного разбора называем после бесплатного: когда видно, сколько каналов и сколько работы.</p>
+    </div>
+    <div class="plans">
+      <div class="plan hot">
+        <span class="lbl">Шаг первый</span>
+        <h3>Бесплатный разбор</h3>
+        <p>Проходим воронку инкогнито и показываем три главные утечки. С записями. Без договора и предоплаты.</p>
+        <div class="price">3 находки — бесплатно</div>
+      </div>
+      <div class="plan">
+        <span class="lbl">Шаг второй</span>
+        <h3>Полный разбор</h3>
+        <p>Вся воронка, все каналы. Фразы, скрипты, короткий регламент. Повторный замер через 2–4 недели.</p>
+        <div class="price">По договору</div>
+      </div>
+      <div class="plan">
+        <span class="lbl">Шаг третий</span>
+        <h3>Допы</h3>
+        <p>Тексты, сайт, CRM, обучение менеджеров, автоматизация на ИИ. Только то, что показал разбор.</p>
+        <div class="price">После кейса</div>
+      </div>
+    </div>
+    <div class="beta">
+      <span class="dot" aria-hidden="true"></span>
+      <p><b>Закрытая бета.</b> Кейсов пока два, оба наши. Первые проверки берём на особых условиях: нам нужны кейсы, вам нужны клиенты. Честный обмен.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="kicker">Вопросы</div>
+        <h2 style="margin-top:12px">Что обычно спрашивают</h2>
+      </div>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>Менеджеры узнают, что их проверяют?</summary>
+        <p>Нет. О проверке знает только собственник. Если предупредить отдел, он неделю будет работать идеально — и вы не увидите ничего полезного.</p>
+      </details>
+      <details>
+        <summary>Зачем вам делать три находки бесплатно?</summary>
+        <p>Это лучшая презентация, которую мы можем сделать. Понравится — продолжим по договору. Не понравится — у вас останутся три бесплатных исправления.</p>
+      </details>
+      <details>
+        <summary>Нам подходит?</summary>
+        <p>Если у вас есть менеджеры по продажам, поток заявок и бюджет на развитие — да. Частникам и тем, кто только запускается, пока рано: проверять нечего.</p>
+      </details>
+      <details>
+        <summary>Сколько длится проверка?</summary>
+        <p>Обычно несколько дней. Зависит от того, как быстро вам отвечают клиентам. Если не ответят совсем — это уже находка.</p>
+      </details>
+      <details>
+        <summary>Куда пойдут записи звонков и переписок?</summary>
+        <p>Только вам. Мы не публикуем их и не показываем другим. В кейсы попадает только обезличенная суть — как в примере выше.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <div class="kicker">Связь</div>
+      <h2>Ревизор готов выехать. Нужен адрес.</h2>
+      <p class="lead">Напишите, чем занимается фирма и куда приходят заявки. Остальное — наша работа.</p>
+      <div class="btns">
+        <a class="btn btn-main" href="#">Написать в WhatsApp</a>
+      </div>
+    </div>
+    <div class="ways">
+      <a class="way" href="tel:+70000000000"><small>Телефон</small><span>+7 (000) 000-00-00</span></a>
+      <a class="way" href="#"><small>WhatsApp</small><span>Написать</span></a>
+      <a class="way" href="mailto:mail@example.com"><small>Почта</small><span>mail@example.com</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Ре<span class="c">:</span>Визор · тайная проверка воронок продаж</span>
+    <span>2026 · закрытая бета</span>
+  </div>
+</footer>
+
+</body>
+</html>

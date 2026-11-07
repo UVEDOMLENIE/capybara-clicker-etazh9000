@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ре:Визор — визитка 90×50</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0e1622;
+  --paper:#f5f1e8;
+  --muted:#8e96a3;
+  --accent:#c4473a;
+  --serif:"Playfair Display", Georgia, serif;
+  --sans:"Inter", system-ui, "Segoe UI", sans-serif;
+}
+@page{size:90mm 50mm;margin:0}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html,body{margin:0}
+body{background:#d9d6cf;font-family:var(--sans);color:var(--ink);padding:24px 16px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.label{font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#6a6f78;align-self:center;margin-top:10px}
+.hint{font-size:13px;color:#555b65;max-width:340px;text-align:center;line-height:1.5}
+
+.side{width:90mm;height:50mm;position:relative;overflow:hidden;flex:0 0 auto;box-shadow:0 10px 30px -12px rgba(0,0,0,.45)}
+
+/* FRONT */
+.front{background:var(--ink);color:var(--paper)}
+.front .frame{position:absolute;inset:3.5mm;border:.25mm solid rgba(236,230,217,.28)}
+.front .kick{position:absolute;left:7mm;top:7mm;font:600 5.6pt/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:#a3abb8}
+.front .name{position:absolute;left:7mm;top:17mm;font:700 25pt/1 var(--serif);letter-spacing:.01em;white-space:nowrap}
+.front .name b{color:var(--accent);font-weight:700}
+.front .sub{position:absolute;left:7mm;bottom:7mm;font:italic 600 8pt/1.2 var(--serif);color:#c9c3b6}
+.front .stamp{position:absolute;right:-5mm;top:-5mm;width:26mm;height:26mm;opacity:.9;transform:rotate(-14deg)}
+
+/* BACK */
+.back{background:var(--paper);color:var(--ink)}
+.back .frame{position:absolute;inset:3.5mm;border:.25mm solid rgba(14,22,34,.2)}
+.back .who{position:absolute;left:7mm;top:7mm;right:7mm}
+.back .who .n{font:700 17pt/1 var(--serif)}
+.back .who .r{margin-top:1.6mm;font:500 7pt/1.2 var(--sans);color:#4a515c}
+.back .rule{position:absolute;left:7mm;width:12mm;top:21mm;height:.5mm;background:var(--accent)}
+.back .offer{position:absolute;left:7mm;right:24mm;top:24mm;font:italic 600 8.4pt/1.3 var(--serif)}
+.back .tel{position:absolute;left:7mm;bottom:7mm;font:600 8.2pt/1 var(--sans);letter-spacing:.02em}
+.back .logo{position:absolute;right:7mm;bottom:7mm;font:700 8pt/1 var(--serif)}
+.back .logo b{color:var(--accent)}
+.back .stamp{position:absolute;right:6.5mm;top:20mm;width:15mm;height:15mm;opacity:.85;transform:rotate(12deg);mix-blend-mode:multiply}
+
+@media screen and (min-width:900px){
+  body{flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:40px;padding:64px 24px}
+  .col{display:flex;flex-direction:column;align-items:center;gap:14px}
+  .side{zoom:1.5}
+  .hint{flex-basis:100%;max-width:none}
+}
+@media print{
+  body{background:none;padding:0;display:block}
+  .label,.hint{display:none}
+  .col{display:block}
+  .side{box-shadow:none;zoom:1;page-break-after:always;break-after:page}
+  .col:last-of-type .side{page-break-after:auto;break-after:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="col">
+  <div class="label">Лицо</div>
+  <div class="side front">
+    <div class="frame"></div>
+    <div class="kick">Тайная проверка воронок продаж</div>
+    <div class="name">Ре<b>:</b>Визор</div>
+    <div class="sub">К вам едет ревизор. Инкогнито.</div>
+    <svg class="stamp" viewBox="0 0 200 200" aria-hidden="true">
+      <defs><path id="r1" d="M100,100 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0"/></defs>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="#c4473a" stroke-width="5"/>
+      <circle cx="100" cy="100" r="84" fill="none" stroke="#c4473a" stroke-width="1.5"/>
+      <circle cx="100" cy="100" r="54" fill="none" stroke="#c4473a" stroke-width="1.5"/>
+      <text fill="#c4473a" font-family="Inter, sans-serif" font-weight="600" font-size="15" letter-spacing="3.2"><textPath href="#r1">РЕ:ВИЗОР · ПРОВЕРЕНО ИНКОГНИТО ·</textPath></text>
+      <text x="100" y="114" text-anchor="middle" fill="#c4473a" font-family="Playfair Display, serif" font-weight="700" font-size="44">Р:В</text>
+    </svg>
+  </div>
+</div>
+
+<div class="col">
+  <div class="label">Оборот</div>
+  <div class="side back">
+    <div class="frame"></div>
+    <div class="who">
+      <div class="n">Таур</div>
+      <div class="r">ревизор воронок продаж</div>
+    </div>
+    <div class="rule"></div>
+    <div class="offer">Три находки в вашей воронке — бесплатно.</div>
+    <div class="tel">+7 (000) 000-00-00</div>
+    <div class="logo">Ре<b>:</b>Визор</div>
+    <svg class="stamp" viewBox="0 0 200 200" aria-hidden="true">
+      <circle cx="100" cy="100" r="92" fill="none" stroke="#c4473a" stroke-width="7"/>
+      <circle cx="100" cy="100" r="78" fill="none" stroke="#c4473a" stroke-width="2.5"/>
+      <text x="100" y="118" text-anchor="middle" fill="#c4473a" font-family="Playfair Display, serif" font-weight="700" font-size="58">3</text>
+    </svg>
+  </div>
+</div>
+
+<p class="hint">Печать: Ctrl+P → размер бумаги 90×50 мм, поля «нет», масштаб 100%, фон включён. Две страницы: лицо и оборот. Для типографии добавьте вылеты 2 мм.</p>
+
+</body>
+</html>
