@@ -1,22 +1,1148 @@
 <!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Три лица конторы</title>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ATM Sale</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex">
+<meta name="description" content="Комикс в семи главах: как два друга докручивают чужие воронки продаж.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&family=Dela+Gothic+One&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f6f5f2;--fg:#16161a;--mute:#6b6b72;--line:#d9d6cf}
-@media (prefers-color-scheme:dark){:root{--bg:#141417;--fg:#ecebe8;--mute:#9a9aa2;--line:#2c2c33}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:720px;margin:0 auto;padding:40px 16px 64px}
-h1{font-size:28px;margin:0 0 8px}p.lead{color:var(--mute);margin:0 0 28px}
-a.card{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:14px}
-a.card:hover{border-color:var(--fg)}
-.n{font-weight:800;font-size:22px}.t{color:var(--mute);margin-top:4px}
-.r{display:flex;gap:16px;margin-top:10px;font-size:15px}.r span{text-decoration:underline}
-.a{border-left:6px solid #1f3a5f}.b{border-left:6px solid #222}.c{border-left:6px solid #ff2fa0}
-</style></head><body><main>
-<h1>Три лица одной конторы</h1>
-<p class="lead">Продукт один: тайно проходим вашу воронку продаж, три находки показываем бесплатно, полный разбор — по договору. Подача разная. Выбери, в какой легче продавать.</p>
-<a class="card a" href="revizor/index.html"><div class="n">Ре:Визор</div><div class="t">Оптимум. Строго и уверенно: «К вам едет Ре:Визор. Инкогнито».</div><div class="r"><span>лендинг</span></div></a>
-<a class="card b" href="protokol/index.html"><div class="n">ПРОТОКОЛ</div><div class="t">Костюм-тройка. Аудит коммерческих коммуникаций для крупных и госкорпоративных заказчиков.</div><div class="r"><span>лендинг</span></div></a>
-<a class="card c" href="prelyudiya/index.html"><div class="n">ПРЕЛЮДИЯ</div><div class="t">Отвязный кринж: «Ваши продажники лезут без прелюдии».</div><div class="r"><span>лендинг</span></div></a>
-<p class="lead">Визитки: <a href="revizor/card.html">Ре:Визор</a> · <a href="protokol/card.html">ПРОТОКОЛ</a> · <a href="prelyudiya/card.html">ПРЕЛЮДИЯ</a></p>
-</main></body></html>
+/* Лента-вебтун: одна колонка шириной с телефон, панели тушью, растр точками, три героя — три цвета; на десктопе колонка лежит на тёмном столе */
+:root{
+  --ink:#18140f; --ink-2:#3d352b; --ink-3:#3b3026;
+  --paper:#f3e8cc; --paper-hi:#fffaf0; --tone:#e2d0a2; --muted:#6b604c;
+  --np:#ff2d86; --taur:#ff7a1a; --dima:#2d5ae6; --night:#16224f;
+  --desk:#201c27; --desk-dot:rgba(255,45,134,.16); --dot:rgba(24,20,15,.07);
+  --f-display:"Dela Gothic One","Arial Black",Impact,sans-serif;
+  --f-body:"Balsamiq Sans","Comic Sans MS","Trebuchet MS",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --col:460px;
+  --gut:max(16px, env(safe-area-inset-left, 0px));
+  --gut-r:max(16px, env(safe-area-inset-right, 0px));
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:44px;overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.35 var(--f-body)}
+@media (min-width:520px){body{background:var(--desk) radial-gradient(circle,var(--desk-dot) 1.4px,transparent 1.8px) 0 0/9px 9px fixed}}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--np);outline-offset:3px}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+
+/* --- прогресс --- */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--ink)}
+.prog{position:fixed;top:0;left:0;right:0;z-index:25;padding-top:env(safe-area-inset-top,0px);background:var(--ink);color:var(--paper-hi)}
+.prog-in{max-width:var(--col);margin:0 auto;padding-left:var(--gut);padding-right:var(--gut-r);height:30px;display:flex;align-items:center;gap:10px}
+.prog-lbl{flex:1;min-width:0;font:700 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prog-lbl b{color:var(--np);font-weight:700}
+.cells{display:flex;gap:3px;flex:none}
+.cells i{display:block;width:13px;height:7px;border:1.5px solid var(--paper-hi);position:relative;overflow:hidden}
+.cells i::after{content:"";position:absolute;inset:0;background:var(--np);transform-origin:left;transform:scaleX(var(--f,0));transition:transform .2s}
+
+/* --- лента --- */
+.strip{position:relative;max-width:var(--col);margin:0 auto;padding-left:var(--gut);padding-right:var(--gut-r);padding-block:46px 30px;background:var(--paper) radial-gradient(var(--dot) 1px,transparent 1.4px) 0 0/5px 5px;overflow-x:clip;display:flex;flex-direction:column;gap:56px}
+@media (min-width:520px){.strip{box-shadow:0 0 0 3px var(--ink),0 30px 90px rgba(0,0,0,.55)}}
+.ch{display:flex;flex-direction:column;gap:16px;scroll-margin-top:36px}
+
+/* шапка главы */
+.ch-head{position:relative;margin-left:calc(-1 * var(--gut));margin-right:calc(-1 * var(--gut-r));padding-block:16px 30px;padding-left:var(--gut);padding-right:var(--gut-r);background:var(--ink);color:var(--paper-hi);clip-path:polygon(0 0,100% 0,100% 80%,0 100%);overflow:hidden}
+.ch-head::after{content:attr(data-n);position:absolute;right:14px;top:-18px;z-index:0;font:400 128px/1 var(--f-display);color:transparent;-webkit-text-stroke:2px var(--np)}
+.ch-no{position:relative;z-index:1;margin:0;font:700 12px/1 var(--f-mono);letter-spacing:.16em;color:var(--np)}
+.ch-head h2{position:relative;z-index:1;margin:8px 0 0;max-width:80%;font:400 clamp(27px,8vw,35px)/1.08 var(--f-display);text-wrap:balance}
+
+/* панели */
+.panel{position:relative;display:flex;flex-direction:column;border:3px solid var(--ink);background:var(--paper-hi);min-width:0}
+.ovl{position:relative;display:grid}
+.ovl>*{grid-area:1/1;min-width:0}
+.ovl>.scene{align-self:end}
+.scene{display:block;width:100%;height:auto}
+.night{background:var(--ink)}
+.tone-pk{background:linear-gradient(to bottom,transparent 0%,var(--paper-hi) 92%),radial-gradient(circle,var(--np) 1.5px,transparent 1.9px) 0 0/7px 7px,var(--paper-hi)}
+.tone-or{background:linear-gradient(to top,transparent 0%,var(--paper-hi) 88%),radial-gradient(circle,var(--taur) 1.5px,transparent 1.9px) 0 0/7px 7px,var(--paper-hi)}
+.tone-bl{background:linear-gradient(to bottom,transparent 0%,var(--paper-hi) 90%),radial-gradient(circle,var(--dima) 1.4px,transparent 1.8px) 0 0/7px 7px,var(--paper-hi)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pad{padding:12px}
+.at-tl{justify-self:start;align-self:start;margin:10px}
+.at-tr{justify-self:end;align-self:start;margin:10px}
+.at-bl{justify-self:start;align-self:end;margin:10px}
+.at-br{justify-self:end;align-self:end;margin:10px}
+
+/* облачка */
+.bals{display:flex;flex-direction:column;align-items:flex-start;gap:16px;padding:12px 12px 18px}
+.bals.r{align-items:flex-end}
+.say{position:relative;z-index:2;margin:0;width:fit-content;max-width:100%;background:var(--paper-hi);color:var(--ink);border:2.5px solid var(--ink);border-radius:20px;padding:8px 14px 10px;font:400 17px/1.3 var(--f-body);box-shadow:3px 3px 0 var(--sh,var(--ink));text-wrap:pretty}
+.say::before,.say::after{content:"";position:absolute;top:100%;clip-path:polygon(0 0,100% 0,15% 100%)}
+.say::before{left:var(--tl,22px);width:20px;height:15px;background:var(--ink)}
+.say::after{left:calc(var(--tl,22px) + 3.6px);width:13px;height:10.5px;background:var(--paper-hi)}
+.say.t-r{--tl:calc(100% - 46px)}
+.say.t-r::before,.say.t-r::after{transform:scaleX(-1)}
+.say.t-up::before,.say.t-up::after{top:auto;bottom:100%;transform:scaleY(-1)}
+.say.t-up.t-r::before,.say.t-up.t-r::after{transform:scale(-1,-1)}
+.say.t-no::before,.say.t-no::after{display:none}
+.say.np{--sh:var(--np)} .say.ta{--sh:var(--taur)} .say.di{--sh:var(--dima)}
+.say.sm{font-size:15px;padding:5px 11px 7px;border-radius:16px}
+.say b{font-weight:700}
+.who{display:block;font:700 10px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.burst-w{z-index:2;filter:drop-shadow(2.5px 0 0 var(--ink)) drop-shadow(-2.5px 0 0 var(--ink)) drop-shadow(0 2.5px 0 var(--ink)) drop-shadow(0 -2.5px 0 var(--ink)) drop-shadow(4px 4px 0 var(--dima))}
+.burst{margin:0;background:var(--paper-hi);padding:26px 34px 30px;font:700 21px/1.15 var(--f-body);text-align:center;text-wrap:balance;clip-path:polygon(0% 20%,9% 12%,7% 0%,21% 8%,33% 0%,43% 9%,57% 0%,66% 10%,82% 1%,86% 14%,100% 10%,94% 30%,100% 46%,93% 56%,100% 74%,89% 79%,95% 100%,79% 90%,65% 100%,55% 88%,40% 100%,31% 88%,14% 98%,13% 82%,0% 86%,6% 66%,0% 52%,7% 40%)}
+
+/* подписи и текст */
+.cap{z-index:2;margin:0;width:fit-content;max-width:100%;background:var(--ink);color:var(--paper-hi);font:700 12px/1.3 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:6px 9px 7px}
+.cap.pk{background:var(--np);color:var(--ink)}
+.narr{z-index:2;margin:0;width:fit-content;max-width:100%;background:var(--paper-hi);border:2.5px solid var(--ink);padding:7px 10px 8px;font:400 16px/1.3 var(--f-body);box-shadow:3px 3px 0 var(--np);text-wrap:pretty}
+.big{padding:20px 18px 22px;display:flex;flex-direction:column;gap:10px}
+.big p{margin:0}
+.big .l{font:400 clamp(24px,7.2vw,31px)/1.12 var(--f-display);text-wrap:balance}
+.big .s{font:400 17px/1.35 var(--f-body)}
+.hl{background:var(--np);color:var(--ink);padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+
+/* звуки */
+.sfx{position:absolute;z-index:3;margin:0;font:400 var(--fs,42px)/1 var(--f-display);color:var(--c,var(--np));-webkit-text-stroke:4px var(--ink);paint-order:stroke fill;text-shadow:3px 3px 0 var(--ink);transform:rotate(var(--rot,-8deg));white-space:nowrap;pointer-events:none;letter-spacing:.01em}
+
+/* svg-штрихи */
+.ln{stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.l2{stroke-width:2.2}
+.nf{fill:none}
+.s-k{fill:var(--ink)} .s-k2{fill:var(--ink-2)} .s-h{fill:var(--paper-hi)} .s-p{fill:var(--paper)} .s-t{fill:var(--tone)}
+.s-o{fill:var(--taur)} .s-b{fill:var(--dima)} .s-pk{fill:var(--np)} .s-n{fill:var(--night)}
+.s-log{stroke:var(--ink-3);stroke-width:3}
+.svt{font:700 10px var(--f-mono);fill:var(--ink)}
+.svt-d{font:400 12px var(--f-display);fill:var(--ink)}
+.svt-dh{font:400 13px var(--f-display);fill:var(--paper-hi)}
+
+/* обложка */
+.cover{position:relative;overflow:hidden;align-items:center;text-align:center;padding:18px 12px 14px;gap:4px}
+.cover::before{content:"";position:absolute;inset:0;background:repeating-conic-gradient(from 0deg at 50% 66%,var(--ink) 0deg 1.1deg,transparent 1.1deg 7deg);-webkit-mask-image:radial-gradient(circle at 50% 66%,transparent 34%,#000 75%);mask-image:radial-gradient(circle at 50% 66%,transparent 34%,#000 75%);opacity:.9}
+.cover>*{position:relative}
+.kicker{margin:0;font:700 12px/1.2 var(--f-mono);letter-spacing:.18em;text-transform:uppercase;background:var(--paper-hi);padding:4px 8px;border:2px solid var(--ink)}
+.cover h1{margin:6px 0 0;font:400 clamp(66px,23vw,104px)/.9 var(--f-display);color:var(--paper-hi);-webkit-text-stroke:7px var(--ink);paint-order:stroke fill;text-shadow:6px 6px 0 var(--np);letter-spacing:.01em}
+.cover h1 span{display:block}
+.trio{width:100%;max-width:360px;margin-top:-4px}
+.stamp{margin:-6px 0 0;padding:6px 14px 8px;font:400 22px/1 var(--f-display);background:var(--np);border:3px solid var(--ink);transform:rotate(-4deg);box-shadow:4px 4px 0 var(--ink)}
+
+.heroes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.hero{display:grid;grid-template-columns:88px 1fr;border:3px solid var(--ink);background:var(--paper-hi);box-shadow:4px 4px 0 var(--c)}
+.hero-av{display:block;border-right:3px solid var(--ink);background:radial-gradient(circle,var(--c) 1.5px,transparent 1.9px) 0 0/6px 6px,var(--paper-hi)}
+.hero-av svg{display:block;width:100%;height:100%}
+.hero-tx{padding:10px 12px 12px;min-width:0}
+.hero h3{margin:0;font:400 23px/1.05 var(--f-display)}
+.role{display:inline-block;margin:6px 0 6px;padding:3px 7px 4px;background:var(--c);color:var(--on,var(--ink));font:700 11px/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;border:2px solid var(--ink)}
+.hero p{margin:0;font-size:16px;line-height:1.3}
+.h-t{--c:var(--taur)} .h-d{--c:var(--dima);--on:var(--paper-hi)} .h-n{--c:var(--np)}
+
+/* гл.2: телефон, кнопка */
+.phone{margin:6px auto 16px;width:min(230px,74%);border:3px solid var(--ink);border-radius:24px;background:var(--ink);padding:16px 9px 20px}
+.phone-scr{background:var(--paper-hi);border-radius:9px;padding:12px 11px 14px;font:400 16px/1.4 var(--f-body)}
+.phone-scr i{display:block;height:8px;background:var(--tone);border-radius:4px;margin-top:9px}
+.phone-scr i:nth-child(3){width:78%} .phone-scr i:nth-child(4){width:56%}
+.comma{position:relative;color:var(--taur);font-weight:700;font-size:22px;padding:0 2px}
+.comma::after{content:"";position:absolute;inset:-4px -6px -2px;border:2.5px solid var(--taur);border-radius:50%;transform:rotate(-8deg)}
+.send{position:relative;display:flex;justify-content:center;padding:34px 12px 46px}
+.fake{display:inline-block;padding:14px 26px;background:var(--dima);color:var(--paper-hi);border:3px solid var(--ink);border-radius:30px;font:700 22px/1 var(--f-body);box-shadow:2px 2px 0 var(--ink);transform:translate(2px,2px)}
+.cursor{position:absolute;left:58%;top:58%;width:34px}
+
+/* гл.3 */
+.holes{list-style:none;margin:0;padding:0 12px 14px;display:flex;flex-direction:column;gap:8px}
+.holes li{display:flex;align-items:center;gap:10px;font-size:17px}
+.holes li span{flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--np);border:2.5px solid var(--ink);font:400 14px/1 var(--f-display)}
+.inc{position:absolute;right:10px;bottom:14px;z-index:3;margin:0;padding:4px 9px 6px;border:3px solid var(--np);color:var(--np);background:var(--paper-hi);font:400 17px/1 var(--f-display);transform:rotate(-9deg);letter-spacing:.04em}
+
+/* гл.4: лица */
+.faces{display:flex;flex-direction:column;gap:14px}
+.face{display:grid;grid-template-columns:92px 1fr;border:3px solid var(--ink);background:var(--paper-hi);box-shadow:4px 4px 0 var(--ink)}
+.face-art{display:grid;place-items:center;border-right:3px solid var(--ink);background:radial-gradient(circle,var(--fc) 1.4px,transparent 1.8px) 0 0/6px 6px,var(--paper-hi)}
+.face-art svg{width:76px;height:76px}
+.face-tx{padding:10px 12px 12px;min-width:0}
+.face-no{margin:0;font:700 11px/1 var(--f-mono);letter-spacing:.12em;color:var(--muted)}
+.face h3{margin:5px 0 6px;font:400 clamp(22px,6.6vw,27px)/1.05 var(--f-display);overflow-wrap:anywhere}
+.face-tag{margin:0;font-size:16px;line-height:1.3}
+.face-for{display:inline-block;margin-top:8px;padding:2px 7px 3px;border:2px solid var(--ink);font:700 11px/1.2 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;background:var(--fc);color:var(--fo,var(--ink))}
+.face-links{grid-column:1/-1;display:flex;border-top:3px solid var(--ink)}
+.face-links a{display:flex;align-items:center;min-height:48px;padding:0 14px;text-decoration:none;font-weight:700}
+.face-links .go{flex:1;justify-content:space-between;background:var(--tone)}
+.face-links .go:hover{background:var(--np)}
+.face-links .card{border-left:3px solid var(--ink);font:700 12px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:underline;text-underline-offset:3px}
+.f1{--fc:var(--tone)} .f2{--fc:var(--dima);--fo:var(--paper-hi)} .f3{--fc:var(--np)}
+
+/* кнопки */
+.opts{display:flex;flex-direction:column;gap:14px;padding:4px 12px 4px}
+.opt{display:flex;flex-direction:column;gap:6px}
+.btn{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:56px;padding:10px 12px 10px 16px;background:var(--paper-hi);color:var(--ink);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);font:700 19px/1.2 var(--f-body);text-align:left;text-decoration:none;cursor:pointer;transition:transform .08s,box-shadow .08s,background .15s}
+.btn:hover{background:var(--tone)}
+.btn:active,.btn.on{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.btn.hot{background:var(--np)}
+.btn .chip{flex:none;padding:5px 8px;background:var(--ink);color:var(--paper-hi);font:700 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
+.btn.on .chip{background:var(--np);color:var(--ink)}
+.wa{align-self:flex-end;font:700 12px/1.2 var(--f-mono);letter-spacing:.04em;color:var(--muted);text-underline-offset:3px;padding:4px 2px}
+.status{margin:0 12px;min-height:1.4em;font:700 15px/1.35 var(--f-body)}
+.status:not(:empty){padding:8px 10px;background:var(--ink);color:var(--paper-hi)}
+.status mark{background:none;color:var(--np)}
+.note{margin:0;padding:10px 12px 14px;font-size:16px;color:var(--muted)}
+
+/* гл.5: буквы */
+.plan{display:flex;flex-direction:column;gap:12px}
+.plan-bar{display:flex;justify-content:flex-end}
+.tgl{padding:7px 11px;background:var(--paper-hi);border:2.5px solid var(--ink);font:700 12px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;box-shadow:2px 2px 0 var(--ink)}
+.lt{border:3px solid var(--ink);background:var(--paper-hi);box-shadow:4px 4px 0 var(--ink)}
+.lt summary{list-style:none;display:grid;grid-template-columns:64px 1fr;cursor:pointer}
+.lt summary::-webkit-details-marker{display:none}
+.lt-l{display:grid;place-items:center;background:var(--wc);border-right:3px solid var(--ink);font:400 42px/1 var(--f-display);color:var(--paper-hi);-webkit-text-stroke:5px var(--ink);paint-order:stroke fill}
+.lt-m{padding:9px 10px 11px 12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.lt-top{display:flex;align-items:center;gap:8px}
+.avs{display:flex}
+.av{display:block;width:28px;height:28px;border:2px solid var(--ink);border-radius:50%;overflow:hidden;background:var(--c)}
+.av+.av{margin-left:-7px}
+.av svg{display:block;width:100%;height:100%}
+.lt-time{margin-left:auto;padding:4px 7px;background:var(--ink);color:var(--paper-hi);font:700 12px/1 var(--f-mono);white-space:nowrap}
+.lt-pl{flex:none;position:relative;width:22px;height:22px;border:2px solid var(--ink);transition:transform .2s}
+.lt-pl::before,.lt-pl::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:2.5px;background:var(--ink);transform:translate(-50%,-50%)}
+.lt-pl::after{transform:translate(-50%,-50%) rotate(90deg)}
+.lt[open] .lt-pl{transform:rotate(45deg);background:var(--np)}
+.lt-w{font:700 18px/1.2 var(--f-body)}
+.lt-b{border-top:2.5px dashed var(--ink);padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px}
+.lt-b p{margin:0;font-size:17px}
+.lt[open] .lt-b{animation:drop .25s ease-out}
+.w-t{--wc:var(--taur)} .w-d{--wc:var(--dima)}
+.w-2 .lt-l{background:linear-gradient(135deg,var(--taur) 50%,var(--dima) 50%)}
+.c-t{--c:var(--taur)} .c-d{--c:var(--dima)} .c-n{--c:var(--np)}
+.sum{gap:12px}
+.tl{display:block;width:100%;height:auto}
+
+/* гл.6, гл.7 */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mini{padding:12px 12px 14px;gap:10px}
+.mini svg{width:64px;height:64px;display:block}
+.mini svg.wide{width:100%;height:auto;max-width:180px}
+.mini p{margin:0;font-size:16px;line-height:1.3}
+.mini b{display:block;font:400 17px/1.15 var(--f-display);margin-bottom:4px}
+.rules{display:flex;flex-direction:column;gap:12px}
+.rule{display:grid;grid-template-columns:62px 1fr;gap:12px;align-items:center;border:3px solid var(--ink);background:var(--paper-hi);padding:8px 12px 8px 8px}
+.rule svg{width:62px;height:62px;display:block}
+.rule p{margin:0;font-size:16px;line-height:1.3}
+.rule b{display:block;font-size:18px;line-height:1.2;margin-bottom:2px}
+
+/* финал */
+.docs{display:flex;flex-direction:column;gap:10px}
+.doc{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:12px;padding:10px 12px;border:3px solid var(--ink);background:var(--paper-hi);text-decoration:none;box-shadow:4px 4px 0 var(--np)}
+.doc:hover{background:var(--tone)}
+.doc svg{width:44px;height:44px}
+.doc b{display:block;font-size:18px;line-height:1.2}
+.doc small{font:700 11px/1.2 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.doc .arr{font:400 22px/1 var(--f-display)}
+.sign{margin:6px 0 0;text-align:center;font:700 12px/1.5 var(--f-mono);letter-spacing:.04em;color:var(--muted)}
+.sign b{color:var(--ink)}
+
+/* движение */
+@keyframes pop{from{transform:translateY(16px) scale(.965) rotate(-.8deg)}60%{transform:translateY(-3px) scale(1.008)}to{transform:none}}
+@keyframes stamp{from{transform:rotate(-26deg) scale(1.9);opacity:.15}to{transform:rotate(var(--rot,-8deg)) scale(1);opacity:1}}
+@keyframes bob{50%{transform:translateY(-5px)}}
+@keyframes fly{from{transform:translate(var(--fx,0),var(--fy,0)) rotate(var(--fr,0deg))}to{transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes drop{from{transform:translateY(-6px);opacity:.4}to{transform:none;opacity:1}}
+.rv.in{animation:pop .6s cubic-bezier(.2,.9,.3,1.2) both}
+.rv.in .sfx{animation:stamp .45s .12s cubic-bezier(.2,.9,.3,1.3) both}
+.rv.in .fly{animation:fly .75s .1s cubic-bezier(.2,.9,.3,1) both}
+.bob{animation:bob 3.2s ease-in-out infinite}
+.whl{transform-box:fill-box;transform-origin:center;animation:spin 1.1s linear infinite}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+ <defs>
+  <radialGradient id="gGlow"><stop offset="0" style="stop-color:var(--np);stop-opacity:.55"/><stop offset=".55" style="stop-color:var(--np);stop-opacity:.18"/><stop offset="1" style="stop-color:var(--np);stop-opacity:0"/></radialGradient>
+  <pattern id="dPk" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="3.5" cy="3.5" r="1.6" class="s-pk"/></pattern>
+  <pattern id="dOr" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="3.5" cy="3.5" r="1.5" class="s-o"/></pattern>
+  <pattern id="dBl" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="3.5" cy="3.5" r="1.5" class="s-b"/></pattern>
+  <pattern id="dRust" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.9" class="s-o"/></pattern>
+  <pattern id="win" width="10" height="12" patternUnits="userSpaceOnUse"><rect width="10" height="12" class="s-t"/><rect x="3" y="3" width="4" height="5" class="s-k2"/></pattern>
+ </defs>
+
+ <!-- Таур: кепка, пиджак, телефон у уха -->
+ <symbol id="taur" viewBox="0 0 100 120">
+  <g class="ln">
+   <path class="s-k2" d="M18 122 C18 99 31 86 50 86 C69 86 82 99 82 122 Z"/>
+   <path class="s-h" d="M42 87 L50 101 L58 87 Z"/>
+   <path class="s-o" d="M48 90 H52 L54 105 L50 110 L46 105 Z"/>
+   <path class="nf l2" d="M41 88 L47 106 M59 88 L53 106"/>
+   <path class="s-k2" d="M66 106 C66 93 70 85 77 78 L87 83 C82 90 79 99 78 110 Z"/>
+   <circle class="s-h" cx="23.5" cy="58" r="5"/>
+   <circle class="s-h" cx="76.5" cy="58" r="5"/>
+   <circle class="s-h" cx="50" cy="55" r="27"/>
+   <path class="s-o" d="M23 50 C22 31 34 22 50 22 C66 22 78 31 77 50 C66 45 34 45 23 50 Z"/>
+   <path class="s-o" d="M30 48 C20 46 10 48 4 54 C12 56 24 55 33 51 Z"/>
+   <path class="nf l2" d="M50 23 C46 30 45 38 46 46"/>
+   <circle class="s-k" cx="50" cy="22.5" r="2.6"/>
+   <path class="nf" style="stroke-width:3.4" d="M34 57 Q39 52 45 55 M56 55 H65"/>
+   <ellipse class="s-k" cx="40" cy="62" rx="2.7" ry="3.5" stroke="none"/>
+   <ellipse class="s-k" cx="60" cy="62" rx="2.7" ry="3.5" stroke="none"/>
+   <path class="s-k l2" d="M39 71 C43 67 47.5 68 50 70 C52.5 68 57 67 61 71 C57 73.5 53 73 50 71.5 C47 73 43 73.5 39 71 Z"/>
+   <path class="s-k l2" d="M44 74 C46 81 54 81 56 74 Z"/>
+   <rect class="s-k" x="71" y="44" width="11" height="22" rx="2.5" transform="rotate(10 76.5 55)"/>
+   <circle class="s-h" cx="78" cy="70" r="7"/>
+  </g>
+  <ellipse class="s-o" cx="32" cy="68" rx="4" ry="2.4" opacity=".45"/>
+  <ellipse class="s-o" cx="68" cy="68" rx="4" ry="2.4" opacity=".45"/>
+  <path class="ln nf l2" d="M89 48 q4 7 0 14 M94 44 q6 11 0 22"/>
+ </symbol>
+
+ <!-- Дима: худи, очки, ноутбук -->
+ <symbol id="dima" viewBox="0 0 100 120">
+  <g class="ln">
+   <path class="s-b" d="M19 74 C13 41 29 19 50 19 C71 19 87 41 81 74 Z"/>
+   <path class="s-b" d="M15 122 C15 99 30 86 50 86 C70 86 85 99 85 122 Z"/>
+   <path class="nf l2" d="M43 87 L42 100 M57 87 L58 100"/>
+   <circle class="s-h" cx="50" cy="58" r="22"/>
+   <path class="nf" d="M27 68 C24 44 36 32 50 32 C64 32 76 44 73 68"/>
+   <path class="s-k" d="M29 54 C30 41 40 35.5 51 36 C61 36.5 69 42 71 52 C66 48 61 48.5 58 46 C55 50 48 50.5 44 47 C40 51 34 52 29 54 Z"/>
+   <circle class="s-h" cx="41" cy="61" r="6.5"/>
+   <circle class="s-h" cx="59" cy="61" r="6.5"/>
+   <path class="nf l2" d="M47.5 61 H52.5"/>
+   <circle class="s-k" cx="41.5" cy="62" r="1.9" stroke="none"/>
+   <circle class="s-k" cx="59.5" cy="62" r="1.9" stroke="none"/>
+   <path class="nf l2" d="M46 72 Q50 73.5 54 72"/>
+   <rect class="s-k" x="23" y="90" width="54" height="32" rx="3"/>
+  </g>
+  <ellipse cx="50" cy="74" rx="16" ry="6" class="s-b" opacity=".2"/>
+  <path d="M37.5 58 l3 -2.4 M55.5 58 l3 -2.4" class="nf" style="stroke:var(--dima);stroke-width:1.6;stroke-linecap:round"/>
+  <circle cx="46" cy="106" r="4" class="s-pk"/><circle cx="54" cy="106" r="4" class="s-pk"/><circle cx="50" cy="101" r="4" class="s-pk"/>
+ </symbol>
+
+ <!-- Нейропротез: мозг-робот на голо-подставке -->
+ <symbol id="np" viewBox="0 0 100 120">
+  <circle cx="50" cy="54" r="50" fill="url(#gGlow)"/>
+  <path d="M30 110 L42 84 L58 84 L70 110 Z" class="s-pk" opacity=".25"/>
+  <ellipse cx="50" cy="110" rx="23" ry="6" class="s-k"/>
+  <ellipse cx="50" cy="109" rx="14" ry="3" class="s-pk"/>
+  <g class="ln">
+   <path class="nf" d="M50 24 V11"/>
+   <circle class="s-pk" cx="50" cy="8" r="4.5"/>
+   <path class="nf" d="M17 62 C9 66 8 74 11 80 M83 62 C91 66 92 74 89 80"/>
+   <circle class="s-h" cx="11" cy="81" r="3.5"/>
+   <circle class="s-h" cx="89" cy="81" r="3.5"/>
+   <path class="s-pk" d="M44 76 L46 88 H54 L56 76 Z"/>
+   <circle class="s-pk" cx="33" cy="39" r="14"/>
+   <circle class="s-pk" cx="50" cy="31" r="15"/>
+   <circle class="s-pk" cx="67" cy="39" r="14"/>
+   <circle class="s-pk" cx="25" cy="56" r="13"/>
+   <circle class="s-pk" cx="75" cy="56" r="13"/>
+   <circle class="s-pk" cx="35" cy="68" r="12"/>
+   <circle class="s-pk" cx="65" cy="68" r="12"/>
+   <circle class="s-pk" cx="50" cy="56" r="21"/>
+   <path class="nf l2" d="M45 22 q4 5 0 10 M57 24 q-4 5 1 9 M27 33 q6 1 5 8 M73 33 q-6 1 -5 8 M19 52 q5 3 3 8 M81 52 q-5 3 -3 8"/>
+   <rect class="s-k" x="31" y="48" width="38" height="17" rx="8.5"/>
+  </g>
+  <ellipse cx="41.5" cy="56.5" rx="4" ry="5" class="s-h"/>
+  <ellipse cx="58.5" cy="56.5" rx="4" ry="5" class="s-h"/>
+  <path d="M44 71 Q50 76 56 71" class="ln nf l2"/>
+ </symbol>
+
+ <!-- хозяин фирмы -->
+ <symbol id="boss" viewBox="0 0 100 120">
+  <g class="ln">
+   <path class="s-k2" d="M16 122 C16 99 30 86 50 86 C70 86 84 99 84 122 Z"/>
+   <path class="s-h" d="M42 87 L50 102 L58 87 Z"/>
+   <path class="s-k" d="M48 90 H52 L54 106 L50 111 L46 106 Z"/>
+   <circle class="s-h" cx="50" cy="56" r="26"/>
+   <path class="s-k" d="M25 52 C24 33 38 27 52 28 C66 29 76 37 75 52 C70 43 60 40 50 41 C40 42 30 46 25 52 Z"/>
+   <path class="nf" d="M36 61 q5 -5 10 0 M54 61 q5 -5 10 0"/>
+   <path class="nf" d="M41 70 q9 8 18 0"/>
+   <path class="s-t" d="M63 95 h21 v21 h-21 z"/>
+   <path class="nf" d="M84 100 q8 0 8 6 q0 6 -8 6"/>
+   <path class="nf l2" d="M69 89 q-3 -5 0 -9 M78 89 q-3 -5 0 -9"/>
+  </g>
+  <ellipse class="s-pk" cx="35" cy="68" rx="4" ry="2.4" opacity=".35"/>
+  <ellipse class="s-pk" cx="65" cy="68" rx="4" ry="2.4" opacity=".35"/>
+ </symbol>
+
+ <!-- маскировка: очки, нос, усы -->
+ <symbol id="disguise" viewBox="0 0 100 120">
+  <g class="ln">
+   <path class="nf" d="M48 61 H52 M31 59 L24 57 M69 59 L76 57"/>
+   <rect class="s-k" x="31" y="55" width="17" height="13" rx="4"/>
+   <rect class="s-k" x="52" y="55" width="17" height="13" rx="4"/>
+   <ellipse class="s-h" cx="50" cy="69" rx="5.5" ry="6.5"/>
+   <path class="s-k l2" d="M35 75 C41 70 46.5 71 50 73 C53.5 71 59 70 65 75 C59 78 53.5 77 50 75.5 C46.5 77 41 78 35 75 Z"/>
+  </g>
+  <path d="M34 59 l5 -2 M55 59 l5 -2" class="nf" style="stroke:var(--paper-hi);stroke-width:2;stroke-linecap:round"/>
+ </symbol>
+
+ <!-- фон: город -->
+ <symbol id="bg-city" viewBox="0 0 300 200" preserveAspectRatio="xMidYMax slice">
+  <rect width="300" height="200" class="s-h"/>
+  <rect width="300" height="150" fill="url(#dOr)" opacity=".5"/>
+  <circle cx="216" cy="78" r="34" class="s-o" opacity=".85"/>
+  <g class="ln l2" fill="url(#win)">
+   <rect x="-4" y="112" width="44" height="100"/>
+   <rect x="36" y="90" width="32" height="122"/>
+   <rect x="64" y="124" width="40" height="90"/>
+   <rect x="104" y="72" width="40" height="140"/>
+   <rect x="140" y="104" width="30" height="108"/>
+   <rect x="168" y="128" width="30" height="84"/>
+   <rect x="196" y="112" width="34" height="100"/>
+   <rect x="228" y="94" width="30" height="118"/>
+   <rect x="256" y="124" width="48" height="88"/>
+  </g>
+  <path d="M124 72 V52" class="ln nf l2"/><circle cx="124" cy="50" r="3" class="s-pk ln l2"/>
+  <rect y="192" width="300" height="10" class="s-k"/>
+ </symbol>
+
+ <!-- фон: тёмная изба с луной -->
+ <symbol id="bg-night" viewBox="0 0 300 200" preserveAspectRatio="xMidYMax slice">
+  <rect width="300" height="200" class="s-k"/>
+  <path class="s-log" d="M0 18 H300 M0 42 H300 M0 66 H300 M0 90 H300 M0 114 H300 M0 138 H300 M0 162 H300"/>
+  <rect x="150" y="24" width="90" height="82" class="s-n"/>
+  <circle cx="208" cy="56" r="16" class="s-h"/>
+  <circle cx="216" cy="50" r="14" class="s-n"/>
+  <g class="s-h"><circle cx="164" cy="38" r="1.6"/><circle cx="178" cy="88" r="1.6"/><circle cx="228" cy="92" r="1.4"/><circle cx="172" cy="62" r="1.2"/><circle cx="230" cy="32" r="1.6"/></g>
+  <g class="nf" style="stroke:var(--tone);stroke-width:5"><rect x="150" y="24" width="90" height="82"/><path d="M195 24 V106 M150 65 H240" style="stroke-width:4"/></g>
+  <rect x="142" y="104" width="106" height="8" class="s-t"/>
+  <rect y="120" width="300" height="80" fill="url(#dBl)" opacity=".35"/>
+ </symbol>
+
+ <!-- лица конторы -->
+ <symbol id="fc-rev" viewBox="0 0 80 80">
+  <g class="ln">
+   <rect class="s-k" x="16" y="8" width="30" height="28" rx="2"/>
+   <rect class="s-pk" x="16" y="26" width="30" height="6"/>
+   <ellipse class="s-k" cx="31" cy="36" rx="24" ry="5"/>
+   <path class="nf" style="stroke-width:7" d="M60 62 L72 74"/>
+   <circle class="s-h" cx="48" cy="50" r="16"/>
+   <path class="s-h" d="M37 50 Q48 41 59 50 Q48 59 37 50 Z"/>
+   <circle class="s-k" cx="48" cy="50" r="4.5"/>
+  </g>
+ </symbol>
+ <symbol id="fc-two" viewBox="0 0 80 80">
+  <g class="ln">
+   <rect class="s-h" x="34" y="12" width="12" height="18"/>
+   <path class="s-k2" d="M6 82 C6 50 18 30 40 28 C62 30 74 50 74 82 Z"/>
+   <path class="s-t" d="M27 34 L40 58 L53 34 L56 82 H24 Z"/>
+   <path class="s-h" d="M30 29 L40 50 L50 29 Z"/>
+   <path class="s-k" d="M38 32 H42 L44 50 L40 55 L36 50 Z"/>
+   <path class="nf" d="M30 29 L22 50 L32 46 M50 29 L58 50 L48 46"/>
+   <circle class="s-k" cx="40" cy="64" r="1.8"/><circle class="s-k" cx="40" cy="73" r="1.8"/>
+   <path class="s-pk" d="M55 56 L64 53 L65 59 L56 61 Z"/>
+  </g>
+ </symbol>
+ <symbol id="fc-three" viewBox="0 0 80 80">
+  <g class="ln">
+   <path class="s-pk" d="M40 70 C14 54 8 40 10 28 C12 16 26 12 34 18 C37 20 39 23 40 26 C41 23 43 20 46 18 C54 12 68 16 70 28 C72 40 66 54 40 70 Z"/>
+   <path class="nf" d="M37 34 H43"/>
+   <path class="s-k" d="M17 32 H37 L35 41 C34 44 31 45 28 45 H24 C21 45 19 43 18 40 Z"/>
+   <path class="s-k" d="M43 32 H63 L62 40 C61 43 59 45 56 45 H52 C49 45 47 44 46 41 Z"/>
+   <path class="s-k l2" d="M32 51 Q40 59 48 51 Z"/>
+   <path class="s-o l2" d="M38 55 h6 v4 q-3 3 -6 0 z"/>
+   <path class="s-o l2" d="M68 2 L70 9 L77 11 L70 13 L68 20 L66 13 L59 11 L66 9 Z"/>
+   <path class="s-o l2" d="M10 56 L11.5 61 L16.5 62.5 L11.5 64 L10 69 L8.5 64 L3.5 62.5 L8.5 61 Z"/>
+  </g>
+  <path d="M21 35 l5 -2 M47 35 l5 -2" class="nf" style="stroke:var(--paper-hi);stroke-width:2;stroke-linecap:round"/>
+ </symbol>
+
+ <!-- монетка -->
+ <symbol id="coin" viewBox="-12 -12 24 24">
+  <circle r="10.5" class="s-t ln l2"/>
+  <path d="M-3 -6 V6 M-3 -6 H1.5 A3.4 3.4 0 0 1 1.5 0.8 H-5.5 M-5.5 3.4 H2" class="ln nf" style="stroke-width:1.8"/>
+ </symbol>
+</svg>
+
+<div class="prog" aria-hidden="true">
+ <div class="prog-in">
+  <span class="prog-lbl" id="progLbl">Обложка</span>
+  <span class="cells"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+ </div>
+</div>
+
+<main class="strip">
+
+<!-- ================= ОБЛОЖКА ================= -->
+<section class="ch" id="cover" data-label="Обложка · листай вниз">
+ <div class="panel cover rv">
+  <p class="kicker">Комикс в семи главах</p>
+  <h1><span>ATM</span><span>Sale</span></h1>
+  <svg class="trio" viewBox="0 0 320 190" role="img" aria-label="Таур с телефоном, нейропротез и Дима с ноутбуком">
+   <ellipse cx="66" cy="186" rx="44" ry="5" class="s-k" opacity=".25"/>
+   <ellipse cx="256" cy="186" rx="44" ry="5" class="s-k" opacity=".25"/>
+   <use href="#taur" x="8" y="56" width="112" height="134"/>
+   <use href="#dima" x="200" y="56" width="112" height="134"/>
+   <g class="bob"><use href="#np" x="108" y="4" width="104" height="125"/></g>
+  </svg>
+  <p class="stamp">Читать лёжа.</p>
+ </div>
+
+ <ul class="heroes">
+  <li class="hero h-t rv">
+   <span class="hero-av"><svg viewBox="6 14 88 88" aria-hidden="true"><use href="#taur" width="100" height="120"/></svg></span>
+   <div class="hero-tx"><h3>Таур</h3><span class="role">в полях</span><p>Говорит быстрее, чем ты думаешь.</p></div>
+  </li>
+  <li class="hero h-d rv">
+   <span class="hero-av"><svg viewBox="8 14 84 84" aria-hidden="true"><use href="#dima" width="100" height="120"/></svg></span>
+   <div class="hero-tx"><h3>Дима</h3><span class="role">в тылу</span><p>Отшельник с нейропротезом.</p></div>
+  </li>
+  <li class="hero h-n rv">
+   <span class="hero-av"><svg viewBox="4 0 92 92" aria-hidden="true"><use href="#np" width="100" height="120"/></svg></span>
+   <div class="hero-tx"><h3>Нейропротез</h3><span class="role">это я · рассказчик</span><p>Делаю всё, что вам лень.</p></div>
+  </li>
+ </ul>
+</section>
+
+<!-- ================= ГЛАВА 1 ================= -->
+<section class="ch" id="ch1" data-n="1" data-label="Чуваки, привет">
+ <header class="ch-head" data-n="1"><p class="ch-no">ГЛАВА 1/7</p><h2>Чуваки, привет.</h2></header>
+
+ <div class="panel tone-pk rv">
+  <div class="ovl">
+   <svg class="scene" viewBox="0 0 320 170" aria-hidden="true">
+    <g class="bob"><use href="#np" x="176" y="18" width="124" height="149"/></g>
+   </svg>
+   <div class="bals at-tl" style="padding:2px;max-width:58%">
+    <p class="say np t-r">Привет, чуваки.</p>
+    <p class="say np t-r">Лежите?</p>
+   </div>
+  </div>
+ </div>
+
+ <div class="panel rv">
+  <div class="ovl">
+   <svg class="scene" viewBox="0 0 320 140" aria-hidden="true">
+    <svg x="0" y="0" width="160" height="140" viewBox="0 0 160 140">
+     <use href="#bg-city" width="160" height="140"/>
+     <rect x="8" y="98" width="146" height="30" class="s-t ln l2"/>
+     <ellipse cx="40" cy="96" rx="28" ry="9" class="s-h ln l2"/>
+     <use href="#taur" x="6" y="44" width="80" height="96" transform="rotate(-90 46 87)"/>
+     <path d="M68 100 C66 80 84 70 108 70 C132 70 150 78 152 100 Z" class="s-o ln"/>
+     <path d="M92 76 C96 86 96 94 94 100" class="ln nf l2"/>
+    </svg>
+    <svg x="160" y="0" width="160" height="140" viewBox="0 0 160 140">
+     <use href="#bg-night" width="160" height="140"/>
+     <rect x="6" y="98" width="146" height="30" class="s-t ln l2"/>
+     <ellipse cx="40" cy="96" rx="28" ry="9" class="s-h ln l2"/>
+     <use href="#dima" x="6" y="45" width="80" height="96" transform="rotate(-90 46 91.4)"/>
+     <path d="M68 100 C66 80 84 70 108 70 C132 70 150 78 152 100 Z" class="s-b ln"/>
+     <path d="M118 72 C114 84 115 92 118 100" class="ln nf l2"/>
+    </svg>
+    <path d="M160 0 V140" class="ln" style="stroke-width:4"/>
+   </svg>
+   <p class="cap at-tl" style="margin:0">В полях</p>
+   <p class="cap" style="justify-self:end;align-self:start;margin:0;background:var(--paper-hi);color:var(--ink)">В тылу</p>
+  </div>
+  <div class="bals" style="padding-top:14px">
+   <p class="say np t-up">Лежите. Я коротко и с картинками.</p>
+  </div>
+ </div>
+
+ <div class="panel tone-or rv">
+  <div class="ovl">
+   <svg class="scene" viewBox="0 0 320 150" aria-hidden="true">
+    <g>
+     <use href="#coin" x="168" y="108" width="68" height="40"/>
+     <use href="#coin" x="168" y="98" width="68" height="40"/>
+     <use href="#coin" x="168" y="88" width="68" height="40"/>
+     <use href="#coin" x="168" y="78" width="68" height="40"/>
+     <use href="#coin" x="236" y="112" width="60" height="36"/>
+     <use href="#coin" x="236" y="102" width="60" height="36"/>
+    </g>
+    <use href="#coin" x="250" y="22" width="40" height="40" transform="rotate(-20 270 42)"/>
+    <path d="M246 70 l-8 10 M262 72 l-2 12 M278 70 l4 10" class="ln nf l2"/>
+   </svg>
+   <div class="bals at-tl" style="padding:0;max-width:62%">
+    <p class="say np t-no">Есть возможность полутать <b>денежки</b>.</p>
+    <p class="cap pk">Не миллионы. Первые.</p>
+   </div>
+   <p class="sfx" style="--rot:-6deg;left:5%;bottom:7%;--fs:32px;--c:var(--paper-hi)">ДЗЫНЬ!</p>
+  </div>
+ </div>
+
+ <p class="cap">Схема простая</p>
+ <div class="row">
+  <div class="panel rv">
+   <div class="ovl">
+    <svg class="scene" viewBox="0 0 160 200" aria-hidden="true">
+     <use href="#bg-city" width="160" height="200"/>
+     <use href="#taur" x="6" y="64" width="146" height="175"/>
+    </svg>
+    <p class="narr at-tl" style="margin:8px;box-shadow:3px 3px 0 var(--taur)">Таур ходит и грузит людей.</p>
+   </div>
+  </div>
+  <div class="panel night rv">
+   <div class="ovl">
+    <svg class="scene" viewBox="0 0 160 200" aria-hidden="true">
+     <use href="#bg-night" width="160" height="200"/>
+     <use href="#dima" x="8" y="64" width="146" height="175"/>
+    </svg>
+    <p class="narr at-tl" style="margin:8px;box-shadow:3px 3px 0 var(--dima)">Дима сидит в тылу и всё оцифровывает.</p>
+   </div>
+  </div>
+ </div>
+
+ <div class="panel night rv">
+  <div class="bals r">
+   <p class="say np t-r">А я помогаю Диме.</p>
+   <p class="say np t-r">Чтобы ему не пришлось ни с кем разговаривать.</p>
+  </div>
+  <div class="ovl">
+   <svg class="scene" viewBox="0 0 320 180" aria-hidden="true">
+    <use href="#bg-night" width="320" height="180"/>
+    <use href="#dima" x="22" y="52" width="130" height="156"/>
+    <g class="bob"><use href="#np" x="186" y="22" width="112" height="134"/></g>
+   </svg>
+   <p class="say di sm at-tl" style="--tl:30px">…спасибо.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ================= ГЛАВА 2 ================= -->
+<section class="ch" id="ch2" data-n="2" data-label="Как это родилось">
+ <header class="ch-head" data-n="2"><p class="ch-no">ГЛАВА 2/7</p><h2>Как это родилось.</h2></header>
+
+ <div class="panel rv">
+  <p class="cap">05.11. Оба с утра буксовали</p>
+  <div class="ovl">
+   <svg class="scene" viewBox="0 0 320 150" aria-hidden="true">
+    <path d="M58 60 A50 50 0 0 1 96 44 M140 66 A50 50 0 0 0 118 46 M184 60 A50 50 0 0 1 222 44 M266 66 A50 50 0 0 0 244 46" class="ln nf l2"/>
+    <g class="ln">
+     <g class="whl"><circle cx="104" cy="98" r="36" class="s-k"/><circle cx="104" cy="98" r="23" class="s-o"/><path d="M104 75 V121 M81 98 H127 M88 82 L120 114 M120 82 L88 114" class="nf l2"/><circle cx="104" cy="98" r="6" class="s-h"/></g>
+     <g class="whl"><circle cx="228" cy="98" r="36" class="s-k"/><circle cx="228" cy="98" r="23" class="s-b"/><path d="M228 75 V121 M205 98 H251 M212 82 L244 114 M244 82 L212 114" class="nf l2"/><circle cx="228" cy="98" r="6" class="s-h"/></g>
+     <path d="M-4 112 C40 102 70 118 110 108 C150 98 190 116 230 106 C270 98 300 112 324 106 V154 H-4 Z" class="s-k2"/>
+     <circle cx="52" cy="84" r="5" class="s-k2"/><circle cx="40" cy="70" r="3.5" class="s-k2"/>
+     <circle cx="168" cy="76" r="4.5" class="s-k2"/><circle cx="282" cy="82" r="5" class="s-k2"/><circle cx="294" cy="66" r="3" class="s-k2"/>
+    </g>
+   </svg>
+   <p class="sfx" style="--rot:-6deg;left:4%;top:4%;--fs:30px;--c:var(--tone)">ВЖЖЖ</p>
+  </div>
+ </div>
+
+ <div class="panel tone-bl rv">
+  <p class="cap">Таур поправил Диме одну запятую в письме</p>
+  <div class="phone" aria-hidden="true"><div class="phone-scr">Добрый день<span class="comma">,</span><i></i><i></i><i></i></div></div>
+  <div class="bals r" style="padding-top:0">
+   <p class="say ta t-up t-r"><span class="who">Таур, по телефону</span>Вот тут — запятая.</p>
+  </div>
+ </div>
+
+ <div class="panel tone-pk rv">
+  <p class="cap">Дима наконец нажал «отправить»</p>
+  <div class="send" aria-hidden="true">
+   <span class="fake">Отправить</span>
+   <svg class="cursor" viewBox="0 0 24 34"><path d="M2 2 V27 L8.5 21 L13 31.5 L18 29.5 L13.5 19 H22 Z" class="s-h ln l2"/></svg>
+  </div>
+  <p class="sfx" style="--rot:-10deg;left:6%;bottom:8%;--fs:36px">ТЫК!</p>
+ </div>
+
+ <div class="panel rv" style="background:var(--tone)">
+  <div class="bals" style="padding-bottom:6px">
+   <p class="say di"><span class="who">Дима</span>Кажется, твой разводной ключ сдвинул с места заржавевшую гайку.</p>
+  </div>
+  <div class="ovl">
+   <svg class="scene" viewBox="0 0 320 170" aria-hidden="true">
+    <rect width="320" height="170" fill="url(#dRust)" opacity=".55"/>
+    <g class="ln l2 s-k2"><circle cx="20" cy="150" r="5"/><circle cx="300" cy="20" r="5"/><circle cx="300" cy="150" r="5"/></g>
+    <g class="ln nf"><path d="M196 34 l-4 -14 M232 46 l10 -10 M244 84 l14 2 M226 116 l8 12 M168 30 l-10 -10"/></g>
+    <g transform="translate(110 112) rotate(-28) scale(1.5)">
+     <polygon points="40.7,0 34.35,11 21.65,11 15.3,0 21.65,-11 34.35,-11" class="s-t ln" style="stroke-width:2"/>
+     <polygon points="40.7,0 34.35,11 21.65,11 15.3,0 21.65,-11 34.35,-11" fill="url(#dRust)"/>
+     <circle cx="28" cy="0" r="4.5" class="s-k2 ln" style="stroke-width:1.6"/>
+     <path d="M-90 -8 L-16 -8 C-12 -20 0 -26 12 -26 C26 -26 36 -18 38 -11 L18 -11 L18 11 L38 11 C36 18 26 26 12 26 C0 26 -12 20 -16 8 L-90 8 A8 8 0 0 1 -90 -8 Z" class="s-h ln" style="stroke-width:2"/>
+     <path d="M-80 -2 H-26" class="ln nf" style="stroke-width:1.4;stroke:var(--tone)"/>
+     <circle cx="-82" cy="0" r="3" class="s-k"/>
+    </g>
+    <path d="M150 42 A70 70 0 0 1 250 60" class="ln nf" style="stroke-width:3.5"/>
+    <path d="M244 48 L254 62 L238 66 Z" class="s-k ln l2"/>
+   </svg>
+   <p class="sfx" style="--rot:-10deg;left:3%;top:6%;--fs:46px;--c:var(--taur)">ХРУСТЬ!</p>
+  </div>
+ </div>
+
+ <div class="panel rv">
+  <p class="cap">Таур встал и пошёл в харчевню</p>
+  <div class="ovl">
+   <svg class="scene" viewBox="0 0 320 180" aria-hidden="true">
+    <use href="#bg-city" width="320" height="180"/>
+    <g class="ln"><rect x="270" y="76" width="7" height="110" class="s-k2"/><path d="M226 66 V58 M300 66 V58 M226 58 H300" class="nf l2"/><rect x="214" y="64" width="98" height="30" class="s-h"/></g>
+    <text x="263" y="84" text-anchor="middle" class="svt-d">ХАРЧЕВНЯ</text>
+    <g class="ln nf"><path d="M18 108 H60 M10 126 H54 M24 144 H62"/></g>
+    <use href="#taur" x="62" y="58" width="128" height="154"/>
+    <g class="ln l2 s-h"><circle cx="54" cy="170" r="7"/><circle cx="40" cy="164" r="5"/></g>
+   </svg>
+   <p class="sfx" style="--rot:-6deg;left:4%;top:8%;--fs:26px;--c:var(--paper-hi)">ТОП-ТОП</p>
+  </div>
+ </div>
+
+ <div class="panel night rv">
+  <div class="ovl">
+   <svg class="scene" viewBox="0 0 320 210" aria-hidden="true">
+    <use href="#bg-night" width="320" height="210"/>
+    <use href="#dima" x="40" y="84" width="130" height="156"/>
+    <g class="ln"><path d="M262 64 l0 -14 M238 74 l-10 -8 M286 74 l10 -8 M234 98 h-12 M290 98 h12" class="nf" style="stroke:var(--np);stroke-width:4"/>
+     <circle cx="262" cy="96" r="18" class="s-h"/><rect x="254" y="112" width="16" height="12" rx="2" class="s-t"/>
+     <path d="M256 98 q6 -10 12 0" class="nf l2"/>
+    </g>
+   </svg>
+   <p class="cap at-tl" style="margin:0;background:var(--paper-hi);color:var(--ink)">Через час. Созвон</p>
+   <div class="burst-w" style="justify-self:start;align-self:start;margin:38px 0 0 8px;max-width:72%">
+    <p class="burst">Так это же воронка продаж!</p>
+   </div>
+   <p class="sfx" style="--rot:8deg;right:4%;bottom:12%;--fs:30px">ДЗЫНЬ!</p>
+  </div>
+ </div>
+
+ <div class="panel tone-pk big rv">
+  <p class="l">Вот её и будем чинить.</p>
+  <p class="l"><span class="hl">Только чужую.</span> И за деньги.</p>
+ </div>
+</section>
+
+<!-- ================= ГЛАВА 3 ================= -->
+<section class="ch" id="ch3" data-n="3" data-label="Что продаём">
+ <header class="ch-head" data-n="3"><p class="ch-no">ГЛАВА 3/7</p><h2>Что продаём.</h2></header>
+
+ <div class="panel tone-pk rv">
+  <div class="bals"><p class="say np t-no">Фирмы теряют клиентов в своей же воронке.</p></div>
+  <div class="ovl">
+   <svg class="scene" viewBox="0 0 320 214" aria-hidden="true">
+    <g class="ln">
+     <path d="M40 44 L140 150 L140 196 L180 196 L180 150 L280 44 Z" class="s-h"/>
+     <path d="M140 150 L180 150" class="nf l2"/>
+     <ellipse cx="160" cy="44" rx="120" ry="16" class="s-k"/>
+     <ellipse cx="70" cy="77" rx="10" ry="6" transform="rotate(46 70 77)" class="s-k"/>
+     <ellipse cx="250" cy="77" rx="10" ry="6" transform="rotate(-46 250 77)" class="s-k"/>
+     <ellipse cx="111" cy="119" rx="9" ry="5.5" transform="rotate(46 111 119)" class="s-k"/>
+    </g>
+    <g class="ln l2">
+     <circle cx="120" cy="14" r="6" class="s-h"/><rect x="114" y="20" width="12" height="16" rx="5" class="s-o"/>
+     <circle cx="160" cy="10" r="6" class="s-h"/><rect x="154" y="16" width="12" height="16" rx="5" class="s-b"/>
+     <circle cx="200" cy="14" r="6" class="s-h"/><rect x="194" y="20" width="12" height="16" rx="5" class="s-pk"/>
+     <g transform="rotate(38 34 120)"><circle cx="34" cy="108" r="6" class="s-h"/><rect x="28" y="114" width="12" height="16" rx="5" class="s-o"/></g>
+     <g transform="rotate(-40 288 120)"><circle cx="288" cy="108" r="6" class="s-h"/><rect x="282" y="114" width="12" height="16" rx="5" class="s-pk"/></g>
+     <g transform="rotate(30 74 170)"><circle cx="74" cy="158" r="6" class="s-h"/><rect x="68" y="164" width="12" height="16" rx="5" class="s-b"/></g>
+    </g>
+    <path d="M52 96 l-6 4 M60 92 l-2 8 M268 96 l6 4 M260 92 l2 8 M94 140 l-6 4 M100 136 l-2 8" class="ln nf l2"/>
+    <g class="ln l2"><circle cx="96" cy="74" r="10" class="s-pk"/><circle cx="224" cy="74" r="10" class="s-pk"/><circle cx="134" cy="114" r="10" class="s-pk"/></g>
+    <text x="96" y="79" text-anchor="middle" class="svt-d">1</text>
+    <text x="224" y="79" text-anchor="middle" class="svt-d">2</text>
+    <text x="134" y="119" text-anchor="middle" class="svt-d">3</text>
+    <use href="#coin" x="149" y="194" width="22" height="22"/>
+   </svg>
+   <p class="sfx" style="--rot:-8deg;left:2%;bottom:4%;--fs:28px;--c:var(--paper-hi)">ПЛЮХ!</p>
+  </div>
+  <ul class="holes">
+   <li><span>1</span>не перезвонили</li>
+   <li><span>2</span>ответили через сутки</li>
+   <li><span>3</span>впарили с порога</li>
+  </ul>
+ </div>
+
+ <div class="panel tone-bl rv">
+  <p class="cap">Хозяин этого не видит</p>
+  <div class="ovl">
+   <svg class="scene" viewBox="0 0 320 180" aria-hidden="true">
+    <g class="ln"><rect x="194" y="14" width="110" height="84" class="s-h"/></g>
+    <text x="249" y="30" text-anchor="middle" class="svt">ПРОДАЖИ</text>
+    <polyline points="206,86 228,72 246,78 268,54 292,40" class="ln nf" style="stroke:var(--np);stroke-width:4"/>
+    <path d="M282 38 L294 38 L292 50" class="ln nf" style="stroke:var(--np);stroke-width:4"/>
+    <rect x="-4" y="150" width="328" height="34" class="s-t ln"/>
+    <use href="#boss" x="40" y="40" width="128" height="154"/>
+   </svg>
+   <p class="say t-r at-tr" style="margin:110px 10px 0 0;max-width:52%;--sh:var(--ink-2)">У нас всё работает.</p>
+  </div>
+ </div>
+
+ <div class="panel rv">
+  <p class="cap">Мы проходим воронку как клиент</p>
+  <div class="ovl">
+   <svg class="scene" viewBox="0 0 320 190" aria-hidden="true">
+    <use href="#bg-city" width="320" height="190"/>
+    <use href="#taur" x="120" y="44" width="140" height="168"/>
+    <use href="#disguise" x="120" y="44" width="140" height="168"/>
+   </svg>
+   <p class="say ta at-tl" style="max-width:48%;--tl:calc(100% - 40px)">Здрасьте. Я&nbsp;по&nbsp;объявлению.</p>
+   <p class="inc" style="left:10px;right:auto">ИНКОГНИТО</p>
+  </div>
+ </div>
+
+ <div class="panel big rv" style="background:var(--ink);color:var(--paper-hi)">
+  <p class="l"><span class="hl">Три дыры</span> показываем хозяину бесплатно.</p>
+  <p class="l" style="color:var(--np)">Дальше — за деньги.</p>
+  <p class="sfx" style="--rot:-12deg;right:3%;bottom:-14px;--fs:30px;--c:var(--taur)">ДЗЫНЬ!</p>
+ </div>
+</section>
+
+<!-- ================= ГЛАВА 4 ================= -->
+<section class="ch" id="ch4" data-n="4" data-label="Три лица конторы">
+ <header class="ch-head" data-n="4"><p class="ch-no">ГЛАВА 4/7</p><h2>Три лица конторы.</h2></header>
+
+ <div class="panel tone-pk rv">
+  <div class="bals"><p class="say np">Я вижу контору так.</p><p class="say np">Три лица — выбирайте.</p></div>
+  <svg class="scene" viewBox="0 0 320 120" aria-hidden="true">
+   <g class="bob"><use href="#np" x="12" y="4" width="96" height="115"/></g>
+   <use href="#fc-rev" x="122" y="30" width="58" height="58"/>
+   <use href="#fc-two" x="188" y="30" width="58" height="58"/>
+   <use href="#fc-three" x="254" y="30" width="58" height="58"/>
+  </svg>
+ </div>
+
+ <div class="faces">
+  <article class="face f1 rv">
+   <div class="face-art"><svg viewBox="0 0 80 80" aria-hidden="true"><use href="#fc-rev"/></svg></div>
+   <div class="face-tx">
+    <p class="face-no">ЛИЦО 1</p>
+    <h3>Ре:Визор</h3>
+    <p class="face-tag">Строго, с Гоголем: к вам едет ревизор, инкогнито.</p>
+    <span class="face-for">обычный бизнес</span>
+   </div>
+   <div class="face-links"><a class="go" href="revizor/index.html">Смотреть лендинг <span aria-hidden="true">→</span></a><a class="card" href="revizor/card.html">визитка</a></div>
+  </article>
+  <article class="face f2 rv">
+   <div class="face-art"><svg viewBox="0 0 80 80" aria-hidden="true"><use href="#fc-two"/></svg></div>
+   <div class="face-tx">
+    <p class="face-no">ЛИЦО 2</p>
+    <h3>Тайный советник</h3>
+    <p class="face-tag">костюм-тройка: негласная проверка отдела продаж для заводов и крупняка</p>
+    <span class="face-for">заводы и крупняк</span>
+   </div>
+   <div class="face-links"><a class="go" href="sovetnik/index.html">Смотреть лендинг <span aria-hidden="true">→</span></a><a class="card" href="sovetnik/card.html">визитка</a></div>
+  </article>
+  <article class="face f3 rv">
+   <div class="face-art"><svg viewBox="0 0 80 80" aria-hidden="true"><use href="#fc-three"/></svg></div>
+   <div class="face-tx">
+    <p class="face-no">ЛИЦО 3</p>
+    <h3>Подкат</h3>
+    <p class="face-tag">полный кринж: проверяем, как ваши продажники подкатывают к клиенту</p>
+    <span class="face-for">молодые и наглые</span>
+   </div>
+   <div class="face-links"><a class="go" href="podkat/index.html">Смотреть лендинг <span aria-hidden="true">→</span></a><a class="card" href="podkat/card.html">визитка</a></div>
+  </article>
+ </div>
+
+ <div class="panel rv" data-group="face">
+  <svg class="scene" viewBox="0 0 320 120" aria-hidden="true">
+   <svg x="0" y="0" width="160" height="120" viewBox="0 0 160 120">
+    <use href="#bg-city" width="160" height="120"/>
+    <use href="#taur" x="26" y="26" width="110" height="132"/>
+   </svg>
+   <rect x="160" y="0" width="160" height="120" class="s-h"/>
+   <rect x="160" y="0" width="160" height="120" fill="url(#dPk)" opacity=".35"/>
+   <g class="bob"><use href="#np" x="190" y="6" width="100" height="120"/></g>
+   <path d="M160 0 V120 M0 120 H320" class="ln" style="stroke-width:3"/>
+  </svg>
+  <div class="bals r" style="padding-top:18px">
+   <p class="say np t-up t-r"><span class="who">Тауру лично</span>С каким из трёх тебе наименее стыдно подойти к&nbsp;живому человеку?</p>
+   <p class="say np t-no">Ткни — текст скопируется. Кинь его в наш чат.</p>
+  </div>
+  <div class="opts">
+   <div class="opt"><button class="btn" type="button" id="pickRevizor" data-copy="Выбираю Ре:Визор"><span>Ре:Визор</span><span class="chip">скопировать</span></button><a class="wa" data-wa="Выбираю Ре:Визор" href="https://wa.me/" target="_blank" rel="noopener">или сразу в WhatsApp ↗</a></div>
+   <div class="opt"><button class="btn" type="button" id="pickFace2" data-copy="Выбираю Тайный советник"><span>Тайный советник</span><span class="chip">скопировать</span></button><a class="wa" data-wa="Выбираю Тайный советник" href="https://wa.me/" target="_blank" rel="noopener">или сразу в WhatsApp ↗</a></div>
+   <div class="opt"><button class="btn" type="button" id="pickFace3" data-copy="Выбираю Подкат"><span>Подкат</span><span class="chip">скопировать</span></button><a class="wa" data-wa="Выбираю Подкат" href="https://wa.me/" target="_blank" rel="noopener">или сразу в WhatsApp ↗</a></div>
+  </div>
+  <p class="status" role="status" aria-live="polite"></p>
+  <p class="note">Не нравится ни одно — пиши правки, переделаю.</p>
+ </div>
+</section>
+
+<!-- ================= ГЛАВА 5 ================= -->
+<section class="ch" id="ch5" data-n="5" data-label="А теперь без мишуры">
+ <header class="ch-head" data-n="5"><p class="ch-no">ГЛАВА 5/7</p><h2>А теперь без мишуры.</h2></header>
+
+ <div class="panel tone-pk rv">
+  <div class="bals"><p class="say np t-no">Чуваки, всё это — лендинги, визитки, названия — <b>чешуя</b>.</p></div>
+  <div class="ovl">
+   <svg class="scene" viewBox="0 0 320 190" aria-hidden="true">
+    <use href="#np" x="104" y="34" width="112" height="134"/>
+    <g transform="translate(36 112) rotate(-28)"><g class="fly" style="--fx:70px;--fy:-8px;--fr:28deg"><path d="M0 0 L26 -4 L36 8 L30 60 L-4 60 Z" class="s-k2 ln"/><path d="M26 -4 L18 22 L30 30" class="ln nf l2"/><circle cx="24" cy="44" r="2.2" class="s-h"/></g></g>
+    <g transform="translate(286 104) rotate(24) scale(-1 1)"><g class="fly" style="--fx:70px;--fy:6px;--fr:-24deg"><path d="M0 0 L26 -4 L36 8 L30 60 L-4 60 Z" class="s-k2 ln"/><path d="M26 -4 L18 22 L30 30" class="ln nf l2"/></g></g>
+    <g transform="translate(236 30) rotate(38)"><g class="fly" style="--fx:-60px;--fy:50px;--fr:-38deg"><path d="M0 0 H9 L12 28 L4.5 36 L-3 28 Z" class="s-pk ln l2"/></g></g>
+    <g class="ln l2 s-h"><circle cx="70" cy="40" r="4"/><circle cx="262" cy="178" r="4"/><circle cx="40" cy="70" r="3"/></g>
+    <path d="M100 96 l7 -6 l3 8 l7 -9 M210 120 l6 -7 l4 8 l6 -8" class="ln nf l2"/>
+   </svg>
+   <p class="sfx" style="--rot:-9deg;left:3%;top:2%;--fs:36px">ТРРРЫК!</p>
+  </div>
+ </div>
+
+ <div class="panel big rv" style="background:var(--tone)">
+  <p class="l">Пыль в глаза.</p>
+  <p class="s">Денег она не приносит.</p>
+  <p class="sfx" style="--rot:8deg;right:5%;top:12px;--fs:28px;--c:var(--paper-hi)">ПФФ</p>
+ </div>
+
+ <div class="panel big tone-pk rv">
+  <p class="s">Деньги приносит</p>
+  <p class="l">одна сделка.</p>
+  <p class="s">Вот она по буквам. Тапай по букве — раскроется.</p>
+ </div>
+
+ <div class="plan">
+  <div class="plan-bar"><button class="tgl" type="button" id="openAll">Раскрыть все буквы</button></div>
+
+  <details class="lt w-t rv">
+   <summary><span class="lt-l">A</span><span class="lt-m">
+    <span class="lt-top"><span class="avs"><span class="av c-t"><svg viewBox="6 14 88 88"><use href="#taur" width="100" height="120"/></svg></span></span><span class="lt-time">5 минут</span><span class="lt-pl" aria-hidden="true"></span></span>
+    <span class="lt-w">Таур выбирает лицо конторы</span></span></summary>
+   <div class="lt-b"><p>Одно из трёх лиц из главы 4. Ткнул кнопку — готово.</p></div>
+  </details>
+
+  <details class="lt w-t rv">
+   <summary><span class="lt-l">B</span><span class="lt-m">
+    <span class="lt-top"><span class="avs"><span class="av c-t"><svg viewBox="6 14 88 88"><use href="#taur" width="100" height="120"/></svg></span></span><span class="lt-time">1 день</span><span class="lt-pl" aria-hidden="true"></span></span>
+    <span class="lt-w">Таур выбирает одну знакомую фирму</span></span></summary>
+   <div class="lt-b"><p>Чтобы там были продажники, заявки и деньги.</p><p>И чтобы ты знал, как дойти до хозяина.</p></div>
+  </details>
+
+  <details class="lt w-t rv">
+   <summary><span class="lt-l">C</span><span class="lt-m">
+    <span class="lt-top"><span class="avs"><span class="av c-t"><svg viewBox="6 14 88 88"><use href="#taur" width="100" height="120"/></svg></span></span><span class="lt-time">2–3 дня</span><span class="lt-pl" aria-hidden="true"></span></span>
+    <span class="lt-w">Таур проходит их воронку как клиент</span></span></summary>
+   <div class="lt-b"><p>Звонишь, пишешь, оставляешь заявку.</p><p>После каждого шага — голосовуха Диме: что сказали, где тупили. Скрины переписки туда же.</p></div>
+  </details>
+
+  <details class="lt w-d rv">
+   <summary><span class="lt-l">D</span><span class="lt-m">
+    <span class="lt-top"><span class="avs"><span class="av c-d"><svg viewBox="8 14 84 84"><use href="#dima" width="100" height="120"/></svg></span><span class="av c-n"><svg viewBox="4 0 92 92"><use href="#np" width="100" height="120"/></svg></span></span><span class="lt-time">2–3 дня</span><span class="lt-pl" aria-hidden="true"></span></span>
+    <span class="lt-w">Дима с нейропротезом собирают три находки</span></span></summary>
+   <div class="lt-b"><p>Плюс короткий отчёт. Шлём Тауру на телефон.</p><p>Таур поправляет голосом.</p></div>
+  </details>
+
+  <details class="lt w-t rv">
+   <summary><span class="lt-l">E</span><span class="lt-m">
+    <span class="lt-top"><span class="avs"><span class="av c-t"><svg viewBox="6 14 88 88"><use href="#taur" width="100" height="120"/></svg></span></span><span class="lt-time">неделя 2</span><span class="lt-pl" aria-hidden="true"></span></span>
+    <span class="lt-w">Таур идёт к хозяину</span></span></summary>
+   <div class="lt-b"><p>И говорит примерно так:</p><p class="say ta t-no">«Я прошёл вашу воронку как обычный клиент. Вот три места, где вы теряете людей, — бесплатно. Нашёл больше. Хотите всё с готовыми фразами для менеджеров — договоримся».</p></div>
+  </details>
+
+  <details class="lt w-2 rv">
+   <summary><span class="lt-l">F</span><span class="lt-m">
+    <span class="lt-top"><span class="avs"><span class="av c-t"><svg viewBox="6 14 88 88"><use href="#taur" width="100" height="120"/></svg></span><span class="av c-d"><svg viewBox="8 14 84 84"><use href="#dima" width="100" height="120"/></svg></span></span><span class="lt-time">финиш</span><span class="lt-pl" aria-hidden="true"></span></span>
+    <span class="lt-w">Деньги пришли → пополам → отдыхаем</span></span></summary>
+   <div class="lt-b"><p>Поделили пополам. Отдыхаем. Оба.</p></div>
+  </details>
+ </div>
+
+ <div class="panel sum pad rv">
+  <p class="cap pk">Итог</p>
+  <svg class="tl" viewBox="0 0 320 92" role="img" aria-label="Шкала: буквы A–F укладываются примерно в 14 дней">
+   <path d="M22 66 H302" class="ln"/>
+   <path d="M22 60 V72 M162 60 V72 M302 60 V72" class="ln l2"/>
+   <g class="ln l2">
+    <rect x="22" y="34" width="20" height="20" class="s-o"/>
+    <rect x="42" y="34" width="60" height="20" class="s-o"/>
+    <rect x="102" y="34" width="60" height="20" class="s-b"/>
+    <rect x="162" y="34" width="140" height="20" class="s-o"/>
+    <path d="M22 34 V22 M302 34 V22" class="nf"/>
+    <circle cx="22" cy="14" r="10" class="s-o"/>
+    <circle cx="302" cy="14" r="10" class="s-pk"/>
+   </g>
+   <text x="22" y="19" text-anchor="middle" class="svt-d">A</text>
+   <text x="302" y="19" text-anchor="middle" class="svt-d">F</text>
+   <text x="32" y="49" text-anchor="middle" class="svt-d">B</text>
+   <text x="72" y="49" text-anchor="middle" class="svt-d">C</text>
+   <text x="132" y="49" text-anchor="middle" class="svt-dh">D</text>
+   <text x="232" y="49" text-anchor="middle" class="svt-d">E</text>
+   <text x="22" y="86" text-anchor="start" class="svt">день 0</text>
+   <text x="162" y="86" text-anchor="middle" class="svt">≈ 7</text>
+   <text x="302" y="86" text-anchor="end" class="svt">≈ 14</text>
+  </svg>
+  <p style="margin:0;font-size:17px">От «лежим» до первых денег — около двух недель, если не тормозить.</p>
+  <p style="margin:0;font:400 clamp(26px,8vw,34px)/1.12 var(--f-display)">Одна фирма.<br><span class="hl">Не пять.</span></p>
+ </div>
+</section>
+
+<!-- ================= ГЛАВА 6 ================= -->
+<section class="ch" id="ch6" data-n="6" data-label="Если попрёт">
+ <header class="ch-head" data-n="6"><p class="ch-no">ГЛАВА 6/7</p><h2>Если попрёт.</h2></header>
+ <div class="grid2">
+  <div class="panel mini rv">
+   <svg viewBox="0 0 64 64" aria-hidden="true"><g class="ln nf" style="stroke-width:4"><path d="M50 20 A22 22 0 0 0 12 26"/><path d="M14 44 A22 22 0 0 0 52 38"/></g><g class="ln s-k l2"><path d="M44 12 L55 20 L43 26 Z"/><path d="M20 52 L9 44 L21 38 Z"/></g><text x="32" y="41" text-anchor="middle" style="font:400 20px var(--f-display);fill:var(--np);stroke:var(--ink);stroke-width:1.5px;paint-order:stroke fill">2</text></svg>
+   <p><b>Второй клиент</b>Тем же путём.</p>
+  </div>
+  <div class="panel mini rv">
+   <svg viewBox="0 0 64 64" aria-hidden="true"><g class="ln"><rect x="9" y="38" width="16" height="18" class="s-t"/><rect x="37" y="12" width="16" height="44" class="s-pk"/><path d="M4 56 H60" class="nf"/><path d="M15 30 L40 6 M33 6 H40 V13" class="nf l2"/></g></svg>
+   <p><b>Кейс на сайт</b>С цифрами «было / стало».</p>
+  </div>
+  <div class="panel mini night rv" style="color:var(--paper-hi)">
+   <svg viewBox="0 0 64 64" aria-hidden="true"><g class="ln" style="stroke:var(--paper-hi)"><rect x="8" y="10" width="48" height="32" rx="3" class="s-n"/><path d="M2 50 H62 L56 42 H8 Z" class="s-t"/><path d="M22 20 L16 26 L22 32 M42 20 L48 26 L42 32 M35 18 L29 34" class="nf" style="stroke:var(--np)"/></g></svg>
+   <p><b style="color:var(--np)">Допы</b>Тексты, сайт, CRM, автоматизация. Делает Дима с нейропротезом.</p>
+  </div>
+  <div class="panel mini rv">
+   <svg class="wide" viewBox="0 0 240 80" aria-hidden="true"><use href="#fc-rev" x="0" y="4" width="76" height="76"/><use href="#fc-two" x="82" y="4" width="76" height="76"/><use href="#fc-three" x="164" y="4" width="76" height="76"/></svg>
+   <p><b>Лицо конторы</b>Меняем под клиента.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ================= ГЛАВА 7 ================= -->
+<section class="ch" id="ch7" data-n="7" data-label="Правила на берегу">
+ <header class="ch-head" data-n="7"><p class="ch-no">ГЛАВА 7/7</p><h2>Правила на берегу.</h2></header>
+ <div class="rules">
+  <div class="rule rv">
+   <svg viewBox="0 0 64 64" aria-hidden="true"><g class="ln"><circle cx="30" cy="34" r="24" class="s-h"/><circle cx="30" cy="34" r="15" class="s-pk"/><circle cx="30" cy="34" r="6.5" class="s-h"/><path d="M31 33 L54 10 M54 10 L61 9 M54 10 L55 3" class="nf"/></g></svg>
+   <p><b>Одна фирма — до денег.</b>Следующая только после.</p>
+  </div>
+  <div class="rule rv">
+   <svg viewBox="0 0 64 64" aria-hidden="true"><g class="ln"><path d="M28 10 A22 22 0 0 0 28 54 L31 44 L26 36 L31 28 L26 18 Z" class="s-t"/><path d="M36 10 L33 18 L38 28 L33 36 L38 44 L36 54 A22 22 0 0 0 36 10 Z" class="s-t"/><path d="M18 26 V38 M42 26 V38" class="nf l2"/></g></svg>
+   <p><b>Сначала деньги приходят, потом делим.</b>Ничего не тратим заранее.</p>
+  </div>
+  <div class="rule rv">
+   <svg viewBox="0 0 64 64" aria-hidden="true"><g class="ln"><rect x="19" y="6" width="26" height="52" rx="5" class="s-k"/><rect x="23" y="12" width="18" height="36" class="s-n" stroke="none"/></g><circle cx="34" cy="27" r="7" class="s-h"/><circle cx="37.5" cy="24" r="6" class="s-n"/><g class="nf" style="stroke:var(--np);stroke-width:5;stroke-linecap:round"><circle cx="32" cy="32" r="26"/><path d="M14 14 L50 50"/></g></svg>
+   <p><b>Диме — в одну ветку.</b>Ночью не звоним. Созвон раз в неделю.</p>
+  </div>
+  <div class="rule rv">
+   <svg viewBox="0 0 64 64" aria-hidden="true"><g class="ln"><path d="M6 16 H24 L29 22 H54 V52 H6 Z" class="s-t"/><path d="M15 36 L23 43 L37 28" class="nf"/><circle cx="48" cy="46" r="12" class="s-h"/><path d="M48 39 V46 L53 49" class="nf l2"/></g></svg>
+   <p><b>Срок клиенту ставим, когда материал уже у Димы.</b>Не раньше.</p>
+  </div>
+  <div class="rule rv">
+   <svg viewBox="0 0 64 64" aria-hidden="true"><g class="ln"><rect x="10" y="6" width="28" height="52" class="s-k2"/><path d="M10 6 L28 12 V62 L10 58 Z" class="s-t"/><circle cx="23" cy="36" r="1.8" class="s-k"/><path d="M36 30 H58 M50 22 L58 30 L50 38" class="nf"/><path d="M47 50 c-3 -3 -8 0 -5 4 l5 5 l5 -5 c3 -4 -2 -7 -5 -4 z" class="s-pk l2"/></g></svg>
+   <p><b>Надоело — выходишь.</b>В любой момент, без претензий. Дружба дороже бизнеса.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ================= ФИНАЛ ================= -->
+<section class="ch" id="final" data-label="Финал · жду обратку">
+ <div class="panel tone-pk rv" data-group="final">
+  <div class="ovl">
+   <svg class="scene" viewBox="0 0 320 170" aria-hidden="true">
+    <g class="ln l2">
+     <rect x="40" y="30" width="8" height="14" class="s-o" transform="rotate(20 44 37)"/>
+     <rect x="270" y="20" width="8" height="14" class="s-b" transform="rotate(-30 274 27)"/>
+     <rect x="62" y="70" width="7" height="12" class="s-pk" transform="rotate(-40 65 76)"/>
+     <rect x="250" y="76" width="7" height="12" class="s-o" transform="rotate(35 253 82)"/>
+     <rect x="20" y="96" width="7" height="12" class="s-b" transform="rotate(10 23 102)"/>
+     <rect x="292" y="104" width="7" height="12" class="s-pk" transform="rotate(-15 295 110)"/>
+    </g>
+    <g class="bob"><use href="#np" x="104" y="2" width="112" height="134"/></g>
+    <use href="#taur" x="-4" y="104" width="100" height="120"/>
+    <use href="#dima" x="224" y="104" width="100" height="120"/>
+   </svg>
+  </div>
+  <div class="bals">
+   <p class="say np t-no">Это моя презентация.</p>
+   <p class="say np t-no"><b>Жду обратку.</b> Ткни ответ — он скопируется, кинь в наш чат.</p>
+  </div>
+  <div class="opts">
+   <div class="opt"><button class="btn hot" type="button" id="fbGo" data-copy="Погнали"><span>Погнали</span><span class="chip">скопировать</span></button><a class="wa" data-wa="Погнали" href="https://wa.me/" target="_blank" rel="noopener">или сразу в WhatsApp ↗</a></div>
+   <div class="opt"><button class="btn" type="button" id="fbFix" data-copy="Переделай вот это: …"><span>Переделай вот это: …</span><span class="chip">скопировать</span></button><a class="wa" data-wa="Переделай вот это: …" href="https://wa.me/" target="_blank" rel="noopener">или сразу в WhatsApp ↗</a></div>
+   <div class="opt"><button class="btn" type="button" id="fbNo" data-copy="Фигня, давай по-другому"><span>Фигня, давай по-другому</span><span class="chip">скопировать</span></button><a class="wa" data-wa="Фигня, давай по-другому" href="https://wa.me/" target="_blank" rel="noopener">или сразу в WhatsApp ↗</a></div>
+  </div>
+  <p class="status" role="status" aria-live="polite" style="margin-bottom:14px"></p>
+ </div>
+
+ <p class="cap">Документы. Читать спокойно</p>
+ <div class="docs">
+  <a class="doc rv" href="docs/pervaya-sdelka.html">
+   <svg viewBox="6 14 88 88" aria-hidden="true"><use href="#taur" width="100" height="120"/></svg>
+   <span><small>для Таура</small><b>Первая сделка — подробно</b></span><span class="arr" aria-hidden="true">→</span>
+  </a>
+  <a class="doc rv" href="docs/kak-rabotaem.html">
+   <svg viewBox="4 0 92 92" aria-hidden="true"><use href="#np" width="100" height="120"/></svg>
+   <span><small>по шагам</small><b>Как мы делаем аудит</b></span><span class="arr" aria-hidden="true">→</span>
+  </a>
+  <a class="doc rv" href="docs/pravila.html">
+   <svg viewBox="0 0 64 64" aria-hidden="true"><g class="ln"><rect x="10" y="6" width="28" height="52" class="s-k2"/><path d="M10 6 L28 12 V62 L10 58 Z" class="s-t"/><path d="M47 50 c-3 -3 -8 0 -5 4 l5 5 l5 -5 c3 -4 -2 -7 -5 -4 z" class="s-pk l2"/></g></svg>
+   <span><small>для обоих</small><b>Правила на берегу</b></span><span class="arr" aria-hidden="true">→</span>
+  </a>
+ </div>
+
+ <p class="sign">Нарисовал нейропротез для двух распиздяев.<br><b>Версия 2</b></p>
+</section>
+
+</main>
+
+<script>
+(function(){
+  /* wa.me собираем тут: плейсхолдеры в тексте должны остаться как есть */
+  document.querySelectorAll('[data-wa]').forEach(function(a){
+    a.href = 'https://wa.me/?text=' + encodeURIComponent(a.getAttribute('data-wa'));
+  });
+
+  /* копирование выбора и обратки */
+  function fallbackCopy(text){
+    try{
+      var ta=document.createElement('textarea');
+      ta.value=text; ta.setAttribute('readonly','');
+      ta.style.position='fixed'; ta.style.top='-200px'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      var ok=document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    }catch(e){return false;}
+  }
+  function report(group, text, ok){
+    var st=group.querySelector('.status');
+    st.textContent='';
+    if(ok){
+      st.append('Скопировано: ');
+      var m=document.createElement('mark'); m.textContent='«'+text+'»'; st.append(m);
+      st.append(' — кинь в наш чат.');
+    }else{
+      st.append('Не скопировалось. Выдели и скопируй сам: ');
+      var m2=document.createElement('mark'); m2.textContent=text; st.append(m2);
+    }
+  }
+  document.querySelectorAll('[data-copy]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var text=b.getAttribute('data-copy');
+      var group=b.closest('[data-group]');
+      group.querySelectorAll('.btn.on').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on');
+      var chip=b.querySelector('.chip');
+      group.querySelectorAll('.chip').forEach(function(c){c.textContent='скопировать'});
+      function done(ok){ if(chip && ok) chip.textContent='готово'; report(group,text,ok); }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(function(){done(true)},function(){done(fallbackCopy(text))});
+      }else{ done(fallbackCopy(text)); }
+    });
+  });
+
+  /* буквы плана */
+  var tg=document.getElementById('openAll');
+  var lts=[].slice.call(document.querySelectorAll('.lt'));
+  function syncTg(){ tg.textContent = lts.every(function(d){return d.open}) ? 'Свернуть буквы' : 'Раскрыть все буквы'; }
+  tg.addEventListener('click',function(){
+    var open=!lts.every(function(d){return d.open});
+    lts.forEach(function(d){d.open=open});
+    syncTg();
+  });
+  lts.forEach(function(d){d.addEventListener('toggle',syncTg)});
+
+  /* прогресс «глава N/7» */
+  var secs=[].slice.call(document.querySelectorAll('.ch[data-label]'));
+  var lbl=document.getElementById('progLbl');
+  var cells=[].slice.call(document.querySelectorAll('.cells i'));
+  var ticking=false, last='';
+  function upd(){
+    ticking=false;
+    var mid=innerHeight*0.4, cur=0;
+    for(var i=0;i<secs.length;i++){ if(secs[i].getBoundingClientRect().top<=mid) cur=i; }
+    var s=secs[cur], n=+(s.getAttribute('data-n')||0), r=s.getBoundingClientRect();
+    var frac=Math.min(1,Math.max(0,(mid-r.top)/Math.max(1,r.height)));
+    var key=s.id;
+    if(key!==last){
+      last=key; lbl.textContent='';
+      if(n){ var b=document.createElement('b'); b.textContent='Глава '+n+'/7'; lbl.append(b,' · '+s.getAttribute('data-label')); }
+      else lbl.textContent=s.getAttribute('data-label');
+    }
+    cells.forEach(function(c,k){
+      var v = s.id==='final' ? 1 : (k+1<n ? 1 : (k+1===n ? frac : 0));
+      c.style.setProperty('--f',v.toFixed(3));
+    });
+  }
+  addEventListener('scroll',function(){ if(!ticking){ticking=true;requestAnimationFrame(upd);} },{passive:true});
+  addEventListener('resize',upd);
+  upd();
+
+  /* панели «впрыгивают» при прокрутке; в покое всё видно и без этого */
+  var still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!still && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    },{rootMargin:'0px 0px 0px 0px'});
+    document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+  }
+})();
+</script>
+</body>
+</html>

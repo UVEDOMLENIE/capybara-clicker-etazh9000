@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Тайный советник, визитка</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Визитка 90×50 мм. Лицо: зелёное сукно, золотой гильош-медальон, имя конторы и слоган.
+     Оборот: гербовая бумага, гильошная лента, имя аудитора, контакты, сургучная печать. */
+  @page{size:90mm 50mm;margin:0}
+  :root{
+    --baize:#1a3a2f;
+    --baize-deep:#112a21;
+    --ivory:#f0eadb;
+    --ink:#1b2431;
+    --ink-soft:#4d5560;
+    --pale:#b7c1b2;
+    --gold:#c6a76b;
+    --gold-hi:#e6cf98;
+    --gold-deep:#8f733d;
+    --wax:#8f1d26;
+    --display:"Old Standard TT","Times New Roman",Georgia,serif;
+    --text:"Onest","Segoe UI",system-ui,Arial,sans-serif;
+    color-scheme:dark;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--baize-deep);color:var(--ivory);font:400 15px/1.5 var(--text);overflow-x:clip;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;-webkit-font-smoothing:antialiased}
+  p{margin:0}
+  a{color:inherit}
+
+  /* ---------- экран ---------- */
+  .page{max-width:1180px;margin:0 auto;padding:20px max(16px,env(safe-area-inset-right,0px)) 56px max(16px,env(safe-area-inset-left,0px))}
+  .bar{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 20px;font-size:14px;color:var(--pale)}
+  .bar a{text-decoration:none;border-bottom:1px solid rgba(198,167,107,.35);padding-bottom:2px}
+  .bar a:hover{color:var(--gold-hi)}
+  .bar .home{color:var(--ivory)}
+  .head{margin:34px 0 30px}
+  .head h1{margin:0;font:400 clamp(34px,8vw,52px)/1.05 var(--display);text-wrap:balance}
+  .head h1 em{color:var(--gold-hi)}
+  .head p{margin-top:10px;color:var(--pale);max-width:40em}
+  .sheet{display:flex;flex-wrap:wrap;justify-content:center;gap:40px 48px}
+  .side{display:flex;flex-direction:column;gap:10px;min-width:0}
+  .cap{font:600 11px/1.2 var(--text);letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+  .print-note{margin:44px auto 0;max-width:44em;padding-top:16px;border-top:1px solid rgba(198,167,107,.3);font-size:13.5px;color:var(--pale);text-align:center}
+
+  /* ---------- визитка ---------- */
+  .card{position:relative;width:90mm;height:50mm;overflow:hidden;
+    box-shadow:0 1px 0 rgba(0,0,0,.3),0 22px 40px -20px rgba(0,0,0,.8)}
+
+  /* лицо */
+  .front{background:var(--baize);color:var(--ivory)}
+  .front .frame{position:absolute;inset:3.2mm;border:.2mm solid rgba(198,167,107,.75)}
+  .front .frame::after{content:"";position:absolute;inset:.8mm;border:.15mm solid rgba(198,167,107,.4)}
+  .front .medal{position:absolute;width:31mm;height:31mm;left:52mm;top:9.5mm;color:var(--gold)}
+  .front .medal text{font-family:var(--display);font-style:italic;font-size:64px;fill:var(--gold-hi)}
+  .front .name{position:absolute;left:8mm;top:9.6mm;font:400 17.5pt/.98 var(--display);letter-spacing:-.005em}
+  .front .sub{position:absolute;left:8.2mm;top:25.4mm;font:600 4.9pt/1.45 var(--text);letter-spacing:.17em;text-transform:uppercase;color:var(--gold)}
+  .front .slogan{position:absolute;left:8mm;bottom:8mm;font:italic 400 6.9pt/1.3 var(--display);color:var(--gold-hi)}
+
+  /* оборот */
+  .back{background:var(--ivory);color:var(--ink)}
+  .back .band{position:absolute;left:5mm;right:5mm;top:4.6mm;height:2.6mm;
+    background-image:var(--band,linear-gradient(transparent 1.2mm,var(--gold-deep) 1.2mm 1.4mm,transparent 1.4mm));background-repeat:repeat-x;background-size:auto 2.6mm;background-position:left center}
+  .back .lh{position:absolute;left:7mm;top:10.4mm;font:400 7.6pt/1 var(--display)}
+  .back .grif{position:absolute;right:7mm;top:9.6mm;padding:.7mm 1.3mm .6mm;color:var(--wax);border:.25mm solid currentColor;
+    box-shadow:inset 0 0 0 .35mm var(--ivory),inset 0 0 0 .55mm var(--wax);
+    font:600 4.6pt/1 var(--text);letter-spacing:.16em;text-transform:uppercase;transform:rotate(-3deg)}
+  .back .who{position:absolute;left:7mm;top:17.2mm}
+  .back .who b{display:block;font:400 22pt/1 var(--display);font-weight:400}
+  .back .who span{display:block;margin-top:1.6mm;font:500 6.3pt/1 var(--text);letter-spacing:.12em;text-transform:uppercase;color:var(--wax)}
+  .back .rows{position:absolute;left:7mm;bottom:5.6mm;width:52mm;border-top:.15mm solid rgba(27,36,49,.25)}
+  .back .row{display:flex;align-items:baseline;gap:2.4mm;padding:1.15mm 0;border-bottom:.15mm solid rgba(27,36,49,.25)}
+  .back .k{width:9mm;flex:none;font:600 4.6pt/1 var(--text);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+  .back .v{font:500 7.3pt/1 var(--text);font-variant-numeric:tabular-nums;letter-spacing:.01em}
+  .back .seal{position:absolute;right:5.2mm;bottom:4.4mm;width:17mm;height:17mm;transform:rotate(-12deg);filter:drop-shadow(0 .5mm .6mm rgba(0,0,0,.35))}
+
+  /* узкий экран: масштаб, чтобы визитка влезала без горизонтальной прокрутки */
+  @media screen and (max-width:371px){ .scaler{zoom:.88} }
+  @media screen and (max-width:330px){ .scaler{zoom:.8} }
+  @media screen and (min-width:1120px){ .scaler{zoom:1.45} }
+
+  @media print{
+    body{background:none}
+    .bar,.head,.cap,.print-note{display:none}
+    .page{padding:0;max-width:none}
+    .sheet{display:block}
+    .side{display:block}
+    .scaler{zoom:1}
+    .card{box-shadow:none;break-after:page;page-break-after:always}
+    .side:last-child .card{break-after:auto;page-break-after:auto}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="wax-g" cx="38%" cy="32%" r="75%">
+      <stop offset="0" stop-color="#c24b52"/>
+      <stop offset=".38" stop-color="#9c2630"/>
+      <stop offset=".75" stop-color="#7a1820"/>
+      <stop offset="1" stop-color="#530c12"/>
+    </radialGradient>
+    <radialGradient id="wax-gloss">
+      <stop offset="0" stop-color="#fff" stop-opacity=".38"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <symbol id="seal" viewBox="0 0 120 120">
+      <path fill="url(#wax-g)" d="M60.0 5.0C66.5 4.8 73.9 3.7 79.7 6.0C85.5 8.2 89.6 14.5 94.7 18.6C99.8 22.8 106.9 25.7 110.2 31.0C113.6 36.3 114.3 44.0 114.7 50.4C115.0 56.7 113.2 62.9 112.2 69.2C111.2 75.5 110.9 82.1 108.5 88.0C106.1 93.9 102.6 100.9 97.6 104.8C92.6 108.7 84.9 109.9 78.6 111.2C72.4 112.5 66.2 112.4 60.0 112.5C53.8 112.6 47.3 113.2 41.2 111.7C35.1 110.2 28.4 107.6 23.4 103.7C18.3 99.8 13.7 94.0 11.1 88.3C8.5 82.5 8.7 75.5 7.8 69.2C6.9 62.9 5.5 56.8 5.8 50.4C6.2 44.1 6.5 36.3 9.8 31.0C13.0 25.7 20.1 22.6 25.3 18.6C30.4 14.6 34.9 9.2 40.7 6.9C46.5 4.6 53.5 5.2 60.0 5.0Z"/>
+      <circle cx="60" cy="60" r="41" fill="#831a22"/>
+      <circle cx="59.3" cy="59.3" r="41" fill="none" stroke="#3d070c" stroke-opacity=".55" stroke-width="1.4"/>
+      <circle cx="60.8" cy="60.8" r="40.6" fill="none" stroke="#ffc9c0" stroke-opacity=".3" stroke-width="1.1"/>
+      <circle cx="60" cy="60" r="35" fill="none" stroke="#b0434a" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="0 5.5"/>
+      <circle cx="60" cy="60" r="30.5" fill="none" stroke="#4a0a10" stroke-opacity=".45" stroke-width=".8"/>
+      <text x="60.8" y="71.8" text-anchor="middle" font-family="'Old Standard TT',Georgia,serif" font-style="italic" font-size="30" fill="#ffc9c0" fill-opacity=".32">ТС</text>
+      <text x="60" y="71" text-anchor="middle" font-family="'Old Standard TT',Georgia,serif" font-style="italic" font-size="30" fill="#4f0b11">ТС</text>
+      <ellipse cx="40" cy="30" rx="21" ry="11" transform="rotate(-28 40 30)" fill="url(#wax-gloss)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="page">
+  <p class="bar">
+    <a class="home" href="../index.html">← все три лица</a>
+    <a href="index.html">Страница «Тайного советника»</a>
+  </p>
+
+  <header class="head">
+    <h1>Визитка <em>тайного советника</em></h1>
+    <p>Размер 90 × 50 мм, лицо и оборот. Телефон и почта — заглушки, перед печатью замените на настоящие.</p>
+  </header>
+
+  <div class="sheet">
+    <div class="side">
+      <p class="cap">Лицо · 90 × 50 мм</p>
+      <div class="scaler">
+        <div class="card front" role="img" aria-label="Лицо визитки: Тайный советник, негласная проверка отдела продаж, слоган «Входим как клиент. Докладываем как советник.»">
+          <div class="frame"></div>
+          <svg class="guil medal" data-g="medallion" data-sw=".75" viewBox="-100 -100 200 200" aria-hidden="true"><text x="0" y="21" text-anchor="middle">ТС</text></svg>
+          <p class="name">Тайный<br>советник</p>
+          <p class="sub">Негласная проверка<br>отдела продаж</p>
+          <p class="slogan">Входим как клиент.<br>Докладываем как советник.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="side">
+      <p class="cap">Оборот · 90 × 50 мм</p>
+      <div class="scaler">
+        <div class="card back" role="img" aria-label="Оборот визитки: Таур, ведущий аудитор, телефон +7 (000) 000-00-00, почта mail@example.com">
+          <div class="band"></div>
+          <p class="lh">Тайный советник</p>
+          <p class="grif">Лично в руки</p>
+          <p class="who"><b>Таур</b><span>Ведущий аудитор</span></p>
+          <div class="rows">
+            <p class="row"><span class="k">Тел.</span><span class="v">+7 (000) 000-00-00</span></p>
+            <p class="row"><span class="k">Почта</span><span class="v">mail@example.com</span></p>
+          </div>
+          <svg class="seal" viewBox="0 0 120 120" aria-hidden="true"><use href="#seal"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="print-note">Печать из браузера: размер страницы 90 × 50 мм, поля ноль, фон включён. Каждая сторона выйдет отдельной страницей. Для типографии добавьте вылеты 2 мм: фон лица продлить за обрез, текст уже стоит не ближе 5 мм к краю.</p>
+</div>
+
+<script>
+(function(){
+  function ring(mid, amp, n, k){
+    var steps = n * 12, out = '';
+    for (var i = 0; i < k; i++){
+      var ph = i * 2 * Math.PI / k, d = '';
+      for (var s = 0; s < steps; s++){
+        var t = s / steps * 2 * Math.PI, r = mid + amp * Math.sin(n * t + ph);
+        d += (s ? 'L' : 'M') + (r * Math.cos(t)).toFixed(1) + ',' + (r * Math.sin(t)).toFixed(1);
+      }
+      out += '<path d="' + d + 'Z"/>';
+    }
+    return out;
+  }
+  function circles(list){ return list.map(function(r){ return '<circle r="' + r + '"/>'; }).join(''); }
+  var SPEC = { medallion: function(){ return ring(87,9,40,5) + ring(66,10,26,7) + circles([97.5,77,55]); } };
+  var NS = 'http://www.w3.org/2000/svg';
+  document.querySelectorAll('svg.guil[data-g]').forEach(function(svg){
+    var g = document.createElementNS(NS, 'g');
+    g.setAttribute('fill', 'none');
+    g.setAttribute('stroke', 'currentColor');
+    g.setAttribute('stroke-width', svg.getAttribute('data-sw') || '.5');
+    g.innerHTML = SPEC[svg.getAttribute('data-g')]();
+    svg.insertBefore(g, svg.firstChild);
+  });
+
+  var W = 60, H = 14, paths = '';
+  [[30,4],[20,3]].forEach(function(f){
+    for (var i = 0; i < f[1]; i++){
+      var ph = i * 2 * Math.PI / f[1], d = '';
+      for (var x = 0; x <= W; x++){
+        d += (x ? 'L' : 'M') + x + ',' + (H/2 + (H/2 - 1.2) * Math.sin(2 * Math.PI * x / f[0] + ph)).toFixed(2);
+      }
+      paths += '<path d="' + d + '"/>';
+    }
+  });
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '">' +
+    '<g fill="none" stroke="#8f733d" stroke-width=".7">' + paths + '<path d="M0,.35H' + W + 'M0,' + (H - .35) + 'H' + W + '"/></g></svg>';
+  document.documentElement.style.setProperty('--band', 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")');
+})();
+</script>
+</body>
+</html>

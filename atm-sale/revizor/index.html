@@ -2,490 +2,875 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ре:Визор — тайная проверка воронки продаж</title>
 <meta name="description" content="Проходим вашу воронку продаж как обычный клиент и показываем, где теряются деньги. Три находки — бесплатно.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0d1628">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Oranienbaum&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js')</script>
 <style>
+/* Раскладка: театр. Тёмная сцена (ночной синий бархат), на неё по очереди выносят бумаги:
+   афиша → программка → предписание → акт → билеты. Финал&nbsp;— немая сцена под лучом. */
 :root{
-  --ink:#0e1622;
-  --ink-2:#142031;
-  --ink-3:#1b2a40;
-  --paper:#ece6d9;
-  --paper-2:#f5f1e8;
-  --muted:#a3abb8;
-  --line:rgba(236,230,217,.14);
-  --accent:#c4473a;
-  --accent-ink:#a8382d;
-  --serif:"Playfair Display", Georgia, "Times New Roman", serif;
-  --sans:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --night:#0d1628;      /* сцена */
+  --night-2:#131f36;    /* вторая полоса */
+  --night-3:#1c2a46;    /* поднятые поверхности */
+  --paper:#eee5d1;      /* бумага афиши */
+  --paper-2:#f7f1e4;    /* свежий лист */
+  --paper-3:#e4d9c1;    /* плашка на бумаге */
+  --ink:#151b28;        /* чернила */
+  --ink-soft:#4b5262;
+  --wax:#8f1d2c;        /* сургуч, бордо */
+  --wax-hi:#a5293a;
+  --wax-lit:#d8676f;    /* сургуч на тёмном */
+  --velvet-d:#3e0b14;
+  --velvet:#64131f;
+  --velvet-l:#86202f;
+  --gold:#c6a15b;       /* латунь&nbsp;— чуть-чуть */
+  --lamp:#ffe8b8;
+  --boards:#1d160f;
+  --mist:#a3aec2;       /* приглушённый текст на сцене */
+  --line:rgba(238,229,209,.14);
+  --rule:rgba(21,27,40,.2);
+
+  --display:"Oranienbaum","Bodoni 72","Didot",Georgia,serif;
+  --serif:"Old Standard TT",Georgia,"Times New Roman",serif;
+  --sans:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:dark;
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:clip}
-body{margin:0;background:var(--ink);color:var(--paper);font:400 16px/1.6 var(--sans);overflow-x:hidden}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;overflow-x:clip}
+body{margin:0;background:var(--night);color:var(--paper);font:400 16px/1.6 var(--sans);overflow-x:clip;-webkit-font-smoothing:antialiased}
+h1,h2,h3,p,ol,ul,dl,dd,blockquote,figure{margin:0}
+ol,ul{padding:0;list-style:none}
 a{color:inherit}
-img,svg{max-width:100%;display:block}
-.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
-h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.12;margin:0;letter-spacing:-.005em}
-h2{font-size:clamp(30px,6.4vw,46px)}
-h3{font-size:21px}
-p{margin:0}
-.c{color:var(--accent)}
-.kicker{font:600 12px/1.4 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-.lead{font-size:18px;color:#d4cfc4;max-width:640px}
-section{padding:72px 0;border-top:1px solid var(--line)}
-.sec-head{display:grid;gap:14px;margin-bottom:36px}
+svg{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1160px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* header */
-.top{position:sticky;top:0;z-index:10;background:rgba(14,22,34,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:12px}
-.logo{font:700 24px/1 var(--serif);text-decoration:none;letter-spacing:.01em;white-space:nowrap}
-.top .btn{padding:10px 16px;font-size:14px}
+/* ---------- типографика ---------- */
+h2{font:400 clamp(40px,10.4vw,78px)/.98 var(--display);letter-spacing:-.005em;text-wrap:balance}
+.lead{font-size:clamp(17px,2.1vw,19px);line-height:1.55;color:var(--mist);max-width:34em}
+.kicker{display:flex;align-items:center;gap:12px;font:600 12px/1.3 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--mist)}
+.kicker::before{content:"";width:26px;height:1px;background:var(--gold);flex:none}
+.sec{padding-block:76px}
+.sec-head{display:grid;gap:18px}
+.sec-head > div{display:grid;gap:16px}
+.alt{background:var(--night-2)}
 
-/* buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:15px 24px;border-radius:2px;font:600 16px/1.2 var(--sans);text-decoration:none;border:1px solid transparent;transition:background .2s,border-color .2s,color .2s;cursor:pointer;text-align:center}
-.btn-main{background:var(--accent);color:#fff}
-.btn-main:hover{background:var(--accent-ink)}
-.btn-ghost{border-color:rgba(236,230,217,.35);color:var(--paper)}
-.btn-ghost:hover{border-color:var(--paper)}
+/* ---------- кнопки ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:14px 24px;font:600 16px/1.2 var(--sans);text-decoration:none;text-align:center;border:1px solid transparent;cursor:pointer;transition:background-color .2s,border-color .2s,color .2s}
+.btn-wax{background:var(--wax);color:var(--paper-2);box-shadow:inset 0 0 0 4px var(--wax),inset 0 0 0 5px rgba(198,161,91,.55)}
+.btn-wax:hover{background:var(--wax-hi);box-shadow:inset 0 0 0 4px var(--wax-hi),inset 0 0 0 5px rgba(198,161,91,.75)}
+.btn-line{border-color:rgba(238,229,209,.4);color:var(--paper)}
+.btn-line:hover{border-color:var(--paper)}
 .btns{display:flex;flex-wrap:wrap;gap:12px}
-.btns .btn{flex:1 1 220px}
+.btns .btn{flex:1 1 200px}
 
-/* hero */
-.hero{padding:48px 0 72px;border-top:0;position:relative}
-.hero-grid{display:grid;gap:44px}
-.hero h1{font-size:clamp(42px,11vw,82px);margin:18px 0 22px}
-.hero h1 em{font-style:italic;font-weight:600;color:var(--muted);font-size:.55em;display:block;margin-top:10px;letter-spacing:0}
-.hero .lead{margin-bottom:28px}
-.offer{border-left:3px solid var(--accent);padding:4px 0 4px 16px;margin:0 0 30px}
-.offer b{display:block;font:700 22px/1.3 var(--serif)}
-.offer span{color:var(--muted);font-size:15px}
+/* ---------- шапка ---------- */
+.top{position:sticky;top:0;z-index:30;background:rgba(13,22,40,.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid rgba(198,161,91,.28)}
+.top-in{display:flex;align-items:center;justify-content:space-between;gap:12px;height:60px}
+.logo{display:flex;align-items:center;gap:9px;font:400 29px/1 var(--display);text-decoration:none;color:var(--paper);white-space:nowrap}
+.logo svg{width:28px;flex:none;fill:none;stroke:var(--gold);stroke-width:2.2}
+.logo b,.c{color:var(--wax-lit);font-weight:400}
+.top-nav{display:flex;align-items:center;gap:20px}
+.back{font-size:14px;color:var(--mist);text-decoration:none;white-space:nowrap}
+.back:hover{color:var(--paper)}
+.top .btn{min-height:42px;padding:9px 16px;font-size:14px}
+@media (max-width:539px){.top .back{display:none}}
 
-.order{position:relative;background:var(--paper-2);color:var(--ink);padding:28px 22px 30px;border-radius:2px;box-shadow:0 30px 60px -30px rgba(0,0,0,.7);max-width:440px;width:100%;justify-self:center}
-.order::before{content:"";position:absolute;inset:8px;border:1px solid rgba(14,22,34,.18);pointer-events:none}
-.order .kicker{color:#6a6f78;text-align:center}
-.order h3{text-align:center;font-size:26px;margin:6px 0 20px;letter-spacing:.08em;text-transform:uppercase}
-.order dl{margin:0;display:grid;gap:12px}
-.order dt{font:600 11px/1.3 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#7a7f88}
-.order dd{margin:2px 0 0;font-size:15px;line-height:1.45;border-bottom:1px dotted rgba(14,22,34,.3);padding-bottom:8px}
-.order .sign{display:flex;justify-content:space-between;align-items:flex-end;margin-top:12px;min-height:118px;font-size:13px;color:#6a6f78;gap:8px;border-bottom:1px solid rgba(14,22,34,.3);padding-bottom:6px}
-.order .sign i{font-family:var(--serif);font-size:20px;color:var(--ink)}
-.stamp{position:absolute;width:116px;height:116px;left:50%;margin-left:-58px;bottom:22px;transform:rotate(-14deg);opacity:.9;mix-blend-mode:multiply;pointer-events:none}
+/* ---------- сцена (первый экран) ---------- */
+.stage{position:relative;overflow:hidden;padding-block:92px 96px;
+  background:
+    radial-gradient(ellipse 60% 48% at 50% 0,rgba(255,226,170,.16),transparent 72%),
+    radial-gradient(ellipse 70% 30% at 50% 100%,rgba(255,200,120,.12),transparent 70%),
+    var(--night)}
+.valance{position:absolute;inset:0 0 auto;height:58px;z-index:3;pointer-events:none;
+  background:
+    repeating-linear-gradient(90deg,rgba(0,0,0,.22) 0 2px,transparent 2px 18px) top/100% 22px no-repeat,
+    linear-gradient(var(--velvet-d),var(--velvet)) top/100% 22px no-repeat,
+    radial-gradient(ellipse 50% 100% at 50% 0,var(--velvet) 0 95%,transparent 97%) 0 22px/76px 30px repeat-x,
+    radial-gradient(ellipse 50% 100% at 50% 0,var(--gold) 0 95%,transparent 97%) 0 22px/76px 33px repeat-x;
+  filter:drop-shadow(0 8px 10px rgba(0,0,0,.45))}
+.drape{position:absolute;top:0;bottom:30px;width:clamp(30px,10vw,140px);z-index:1;pointer-events:none}
+.drape svg{width:100%;height:100%}
+.drape-l{left:0}
+.drape-r{right:0;transform:scaleX(-1)}
+.drape::after{content:"";position:absolute;top:55%;left:22%;width:12px;height:22px;border-radius:50% 50% 40% 40%;background:linear-gradient(var(--gold),#8a6a33);box-shadow:0 4px 8px rgba(0,0,0,.4)}
+.curtain{position:absolute;inset:0;z-index:4;display:flex;pointer-events:none}
+.curtain i{flex:1;background:repeating-linear-gradient(90deg,var(--velvet-d) 0,var(--velvet) 16px,var(--velvet-l) 27px,var(--velvet) 38px,var(--velvet-d) 52px);box-shadow:inset 0 -80px 80px -20px rgba(0,0,0,.5)}
+.curtain i:first-child{animation:openL 1.5s cubic-bezier(.66,0,.3,1) .3s forwards}
+.curtain i:last-child{animation:openR 1.5s cubic-bezier(.66,0,.3,1) .3s forwards}
+@keyframes openL{to{transform:translateX(-101%);visibility:hidden}}
+@keyframes openR{to{transform:translateX(101%);visibility:hidden}}
+.footlights{position:absolute;left:0;right:0;bottom:0;height:30px;z-index:3;
+  background:
+    radial-gradient(circle at 50% 42%,var(--lamp) 0 2.5px,rgba(255,214,140,.55) 3.5px,transparent 11px) 0 0/46px 30px repeat-x,
+    linear-gradient(#2a2016,var(--boards))}
+.stage-grid{position:relative;z-index:2;display:grid;gap:40px;justify-items:center}
 
-/* pain */
-.cards{display:grid;gap:12px}
-.card{background:var(--ink-2);border:1px solid var(--line);padding:22px 20px;border-radius:2px}
-.card .n{font:600 12px/1 var(--sans);letter-spacing:.14em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;display:block}
-.card p{color:#cfcabf}
-.card h3{margin-bottom:8px}
-.quote{margin-top:36px;padding:24px 0 0;border-top:1px solid var(--line);display:grid;gap:10px}
-.quote q{font:italic 600 24px/1.3 var(--serif);quotes:"«" "»"}
-.quote span{color:var(--muted);font-size:15px}
+/* афиша */
+.poster{position:relative;width:100%;max-width:500px;background-color:var(--paper);color:var(--ink);padding:30px 22px 26px;transform:rotate(-.7deg);
+  background-image:radial-gradient(ellipse at 18% 8%,rgba(255,255,255,.45),transparent 55%),radial-gradient(ellipse at 92% 100%,rgba(120,80,30,.16),transparent 60%);
+  box-shadow:0 34px 60px -22px rgba(0,0,0,.85),0 0 0 1px rgba(0,0,0,.25)}
+.poster::before{content:"";position:absolute;inset:9px;border:1px solid rgba(21,27,40,.55);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px rgba(21,27,40,.3);pointer-events:none}
+.p-top,.d-form,.pg-top{display:flex;align-items:center;gap:10px;font:600 11px/1.35 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);text-align:center}
+.p-top::before,.p-top::after,.pg-top::before,.pg-top::after{content:"";flex:1;height:1px;background:currentColor;opacity:.45}
+.poster h1{display:grid;justify-items:center;text-align:center;margin:18px 0 0;font-weight:400}
+.p-pre{font:italic 400 clamp(23px,6.2vw,30px)/1 var(--serif)}
+.p-title{font:400 clamp(64px,21vw,120px)/.9 var(--display);margin-top:8px;letter-spacing:-.01em}
+.p-title b{color:var(--wax);font-weight:400}
+.p-incog{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;margin-top:12px;font:600 13px/1 var(--sans);letter-spacing:.5em;text-transform:uppercase;color:var(--wax)}
+.p-incog span{margin-right:-.5em}
+.p-incog::before,.p-incog::after{content:"";flex:1;max-width:70px;height:1px;background:currentColor}
+.p-genre{margin-top:14px;text-align:center;font:italic 400 19px/1.3 var(--serif);color:var(--ink-soft)}
+.cast{margin-top:20px;padding-top:16px;border-top:1px solid rgba(21,27,40,.35)}
+.cast-h{text-align:center;font:600 11px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px}
+.cast dl{display:grid;gap:7px}
+.cast dl div{display:flex;align-items:baseline}
+.cast dt{flex:1;display:flex;align-items:baseline;gap:6px;font:700 17px/1.3 var(--serif)}
+.cast dt::after{content:"";flex:1;min-width:14px;border-bottom:2px dotted rgba(21,27,40,.45);transform:translateY(-4px)}
+.cast dd{margin-left:6px;font:italic 400 17px/1.3 var(--serif);text-align:right}
+.p-free{margin-top:20px;padding-top:16px;border-top:3px double rgba(21,27,40,.55);text-align:center;display:grid;gap:4px}
+.p-free b{font:400 clamp(27px,7.4vw,34px)/1.05 var(--display);color:var(--wax);font-weight:400}
+.p-free span{font-size:14px;color:var(--ink-soft)}
+.p-censor{margin-top:16px;text-align:center;font:500 10px/1.4 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);opacity:.85}
 
-/* steps */
-.steps{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:s}
-.steps li{display:grid;grid-template-columns:56px 1fr;gap:4px 14px;padding:22px 0;border-bottom:1px solid var(--line)}
-.steps li:first-child{border-top:1px solid var(--line)}
-.steps .num{font:700 34px/1 var(--serif);color:var(--accent);grid-row:span 2}
-.steps h3{font-size:22px}
-.steps p{color:#cfcabf;grid-column:2}
-.tag{display:inline-block;font:600 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--accent);color:var(--accent);padding:5px 7px;margin-left:8px;vertical-align:4px;border-radius:2px}
+.stage-copy{width:100%;max-width:520px;display:grid;gap:22px}
+.say{font:italic 400 clamp(26px,6.6vw,38px)/1.15 var(--serif);color:var(--paper);text-wrap:balance}
+.stage-copy .lead{color:#cfd5e0}
+.fine{font-size:14px;color:var(--mist)}
 
-/* get */
-.get{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-.get li{position:relative;padding:18px 18px 18px 52px;background:var(--ink-2);border:1px solid var(--line);border-radius:2px}
-.get li::before{content:"";position:absolute;left:18px;top:21px;width:18px;height:18px;border:1.5px solid var(--accent);border-radius:50%}
-.get li::after{content:"";position:absolute;left:24px;top:25px;width:5px;height:9px;border:solid var(--accent);border-width:0 2px 2px 0;transform:rotate(45deg)}
-.get b{display:block;font-weight:600;margin-bottom:2px}
-.get span{color:#c4bfb4;font-size:15px}
+/* ---------- в пути (карета) ---------- */
+.tract{background:var(--night-2);padding-top:44px;border-bottom:1px solid var(--line)}
+.tract-head{display:grid;gap:10px}
+.epi{font:italic 400 15px/1.45 var(--serif);color:var(--mist);max-width:30em}
+.epi cite{font-style:normal;font-family:var(--sans);font-size:12px;letter-spacing:.12em;text-transform:uppercase;display:block;margin-top:4px;opacity:.8}
+.tract-line{font:italic 400 clamp(24px,5.8vw,34px)/1.2 var(--serif);text-wrap:balance}
+.tract-line b{font:400 1.18em/1 var(--display);font-style:normal;color:var(--gold)}
+.road{position:relative;height:150px;margin-top:8px;overflow:hidden}
+.road::before{content:"";position:absolute;left:0;right:0;bottom:24px;height:2px;background:repeating-linear-gradient(90deg,rgba(163,174,194,.55) 0 18px,transparent 18px 30px)}
+.verst{position:absolute;bottom:25px;left:var(--x);width:9px;height:54px;background:repeating-linear-gradient(-40deg,var(--paper) 0 7px,#05080f 7px 14px);box-shadow:0 0 0 1px rgba(0,0,0,.4)}
+.verst em{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:4px;min-width:26px;text-align:center;background:var(--paper);color:var(--ink);font:400 17px/1 var(--display);font-style:normal;padding:4px 6px 3px;transition:background-color .3s,color .3s}
+.verst.on em{background:var(--gold);color:var(--ink)}
+.firm{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:25px;width:clamp(58px,9vw,84px)}
+.firm svg{width:100%;fill:none;stroke:var(--paper);stroke-width:2;stroke-linejoin:round}
+.firm span{position:absolute;top:calc(100% + 6px);right:0;font:600 10px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--mist);white-space:nowrap}
+.carriage{position:absolute;left:24%;bottom:20px;width:clamp(118px,19vw,186px);will-change:transform}
+.live .carriage{left:0}
+.carriage .c-fill{fill:var(--paper)}
+.carriage .c-line{fill:none;stroke:var(--paper);stroke-width:2.5;stroke-linecap:round}
+.carriage .c-cut{fill:none;stroke:var(--night-2);stroke-width:1.6}
+.carriage .c-win{fill:var(--night-2)}
+.carriage .c-gold{fill:var(--gold)}
+.wheel{transform-box:fill-box;transform-origin:50% 50%;transform:rotate(var(--rot,0deg))}
+.wheel circle{fill:none;stroke:var(--gold);stroke-width:3}
+.wheel path{stroke:var(--gold);stroke-width:1.6}
+.wheel .hub{fill:var(--gold);stroke:none}
 
-/* team */
-.team{display:grid;gap:12px}
-.person{background:var(--ink-2);border:1px solid var(--line);padding:26px 22px;border-radius:2px;position:relative}
-.person .role{font:600 12px/1.3 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;display:block}
-.person h3{font-size:34px;margin-bottom:12px}
-.person p{color:#cfcabf}
-.note{margin-top:22px;color:var(--muted);font-size:15px}
+/* ---------- программка (где теряются) ---------- */
+.programme{position:relative;margin-top:44px;background:var(--paper);color:var(--ink);padding:34px 22px 22px;box-shadow:0 30px 60px -28px rgba(0,0,0,.8)}
+.programme::before{content:"";position:absolute;inset:9px;border:1px solid rgba(21,27,40,.5);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px rgba(21,27,40,.25);pointer-events:none}
+.pg-head{display:grid;gap:8px;text-align:center;margin-bottom:22px}
+.pg-title{font:400 clamp(44px,12vw,68px)/1 var(--display)}
+.pg-sub{font:italic 400 17px/1.35 var(--serif);color:var(--ink-soft)}
+.roles li{padding:16px 0 18px;border-top:1px solid var(--rule)}
+.role-line{display:flex;align-items:last baseline;gap:8px}
+.role-name{min-width:0;font:700 19px/1.25 var(--serif)}
+.role-line i{flex:1 1 18px;min-width:18px;border-bottom:2px dotted rgba(21,27,40,.4);transform:translateY(-5px)}
+.role-ch{font:600 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--wax);white-space:nowrap}
+.roles p{margin-top:7px;font-size:15px;line-height:1.5;color:var(--ink-soft);max-width:34em}
+.gogol{margin-top:60px;display:grid;gap:14px;position:relative;padding-left:4px}
+.gogol blockquote{font:italic 400 clamp(32px,8.6vw,62px)/1.08 var(--serif);text-wrap:balance;max-width:16em}
+.gogol .q{font:400 1.25em/0 var(--display);color:var(--wax-lit)}
+.gogol .qo{margin-right:.08em}
+.gogol figcaption{display:grid;gap:6px;color:var(--mist);font-size:15px;max-width:34em}
+.gogol cite{font-style:normal;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
 
-/* act (sample) */
-.act-sec{background:var(--paper);color:var(--ink);border-top:0}
-.act-sec .kicker{color:#6a6f78}
-.act-sec .lead{color:#3c4350}
-.act{background:var(--paper-2);border:1px solid rgba(14,22,34,.16);padding:26px 20px;position:relative;border-radius:2px;box-shadow:0 20px 40px -28px rgba(14,22,34,.45)}
-.act-head{display:grid;gap:4px;padding:0 92px 18px 0;min-height:70px;border-bottom:2px solid var(--ink);margin-bottom:6px}
-.act-head .t{font:700 24px/1.2 var(--serif)}
-.act-head .m{font-size:14px;color:#5b616b}
-.find{padding:22px 0;border-bottom:1px solid rgba(14,22,34,.15);display:grid;gap:10px}
+/* ---------- четыре действия ---------- */
+.acts{margin-top:44px;display:grid}
+.acts li{display:grid;grid-template-columns:70px minmax(0,1fr);column-gap:16px;padding:28px 0;border-top:1px solid var(--line)}
+.acts li:last-child{border-bottom:1px solid var(--line)}
+.roman{grid-row:1 / span 3;font:400 78px/.82 var(--display);color:transparent;-webkit-text-stroke:1.2px var(--gold);text-align:center}
+.act-no{display:flex;align-items:center;gap:12px;font:600 12px/1.3 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--mist)}
+.act-no svg{width:36px;height:24px;flex:none;fill:none;stroke:var(--gold);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.acts h3{margin-top:8px;font:400 31px/1.05 var(--display);text-wrap:balance}
+.acts .txt{margin-top:10px;color:var(--mist)}
+.tag{display:inline-block;margin-left:6px;vertical-align:.3em;font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--wax-lit);border:1px solid currentColor;padding:5px 7px}
+
+/* ---------- предписание (что получите) ---------- */
+.get-grid{display:grid;gap:44px}
+.get-grid > *,.act-wrap > *,.stage-grid > *{min-width:0}
+.decree{position:relative;background-color:var(--paper-2);color:var(--ink);padding:32px 22px 132px;transform:rotate(.6deg);box-shadow:0 30px 60px -26px rgba(0,0,0,.85);
+  background-image:linear-gradient(transparent 0 96%,rgba(21,27,40,.04) 96%);background-size:100% 30px}
+.decree::before{content:"";position:absolute;inset:9px;border:1px solid rgba(21,27,40,.35);pointer-events:none}
+.d-form{justify-content:center}
+.d-title{margin-top:8px;text-align:center;font:400 clamp(38px,10.6vw,70px)/1 var(--display);letter-spacing:.02em}
+.d-sub{margin-top:6px;text-align:center;font:italic 400 17px/1.35 var(--serif);color:var(--ink-soft)}
+.d-list{margin-top:22px;counter-reset:d}
+.d-list li{counter-increment:d;display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;padding:14px 0;border-top:1px solid var(--rule)}
+.d-list li::before{content:counter(d) ".";font:400 27px/1 var(--display);color:var(--wax)}
+.d-list b{display:block;font:700 18px/1.3 var(--serif)}
+.d-list span{display:block;margin-top:2px;font-size:15px;line-height:1.5;color:var(--ink-soft)}
+.d-sign{position:absolute;left:24px;right:24px;bottom:34px;display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid rgba(21,27,40,.45);padding-bottom:6px;font-size:13px;color:var(--ink-soft)}
+.d-sign i{font:italic 400 26px/1 var(--serif);color:var(--ink)}
+.seal{position:absolute;left:50%;bottom:4px;width:100px;margin-left:-50px;filter:drop-shadow(0 3px 3px rgba(60,10,15,.35))}
+
+/* ---------- труппа ---------- */
+.troupe{margin-top:48px;display:grid;gap:52px}
+.actor{display:grid;gap:14px;justify-items:start;align-content:start;min-width:0}
+.cameo{width:100px;height:124px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--gold);box-shadow:inset 0 0 0 5px var(--night-2),inset 0 0 0 6px rgba(198,161,91,.45);background:radial-gradient(ellipse at 50% 30%,var(--night-3),var(--night-2) 70%)}
+.cameo svg{width:60px;fill:none;stroke:var(--gold);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.actor-role{font:600 12px/1.3 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--wax-lit)}
+.actor h3{font:400 clamp(60px,16vw,96px)/.9 var(--display)}
+.actor .bio{color:var(--mist);max-width:32em}
+.orn{display:flex;align-items:center;gap:14px;color:var(--gold)}
+.orn::before,.orn::after{content:"";flex:1;height:1px;background:currentColor;opacity:.5}
+.orn i{width:7px;height:7px;background:currentColor;transform:rotate(45deg)}
+
+/* ---------- акт проверки ---------- */
+.act{position:relative;margin-top:44px;background:var(--paper-2);color:var(--ink);padding:30px 20px 26px;box-shadow:0 30px 60px -26px rgba(0,0,0,.85)}
+.act-head{display:grid;gap:12px;padding:0 100px 18px 0;border-bottom:2px solid var(--ink)}
+.act-title{font:400 clamp(38px,10vw,58px)/1 var(--display);letter-spacing:.03em}
+.act-meta{display:grid;gap:3px;font-size:14px;color:var(--ink-soft)}
+.act-meta b{font-weight:600;color:var(--ink)}
+.find{display:grid;gap:10px;padding:22px 0;border-bottom:1px solid var(--rule)}
 .find:last-of-type{border-bottom:0}
-.find .no{font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
-.find h3{font-size:22px}
-.find p{color:#333a46}
-.fix{background:#e8e1d2;border-left:3px solid var(--ink);padding:12px 14px;font-size:15px;color:#252c38}
+.find .no{font:600 12px/1.3 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--wax)}
+.find h3{font:700 22px/1.25 var(--serif);text-wrap:balance}
+.find p{color:#333a47;max-width:38em}
+.fix{background:var(--paper-3);border-left:3px solid var(--ink);padding:12px 15px;font-size:15px;line-height:1.5;color:#232a37}
 .fix b{font-weight:600}
-.say{font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.45;display:block;margin-top:6px}
-.act .stamp2{position:absolute;top:8px;right:8px;width:96px;height:96px;transform:rotate(12deg);opacity:.85;mix-blend-mode:multiply;pointer-events:none}
-.act-foot{margin-top:18px;font-size:14px;color:#5b616b}
+.line{display:block;margin-top:10px;font:italic 400 18px/1.5 var(--serif);color:var(--ink)}
+.line .who{font:600 12px/1 var(--sans);font-style:normal;letter-spacing:.16em;text-transform:uppercase;margin-right:4px}
+.line .rem{color:var(--ink-soft)}
+.act-foot{margin-top:18px;font-size:14px;color:var(--ink-soft)}
+.stamp2{position:absolute;top:18px;right:12px;width:104px;transform:rotate(9deg);mix-blend-mode:multiply;opacity:.9;pointer-events:none}
+.js .act:not(.stamped) .stamp2{opacity:0}
+.act.stamped .stamp2{animation:slam .55s cubic-bezier(.3,1.5,.5,1) both}
+.act.stamped{animation:thump .35s .22s ease-out}
+@keyframes slam{0%{opacity:0;transform:rotate(9deg) scale(2.6)}55%{opacity:1;transform:rotate(9deg) scale(.94)}100%{opacity:.9;transform:rotate(9deg) scale(1)}}
+@keyframes thump{40%{transform:translateY(3px)}}
 
-/* plans */
-.plans{display:grid;gap:12px}
-.plan{border:1px solid var(--line);background:var(--ink-2);padding:26px 22px;border-radius:2px;display:flex;flex-direction:column;gap:12px}
-.plan.hot{border-color:var(--accent);position:relative}
-.plan .lbl{font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.plan.hot .lbl{color:var(--accent)}
-.plan h3{font-size:26px}
-.plan p{color:#cfcabf}
-.plan .price{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);font:italic 600 19px/1.3 var(--serif)}
-.beta{margin-top:24px;display:flex;gap:14px;align-items:flex-start;padding:18px 20px;border:1px dashed rgba(236,230,217,.3);border-radius:2px}
+/* ---------- билеты ---------- */
+.tickets{margin-top:44px;display:grid;gap:22px}
+.tickets > li{filter:drop-shadow(0 18px 22px rgba(0,0,0,.5))}
+.ticket{display:grid;grid-template-columns:58px minmax(0,1fr);height:100%;background:var(--paper);color:var(--ink);
+  -webkit-mask:radial-gradient(circle 10px at 58px 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle 10px at 58px 100%,#0000 98%,#000) bottom/100% 51% no-repeat;
+  mask:radial-gradient(circle 10px at 58px 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle 10px at 58px 100%,#0000 98%,#000) bottom/100% 51% no-repeat}
+.stub{display:flex;align-items:center;justify-content:center;gap:10px;writing-mode:vertical-rl;transform:rotate(180deg);border-left:2px dashed rgba(21,27,40,.35);background:var(--paper-3);color:var(--ink-soft);font:600 11px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;padding:18px 0}
+.stub b{font:400 20px/1 var(--display);letter-spacing:.02em;text-transform:none;color:var(--ink)}
+.ticket.hot .stub{background:var(--wax);color:rgba(247,241,228,.8)}
+.ticket.hot .stub b{color:var(--paper-2)}
+.t-body{display:flex;flex-direction:column;gap:10px;padding:24px 20px 22px}
+.t-lbl{font:600 11px/1.3 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+.ticket.hot .t-lbl{color:var(--wax)}
+.t-body h3{font:400 32px/1.02 var(--display)}
+.t-txt{color:var(--ink-soft);font-size:15px;line-height:1.5}
+.t-price{margin-top:auto;padding-top:14px;border-top:1px solid var(--rule);font:400 25px/1.1 var(--display);color:var(--ink)}
+.ticket.hot .t-price{color:var(--wax)}
+.beta{margin-top:30px;display:flex;gap:14px;align-items:flex-start;padding:18px 20px;border:1px dashed rgba(238,229,209,.3);max-width:760px}
+.beta p{color:#cfd5e0;font-size:15px}
 .beta b{color:var(--paper)}
-.beta p{color:#cfcabf;font-size:15px}
-.dot{flex:0 0 10px;height:10px;border-radius:50%;background:var(--accent);margin-top:7px;box-shadow:0 0 0 4px rgba(196,71,58,.2)}
+.lampdot{flex:0 0 10px;height:10px;border-radius:50%;background:var(--lamp);margin-top:7px;box-shadow:0 0 0 4px rgba(255,214,140,.15),0 0 14px rgba(255,214,140,.6)}
 
-/* faq */
-.faq{display:grid;gap:0;border-top:1px solid var(--line)}
+/* ---------- антракт (вопросы) ---------- */
+.faq{margin-top:36px;border-top:1px solid var(--line);max-width:860px}
 .faq details{border-bottom:1px solid var(--line)}
-.faq summary{list-style:none;cursor:pointer;padding:20px 40px 20px 0;position:relative;font:700 20px/1.3 var(--serif)}
+.faq summary{list-style:none;cursor:pointer;position:relative;padding:20px 44px 20px 0;font:700 20px/1.3 var(--serif)}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";position:absolute;right:4px;top:15px;font:400 28px/1 var(--sans);color:var(--accent);transition:transform .2s}
+.faq summary::after{content:"";position:absolute;right:8px;top:50%;width:14px;height:14px;margin-top:-7px;background:linear-gradient(var(--gold),var(--gold)) center/14px 1.5px no-repeat,linear-gradient(var(--gold),var(--gold)) center/1.5px 14px no-repeat;transition:transform .25s}
 .faq details[open] summary::after{transform:rotate(45deg)}
-.faq details p{padding:0 0 22px;color:#cfcabf;max-width:720px}
+.faq details p{padding:0 0 22px;color:var(--mist);max-width:40em}
 
-/* contact */
-.contact{text-align:left}
-.contact h2{font-size:clamp(34px,8vw,60px);margin:14px 0 18px}
-.contact .lead{margin-bottom:30px}
-.ways{display:grid;gap:10px;margin-top:22px}
-.way{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;border:1px solid var(--line);border-radius:2px;text-decoration:none;background:var(--ink-2);transition:border-color .2s}
-.way:hover{border-color:var(--paper)}
-.way small{color:var(--muted);font-size:13px;letter-spacing:.08em;text-transform:uppercase}
-.way span{font-weight:600;word-break:break-all;text-align:right}
-footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);font-size:14px}
-footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+/* ---------- финал: немая сцена ---------- */
+.finale{position:relative;overflow:hidden;padding-block:88px 84px;text-align:center;
+  background:radial-gradient(ellipse 34% 60% at 50% 0,rgba(255,220,150,.10),transparent 75%),var(--night)}
+.beam{position:absolute;inset:0;pointer-events:none;background:linear-gradient(rgba(255,226,170,.17),rgba(255,226,170,.04) 75%,transparent);clip-path:polygon(44% 0,56% 0,82% 100%,18% 100%)}
+.fin-in{position:relative;display:grid;gap:22px;justify-items:center}
+.finale .kicker{justify-content:center}
+.finale .kicker::after{content:"";width:26px;height:1px;background:var(--gold);flex:none}
+.finale h2{font-size:clamp(46px,12.4vw,108px);max-width:11em}
+.finale .lead{color:#cfd5e0}
+.finale .btns{width:100%;max-width:420px;justify-content:center}
+.ways{width:100%;max-width:880px;display:grid;margin-top:10px;border-top:1px solid var(--line)}
+.way{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 4px;border-bottom:1px solid var(--line);text-decoration:none;transition:color .2s}
+.way small{font:600 12px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--mist)}
+.way span{font-weight:600;font-size:17px;text-align:right;overflow-wrap:anywhere}
+.way:hover span{color:var(--lamp)}
+.remark{margin-top:18px;display:grid;gap:8px;max-width:30em}
+.remark blockquote{font:italic 400 19px/1.45 var(--serif);color:var(--paper)}
+.remark figcaption{font-size:14px;color:var(--mist)}
 
+/* ---------- подвал ---------- */
+footer{position:relative;background:var(--night);padding-top:58px}
+footer::before{content:"";position:absolute;inset:0 0 auto;height:42px;
+  background:
+    linear-gradient(var(--velvet-d),var(--velvet)) top/100% 14px no-repeat,
+    radial-gradient(ellipse 50% 100% at 50% 0,var(--velvet) 0 95%,transparent 97%) 0 14px/60px 24px repeat-x,
+    radial-gradient(ellipse 50% 100% at 50% 0,var(--gold) 0 95%,transparent 97%) 0 14px/60px 27px repeat-x}
+.foot-in{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 24px;padding-block:20px 40px;color:var(--mist);font-size:14px}
+.fin-word{flex-basis:100%;font:400 34px/1 var(--display);color:var(--paper)}
+footer .back{font-size:16px;font-weight:600;color:var(--paper);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:5px}
+
+/* ---------- появление при прокрутке ---------- */
+.reveal{transition:opacity .8s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+.js .reveal:not(.in){opacity:0;transform:translateY(22px)}
+.js .decree.reveal:not(.in){transform:translateY(22px) rotate(.6deg)}
+.js .poster.reveal:not(.in){transform:rotate(-.7deg)}
+
+/* ---------- планшет ---------- */
 @media (min-width:700px){
-  .cards{grid-template-columns:repeat(2,1fr)}
-  .get{grid-template-columns:repeat(2,1fr)}
-  .team{grid-template-columns:repeat(2,1fr)}
-  .ways{grid-template-columns:repeat(3,1fr)}
-  .way{flex-direction:column;align-items:flex-start}
-  .way span{text-align:left}
-  .act{padding:40px 44px}
-  .act .stamp2{width:130px;height:130px;top:16px;right:30px}
-  .act-head{padding-right:130px}
+  .programme{padding:44px 44px 30px}
+  .roles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:44px}
+  .act{padding:44px 44px 36px}
+  .act-head{padding-right:150px}
+  .stamp2{width:136px;top:26px;right:34px}
+  .decree{padding:44px 40px 140px}
+  .gogol .l2{display:block}
+  .tickets{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tickets > li:first-child{grid-column:1 / -1}
+  .ways{grid-template-columns:repeat(3,minmax(0,1fr));border-top:0}
+  .way{flex-direction:column;align-items:center;border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .way + .way{border-left:1px solid var(--line)}
+  .way span{text-align:center}
 }
+
+/* ---------- десктоп ---------- */
 @media (min-width:960px){
-  section{padding:104px 0}
-  .hero{padding:80px 0 104px}
-  .hero-grid{grid-template-columns:1.25fr .75fr;align-items:center;gap:56px}
-  .sec-head{grid-template-columns:1fr 1fr;align-items:end;gap:40px;margin-bottom:48px}
-  .cards{grid-template-columns:repeat(3,1fr)}
-  .steps{grid-template-columns:repeat(4,1fr);gap:0 28px}
-  .steps li{grid-template-columns:1fr;border:0!important;border-top:2px solid var(--line)!important;padding:24px 0 0}
-  .steps .num{grid-row:auto;margin-bottom:14px}
-  .steps p{grid-column:auto}
-  .get{grid-template-columns:repeat(3,1fr)}
-  .plans{grid-template-columns:repeat(3,1fr)}
-  .act-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start}
-  .act-wrap .sec-head{grid-template-columns:1fr;position:sticky;top:100px}
-  .contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:end}
-  .ways{grid-template-columns:1fr;margin-top:0}
-  .way{flex-direction:row;align-items:center}
-  .way span{text-align:right}
+  .sec{padding-block:116px}
+  .sec-head.split{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);align-items:end;gap:56px}
+  .stage{padding-block:110px 120px}
+  .valance{height:66px;background-size:100% 24px,100% 24px,96px 36px,96px 39px;background-position:0 0,0 0,0 24px,0 24px}
+  .stage-grid{grid-template-columns:minmax(0,500px) minmax(0,430px);justify-content:center;align-items:center;gap:64px;justify-items:stretch}
+  .poster{padding:40px 36px 32px}
+  .stage-copy{gap:26px}
+  .road{height:170px}
+  .gogol{margin-top:88px;padding-left:8%}
+  .gogol blockquote{font-size:clamp(56px,6vw,78px);max-width:none}
+  .gogol figcaption{padding-left:4px}
+  .gogol .qo{margin-left:-.55em}
+  .get-grid h2,.act-wrap h2{font-size:clamp(44px,4.6vw,62px)}
+  .acts{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:64px}
+  .acts li{grid-template-columns:1fr;align-content:start;padding:0 26px 6px;border:0;border-left:1px solid var(--line)}
+  .acts li:last-child{border-bottom:0;border-right:1px solid var(--line)}
+  .roman{grid-row:auto;text-align:left;font-size:132px;margin-bottom:26px}
+  .act-no{margin-top:0}
+  .get-grid{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:72px;align-items:start}
+  .get-grid .sec-head{position:sticky;top:110px}
+  .troupe{grid-template-columns:repeat(2,minmax(0,1fr));gap:0}
+  .troupe .actor{padding:0 48px}
+  .troupe .actor:first-child{padding-left:0;border-right:1px solid var(--line)}
+  .troupe .orn{display:none}
+  .act-wrap{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);gap:64px;align-items:start}
+  .act-wrap .sec-head{position:sticky;top:110px}
+  .act{margin-top:0}
+  .tickets{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .tickets > li:first-child{grid-column:auto}
+  .tickets > li:first-child{transform:translateY(-12px)}
 }
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .curtain{display:none}
+  .reveal,.act.stamped,.act.stamped .stamp2{transition:none;animation:none}
+  .js .reveal:not(.in){opacity:1;transform:none}
+}
 </style>
 </head>
 <body>
 
+<!-- общие заготовки для SVG -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="folds" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="26" y2="0" spreadMethod="repeat">
+      <stop offset="0" stop-color="#3e0b14"/>
+      <stop offset=".35" stop-color="#64131f"/>
+      <stop offset=".55" stop-color="#86202f"/>
+      <stop offset=".78" stop-color="#64131f"/>
+      <stop offset="1" stop-color="#3e0b14"/>
+    </linearGradient>
+    <linearGradient id="shade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".45"/>
+    </linearGradient>
+    <radialGradient id="waxg" cx="38%" cy="32%" r="72%">
+      <stop offset="0" stop-color="#bf3846"/>
+      <stop offset=".55" stop-color="#8f1d2c"/>
+      <stop offset="1" stop-color="#5a0e19"/>
+    </radialGradient>
+    <filter id="wobble" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.07" numOctaves="2" seed="4"/>
+      <feDisplacementMap in="SourceGraphic" scale="9"/>
+    </filter>
+    <filter id="ink" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="2" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.1 1.4" result="m"/>
+      <feComposite in="SourceGraphic" in2="m" operator="in"/>
+    </filter>
+    <symbol id="mask" viewBox="0 0 64 32">
+      <path d="M4 7C14 1 26 3 32 9C38 3 50 1 60 7C63 18 56 28 46 28C38 28 35 22 32 22C29 22 26 28 18 28C8 28 1 18 4 7Z"/>
+      <ellipse cx="18" cy="15" rx="6.5" ry="4"/>
+      <ellipse cx="46" cy="15" rx="6.5" ry="4"/>
+    </symbol>
+  </defs>
+</svg>
+
 <header class="top">
-  <div class="wrap">
-    <a class="logo" href="#">Ре<span class="c">:</span>Визор</a>
-    <a class="btn btn-main" href="#contact">Заказать проверку</a>
+  <div class="wrap top-in">
+    <a class="logo" href="#top" aria-label="Ре:Визор&nbsp;— в начало"><svg viewBox="0 0 64 32" aria-hidden="true"><use href="#mask"/></svg><span>Ре<b>:</b>Визор</span></a>
+    <nav class="top-nav" aria-label="Навигация">
+      <a class="back" href="../index.html">← все три лица</a>
+      <a class="btn btn-wax" href="#contact">Вызвать ревизора</a>
+    </nav>
   </div>
 </header>
 
-<main>
+<main id="top">
 
-<!-- HERO -->
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="kicker">Тайная проверка воронки продаж</div>
-      <h1>К вам едет Ре<span class="c">:</span>Визор<em>Инкогнито. Ваши менеджеры его не узнают.</em></h1>
+<!-- СЦЕНА: афиша -->
+<section class="stage" aria-labelledby="h1">
+  <div class="valance" aria-hidden="true"></div>
+  <div class="drape drape-l" aria-hidden="true"><svg viewBox="0 0 100 1000" preserveAspectRatio="none"><path d="M0 0H100C96 250 54 470 30 555C48 700 66 880 74 1000H0Z" fill="url(#folds)"/><path d="M0 0H100C96 250 54 470 30 555C48 700 66 880 74 1000H0Z" fill="url(#shade)"/></svg></div>
+  <div class="drape drape-r" aria-hidden="true"><svg viewBox="0 0 100 1000" preserveAspectRatio="none"><path d="M0 0H100C96 250 54 470 30 555C48 700 66 880 74 1000H0Z" fill="url(#folds)"/><path d="M0 0H100C96 250 54 470 30 555C48 700 66 880 74 1000H0Z" fill="url(#shade)"/></svg></div>
+  <div class="curtain" aria-hidden="true"><i></i><i></i></div>
+
+  <div class="wrap stage-grid">
+    <article class="poster" aria-label="Афиша">
+      <p class="p-top">Тайная проверка воронки продаж</p>
+      <h1 id="h1">
+        <span class="p-pre">К вам едет</span>
+        <span class="p-title">Ре<b>:</b>Визор</span>
+        <span class="p-incog"><span>инкогнито</span></span>
+      </h1>
+      <p class="p-genre">Комедия в четырёх действиях</p>
+      <div class="cast">
+        <p class="cast-h">Действующие лица</p>
+        <dl>
+          <div><dt>Собственник</dt><dd>вы</dd></div>
+          <div><dt>Менеджеры</dt><dd>ничего не знают</dd></div>
+          <div><dt>Ревизор</dt><dd>под видом клиента</dd></div>
+        </dl>
+      </div>
+      <p class="p-free"><b>Три находки&nbsp;— бесплатно</b><span>Первые два действия&nbsp;— без договора и предоплаты.</span></p>
+      <p class="p-censor">Дозволено собственником · менеджерам не показывать</p>
+    </article>
+
+    <div class="stage-copy">
+      <p class="say">Ваши менеджеры его не&nbsp;узнают.</p>
       <p class="lead">Мы приходим к вам как обычный клиент: сайт, заявка, звонок, мессенджеры, почта. Всё записываем и показываем, где клиенты уходят, а менеджеры спотыкаются.</p>
-      <div class="offer">
-        <b>Три находки — бесплатно.</b>
-        <span>Без договора и предоплаты. С записями, а не на словах.</span>
-      </div>
       <div class="btns">
-        <a class="btn btn-main" href="#contact">Вызвать ревизора</a>
-        <a class="btn btn-ghost" href="#sample">Посмотреть пример разбора</a>
+        <a class="btn btn-wax" href="#contact">Вызвать ревизора</a>
+        <a class="btn btn-line" href="#sample">Пример разбора</a>
       </div>
+      <p class="fine">Три находки&nbsp;— бесплатно. С записями, а не на словах.</p>
     </div>
+  </div>
+  <div class="footlights" aria-hidden="true"></div>
+</section>
 
-    <aside class="order" aria-label="Предписание на проверку">
-      <div class="kicker">Ре:Визор · форма 001</div>
-      <h3>Предписание</h3>
-      <dl>
-        <div><dt>Объект проверки</dt><dd>Ваш отдел продаж</dd></div>
-        <div><dt>Способ</dt><dd>Инкогнито, под видом клиента</dd></div>
-        <div><dt>Каналы</dt><dd>Сайт · заявка · звонок · мессенджеры · почта</dd></div>
-        <div><dt>Результат</dt><dd>Три находки собственнику — бесплатно</dd></div>
-      </dl>
-      <div class="sign"><span>Ревизор</span><i>Таур</i></div>
-      <svg class="stamp" viewBox="0 0 200 200" aria-hidden="true">
-        <defs><path id="ring" d="M100,100 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0"/></defs>
-        <circle cx="100" cy="100" r="94" fill="none" stroke="#c4473a" stroke-width="5"/>
-        <circle cx="100" cy="100" r="84" fill="none" stroke="#c4473a" stroke-width="1.5"/>
-        <circle cx="100" cy="100" r="54" fill="none" stroke="#c4473a" stroke-width="1.5"/>
-        <text fill="#c4473a" font-family="Inter, sans-serif" font-weight="600" font-size="15" letter-spacing="3.2"><textPath href="#ring">РЕ:ВИЗОР · ПРОВЕРЕНО ИНКОГНИТО ·</textPath></text>
-        <text x="100" y="96" text-anchor="middle" fill="#c4473a" font-family="Playfair Display, serif" font-weight="700" font-size="40">3</text>
-        <text x="100" y="118" text-anchor="middle" fill="#c4473a" font-family="Inter, sans-serif" font-weight="600" font-size="12" letter-spacing="1.5">НАХОДКИ</text>
-        <text x="100" y="133" text-anchor="middle" fill="#c4473a" font-family="Inter, sans-serif" font-weight="600" font-size="9" letter-spacing="1.2">БЕСПЛАТНО</text>
-      </svg>
-    </aside>
+<!-- В ПУТИ -->
+<section class="tract" aria-labelledby="tract-t">
+  <div class="wrap tract-head">
+    <p class="epi">«…Я пригласил вас, господа, с тем, чтобы сообщить вам пренеприятное известие: к нам едет ревизор.»<cite>Городничий, действие первое</cite></p>
+    <p class="tract-line" id="tract-t">До вашей фирмы&nbsp;— <b>три версты</b>. Менеджеры пока не знают.</p>
+  </div>
+  <div class="road" id="road" aria-hidden="true">
+    <span class="verst" style="--x:22%"><em>3</em></span>
+    <span class="verst" style="--x:44%"><em>2</em></span>
+    <span class="verst" style="--x:66%"><em>1</em></span>
+    <div class="firm">
+      <svg viewBox="0 0 70 62"><path d="M4 18 35 4 66 18Z"/><path d="M6 18H64V23H6Z"/><path d="M11 23V53M19 23V53M51 23V53M59 23V53"/><path d="M29 53V36H41V53"/><path d="M2 53H68V60H2Z"/></svg>
+      <span>ваша фирма</span>
+    </div>
+    <svg class="carriage" viewBox="0 0 180 96">
+      <path class="c-line" d="M130 70 178 63"/>
+      <path class="c-line" d="M30 70Q48 78 66 70M96 72Q112 80 128 72"/>
+      <rect class="c-fill" x="40" y="3" width="54" height="9" rx="2"/>
+      <path class="c-fill" d="M26 24C26 16 32 13 40 13H110C120 13 126 19 128 28L132 58C133 64 129 68 123 68H36C30 68 26 64 26 58Z"/>
+      <rect class="c-cut" x="64" y="18" width="40" height="45" rx="4"/>
+      <rect class="c-win" x="70" y="23" width="28" height="18" rx="2"/>
+      <path class="c-fill" d="M127 38H150V44H130Z"/>
+      <path class="c-fill" d="M135 29Q141 25 147 29L149 39H133Z"/>
+      <circle class="c-fill" cx="141" cy="22" r="5"/>
+      <rect class="c-fill" x="135" y="10" width="12" height="7" rx="1"/>
+      <rect class="c-gold" x="121" y="18" width="5" height="9" rx="1"/>
+      <g class="wheel"><circle cx="46" cy="72" r="20"/><path d="M26 72H66M36 54.7 56 89.3M56 54.7 36 89.3"/><circle class="hub" cx="46" cy="72" r="4"/></g>
+      <g class="wheel"><circle cx="120" cy="77" r="15"/><path d="M105 77H135M112.5 64 127.5 90M127.5 64 112.5 90"/><circle class="hub" cx="120" cy="77" r="3.2"/></g>
+    </svg>
   </div>
 </section>
 
-<!-- PAIN -->
-<section id="pain">
+<!-- ГДЕ ТЕРЯЮТСЯ КЛИЕНТЫ: программка -->
+<section class="sec" id="pain">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head split">
       <div>
-        <div class="kicker">Где теряются клиенты</div>
-        <h2 style="margin-top:12px">Заявки есть. Продаж меньше, чем должно быть.</h2>
+        <p class="kicker">Где теряются клиенты</p>
+        <h2>Заявки есть. Продаж меньше, чем должно быть.</h2>
       </div>
       <p class="lead">Чаще всего дело не в рекламе. Клиент дошёл до вас, а дальше его потеряли. Изнутри этого не видно: менеджеры уверены, что работают хорошо.</p>
     </div>
-    <div class="cards">
-      <div class="card"><span class="n">Заявка</span><h3>Перезвонили через день</h3><p>За это время клиент уже купил у соседа. Он оставлял заявку в три места, а не только к вам.</p></div>
-      <div class="card"><span class="n">Звонок</span><h3>Сразу прайс, ни одного вопроса</h3><p>Менеджер не спросил, что нужно человеку. Цифры без контекста — и клиент «подумает».</p></div>
-      <div class="card"><span class="n">Мессенджер</span><h3>«Прочитано» — и тишина</h3><p>Сообщение увидели, ответить забыли. Клиент запомнил именно это.</p></div>
-      <div class="card"><span class="n">Сайт</span><h3>Форма уходит в никуда</h3><p>Заявки падают на почту, которую давно никто не открывает. Или не падают вовсе.</p></div>
-      <div class="card"><span class="n">Возражение</span><h3>«Дорого» — и менеджер сдался</h3><p>Вместо разговора о ценности — скидка или «ну, как решите». Деньги остались у клиента.</p></div>
-      <div class="card"><span class="n">Почта</span><h3>Обещали — не прислали</h3><p>КП, расчёт, материалы «вышлю сегодня». Не выслали. Первое обещание фирмы — и уже нарушено.</p></div>
-    </div>
-    <div class="quote">
-      <q>Чему смеётесь? Над собою смеётесь!</q>
-      <span>Гоголь знал. Узнать себя в списке — нормально. Ненормально — не проверять.</span>
-    </div>
+
+    <article class="programme reveal">
+      <header class="pg-head">
+        <p class="pg-top">Программа вечера</p>
+        <h3 class="pg-title">Действующие лица</h3>
+        <p class="pg-sub">и что они делают с вашим клиентом</p>
+      </header>
+      <ol class="roles">
+        <li><div class="role-line"><span class="role-name">Форма уходит в никуда</span><i></i><span class="role-ch">сайт</span></div><p>Заявки падают на почту, которую давно никто не открывает. Или не падают вовсе.</p></li>
+        <li><div class="role-line"><span class="role-name">Перезвонили через день</span><i></i><span class="role-ch">заявка</span></div><p>За это время клиент уже купил у соседа. Он оставлял заявку в три места, а не только к вам.</p></li>
+        <li><div class="role-line"><span class="role-name">Сразу прайс, ни одного вопроса</span><i></i><span class="role-ch">звонок</span></div><p>Менеджер не спросил, что нужно человеку. Цифры без контекста&nbsp;— и клиент «подумает».</p></li>
+        <li><div class="role-line"><span class="role-name">«Дорого»&nbsp;— и менеджер сдался</span><i></i><span class="role-ch">возражение</span></div><p>Вместо разговора о ценности&nbsp;— скидка или «ну, как решите». Деньги остались у клиента.</p></li>
+        <li><div class="role-line"><span class="role-name">«Прочитано»&nbsp;— и тишина</span><i></i><span class="role-ch">мессенджер</span></div><p>Сообщение увидели, ответить забыли. Клиент запомнил именно это.</p></li>
+        <li><div class="role-line"><span class="role-name">Обещали&nbsp;— не прислали</span><i></i><span class="role-ch">почта</span></div><p>КП, расчёт, материалы «вышлю сегодня». Не выслали. Первое обещание фирмы&nbsp;— и уже нарушено.</p></li>
+      </ol>
+    </article>
+
+    <figure class="gogol">
+      <blockquote><span class="q qo">«</span>Чему смеётесь? <span class="l2">Над собою смеётесь!<span class="q">»</span></span></blockquote>
+      <figcaption><cite>Городничий, действие пятое</cite><span>Гоголь знал. Узнать себя в программке&nbsp;— нормально. Ненормально&nbsp;— не проверять.</span></figcaption>
+    </figure>
   </div>
 </section>
 
-<!-- STEPS -->
-<section id="how">
+<!-- КАК РАБОТАЕМ: четыре действия -->
+<section class="sec alt" id="how">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head split">
       <div>
-        <div class="kicker">Как работаем</div>
-        <h2 style="margin-top:12px">Четыре шага. Без шума.</h2>
+        <p class="kicker">Как работаем</p>
+        <h2>Комедия в четырёх действиях</h2>
       </div>
-      <p class="lead">О проверке знает только собственник. Менеджеры работают как обычно — в этом весь смысл.</p>
+      <p class="lead">О проверке знает только собственник. Менеджеры работают как обычно&nbsp;— в этом весь смысл.</p>
     </div>
-    <ol class="steps">
-      <li><span class="num">01</span><h3>Проверка инкогнито</h3><p>Проходим путь клиента по всем каналам: сайт, заявка, звонок, мессенджеры, почта. Всё записываем.</p></li>
-      <li><span class="num">02</span><h3>Три находки <span class="tag">бесплатно</span></h3><p>Показываем собственнику три места, где теряются клиенты. С записями и скриншотами.</p></li>
-      <li><span class="num">03</span><h3>Полный разбор</h3><p>По договору. Вся воронка, плюс готовые фразы и скрипты, которые вытянет даже слабый менеджер.</p></li>
-      <li><span class="num">04</span><h3>Замер «было / стало»</h3><p>Через 2–4 недели проходим воронку заново и сравниваем конверсию до и после.</p></li>
+    <ol class="acts">
+      <li class="reveal">
+        <span class="roman" aria-hidden="true">I</span>
+        <p class="act-no"><svg viewBox="0 0 64 32" aria-hidden="true"><use href="#mask"/></svg>Действие первое</p>
+        <h3>Проверка инкогнито</h3>
+        <p class="txt">Проходим путь клиента по всем каналам: сайт, заявка, звонок, мессенджеры, почта. Всё записываем.</p>
+      </li>
+      <li class="reveal">
+        <span class="roman" aria-hidden="true">II</span>
+        <p class="act-no"><svg viewBox="0 0 64 34" aria-hidden="true"><circle cx="14" cy="20" r="10"/><circle cx="38" cy="20" r="10"/><path d="M24 19Q26 14 28 19M48 17 61 3"/></svg>Действие второе</p>
+        <h3>Три находки <span class="tag">бесплатно</span></h3>
+        <p class="txt">Показываем собственнику три места, где теряются клиенты. С записями и скриншотами.</p>
+      </li>
+      <li class="reveal">
+        <span class="roman" aria-hidden="true">III</span>
+        <p class="act-no"><svg viewBox="0 0 64 40" aria-hidden="true"><path d="M58 2C44 6 30 18 22 34C34 28 48 18 58 2Z"/><path d="M22 34 16 39M30 26 44 12"/><path d="M4 38H40"/></svg>Действие третье</p>
+        <h3>Полный разбор</h3>
+        <p class="txt">По договору. Вся воронка, плюс готовые фразы и скрипты, которые вытянет даже слабый менеджер.</p>
+      </li>
+      <li class="reveal">
+        <span class="roman" aria-hidden="true">IV</span>
+        <p class="act-no"><svg viewBox="0 0 64 40" aria-hidden="true"><path d="M20 2H44M20 38H44"/><path d="M23 2C23 14 32 17 32 20C32 23 23 26 23 38M41 2C41 14 32 17 32 20C32 23 41 26 41 38"/><path d="M27 35H37L32 29Z"/></svg>Действие четвёртое</p>
+        <h3>Замер «было / стало»</h3>
+        <p class="txt">Через 2–4 недели проходим воронку заново и сравниваем конверсию до и после.</p>
+      </li>
     </ol>
   </div>
 </section>
 
-<!-- GET -->
-<section id="get">
-  <div class="wrap">
+<!-- ЧТО ПОЛУЧИТЕ: предписание -->
+<section class="sec" id="get">
+  <div class="wrap get-grid">
     <div class="sec-head">
       <div>
-        <div class="kicker">Что получите</div>
-        <h2 style="margin-top:12px">Не отчёт «для галочки», а то, что можно внедрить завтра</h2>
+        <p class="kicker">Что получите</p>
+        <h2>Не отчёт «для галочки», а&nbsp;то, что можно внедрить завтра</h2>
       </div>
-      <p class="lead">Каждая находка — с доказательством и готовым исправлением. Спорить с записью звонка сложно.</p>
+      <p class="lead">Каждая находка&nbsp;— с доказательством и готовым исправлением. Спорить с записью звонка сложно.</p>
     </div>
-    <ul class="get">
-      <li><b>Записи и расшифровки</b><span>Звонки, переписки, скриншоты. Ваша фирма глазами клиента.</span></li>
-      <li><b>Карта утечек</b><span>Где по пути от заявки до оплаты теряется клиент и почему.</span></li>
-      <li><b>Живые фразы и скрипты</b><span>Под ваш продукт и ваших клиентов, а не из книжки про продажи.</span></li>
-      <li><b>Короткий регламент</b><span>Для менеджеров. Такой, который реально прочитают.</span></li>
-      <li><b>Замер «было / стало»</b><span>Повторная проверка через 2–4 недели. Видно, что сработало.</span></li>
-      <li><b>План допов</b><span>Что ещё стоит докрутить: тексты, сайт, CRM, обучение, ИИ. Только если нужно.</span></li>
-    </ul>
+
+    <article class="decree reveal" aria-label="Предписание: что получает собственник">
+      <p class="d-form">Ре:Визор · форма 001</p>
+      <h3 class="d-title">Предписание</h3>
+      <p class="d-sub">По итогам проверки собственнику выдать:</p>
+      <ol class="d-list">
+        <li><div><b>Записи и расшифровки</b><span>Звонки, переписки, скриншоты. Ваша фирма глазами клиента.</span></div></li>
+        <li><div><b>Карта утечек</b><span>Где по пути от заявки до оплаты теряется клиент и почему.</span></div></li>
+        <li><div><b>Живые фразы и скрипты</b><span>Под ваш продукт и ваших клиентов, а не из книжки про продажи.</span></div></li>
+        <li><div><b>Короткий регламент</b><span>Для менеджеров. Такой, который реально прочитают.</span></div></li>
+        <li><div><b>Замер «было / стало»</b><span>Повторная проверка через 2–4 недели. Видно, что сработало.</span></div></li>
+        <li><div><b>План допов</b><span>Что ещё стоит докрутить: тексты, сайт, CRM, обучение, ИИ. Только если нужно.</span></div></li>
+      </ol>
+      <div class="d-sign"><span>Ревизор</span><i>Таур</i></div>
+      <svg class="seal" viewBox="0 0 120 140" aria-hidden="true">
+        <path d="M46 84 34 138 46 128 55 139 60 88Z" fill="#64131f"/>
+        <path d="M74 84 86 138 74 128 65 139 60 88Z" fill="#7a1826"/>
+        <circle cx="60" cy="58" r="45" fill="url(#waxg)" filter="url(#wobble)"/>
+        <circle cx="60" cy="58" r="31" fill="none" stroke="#5a0e19" stroke-width="2.5" opacity=".75"/>
+        <circle cx="60" cy="57" r="31" fill="none" stroke="#d9606b" stroke-width="1" opacity=".5"/>
+        <text x="60" y="69" text-anchor="middle" font-family="Oranienbaum, Georgia, serif" font-size="30" fill="#d9606b" opacity=".55">Р:В</text>
+        <text x="60.8" y="70" text-anchor="middle" font-family="Oranienbaum, Georgia, serif" font-size="30" fill="#4d0b15" opacity=".8">Р:В</text>
+      </svg>
+    </article>
   </div>
 </section>
 
-<!-- TEAM -->
-<section id="team">
+<!-- КТО МЫ: труппа -->
+<section class="sec alt" id="team">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head split">
       <div>
-        <div class="kicker">Кто мы</div>
-        <h2 style="margin-top:12px">Двое. Один в полях, второй в тылу.</h2>
+        <p class="kicker">Кто мы · труппа</p>
+        <h2>Двое. Один в полях, второй в тылу.</h2>
       </div>
       <p class="lead">Маленькая контора. Зато с вами говорит тот, кто сам звонил вашим менеджерам.</p>
     </div>
-    <div class="team">
-      <div class="person">
-        <span class="role">В полях</span>
+    <div class="troupe">
+      <article class="actor reveal">
+        <div class="cameo" aria-hidden="true"><svg viewBox="0 0 64 32"><use href="#mask"/></svg></div>
+        <p class="actor-role">В полях · инкогнито</p>
         <h3>Таур</h3>
-        <p>Переговорщик. Выходит прямо на собственников. Ходит тайным покупателем и читает людей по паузе и интонации. Разбирает воронку и превращает находки в живые фразы, которые менеджер может сказать уже завтра.</p>
-      </div>
-      <div class="person">
-        <span class="role">В тылу</span>
+        <p class="bio">Переговорщик. Выходит прямо на собственников. Ходит тайным покупателем и читает людей по паузе и интонации. Разбирает воронку и превращает находки в живые фразы, которые менеджер может сказать уже завтра.</p>
+      </article>
+      <div class="orn" aria-hidden="true"><i></i></div>
+      <article class="actor reveal">
+        <div class="cameo" aria-hidden="true"><svg viewBox="0 0 64 48"><path d="M6 42C6 20 18 8 32 8C46 8 58 20 58 42Z"/><path d="M16 42C16 28 23 20 32 20C41 20 48 28 48 42"/><path d="M32 8V20M14 18 22 25M50 18 42 25"/><path d="M2 42H62"/><path d="M26 42V36H38V42"/></svg></div>
+        <p class="actor-role">В тылу · суфлёрская будка</p>
         <h3>Командор</h3>
-        <p>Технарь. Записи, расшифровки, отчёты, регламенты. Автоматизирует рутину через ИИ — чтобы находки не потерялись в чате, а превратились в понятный документ.</p>
-      </div>
+        <p class="bio">Технарь. Записи, расшифровки, отчёты, регламенты. Автоматизирует рутину через ИИ&nbsp;— чтобы находки не потерялись в чате, а превратились в понятный документ.</p>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- SAMPLE -->
-<section id="sample" class="act-sec">
+<!-- ПРИМЕР: акт проверки -->
+<section class="sec" id="sample">
   <div class="wrap act-wrap">
     <div class="sec-head">
       <div>
-        <div class="kicker">Пример разбора</div>
-        <h2 style="margin-top:12px">Так выглядят три находки</h2>
+        <p class="kicker">Пример разбора</p>
+        <h2>Так выглядят три находки</h2>
       </div>
       <p class="lead">Онлайн-школа, название убрано. Три места, где клиент ушёл, так и не дойдя до оплаты.</p>
     </div>
 
-    <article class="act">
-      <svg class="stamp2" viewBox="0 0 200 200" aria-hidden="true">
-        <rect x="14" y="62" width="172" height="76" rx="6" fill="none" stroke="#a8382d" stroke-width="5"/>
-        <rect x="24" y="72" width="152" height="56" rx="3" fill="none" stroke="#a8382d" stroke-width="1.5"/>
-        <text x="100" y="110" text-anchor="middle" fill="#a8382d" font-family="Inter, sans-serif" font-weight="700" font-size="26" letter-spacing="4">ПРИМЕР</text>
+    <article class="act" id="act">
+      <svg class="stamp2" viewBox="0 0 200 110" aria-label="Штамп: пример" role="img">
+        <g filter="url(#ink)">
+          <rect x="6" y="10" width="188" height="90" rx="8" fill="none" stroke="#8f1d2c" stroke-width="6"/>
+          <rect x="17" y="21" width="166" height="68" rx="4" fill="none" stroke="#8f1d2c" stroke-width="1.8"/>
+          <text x="100" y="66" text-anchor="middle" fill="#8f1d2c" font-family="Golos Text, Arial, sans-serif" font-weight="600" font-size="30" letter-spacing="5">ПРИМЕР</text>
+          <text x="100" y="83" text-anchor="middle" fill="#8f1d2c" font-family="Golos Text, Arial, sans-serif" font-weight="600" font-size="10" letter-spacing="2.5">ОБЕЗЛИЧЕНО</text>
+        </g>
       </svg>
-      <div class="act-head">
-        <span class="t">Акт проверки</span>
-        <span class="m">Объект: онлайн-школа · Способ: инкогнито</span>
-      </div>
+      <header class="act-head">
+        <h3 class="act-title">Акт проверки</h3>
+        <p class="act-meta"><span><b>Объект:</b> онлайн-школа</span><span><b>Способ:</b> инкогнито</span></p>
+      </header>
 
-      <div class="find">
+      <section class="find">
         <span class="no">Находка № 1 · Сайт</span>
         <h3>Лендинг не открывается с VPN</h3>
-        <p>С включённым VPN страница не грузится. Многие сидят с ним постоянно. Человек видит пустой экран и уходит — и в аналитике его нет вообще, будто и не приходил.</p>
+        <p>С включённым VPN страница не грузится. Многие сидят с ним постоянно. Человек видит пустой экран и уходит&nbsp;— и в аналитике его нет вообще, будто и не приходил.</p>
         <div class="fix"><b>Что делать:</b> проверить хостинг и защиту от ботов, открыть доступ. Раз в неделю заходить на сайт с VPN.</div>
-      </div>
+      </section>
 
-      <div class="find">
+      <section class="find">
         <span class="no">Находка № 2 · Почта</span>
         <h3>Обещанный PDF так и не пришёл</h3>
-        <p>Оставили почту ради бесплатного материала. Его не выдали ни сразу, ни через день. Первое обещание школы — и уже не выполнено. С таким началом курс за большие деньги не покупают.</p>
+        <p>Оставили почту ради бесплатного материала. Его не выдали ни сразу, ни через день. Первое обещание школы&nbsp;— и уже не выполнено. С таким началом курс за большие деньги не покупают.</p>
         <div class="fix"><b>Что делать:</b> автовыдача сразу после заявки, письмо со ссылкой и проверка цепочки раз в неделю.</div>
-      </div>
+      </section>
 
-      <div class="find">
+      <section class="find">
         <span class="no">Находка № 3 · Звонок</span>
-        <h3>С первой фразы — дорогой курс</h3>
+        <h3>С первой фразы&nbsp;— дорогой курс</h3>
         <p>Человек пришёл за бесплатным PDF. Менеджер с порога предлагает флагманский курс. Ни одного вопроса: кто он, зачем пришёл, что ему нужно.</p>
         <div class="fix"><b>Как сказать иначе:</b>
-          <span class="say">«Здравствуйте! Вы брали у нас материал — получилось открыть? Подскажите, вы сейчас для себя смотрите или под конкретную задачу?»</span>
+          <span class="line"><span class="who">Менеджер</span> <span class="rem">(спокойно)</span>. Здравствуйте! Вы брали у нас материал&nbsp;— получилось открыть? Подскажите, вы сейчас для себя смотрите или под конкретную задачу?</span>
         </div>
-      </div>
+      </section>
 
       <p class="act-foot">Пример обезличен. Цифр конверсии тут нет: их даёт только замер «было / стало».</p>
     </article>
   </div>
 </section>
 
-<!-- PLANS -->
-<section id="plans">
+<!-- УСЛОВИЯ: билеты -->
+<section class="sec alt" id="plans">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head split">
       <div>
-        <div class="kicker">Условия</div>
-        <h2 style="margin-top:12px">Сначала польза. Потом договор.</h2>
+        <p class="kicker">Условия · билеты</p>
+        <h2>Сначала польза. Потом договор.</h2>
       </div>
       <p class="lead">Цену полного разбора называем после бесплатного: когда видно, сколько каналов и сколько работы.</p>
     </div>
-    <div class="plans">
-      <div class="plan hot">
-        <span class="lbl">Шаг первый</span>
-        <h3>Бесплатный разбор</h3>
-        <p>Проходим воронку инкогнито и показываем три главные утечки. С записями. Без договора и предоплаты.</p>
-        <div class="price">3 находки — бесплатно</div>
-      </div>
-      <div class="plan">
-        <span class="lbl">Шаг второй</span>
-        <h3>Полный разбор</h3>
-        <p>Вся воронка, все каналы. Фразы, скрипты, короткий регламент. Повторный замер через 2–4 недели.</p>
-        <div class="price">По договору</div>
-      </div>
-      <div class="plan">
-        <span class="lbl">Шаг третий</span>
-        <h3>Допы</h3>
-        <p>Тексты, сайт, CRM, обучение менеджеров, автоматизация на ИИ. Только то, что показал разбор.</p>
-        <div class="price">После кейса</div>
-      </div>
-    </div>
+    <ul class="tickets">
+      <li class="reveal">
+        <div class="ticket hot">
+          <div class="stub"><b>№ 001</b>вход свободный</div>
+          <div class="t-body">
+            <p class="t-lbl">Шаг первый</p>
+            <h3>Бесплатный разбор</h3>
+            <p class="t-txt">Проходим воронку инкогнито и показываем три главные утечки. С записями. Без договора и предоплаты.</p>
+            <p class="t-price">3 находки&nbsp;— бесплатно</p>
+          </div>
+        </div>
+      </li>
+      <li class="reveal">
+        <div class="ticket">
+          <div class="stub"><b>№ 002</b>партер</div>
+          <div class="t-body">
+            <p class="t-lbl">Шаг второй</p>
+            <h3>Полный разбор</h3>
+            <p class="t-txt">Вся воронка, все каналы. Фразы, скрипты, короткий регламент. Повторный замер через 2–4 недели.</p>
+            <p class="t-price">По договору</p>
+          </div>
+        </div>
+      </li>
+      <li class="reveal">
+        <div class="ticket">
+          <div class="stub"><b>№ 003</b>ложа</div>
+          <div class="t-body">
+            <p class="t-lbl">Шаг третий</p>
+            <h3>Допы</h3>
+            <p class="t-txt">Тексты, сайт, CRM, обучение менеджеров, автоматизация на ИИ. Только то, что показал разбор.</p>
+            <p class="t-price">После кейса</p>
+          </div>
+        </div>
+      </li>
+    </ul>
     <div class="beta">
-      <span class="dot" aria-hidden="true"></span>
+      <span class="lampdot" aria-hidden="true"></span>
       <p><b>Закрытая бета.</b> Кейсов пока два, оба наши. Первые проверки берём на особых условиях: нам нужны кейсы, вам нужны клиенты. Честный обмен.</p>
     </div>
   </div>
 </section>
 
-<!-- FAQ -->
-<section id="faq">
+<!-- АНТРАКТ: вопросы -->
+<section class="sec" id="faq">
   <div class="wrap">
     <div class="sec-head">
       <div>
-        <div class="kicker">Вопросы</div>
-        <h2 style="margin-top:12px">Что обычно спрашивают</h2>
+        <p class="kicker">Антракт</p>
+        <h2>Вопросы из зала</h2>
       </div>
     </div>
     <div class="faq">
       <details>
         <summary>Менеджеры узнают, что их проверяют?</summary>
-        <p>Нет. О проверке знает только собственник. Если предупредить отдел, он неделю будет работать идеально — и вы не увидите ничего полезного.</p>
+        <p>Нет. О проверке знает только собственник. Если предупредить отдел, он неделю будет работать идеально&nbsp;— и вы не увидите ничего полезного.</p>
       </details>
       <details>
         <summary>Зачем вам делать три находки бесплатно?</summary>
-        <p>Это лучшая презентация, которую мы можем сделать. Понравится — продолжим по договору. Не понравится — у вас останутся три бесплатных исправления.</p>
+        <p>Это лучшая презентация, которую мы можем сделать. Понравится&nbsp;— продолжим по договору. Не понравится&nbsp;— у вас останутся три бесплатных исправления.</p>
       </details>
       <details>
         <summary>Нам подходит?</summary>
-        <p>Если у вас есть менеджеры по продажам, поток заявок и бюджет на развитие — да. Частникам и тем, кто только запускается, пока рано: проверять нечего.</p>
+        <p>Если у вас есть менеджеры по продажам, поток заявок и бюджет на развитие&nbsp;— да. Частникам и тем, кто только запускается, пока рано: проверять нечего.</p>
       </details>
       <details>
         <summary>Сколько длится проверка?</summary>
-        <p>Обычно несколько дней. Зависит от того, как быстро вам отвечают клиентам. Если не ответят совсем — это уже находка.</p>
+        <p>Обычно несколько дней. Зависит от того, как быстро вам отвечают клиентам. Если не ответят совсем&nbsp;— это уже находка.</p>
       </details>
       <details>
         <summary>Куда пойдут записи звонков и переписок?</summary>
-        <p>Только вам. Мы не публикуем их и не показываем другим. В кейсы попадает только обезличенная суть — как в примере выше.</p>
+        <p>Только вам. Мы не публикуем их и не показываем другим. В кейсы попадает только обезличенная суть&nbsp;— как в примере выше.</p>
       </details>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact" class="contact">
-  <div class="wrap contact-grid">
-    <div>
-      <div class="kicker">Связь</div>
-      <h2>Ревизор готов выехать. Нужен адрес.</h2>
-      <p class="lead">Напишите, чем занимается фирма и куда приходят заявки. Остальное — наша работа.</p>
-      <div class="btns">
-        <a class="btn btn-main" href="#">Написать в WhatsApp</a>
-      </div>
+<!-- ФИНАЛ: немая сцена -->
+<section class="finale" id="contact">
+  <div class="beam" aria-hidden="true"></div>
+  <div class="wrap fin-in">
+    <p class="kicker">Финал · немая сцена</p>
+    <h2>Ревизор готов выехать. Нужен адрес.</h2>
+    <p class="lead">Напишите, чем занимается фирма и куда приходят заявки. Остальное&nbsp;— наша работа.</p>
+    <div class="btns">
+      <a class="btn btn-wax" href="#">Написать в WhatsApp</a>
     </div>
     <div class="ways">
       <a class="way" href="tel:+70000000000"><small>Телефон</small><span>+7 (000) 000-00-00</span></a>
       <a class="way" href="#"><small>WhatsApp</small><span>Написать</span></a>
       <a class="way" href="mailto:mail@example.com"><small>Почта</small><span>mail@example.com</span></a>
     </div>
+    <figure class="remark">
+      <blockquote>«Почти полторы минуты окаменевшая группа сохраняет такое положение».</blockquote>
+      <figcaption>Гоголь, ремарка к немой сцене. Пусть она случится у конкурентов.</figcaption>
+    </figure>
   </div>
 </section>
 
 </main>
 
 <footer>
-  <div class="wrap">
+  <div class="wrap foot-in">
+    <p class="fin-word">Занавес.</p>
+    <a class="back" href="../index.html">← все три лица</a>
     <span>Ре<span class="c">:</span>Визор · тайная проверка воронок продаж</span>
     <span>2026 · закрытая бета</span>
   </div>
 </footer>
 
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasIO = 'IntersectionObserver' in window;
+
+  // появление блоков
+  var els = [].slice.call(document.querySelectorAll('.reveal'));
+  if (reduce || !hasIO) {
+    els.forEach(function(e){ e.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, {rootMargin:'0px 0px -6% 0px', threshold:.08});
+    els.forEach(function(e){ io.observe(e); });
+  }
+
+  // штамп падает на акт
+  var act = document.getElementById('act');
+  if (act) {
+    if (reduce || !hasIO) { act.classList.add('stamped'); }
+    else {
+      var head = act.querySelector('.act-head');
+      var so = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if (en.isIntersecting){ act.classList.add('stamped'); so.disconnect(); } });
+      }, {threshold:.9});
+      so.observe(head);
+    }
+  }
+
+  // карета едет вместе с прокруткой
+  var road = document.getElementById('road');
+  if (road && !reduce) {
+    var car = road.querySelector('.carriage'), firm = road.querySelector('.firm');
+    var posts = [].slice.call(road.querySelectorAll('.verst'));
+    var ticking = false;
+    road.classList.add('live');
+    var upd = function(){
+      ticking = false;
+      var r = road.getBoundingClientRect(), vh = window.innerHeight || document.documentElement.clientHeight;
+      if (r.bottom < -60 || r.top > vh + 60) return;
+      var p = (vh - r.top) / (vh + r.height);
+      p = Math.max(0, Math.min(1, (p - .1) / .62));
+      var cw = car.getBoundingClientRect().width;
+      var stop = firm.offsetLeft - cw - 6;
+      var x = -cw + p * (stop + cw);
+      car.style.transform = 'translateX(' + x.toFixed(1) + 'px)';
+      road.style.setProperty('--rot', (p * 1080).toFixed(1) + 'deg');
+      var front = x + cw * .92;
+      posts.forEach(function(el){ el.classList.toggle('on', front > el.offsetLeft); });
+    };
+    var req = function(){ if (!ticking){ ticking = true; requestAnimationFrame(upd); } };
+    window.addEventListener('scroll', req, {passive:true});
+    window.addEventListener('resize', req);
+    upd();
+  }
+})();
+</script>
 </body>
 </html>

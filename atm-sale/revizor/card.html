@@ -4,58 +4,90 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ре:Визор — визитка 90×50</title>
+<meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@500;600&family=Old+Standard+TT:ital,wght@0,700;1,400&family=Oranienbaum&display=swap" rel="stylesheet">
 <style>
+/* Лицо: сцена с ламбрекеном, кулисами и рампой. Оборот: театральный билет с корешком и сургучной печатью. */
 :root{
-  --ink:#0e1622;
-  --paper:#f5f1e8;
-  --muted:#8e96a3;
-  --accent:#c4473a;
-  --serif:"Playfair Display", Georgia, serif;
-  --sans:"Inter", system-ui, "Segoe UI", sans-serif;
+  --night:#0d1628;
+  --paper:#eee5d1;
+  --paper-3:#e4d9c1;
+  --ink:#151b28;
+  --ink-soft:#4b5262;
+  --wax:#8f1d2c;
+  --wax-lit:#d8676f;
+  --velvet-d:#3e0b14;
+  --velvet:#64131f;
+  --gold:#c6a15b;
+  --lamp:#ffe8b8;
+  --boards:#1d160f;
+  --mist:#a3aec2;
+  --display:"Oranienbaum","Bodoni 72","Didot",Georgia,serif;
+  --serif:"Old Standard TT",Georgia,"Times New Roman",serif;
+  --sans:"Golos Text",system-ui,"Segoe UI",sans-serif;
 }
 @page{size:90mm 50mm;margin:0}
 *{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 html,body{margin:0}
-body{background:#d9d6cf;font-family:var(--sans);color:var(--ink);padding:24px 16px;display:flex;flex-direction:column;align-items:center;gap:14px}
-.label{font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#6a6f78;align-self:center;margin-top:10px}
-.hint{font-size:13px;color:#555b65;max-width:340px;text-align:center;line-height:1.5}
+body{background:#cfd2d8;font-family:var(--sans);color:var(--ink);padding:24px 16px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.col{display:flex;flex-direction:column;align-items:center;gap:10px;max-width:100%}
+.label{font:600 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:#4b5262;margin-top:10px}
+.hint{font-size:13px;color:#3d4452;max-width:340px;text-align:center;line-height:1.5}
+.back-link{font-size:14px;font-weight:600;color:var(--ink)}
 
-.side{width:90mm;height:50mm;position:relative;overflow:hidden;flex:0 0 auto;box-shadow:0 10px 30px -12px rgba(0,0,0,.45)}
+.side{width:90mm;height:50mm;position:relative;overflow:hidden;flex:0 0 auto;box-shadow:0 12px 30px -12px rgba(0,0,0,.5)}
 
-/* FRONT */
-.front{background:var(--ink);color:var(--paper)}
-.front .frame{position:absolute;inset:3.5mm;border:.25mm solid rgba(236,230,217,.28)}
-.front .kick{position:absolute;left:7mm;top:7mm;font:600 5.6pt/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:#a3abb8}
-.front .name{position:absolute;left:7mm;top:17mm;font:700 25pt/1 var(--serif);letter-spacing:.01em;white-space:nowrap}
-.front .name b{color:var(--accent);font-weight:700}
-.front .sub{position:absolute;left:7mm;bottom:7mm;font:italic 600 8pt/1.2 var(--serif);color:#c9c3b6}
-.front .stamp{position:absolute;right:-5mm;top:-5mm;width:26mm;height:26mm;opacity:.9;transform:rotate(-14deg)}
+/* ЛИЦО — сцена */
+.front{color:var(--paper);background:radial-gradient(ellipse 62% 75% at 50% 0,rgba(255,226,170,.2),transparent 72%),radial-gradient(ellipse 70% 40% at 50% 100%,rgba(255,200,120,.14),transparent 70%),var(--night)}
+.front .val{position:absolute;inset:0 0 auto;height:6.4mm;z-index:3;
+  background:
+    linear-gradient(var(--velvet-d),var(--velvet)) top/100% 2.4mm no-repeat,
+    radial-gradient(ellipse 50% 100% at 50% 0,var(--velvet) 0 95%,transparent 97%) 0 2.4mm/7.5mm 3.4mm repeat-x,
+    radial-gradient(ellipse 50% 100% at 50% 0,var(--gold) 0 95%,transparent 97%) 0 2.4mm/7.5mm 3.8mm repeat-x}
+.front .drape{position:absolute;top:0;bottom:3.2mm;width:8mm;z-index:1}
+.front .drape svg{width:100%;height:100%;display:block}
+.front .drape-l{left:0}
+.front .drape-r{right:0;transform:scaleX(-1)}
+.front .fl{position:absolute;left:0;right:0;bottom:0;height:3.2mm;z-index:3;
+  background:radial-gradient(circle at 50% 45%,var(--lamp) 0 .32mm,rgba(255,214,140,.55) .48mm,transparent 1.3mm) 0 0/5mm 3.2mm repeat-x,var(--boards)}
+.front .center{position:absolute;left:10mm;right:10mm;top:7.5mm;bottom:4.5mm;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.front .pre{font:italic 400 8.4pt/1 var(--serif);color:#ddd3bf}
+.front .name{margin-top:1mm;font:400 34pt/.9 var(--display);letter-spacing:-.01em;white-space:nowrap}
+.front .name b{color:var(--wax-lit);font-weight:400}
+.front .incog{display:flex;align-items:center;gap:2.2mm;margin-top:1.8mm;font:600 5.4pt/1 var(--sans);letter-spacing:.45em;text-transform:uppercase;color:var(--gold)}
+.front .incog span{margin-right:-.45em}
+.front .incog::before,.front .incog::after{content:"";width:6mm;height:.2mm;background:currentColor}
+.front .genre{margin-top:1.8mm;font:italic 400 6.6pt/1 var(--serif);color:var(--mist)}
 
-/* BACK */
-.back{background:var(--paper);color:var(--ink)}
-.back .frame{position:absolute;inset:3.5mm;border:.25mm solid rgba(14,22,34,.2)}
-.back .who{position:absolute;left:7mm;top:7mm;right:7mm}
-.back .who .n{font:700 17pt/1 var(--serif)}
-.back .who .r{margin-top:1.6mm;font:500 7pt/1.2 var(--sans);color:#4a515c}
-.back .rule{position:absolute;left:7mm;width:12mm;top:21mm;height:.5mm;background:var(--accent)}
-.back .offer{position:absolute;left:7mm;right:24mm;top:24mm;font:italic 600 8.4pt/1.3 var(--serif)}
-.back .tel{position:absolute;left:7mm;bottom:7mm;font:600 8.2pt/1 var(--sans);letter-spacing:.02em}
-.back .logo{position:absolute;right:7mm;bottom:7mm;font:700 8pt/1 var(--serif)}
-.back .logo b{color:var(--accent)}
-.back .stamp{position:absolute;right:6.5mm;top:20mm;width:15mm;height:15mm;opacity:.85;transform:rotate(12deg);mix-blend-mode:multiply}
+/* ОБОРОТ — билет */
+.back{background:var(--paper);color:var(--ink);
+  -webkit-mask:radial-gradient(circle 1.6mm at 15mm 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle 1.6mm at 15mm 100%,#0000 98%,#000) bottom/100% 51% no-repeat;
+  mask:radial-gradient(circle 1.6mm at 15mm 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle 1.6mm at 15mm 100%,#0000 98%,#000) bottom/100% 51% no-repeat}
+.back .stub{position:absolute;left:0;top:0;bottom:0;width:15mm;background:var(--wax);color:rgba(247,241,228,.8);border-left:.3mm dashed rgba(247,241,228,.6);
+  display:flex;align-items:center;justify-content:center;gap:2mm;writing-mode:vertical-rl;transform:rotate(180deg);
+  font:600 4.8pt/1 var(--sans);letter-spacing:.22em;text-transform:uppercase}
+.back .stub b{font:400 11pt/1 var(--display);letter-spacing:.02em;text-transform:none;color:#f7f1e4}
+.back .frame{position:absolute;left:17.5mm;right:2.5mm;top:2.5mm;bottom:2.5mm;border:.2mm solid rgba(21,27,40,.35)}
+.back .body{position:absolute;left:21mm;right:6mm;top:5.6mm;bottom:5.4mm}
+.back .n{font:400 24pt/.9 var(--display)}
+.back .r{margin-top:1.4mm;font:600 5.2pt/1.2 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--wax)}
+.back .rule{margin-top:2.6mm;width:10mm;height:.3mm;background:var(--gold)}
+.back .offer{margin-top:2.4mm;max-width:38mm;font:italic 400 8.2pt/1.25 var(--serif)}
+.back .tel{position:absolute;left:0;bottom:0;font:600 8.2pt/1 var(--sans);letter-spacing:.02em}
+.back .logo{position:absolute;right:0;top:0;font:400 9pt/1 var(--display)}
+.back .logo b{color:var(--wax);font-weight:400}
+.back .seal{position:absolute;right:-1mm;bottom:-1.6mm;width:15mm}
 
 @media screen and (min-width:900px){
   body{flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:40px;padding:64px 24px}
-  .col{display:flex;flex-direction:column;align-items:center;gap:14px}
   .side{zoom:1.5}
   .hint{flex-basis:100%;max-width:none}
 }
 @media print{
   body{background:none;padding:0;display:block}
-  .label,.hint{display:none}
+  .label,.hint,.back-link{display:none}
   .col{display:block}
   .side{box-shadow:none;zoom:1;page-break-after:always;break-after:page}
   .col:last-of-type .side{page-break-after:auto;break-after:auto}
@@ -64,45 +96,69 @@ body{background:#d9d6cf;font-family:var(--sans);color:var(--ink);padding:24px 16
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="folds" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="34" y2="0" spreadMethod="repeat">
+      <stop offset="0" stop-color="#3e0b14"/>
+      <stop offset=".35" stop-color="#64131f"/>
+      <stop offset=".55" stop-color="#86202f"/>
+      <stop offset=".78" stop-color="#64131f"/>
+      <stop offset="1" stop-color="#3e0b14"/>
+    </linearGradient>
+    <radialGradient id="waxg" cx="38%" cy="32%" r="72%">
+      <stop offset="0" stop-color="#bf3846"/>
+      <stop offset=".55" stop-color="#8f1d2c"/>
+      <stop offset="1" stop-color="#5a0e19"/>
+    </radialGradient>
+    <filter id="wobble" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.07" numOctaves="2" seed="4"/>
+      <feDisplacementMap in="SourceGraphic" scale="9"/>
+    </filter>
+  </defs>
+</svg>
+
 <div class="col">
   <div class="label">Лицо</div>
   <div class="side front">
-    <div class="frame"></div>
-    <div class="kick">Тайная проверка воронок продаж</div>
-    <div class="name">Ре<b>:</b>Визор</div>
-    <div class="sub">К вам едет ревизор. Инкогнито.</div>
-    <svg class="stamp" viewBox="0 0 200 200" aria-hidden="true">
-      <defs><path id="r1" d="M100,100 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0"/></defs>
-      <circle cx="100" cy="100" r="94" fill="none" stroke="#c4473a" stroke-width="5"/>
-      <circle cx="100" cy="100" r="84" fill="none" stroke="#c4473a" stroke-width="1.5"/>
-      <circle cx="100" cy="100" r="54" fill="none" stroke="#c4473a" stroke-width="1.5"/>
-      <text fill="#c4473a" font-family="Inter, sans-serif" font-weight="600" font-size="15" letter-spacing="3.2"><textPath href="#r1">РЕ:ВИЗОР · ПРОВЕРЕНО ИНКОГНИТО ·</textPath></text>
-      <text x="100" y="114" text-anchor="middle" fill="#c4473a" font-family="Playfair Display, serif" font-weight="700" font-size="44">Р:В</text>
-    </svg>
+    <div class="val"></div>
+    <div class="drape drape-l"><svg viewBox="0 0 100 1000" preserveAspectRatio="none"><path d="M0 0H100C96 250 54 470 30 555C48 700 66 880 74 1000H0Z" fill="url(#folds)"/></svg></div>
+    <div class="drape drape-r"><svg viewBox="0 0 100 1000" preserveAspectRatio="none"><path d="M0 0H100C96 250 54 470 30 555C48 700 66 880 74 1000H0Z" fill="url(#folds)"/></svg></div>
+    <div class="center">
+      <div class="pre">К вам едет</div>
+      <div class="name">Ре<b>:</b>Визор</div>
+      <div class="incog"><span>инкогнито</span></div>
+      <div class="genre">Тайная проверка воронок продаж</div>
+    </div>
+    <div class="fl"></div>
   </div>
 </div>
 
 <div class="col">
   <div class="label">Оборот</div>
   <div class="side back">
+    <div class="stub"><b>№ 001</b>вход свободный</div>
     <div class="frame"></div>
-    <div class="who">
+    <div class="body">
       <div class="n">Таур</div>
-      <div class="r">ревизор воронок продаж</div>
+      <div class="r">ревизор воронок · в полях</div>
+      <div class="rule"></div>
+      <div class="offer">Три находки в вашей воронке&nbsp;— бесплатно.</div>
+      <div class="tel">+7 (000) 000-00-00</div>
+      <div class="logo">Ре<b>:</b>Визор</div>
+      <svg class="seal" viewBox="0 0 120 140" aria-hidden="true">
+        <path d="M46 84 34 138 46 128 55 139 60 88Z" fill="#64131f"/>
+        <path d="M74 84 86 138 74 128 65 139 60 88Z" fill="#7a1826"/>
+        <circle cx="60" cy="58" r="45" fill="url(#waxg)" filter="url(#wobble)"/>
+        <circle cx="60" cy="58" r="31" fill="none" stroke="#5a0e19" stroke-width="2.5" opacity=".75"/>
+        <circle cx="60" cy="57" r="31" fill="none" stroke="#d9606b" stroke-width="1" opacity=".5"/>
+        <text x="60" y="69" text-anchor="middle" font-family="Oranienbaum, Georgia, serif" font-size="30" fill="#d9606b" opacity=".55">Р:В</text>
+        <text x="60.8" y="70" text-anchor="middle" font-family="Oranienbaum, Georgia, serif" font-size="30" fill="#4d0b15" opacity=".8">Р:В</text>
+      </svg>
     </div>
-    <div class="rule"></div>
-    <div class="offer">Три находки в вашей воронке — бесплатно.</div>
-    <div class="tel">+7 (000) 000-00-00</div>
-    <div class="logo">Ре<b>:</b>Визор</div>
-    <svg class="stamp" viewBox="0 0 200 200" aria-hidden="true">
-      <circle cx="100" cy="100" r="92" fill="none" stroke="#c4473a" stroke-width="7"/>
-      <circle cx="100" cy="100" r="78" fill="none" stroke="#c4473a" stroke-width="2.5"/>
-      <text x="100" y="118" text-anchor="middle" fill="#c4473a" font-family="Playfair Display, serif" font-weight="700" font-size="58">3</text>
-    </svg>
   </div>
 </div>
 
-<p class="hint">Печать: Ctrl+P → размер бумаги 90×50 мм, поля «нет», масштаб 100%, фон включён. Две страницы: лицо и оборот. Для типографии добавьте вылеты 2 мм.</p>
+<p class="hint">Печать: Ctrl+P → размер бумаги 90×50 мм, поля «нет», масштаб 100%, фон включён. Две страницы: лицо и оборот. Для типографии добавьте вылеты 2 мм. <a class="back-link" href="../index.html">← все три лица</a></p>
 
 </body>
 </html>

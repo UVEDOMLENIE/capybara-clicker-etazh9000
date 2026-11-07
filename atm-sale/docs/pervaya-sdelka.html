@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Первая сделка</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex">
+<meta name="description" content="Таур, что делать: первая сделка по шагам, всё с телефона и голосом.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&family=Dela+Gothic+One&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* Читалка к комиксу: та же бумага и тушь, но тише — один столбец шагов, крупный шрифт */
+:root{
+  --ink:#18140f; --ink-2:#3d352b;
+  --paper:#f3e8cc; --paper-hi:#fffaf0; --tone:#e2d0a2; --muted:#6b604c;
+  --np:#ff2d86; --taur:#ff7a1a; --dima:#2d5ae6; --night:#16224f;
+  --desk:#201c27; --desk-dot:rgba(255,45,134,.16); --dot:rgba(24,20,15,.06);
+  --f-display:"Dela Gothic One","Arial Black",Impact,sans-serif;
+  --f-body:"Balsamiq Sans","Comic Sans MS","Trebuchet MS",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --col:460px;
+  --gut:max(16px, env(safe-area-inset-left, 0px));
+  --gut-r:max(16px, env(safe-area-inset-right, 0px));
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 18px/1.5 var(--f-body)}
+@media (min-width:520px){body{background:var(--desk) radial-gradient(circle,var(--desk-dot) 1.4px,transparent 1.8px) 0 0/9px 9px fixed}}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--np);outline-offset:3px}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+.read{max-width:var(--col);min-height:100vh;margin:0 auto;padding-left:var(--gut);padding-right:var(--gut-r);padding-block:18px 40px;background:var(--paper) radial-gradient(var(--dot) 1px,transparent 1.4px) 0 0/5px 5px;display:flex;flex-direction:column;gap:22px}
+@media (min-width:520px){.read{box-shadow:0 0 0 3px var(--ink),0 30px 90px rgba(0,0,0,.55)}}
+.back{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;padding:9px 13px;border:2.5px solid var(--ink);background:var(--paper-hi);font:700 13px/1 var(--f-mono);letter-spacing:.04em;text-decoration:none;box-shadow:3px 3px 0 var(--ink)}
+.back:hover{background:var(--tone)}
+.d-head{position:relative;margin-left:calc(-1 * var(--gut));margin-right:calc(-1 * var(--gut-r));padding-block:18px 34px;padding-left:var(--gut);padding-right:var(--gut-r);background:var(--ink);color:var(--paper-hi);clip-path:polygon(0 0,100% 0,100% 84%,0 100%);display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}
+.d-kick{margin:0;font:700 12px/1.3 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--np)}
+.d-head h1{margin:8px 0 0;font:400 clamp(30px,9vw,40px)/1.05 var(--f-display);text-wrap:balance}
+.d-lead{margin:10px 0 0;font-size:17px;line-height:1.35;color:var(--tone)}
+.d-av{width:84px;height:84px;border:3px solid var(--paper-hi);border-radius:50%;overflow:hidden;background:radial-gradient(circle,var(--c) 1.5px,transparent 1.9px) 0 0/6px 6px,var(--paper-hi)}
+.d-av svg{display:block;width:100%;height:100%}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.step{display:grid;grid-template-columns:46px 1fr;gap:12px;border:3px solid var(--ink);background:var(--paper-hi);padding:14px 14px 16px 12px}
+.n{width:44px;height:44px;border-radius:50%;border:3px solid var(--ink);background:var(--wc,var(--np));display:grid;place-items:center;font:400 22px/1 var(--f-display);color:var(--paper-hi);-webkit-text-stroke:4px var(--ink);paint-order:stroke fill}
+.st{min-width:0;display:flex;flex-direction:column;gap:9px}
+.st h2{margin:0;font:700 21px/1.2 var(--f-body);text-wrap:balance}
+.st p{margin:0}
+.who{display:flex;align-items:center;gap:8px;font:700 11px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.avs{display:flex}
+.av{display:block;width:28px;height:28px;border:2px solid var(--ink);border-radius:50%;overflow:hidden;background:var(--c)}
+.av+.av{margin-left:-7px}
+.av svg{display:block;width:100%;height:100%}
+.w-t{--wc:var(--taur)} .w-d{--wc:var(--dima)} .w-n{--wc:var(--np)}
+.c-t{--c:var(--taur)} .c-d{--c:var(--dima)} .c-n{--c:var(--np)}
+.say{position:relative;margin:4px 0 0;background:var(--paper-hi);border:2.5px solid var(--ink);border-radius:18px;padding:10px 14px 12px;box-shadow:3px 3px 0 var(--taur);font-size:17px;line-height:1.4}
+.masks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.masks li{display:grid;grid-template-columns:52px 1fr;gap:10px;align-items:center;border:2.5px solid var(--ink);padding:6px 10px 6px 6px;background:var(--paper)}
+.masks svg{width:52px;height:52px;display:block}
+.masks b{display:block;font:400 18px/1.15 var(--f-display);overflow-wrap:anywhere}
+.masks span{display:block;font-size:16px;line-height:1.3}
+.links{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none;font-size:16px}
+.links li{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
+.links b{font-weight:700;min-width:0;overflow-wrap:anywhere}
+.links a{font:700 12px/1.6 var(--f-mono);letter-spacing:.04em;text-transform:uppercase;text-underline-offset:3px}
+.stop{border:3px solid var(--ink);background:var(--ink);color:var(--paper-hi);padding:16px 16px 18px;display:flex;flex-direction:column;gap:12px}
+.stop h2{margin:0;font:400 24px/1.1 var(--f-display);color:var(--np)}
+.stop ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.stop li{display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start}
+.x{position:relative;width:24px;height:24px;margin-top:2px;background:var(--np);border:2px solid var(--paper-hi)}
+.x::before,.x::after{content:"";position:absolute;left:50%;top:50%;width:14px;height:3px;background:var(--ink);transform:translate(-50%,-50%) rotate(45deg)}
+.x::after{transform:translate(-50%,-50%) rotate(-45deg)}
+.end{margin:0;padding:14px 16px;border:3px solid var(--ink);background:var(--np);font:700 20px/1.3 var(--f-body);box-shadow:4px 4px 0 var(--ink);transform:rotate(-1deg)}
+.more{display:flex;flex-direction:column;gap:10px}
+.more-t{margin:6px 0 0;font:700 12px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.doc{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:12px 14px;border:3px solid var(--ink);background:var(--paper-hi);text-decoration:none;box-shadow:4px 4px 0 var(--np)}
+.doc:hover{background:var(--tone)}
+.doc b{font-size:18px;line-height:1.2}
+.doc span{font:400 22px/1 var(--f-display)}
+.ln{stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.l2{stroke-width:2.2}
+.nf{fill:none}
+.s-k{fill:var(--ink)} .s-k2{fill:var(--ink-2)} .s-h{fill:var(--paper-hi)} .s-t{fill:var(--tone)}
+.s-o{fill:var(--taur)} .s-b{fill:var(--dima)} .s-pk{fill:var(--np)} .s-n{fill:var(--night)}
+</style>
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+ <defs>
+  <radialGradient id="gGlow"><stop offset="0" style="stop-color:var(--np);stop-opacity:.55"/><stop offset=".55" style="stop-color:var(--np);stop-opacity:.18"/><stop offset="1" style="stop-color:var(--np);stop-opacity:0"/></radialGradient>
+ </defs>
+ <symbol id="taur" viewBox="0 0 100 120">
+  <g class="ln">
+   <path class="s-k2" d="M18 122 C18 99 31 86 50 86 C69 86 82 99 82 122 Z"/>
+   <path class="s-h" d="M42 87 L50 101 L58 87 Z"/>
+   <path class="s-o" d="M48 90 H52 L54 105 L50 110 L46 105 Z"/>
+   <path class="s-k2" d="M66 106 C66 93 70 85 77 78 L87 83 C82 90 79 99 78 110 Z"/>
+   <circle class="s-h" cx="23.5" cy="58" r="5"/>
+   <circle class="s-h" cx="76.5" cy="58" r="5"/>
+   <circle class="s-h" cx="50" cy="55" r="27"/>
+   <path class="s-o" d="M23 50 C22 31 34 22 50 22 C66 22 78 31 77 50 C66 45 34 45 23 50 Z"/>
+   <path class="s-o" d="M30 48 C20 46 10 48 4 54 C12 56 24 55 33 51 Z"/>
+   <path class="nf l2" d="M50 23 C46 30 45 38 46 46"/>
+   <circle class="s-k" cx="50" cy="22.5" r="2.6"/>
+   <path class="nf" style="stroke-width:3.4" d="M34 57 Q39 52 45 55 M56 55 H65"/>
+   <ellipse class="s-k" cx="40" cy="62" rx="2.7" ry="3.5" stroke="none"/>
+   <ellipse class="s-k" cx="60" cy="62" rx="2.7" ry="3.5" stroke="none"/>
+   <path class="s-k l2" d="M39 71 C43 67 47.5 68 50 70 C52.5 68 57 67 61 71 C57 73.5 53 73 50 71.5 C47 73 43 73.5 39 71 Z"/>
+   <path class="s-k l2" d="M44 74 C46 81 54 81 56 74 Z"/>
+   <rect class="s-k" x="71" y="44" width="11" height="22" rx="2.5" transform="rotate(10 76.5 55)"/>
+   <circle class="s-h" cx="78" cy="70" r="7"/>
+  </g>
+  <ellipse class="s-o" cx="32" cy="68" rx="4" ry="2.4" opacity=".45"/>
+  <ellipse class="s-o" cx="68" cy="68" rx="4" ry="2.4" opacity=".45"/>
+  <path class="ln nf l2" d="M89 48 q4 7 0 14 M94 44 q6 11 0 22"/>
+ </symbol>
+ <symbol id="dima" viewBox="0 0 100 120">
+  <g class="ln">
+   <path class="s-b" d="M19 74 C13 41 29 19 50 19 C71 19 87 41 81 74 Z"/>
+   <path class="s-b" d="M15 122 C15 99 30 86 50 86 C70 86 85 99 85 122 Z"/>
+   <circle class="s-h" cx="50" cy="58" r="22"/>
+   <path class="nf" d="M27 68 C24 44 36 32 50 32 C64 32 76 44 73 68"/>
+   <path class="s-k" d="M29 54 C30 41 40 35.5 51 36 C61 36.5 69 42 71 52 C66 48 61 48.5 58 46 C55 50 48 50.5 44 47 C40 51 34 52 29 54 Z"/>
+   <circle class="s-h" cx="41" cy="61" r="6.5"/>
+   <circle class="s-h" cx="59" cy="61" r="6.5"/>
+   <path class="nf l2" d="M47.5 61 H52.5"/>
+   <circle class="s-k" cx="41.5" cy="62" r="1.9" stroke="none"/>
+   <circle class="s-k" cx="59.5" cy="62" r="1.9" stroke="none"/>
+   <path class="nf l2" d="M46 72 Q50 73.5 54 72"/>
+   <rect class="s-k" x="23" y="90" width="54" height="32" rx="3"/>
+  </g>
+  <circle cx="46" cy="106" r="4" class="s-pk"/><circle cx="54" cy="106" r="4" class="s-pk"/><circle cx="50" cy="101" r="4" class="s-pk"/>
+ </symbol>
+ <symbol id="np" viewBox="0 0 100 120">
+  <circle cx="50" cy="54" r="50" fill="url(#gGlow)"/>
+  <g class="ln">
+   <path class="nf" d="M50 24 V11"/>
+   <circle class="s-pk" cx="50" cy="8" r="4.5"/>
+   <circle class="s-pk" cx="33" cy="39" r="14"/>
+   <circle class="s-pk" cx="50" cy="31" r="15"/>
+   <circle class="s-pk" cx="67" cy="39" r="14"/>
+   <circle class="s-pk" cx="25" cy="56" r="13"/>
+   <circle class="s-pk" cx="75" cy="56" r="13"/>
+   <circle class="s-pk" cx="35" cy="68" r="12"/>
+   <circle class="s-pk" cx="65" cy="68" r="12"/>
+   <circle class="s-pk" cx="50" cy="56" r="21"/>
+   <path class="nf l2" d="M45 22 q4 5 0 10 M57 24 q-4 5 1 9 M27 33 q6 1 5 8 M73 33 q-6 1 -5 8"/>
+   <rect class="s-k" x="31" y="48" width="38" height="17" rx="8.5"/>
+  </g>
+  <ellipse cx="41.5" cy="56.5" rx="4" ry="5" class="s-h"/>
+  <ellipse cx="58.5" cy="56.5" rx="4" ry="5" class="s-h"/>
+  <path d="M44 71 Q50 76 56 71" class="ln nf l2"/>
+ </symbol>
+ <symbol id="fc-rev" viewBox="0 0 80 80">
+  <g class="ln">
+   <rect class="s-k" x="16" y="8" width="30" height="28" rx="2"/>
+   <rect class="s-pk" x="16" y="26" width="30" height="6"/>
+   <ellipse class="s-k" cx="31" cy="36" rx="24" ry="5"/>
+   <path class="nf" style="stroke-width:7" d="M60 62 L72 74"/>
+   <circle class="s-h" cx="48" cy="50" r="16"/>
+   <path class="s-h" d="M37 50 Q48 41 59 50 Q48 59 37 50 Z"/>
+   <circle class="s-k" cx="48" cy="50" r="4.5"/>
+  </g>
+ </symbol>
+ <symbol id="fc-two" viewBox="0 0 80 80">
+  <g class="ln">
+   <rect class="s-h" x="34" y="12" width="12" height="18"/>
+   <path class="s-k2" d="M6 82 C6 50 18 30 40 28 C62 30 74 50 74 82 Z"/>
+   <path class="s-t" d="M27 34 L40 58 L53 34 L56 82 H24 Z"/>
+   <path class="s-h" d="M30 29 L40 50 L50 29 Z"/>
+   <path class="s-k" d="M38 32 H42 L44 50 L40 55 L36 50 Z"/>
+   <path class="nf" d="M30 29 L22 50 L32 46 M50 29 L58 50 L48 46"/>
+   <circle class="s-k" cx="40" cy="64" r="1.8"/><circle class="s-k" cx="40" cy="73" r="1.8"/>
+   <path class="s-pk" d="M55 56 L64 53 L65 59 L56 61 Z"/>
+  </g>
+ </symbol>
+ <symbol id="fc-three" viewBox="0 0 80 80">
+  <g class="ln">
+   <path class="s-pk" d="M40 70 C14 54 8 40 10 28 C12 16 26 12 34 18 C37 20 39 23 40 26 C41 23 43 20 46 18 C54 12 68 16 70 28 C72 40 66 54 40 70 Z"/>
+   <path class="nf" d="M37 34 H43"/>
+   <path class="s-k" d="M17 32 H37 L35 41 C34 44 31 45 28 45 H24 C21 45 19 43 18 40 Z"/>
+   <path class="s-k" d="M43 32 H63 L62 40 C61 43 59 45 56 45 H52 C49 45 47 44 46 41 Z"/>
+   <path class="s-k l2" d="M32 51 Q40 59 48 51 Z"/>
+   <path class="s-o l2" d="M68 2 L70 9 L77 11 L70 13 L68 20 L66 13 L59 11 L66 9 Z"/>
+  </g>
+ </symbol>
+</svg>
+
+<main class="read">
+ <a class="back" href="../index.html#final">← назад к комиксу</a>
+
+ <header class="d-head">
+  <div>
+   <p class="d-kick">Первая сделка — подробно</p>
+   <h1>Таур, что делать</h1>
+   <p class="d-lead">Шесть шагов. Всё с телефона и голосом.</p>
+  </div>
+  <span class="d-av" style="--c:var(--taur)"><svg viewBox="6 14 88 88" aria-hidden="true"><use href="#taur" width="100" height="120"/></svg></span>
+ </header>
+
+ <ol class="steps">
+  <li class="step w-t">
+   <span class="n">0</span>
+   <div class="st">
+    <h2>Выбери маску</h2>
+    <ul class="masks">
+     <li><svg viewBox="0 0 80 80" aria-hidden="true"><use href="#fc-rev"/></svg><div><b>Ре:Визор</b><span>обычный бизнес: дилеры, сервисы, оптовики</span></div></li>
+     <li><svg viewBox="0 0 80 80" aria-hidden="true"><use href="#fc-two"/></svg><div><b>Тайный советник</b><span>заводы, крупные фирмы, госсектор</span></div></li>
+     <li><svg viewBox="0 0 80 80" aria-hidden="true"><use href="#fc-three"/></svg><div><b>Подкат</b><span>молодые и наглые: онлайн-школы, инфобиз, маркетплейсы</span></div></li>
+    </ul>
+    <p>Можно одну на всех. Можно под каждого клиента свою.</p>
+   </div>
+  </li>
+
+  <li class="step w-t">
+   <span class="n">1</span>
+   <div class="st">
+    <h2>Найди одну фирму</h2>
+    <p>Чтобы там были продажники, заявки и деньги. И чтобы ты мог дойти до хозяина.</p>
+    <p>Первая — из твоих знакомых. Одна за раз.</p>
+   </div>
+  </li>
+
+  <li class="step w-t">
+   <span class="n">2</span>
+   <div class="st">
+    <h2>Пройди их воронку как клиент</h2>
+    <p>Позвони. Напиши в WhatsApp. Оставь заявку на сайте. Переписку скриншоть.</p>
+    <p>После каждого звонка — голосовуха: что сказали, где тупили, что бесило.</p>
+    <p>Всё в одну ветку Диме. Ничего не оформляй.</p>
+   </div>
+  </li>
+
+  <li class="step w-d">
+   <span class="n">3</span>
+   <div class="st">
+    <span class="who"><span class="avs"><span class="av c-d"><svg viewBox="8 14 84 84" aria-hidden="true"><use href="#dima" width="100" height="120"/></svg></span><span class="av c-n"><svg viewBox="4 0 92 92" aria-hidden="true"><use href="#np" width="100" height="120"/></svg></span></span>пишут, ты правишь</span>
+    <h2>Получи три находки</h2>
+    <p>Дима пришлёт на телефон короткий текст. Послушай, поправь голосом.</p>
+    <p>Последнее слово за тобой.</p>
+   </div>
+  </li>
+
+  <li class="step w-t">
+   <span class="n">4</span>
+   <div class="st">
+    <h2>Иди к хозяину</h2>
+    <p>Своими словами, примерно так:</p>
+    <p class="say">«Я прошёл вашу воронку как обычный клиент. Вот три места, где вы теряете людей, — бесплатно. Нашёл больше. Хотите всё с готовыми фразами для менеджеров — договоримся».</p>
+    <p>Покажи визитку и сайт своей маски:</p>
+    <ul class="links">
+     <li><b>Ре:Визор</b><a href="../revizor/index.html">сайт</a><a href="../revizor/card.html">визитка</a></li>
+     <li><b>Тайный советник</b><a href="../sovetnik/index.html">сайт</a><a href="../sovetnik/card.html">визитка</a></li>
+     <li><b>Подкат</b><a href="../podkat/index.html">сайт</a><a href="../podkat/card.html">визитка</a></li>
+    </ul>
+   </div>
+  </li>
+
+  <li class="step w-t">
+   <span class="n">5</span>
+   <div class="st">
+    <h2>Договорился — напиши Диме</h2>
+    <p>Кто. Что берёт. Сколько и когда платит.</p>
+   </div>
+  </li>
+ </ol>
+
+ <section class="stop" aria-labelledby="stopT">
+  <h2 id="stopT">Чего не делать</h2>
+  <ul>
+   <li><span class="x" aria-hidden="true"></span><span>Не обещать сроки, пока материал не у Димы.</span></li>
+   <li><span class="x" aria-hidden="true"></span><span>Не тратить деньги, пока они не пришли.</span></li>
+   <li><span class="x" aria-hidden="true"></span><span>Ночью Диме не звонить. Клиентам — сколько хочешь.</span></li>
+   <li><span class="x" aria-hidden="true"></span><span>Не брать пять фирм сразу.</span></li>
+  </ul>
+ </section>
+
+ <p class="end">Всё с телефона и голосом. За компьютер садиться не надо.</p>
+
+ <nav class="more" aria-label="Другие документы">
+  <p class="more-t">Ещё почитать</p>
+  <a class="doc" href="kak-rabotaem.html"><b>Как мы делаем аудит</b><span aria-hidden="true">→</span></a>
+  <a class="doc" href="pravila.html"><b>Правила на берегу</b><span aria-hidden="true">→</span></a>
+ </nav>
+
+ <a class="back" href="../index.html#final">← назад к комиксу</a>
+</main>
+</body>
+</html>
