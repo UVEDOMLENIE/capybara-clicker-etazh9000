@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Мой зоопарк</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&family=Dela+Gothic+One&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f3e8cc;
+  --ink:#18140f;
+  --pink:#ff2d86;
+  --orange:#ff7a1a;
+  --blue:#2d5ae6;
+  --green:#3f7d2a;
+  --navy:#16224f;
+  --ochre:#e2d0a2;
+  --card:#fff9ea;
+  --grey:#6b655a;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  padding:16px;
+  background-color:var(--paper);
+  background-image:radial-gradient(rgba(24,20,15,.09) 1px, transparent 1.5px);
+  background-size:14px 14px;
+  color:var(--ink);
+  font-family:"Balsamiq Sans", system-ui, sans-serif;
+  font-size:17px;
+  line-height:1.35;
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+
+/* Шапка */
+.head{
+  background:var(--ink);
+  color:var(--paper);
+  border:3px solid var(--ink);
+  box-shadow:6px 6px 0 var(--pink);
+  padding:14px 16px;
+  margin:0 0 18px;
+  max-width:100%;
+}
+h1{
+  margin:0;
+  font-family:"Dela Gothic One", sans-serif;
+  font-weight:400;
+  font-size:30px;
+  line-height:1.1;
+}
+.sub{
+  margin:8px 0 0;
+  font-family:"JetBrains Mono", monospace;
+  font-size:13px;
+}
+
+/* Легенда */
+.legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  list-style:none;
+  padding:0;
+  margin:0 0 6px;
+}
+.legend li{margin:0}
+
+/* Бейджи статусов */
+.badge{
+  display:inline-block;
+  font-family:"JetBrains Mono", monospace;
+  font-size:12px;
+  font-weight:700;
+  line-height:1.5;
+  padding:2px 8px;
+  border:2px solid var(--ink);
+  border-radius:4px;
+  white-space:nowrap;
+  flex:none;
+}
+.b-live{background:var(--orange); color:var(--ink)}
+.b-rare{background:#efe4c8; color:#6f6553; border-color:#9b917d; border-style:dashed}
+.b-sleep{background:var(--grey); color:var(--paper); border-color:var(--grey)}
+
+/* Центральный узел */
+.tree{max-width:100%}
+.nerv{
+  position:relative;
+  background:var(--pink);
+  color:var(--ink);
+  border:3px solid var(--ink);
+  box-shadow:6px 6px 0 var(--ink);
+  padding:14px 16px;
+  margin:0 0 18px;
+  max-width:100%;
+}
+.nerv::after{
+  content:"";
+  position:absolute;
+  left:12px;
+  top:100%;
+  width:3px;
+  height:18px;
+  background:var(--ink);
+}
+.nerv h2{
+  margin:0 0 6px;
+  font-family:"Dela Gothic One", sans-serif;
+  font-weight:400;
+  font-size:34px;
+  line-height:1;
+}
+.nerv p{margin:0 0 10px}
+
+/* Ствол и ветки */
+.stem{
+  margin:0 0 0 12px;
+  border-left:3px solid var(--ink);
+  padding-bottom:4px;
+}
+.branch{
+  position:relative;
+  margin:18px 0 18px 18px;
+  min-width:0;
+}
+.branch::before{
+  content:"";
+  position:absolute;
+  left:-18px;
+  top:25px;
+  width:18px;
+  height:3px;
+  background:var(--ink);
+}
+.branch > summary{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  border:3px solid var(--ink);
+  box-shadow:4px 4px 0 var(--ink);
+  padding:10px 12px;
+  font-family:"Dela Gothic One", sans-serif;
+  font-size:19px;
+  line-height:1.2;
+  cursor:pointer;
+  list-style:none;
+  user-select:none;
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+.branch > summary::-webkit-details-marker{display:none}
+.branch > summary::after{
+  content:"+";
+  flex:none;
+  font-family:"JetBrains Mono", monospace;
+  font-size:22px;
+  font-weight:700;
+}
+.branch[open] > summary::after{content:"\2013"}
+
+.c-pink > summary{background:var(--pink); color:var(--ink)}
+.c-orange > summary{background:var(--orange); color:var(--ink)}
+.c-blue > summary{background:var(--blue); color:#fff}
+.c-green > summary{background:var(--green); color:#fff}
+.c-navy > summary{background:var(--navy); color:var(--ochre)}
+.c-ochre > summary{background:var(--ochre); color:var(--ink)}
+
+/* Щупальца внутри ветки */
+.kids{
+  margin:0 0 0 14px;
+  border-left:3px solid var(--ink);
+  padding:14px 0 2px 14px;
+  min-width:0;
+}
+.kids-sub{
+  margin-top:-14px;
+  padding-top:14px;
+  padding-bottom:0;
+}
+.note{
+  margin:0 0 12px;
+  font-size:15px;
+  font-style:italic;
+}
+
+.card{
+  position:relative;
+  background:var(--card);
+  border:3px solid var(--ink);
+  box-shadow:4px 4px 0 var(--ink);
+  padding:10px 12px;
+  margin:0 0 14px;
+  min-width:0;
+}
+.card::before{
+  content:"";
+  position:absolute;
+  left:-14px;
+  top:22px;
+  width:14px;
+  height:3px;
+  background:var(--ink);
+}
+.card.s-sleep{opacity:.7}
+.row{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px 8px;
+}
+.card h3{
+  margin:0;
+  font-size:18px;
+  font-weight:700;
+  min-width:0;
+}
+.card p{
+  margin:6px 0 0;
+  font-size:16px;
+}
+.tag{
+  display:inline-block;
+  font-family:"JetBrains Mono", monospace;
+  font-size:11px;
+  font-weight:700;
+  border:2px solid var(--ink);
+  padding:0 5px;
+  margin-left:4px;
+  background:var(--ochre);
+  color:var(--ink);
+  vertical-align:middle;
+}
+
+/* Подвал */
+.foot{
+  margin:28px 0 0;
+  background:var(--ochre);
+  border:3px solid var(--ink);
+  box-shadow:4px 4px 0 var(--ink);
+  padding:14px 16px;
+  max-width:100%;
+}
+.foot p{margin:0}
+.foot p + p{margin-top:6px}
+</style>
+</head>
+<body>
+
+<header class="head">
+  <h1>Мой зоопарк</h1>
+  <p class="sub">карта щупалец, ноябрь 2026</p>
+</header>
+
+<ul class="legend">
+  <li><span class="badge b-live">живое</span></li>
+  <li><span class="badge b-rare">редко</span></li>
+  <li><span class="badge b-sleep">спит</span></li>
+</ul>
+
+<main class="tree">
+
+  <section class="nerv">
+    <h2>NERV</h2>
+    <p>центральный нерв: принимает весь поток, раскладывает по станциям, раздаёт задачи щупальцам</p>
+    <span class="badge b-live">живое</span>
+  </section>
+
+  <div class="stem">
+
+    <!-- Ветка 1 -->
+    <details class="branch c-pink" open>
+      <summary>Порядок и память</summary>
+      <div class="kids">
+        <article class="card">
+          <div class="row"><h3>Таксидермист</h3><span class="badge b-live">живое</span></div>
+          <p>следит за порядком: куда что класть, законы системы, проверяет решения NERV</p>
+        </article>
+        <article class="card">
+          <div class="row"><h3>Нейрофорензика</h3><span class="badge b-live">живое</span></div>
+          <p>архив всех разговоров со всеми нейросетями, поиск по словам и по смыслу</p>
+        </article>
+        <article class="card">
+          <div class="row"><h3>Сисадмин</h3><span class="badge b-live">живое</span></div>
+          <p>железо, диски, установки, сторож сети</p>
+        </article>
+        <div class="kids kids-sub">
+          <article class="card">
+            <div class="row"><h3>Чинильщик винды</h3><span class="badge b-rare">редко</span></div>
+            <p>разбирает старую Windows</p>
+          </article>
+        </div>
+        <article class="card">
+          <div class="row"><h3>Казино задач</h3><span class="badge b-rare">редко</span></div>
+          <p>барабан, который крутит задачи со склада</p>
+        </article>
+        <article class="card">
+          <div class="row"><h3>Библиотека</h3><span class="badge b-rare">редко</span></div>
+          <p>чужие материалы, полка «посмотреть»</p>
+        </article>
+        <article class="card">
+          <div class="row"><h3>research</h3><span class="badge b-rare">редко</span></div>
+          <p>глубокие исследования на заказ</p>
+        </article>
+        <article class="card">
+          <div class="row"><h3>reference</h3><span class="badge b-rare">редко</span></div>
+          <p>справочник по инструментам</p>
+        </article>
+        <article class="card">
+          <div class="row"><h3>Аудитор, шлюпка, промо</h3><span class="badge b-rare">редко</span></div>
+          <p>рождены на фестивале токенов: аудит системы, запасной выход без Claude, витрины</p>
+        </article>
+        <article class="card s-sleep">
+          <div class="row"><h3>Pi-dev</h3><span class="badge b-sleep">спит</span></div>
+          <p>исследование другого агента</p>
+        </article>
+      </div>
+    </details>
+
+    <!-- Ветка 2 -->
+    <details class="branch c-orange" open>
+      <summary>Голос и интерфейсы</summary>
+      <div class="kids">
+        <article class="card">
+          <div class="row"><h3>NeuroTalker</h3><span class="badge b-live">живое</span></div>
+          <p>голосовой разговор с NERV: распознавание, озвучка, оверлей</p>
+        </article>
+        <article class="card">
+          <div class="row"><h3>Нейродиктофон</h3><span class="badge b-live">живое</span></div>
+          <p>расшифровка диктофонных записей</p>
+        </article>
+        <article class="card">
+          <div class="row"><h3>Карманный NERV</h3><span class="badge b-live">живое</span></div>
+          <p>Android-приложение: посты и голос с телефона прямо в NERV</p>
+        </article>
+        <article class="card">
+          <div class="row"><h3>OneNote</h3><span class="badge b-rare">редко</span></div>
+          <p>заметки</p>
+        </article>
+        <article class="card">
+          <div class="row"><h3>To Do</h3><span class="badge b-rare">редко</span></div>
+          <p>задачи на телефоне</p>
+        </article>
+      </div>
+    </details>
+
+    <!-- Ветка 3 -->
+    <details class="branch c-blue" open>
+      <summary>Проекты и продукты</summary>
+      <div class="kids">
+        <article class="card">
+          <div class="row"><h3>LimitDoctor</h3><span class="badge b-rare">редко</span></div>
+          <p>аналитика расхода токенов Claude</p>
+        </article>
+        <article class="card">
+          <div class="row"><h3>Slot Watcher</h3><span class="badge b-rare">редко</span></div>
+          <p>расширение Chrome для автозаписи на проверки в Школе 21</p>
+        </article>
+        <article class="card">
+          <div class="row"><h3>Homebox</h3><span class="badge b-rare">редко</span></div>
+          <p>домашний склад вещей</p>
+        </article>
+        <div class="kids kids-sub">
+          <article class="card">
+            <div class="row"><h3>Boxscan</h3><span class="badge b-rare">редко</span></div>
+            <p>Android-приложение к нему</p>
+          </article>
+        </div>
+        <article class="card s-sleep">
+          <div class="row"><h3>yt-300</h3><span class="badge b-sleep">спит</span></div>
+          <p>пересказ YouTube-видео</p>
+        </article>
+        <article class="card s-sleep">
+          <div class="row"><h3>NERV the Game</h3><span class="badge b-sleep">спит</span></div>
+          <p>текстовая игра про систему</p>
+        </article>
+        <article class="card">
+          <div class="row"><h3>Нянька поездок<span class="tag">новое</span></h3><span class="badge b-live">живое</span></div>
+          <p>чек-листы выезда, поезда, афиша событий</p>
+        </article>
+        <article class="card s-sleep">
+          <div class="row"><h3>Digital DNA</h3><span class="badge b-sleep">спит</span></div>
+          <p>цифровая ДНК личности</p>
+        </article>
+      </div>
+    </details>
+
+    <!-- Ветка 4 -->
+    <details class="branch c-green" open>
+      <summary>Учёба и работа</summary>
+      <div class="kids">
+        <article class="card">
+          <div class="row"><h3>Школа 21 (куратор)</h3><span class="badge b-rare">редко</span></div>
+          <p>карта учёбы</p>
+        </article>
+        <article class="card">
+          <div class="row"><h3>AQA</h3><span class="badge b-rare">редко</span></div>
+          <p>ветка автотестирования</p>
+        </article>
+        <article class="card s-sleep">
+          <div class="row"><h3>Java-буткемп</h3><span class="badge b-sleep">спит</span></div>
+        </article>
+        <article class="card">
+          <div class="row"><h3>Трудоустройство</h3><span class="badge b-rare">редко</span></div>
+          <p>отклики и стажировки</p>
+        </article>
+        <article class="card s-sleep">
+          <div class="row"><h3>Хакатон</h3><span class="badge b-sleep">спит</span></div>
+        </article>
+      </div>
+    </details>
+
+    <!-- Ветка 5 -->
+    <details class="branch c-navy" open>
+      <summary>Здоровье</summary>
+      <div class="kids">
+        <article class="card">
+          <div class="row"><h3>Тело</h3><span class="badge b-live">живое</span></div>
+          <p>сон, еда, самочувствие</p>
+        </article>
+        <article class="card">
+          <div class="row"><h3>Голова</h3><span class="badge b-live">живое</span></div>
+          <p>состояния и как с ними говорить</p>
+        </article>
+      </div>
+    </details>
+
+    <!-- Ветка 6 -->
+    <details class="branch c-ochre" open>
+      <summary>Люди</summary>
+      <div class="kids">
+        <article class="card">
+          <div class="row"><h3>около 10 щупалец</h3><span class="badge b-live">живое</span></div>
+          <p>по одному на близкого или знакомого: разборы, помощь в делах, переписка (в том числе чат про тебя, Паш)</p>
+        </article>
+        <div class="kids kids-sub">
+          <p class="note">вокруг людей выросли два проекта:</p>
+          <article class="card">
+            <div class="row"><h3>Аудит воронок продаж</h3><span class="badge b-live">живое</span></div>
+            <p>стартап с наставником</p>
+          </article>
+          <article class="card">
+            <div class="row"><h3>ИИ-нормоконтроль чертежей</h3><span class="badge b-rare">редко</span></div>
+            <p>для знакомого</p>
+          </article>
+        </div>
+      </div>
+    </details>
+
+  </div>
+</main>
+
+<footer class="foot">
+  <p>Всего около 40 щупалец.</p>
+  <p>Каждый день-два живы примерно 10–12.</p>
+</footer>
+
+</body>
+</html>
