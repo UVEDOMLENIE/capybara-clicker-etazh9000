@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NERV-BB · срез работы · 10.11.2026 01:05</title>
+<style>
+:root{
+  --bg:#0b0d14;--card:#151926;--card2:#1b2031;--fg:#e8ebf5;--mut:#8c93a8;--sub:#5d647a;--line:#2a3045;
+  --ok:#22c55e;--run:#f59e0b;--q:#64748b;--brand:#8b5cf6;--c1:#3b82f6;--c2:#6366f1;--c3:#10b981;--c4:#f59e0b;--c5:#ec4899;--bad:#ef4444;
+  --r:14px;--font:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','Cascadia Code',Consolas,monospace;
+}
+html.emb{--bg:transparent;--card:var(--card,#151926);--fg:var(--foreground,#e8ebf5);--mut:var(--muted-foreground,#8c93a8);--line:var(--border,#2a3045);--brand:var(--brand,#8b5cf6)}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font:14px/1.4 var(--font)}
+html:not(.emb) body{background:
+  radial-gradient(1200px 600px at 10% -10%,rgba(139,92,246,.18),transparent 60%),
+  radial-gradient(900px 500px at 110% 10%,rgba(59,130,246,.14),transparent 60%),
+  linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px) 0 0/100% 32px,
+  linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px) 0 0/32px 100%,
+  var(--bg);min-height:100vh}
+.w{max-width:1180px;margin:0 auto;padding:36px 28px 60px;display:flex;flex-direction:column;gap:30px}
+html.emb .w{padding:0;max-width:none;gap:24px}
+h1{margin:0;font-size:30px;letter-spacing:-.02em;background:linear-gradient(90deg,#fff,#c4b5fd 50%,#93c5fd);-webkit-background-clip:text;background-clip:text;color:transparent}
+html.emb h1{font-size:20px}
+.sub{color:var(--mut);margin-top:6px;font-size:14px}
+.hint{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-size:12.5px;color:var(--fg);padding:6px 12px;border-radius:99px;border:1px solid rgba(139,92,246,.5);background:rgba(139,92,246,.12)}
+.hint i{width:8px;height:8px;border-radius:50%;background:var(--brand);box-shadow:0 0 10px var(--brand);animation:blink 1.4s infinite}
+.cap{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.cap b{color:var(--fg);letter-spacing:0;text-transform:none;font-size:13px}
+[data-tip]{cursor:help}
+/* stages */
+.track{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding-top:12px;position:relative}
+.st{position:relative;padding:16px 8px 12px;border-radius:var(--r);text-align:center;border:1px solid var(--line);background:var(--card);transition:transform .15s}
+.st:hover{transform:translateY(-3px)}
+.st .i{font-size:28px;line-height:1}
+.st .t{font-size:12.5px;margin-top:8px;line-height:1.2}
+.st.ok{border-color:rgba(34,197,94,.55);background:linear-gradient(180deg,rgba(34,197,94,.14),var(--card))}
+.st.now{border:2px solid var(--run);background:linear-gradient(180deg,rgba(245,158,11,.2),var(--card));animation:glow 1.6s ease-in-out infinite}
+.st.fut{opacity:.5;border-style:dashed}
+.st .b{position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:10.5px;padding:2px 8px;border-radius:99px;white-space:nowrap;font-weight:700}
+.st.ok .b{background:var(--ok);color:#04130a}.st.now .b{background:var(--run);color:#1a1000}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.5)}50%{box-shadow:0 0 26px 3px rgba(245,158,11,.5)}}
+.bars{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.bar .l{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
+.bar .l b{font-size:16px}
+.tube{height:14px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden;border:1px solid var(--line)}
+.fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--ok),var(--brand));position:relative;overflow:hidden}
+.fill:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);animation:sh 2.2s infinite}
+@keyframes sh{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+/* hub */
+.hub{display:flex;align-items:center;gap:18px;padding:18px 20px;border-radius:var(--r);background:linear-gradient(135deg,rgba(139,92,246,.28),var(--card) 70%);border:1px solid rgba(139,92,246,.5)}
+.brain{width:72px;height:72px;flex:none;border-radius:50%;display:grid;place-items:center;font-size:36px;background:radial-gradient(circle,rgba(139,92,246,.55),transparent 70%);animation:breathe 3s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.08)}}
+.hub .n{font-size:19px;font-weight:800}.hub .d{font-size:13px;color:var(--mut);margin-top:3px}
+.score{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.pill{font-size:12.5px;font-weight:700;padding:6px 12px;border-radius:99px;white-space:nowrap;border:1px solid}
+.pill.ok{background:rgba(34,197,94,.15);color:var(--ok);border-color:var(--ok)}
+.pill.run{background:rgba(245,158,11,.15);color:var(--run);border-color:var(--run)}
+.pill.q{background:rgba(100,116,139,.15);color:#a8b3c7;border-color:var(--q)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:12px}
+.a{display:flex;gap:10px;align-items:center;padding:11px 26px 11px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);position:relative;overflow:hidden;transition:transform .15s,border-color .15s}
+.a:hover{transform:translateY(-2px);border-color:var(--brand)}
+.a .e{font-size:22px}
+.a .x{font-size:13px;line-height:1.2;font-weight:650}
+.a .m{font-size:10.5px;color:var(--mut);margin-top:3px;font-family:var(--mono)}
+.a.ok{border-left:4px solid var(--ok)}
+.a.ok:after{content:"✓";position:absolute;right:10px;top:8px;color:var(--ok);font-weight:900}
+.a.run{border-left:4px solid var(--run)}
+.a.run:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(245,158,11,.16),transparent);animation:sh 1.8s linear infinite;pointer-events:none}
+.a.run:after{content:"";position:absolute;right:11px;top:11px;width:8px;height:8px;border-radius:50%;background:var(--run);box-shadow:0 0 8px var(--run);animation:blink 1s infinite}
+.a.q{border:1px dashed var(--q);opacity:.75}
+.a.q:after{content:"⏸";position:absolute;right:9px;top:7px;font-size:11px;color:#a8b3c7}
+@keyframes blink{50%{opacity:.15}}
+/* findings */
+.fnd{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.fc{padding:16px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);position:relative;overflow:hidden}
+.fc:before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--acc)}
+.fc .i{font-size:26px}
+.fc .h{font-weight:800;font-size:14px;margin-top:8px;line-height:1.25}
+.fc .n{font-size:26px;font-weight:900;margin-top:8px;color:var(--acc);font-variant-numeric:tabular-nums}
+.fc .s{font-size:12px;color:var(--mut);margin-top:2px}
+/* funnel */
+.fun{display:flex;flex-direction:column;align-items:center;gap:5px}
+.fs{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 16px;border-radius:10px;font-size:13.5px;color:#fff;font-weight:650;text-shadow:0 1px 2px rgba(0,0,0,.4);white-space:nowrap;transition:filter .15s}
+.fs:hover{filter:brightness(1.2)}
+.fs span{font-weight:400;opacity:.9;font-size:11.5px}
+/* gauges */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.box{padding:16px 18px;border-radius:var(--r);border:1px solid var(--line);background:var(--card)}
+.big{font-size:30px;font-weight:900;line-height:1}
+.big small{font-size:14px;font-weight:400;color:var(--mut)}
+.sm{font-size:12.5px;color:var(--mut);margin-top:6px}
+.stack{display:flex;height:16px;border-radius:99px;overflow:hidden;margin-top:12px}
+.lg{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;margin-top:8px;color:var(--mut)}
+.lg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+/* finish */
+.fin{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.doc{padding:14px 10px;border-radius:var(--r);border:1px dashed var(--line);text-align:center;font-size:12.5px;line-height:1.25;background:rgba(255,255,255,.02)}
+.doc.go{border:1px solid var(--run);background:rgba(245,158,11,.08)}
+.doc .i{font-size:26px;display:block;margin-bottom:6px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+.you{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:var(--r)}
+.you.ok{border:2px solid var(--ok);background:rgba(34,197,94,.08)}
+.you.ask{border:2px solid var(--c2);background:rgba(99,102,241,.1)}
+.you .i{font-size:32px}.you b{font-size:15px}
+.foot{font-size:11.5px;color:var(--sub);text-align:center}
+/* tooltip */
+#tip{position:fixed;z-index:99;max-width:360px;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s;
+  background:rgba(17,20,32,.97);border:1px solid rgba(139,92,246,.6);border-radius:12px;padding:12px 14px;box-shadow:0 12px 40px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.03) inset;color:#e8ebf5;font:13px/1.4 var(--font)}
+#tip.on{opacity:1;transform:none}
+#tip .tt{font-weight:800;font-size:13.5px;margin-bottom:6px;color:#fff}
+#tip ul{margin:0;padding-left:16px}
+#tip li{margin:3px 0}
+#tip .vv{margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.1);color:#c4b5fd;font-size:12.5px}
+@media(max-width:860px){.track{grid-template-columns:repeat(4,1fr);row-gap:18px}.fnd,.fin{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.w{padding:22px 14px 40px}.track{grid-template-columns:repeat(3,1fr)}.bars,.g2,.duo{grid-template-columns:1fr}.score{margin-left:0}.hub{flex-wrap:wrap}.fs{width:100%!important}h1{font-size:23px}}
+</style></head><body><div class="w">
+
+<div>
+  <h1>NERV-BB · срез работы</h1>
+  <div class="sub">Fable изучает старую NERV, чтобы потом построить новую внутри BB. Снимок на 10.11.2026, 01:05.</div>
+  <div class="hint"><i></i>Наведи на любую плашку, там подробности</div>
+</div>
+
+<div>
+  <div class="cap">Где мы на пути</div>
+  <div class="track">
+    <div class="st ok" data-tip="s1"><div class="b">готово</div><div class="i">🔭</div><div class="t">Разведка</div></div>
+    <div class="st ok" data-tip="s2"><div class="b">готово</div><div class="i">📜</div><div class="t">Хроника всех логов</div></div>
+    <div class="st ok" data-tip="s3"><div class="b">готово</div><div class="i">🤿</div><div class="t">Ветки и проверки</div></div>
+    <div class="st now" data-tip="s4"><div class="b">СЕЙЧАС</div><div class="i">🕳️</div><div class="t">Волна 3: добор дыр</div></div>
+    <div class="st fut" data-tip="s5"><div class="i">🧩</div><div class="t">Итоговый разбор</div></div>
+    <div class="st fut" data-tip="s6"><div class="i">📐</div><div class="t">Проект новой NERV</div></div>
+    <div class="st fut" data-tip="s7"><div class="i">🛠️</div><div class="t">Стройка</div></div>
+  </div>
+  <div class="bars">
+    <div class="bar" data-tip="p1"><div class="l">Изучение старой NERV <b>≈ 2/3</b></div><div class="tube"><div class="fill" style="width:66%"></div></div></div>
+    <div class="bar" data-tip="p2"><div class="l">Весь путь до новой <b>≈ 1/4</b></div><div class="tube"><div class="fill" style="width:25%"></div></div></div>
+  </div>
+</div>
+
+<div>
+  <div class="cap">Кто сейчас пашет</div>
+  <div class="hub" data-tip="fable">
+    <div class="brain">🧠</div>
+    <div><div class="n">Fable 5.2</div><div class="d">Думает, раздаёт задания, ведёт журнал.<br>Сам логи не читает.</div></div>
+    <div class="score"><span class="pill run">● пашут 19</span><span class="pill q">⏸ в очереди 9</span></div>
+  </div>
+  <div class="grid">
+    <div class="a run" data-tip="deepS"><div class="e">🔬</div><div><div class="x">Глубокие хронисты ×10</div><div class="m">Sonnet · 27.09–12.10</div></div></div>
+    <div class="a run" data-tip="deepH"><div class="e">🔬</div><div><div class="x">Глубокие хронисты ×7</div><div class="m">Haiku · 15.10–09.11</div></div></div>
+    <div class="a run" data-tip="meter"><div class="e">📏</div><div><div class="x">Измеритель расхода</div><div class="m">Sonnet · скрипт</div></div></div>
+    <div class="a run" data-tip="s1doc"><div class="e">🏗️</div><div><div class="x">Как NERV устроена сегодня</div><div class="m">Opus</div></div></div>
+    <div class="a q" data-tip="errata"><div class="e">🔍</div><div><div class="x">Перепроверка 34 отчётов ×7</div><div class="m">Sonnet · ждёт места</div></div></div>
+    <div class="a q" data-tip="other"><div class="e">🧪</div><div><div class="x">Другие программы</div><div class="m">ждёт места</div></div></div>
+    <div class="a q" data-tip="small"><div class="e">🧷</div><div><div class="x">Мелкие дыры</div><div class="m">ждёт места</div></div></div>
+  </div>
+</div>
+
+<div>
+  <div class="cap">Волна 2 вернулась <b>16 из 16 ✓</b></div>
+  <div class="grid">
+    <div class="a ok" data-tip="V1"><div class="e">⚖️</div><div><div class="x">Как рождаются законы</div><div class="m">Sonnet</div></div></div>
+    <div class="a ok" data-tip="V2"><div class="e">🎯</div><div><div class="x">Центр и склад задач</div><div class="m">Sonnet</div></div></div>
+    <div class="a ok" data-tip="V3"><div class="e">🔧</div><div><div class="x">Железо и сторожа</div><div class="m">Sonnet</div></div></div>
+    <div class="a ok" data-tip="V4"><div class="e">📱</div><div><div class="x">Вход с телефона</div><div class="m">Haiku</div></div></div>
+    <div class="a ok" data-tip="V5"><div class="e">🎙️</div><div><div class="x">Голос</div><div class="m">Haiku</div></div></div>
+    <div class="a ok" data-tip="V6"><div class="e">🗄️</div><div><div class="x">Память и поиск</div><div class="m">Sonnet</div></div></div>
+    <div class="a ok" data-tip="V7"><div class="e">💸</div><div><div class="x">Куда уходят токены</div><div class="m">Sonnet</div></div></div>
+    <div class="a ok" data-tip="V8"><div class="e">🧭</div><div><div class="x">Исследования и пробы</div><div class="m">Haiku</div></div></div>
+    <div class="a ok" data-tip="pokrytie"><div class="e">🕳️</div><div><div class="x">Что не попало в хронику</div><div class="m">Sonnet</div></div></div>
+    <div class="a ok" data-tip="proverkaA"><div class="e">🔍</div><div><div class="x">Проверка: повороты</div><div class="m">Sonnet</div></div></div>
+    <div class="a ok" data-tip="proverkaB"><div class="e">🔍</div><div><div class="x">Проверка: лента</div><div class="m">Sonnet</div></div></div>
+    <div class="a ok" data-tip="E10"><div class="e">📅</div><div><div class="x">Свежие дни 08–10.11</div><div class="m">Haiku ×4 + Sonnet</div></div></div>
+  </div>
+</div>
+
+<div>
+  <div class="cap">Что уже понятно</div>
+  <div class="fnd">
+    <div class="fc" style="--acc:var(--bad)" data-tip="f1"><div class="i">📜</div><div class="h">Правила — это текст, а не механизм</div><div class="n">26 / 0</div><div class="s">статей устава / держит код</div></div>
+    <div class="fc" style="--acc:var(--run)" data-tip="f2"><div class="i">🎈</div><div class="h">Центр пухнет, сжатие не лечит</div><div class="n">~100k</div><div class="s">токенов остаётся после сжатия</div></div>
+    <div class="fc" style="--acc:var(--c1)" data-tip="f3"><div class="i">🪞</div><div class="h">Логи и диск говорят разное</div><div class="n">≠</div><div class="s">«родилось» ещё не значит «работает»</div></div>
+    <div class="fc" style="--acc:var(--c5)" data-tip="f4"><div class="i">✏️</div><div class="h">Черновики 08.11 ошибаются</div><div class="n">18 / 95</div><div class="s">утверждений расходятся с логами</div></div>
+  </div>
+</div>
+
+<div>
+  <div class="cap">Как логи превращаются в выводы</div>
+  <div class="fun">
+    <div class="fs" data-tip="fu1" style="width:100%;background:linear-gradient(90deg,#64748b,#3f4a5c)">2,9 ГБ логов Claude Code <span>май → 10.11</span></div>
+    <div class="fs" data-tip="fu2" style="width:88%;background:linear-gradient(90deg,var(--c1),#1e4fa8)">673 выжимки <span>скрипт · 0 токенов</span></div>
+    <div class="fs" data-tip="fu3" style="width:74%;background:linear-gradient(90deg,var(--c3),#0a7a56)">38 порций + 18 глубоких <span>Haiku · Sonnet</span></div>
+    <div class="fs" data-tip="fu4" style="width:60%;background:linear-gradient(90deg,var(--c4),#a86a05)">8 эпох <span>Sonnet</span></div>
+    <div class="fs" data-tip="fu5" style="width:46%;background:linear-gradient(90deg,var(--c5),#a3236a)">1 итог <span>Opus</span></div>
+    <div class="fs" data-tip="fu6" style="width:32%;justify-content:center;background:linear-gradient(90deg,var(--brand),#5b2fc4)">30 строк тебе</div>
+  </div>
+</div>
+
+<div class="g2">
+  <div class="box" data-tip="ctx">
+    <div class="cap" style="margin:0 0 8px">Чат Fable</div>
+    <div class="big">324k <small>из 1M</small></div>
+    <div class="tube" style="margin-top:12px"><div style="width:32%;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--ok),var(--run))"></div></div>
+    <div class="sm">после сжатия было 56k. Стройка пойдёт в свежем чате</div>
+  </div>
+  <div class="box" data-tip="helpers">
+    <div class="cap" style="margin:0 0 8px">Помощников за всё время</div>
+    <div class="big">106</div>
+    <div class="stack"><div style="width:63%;background:var(--c3)"></div><div style="width:32%;background:var(--c4)"></div><div style="width:5%;background:var(--c5)"></div></div>
+    <div class="lg"><span><i style="background:var(--c3)"></i>Haiku 67</span><span><i style="background:var(--c4)"></i>Sonnet 34</span><span><i style="background:var(--c5)"></i>Opus 5</span></div>
+  </div>
+</div>
+
+<div>
+  <div class="cap">Финиш изучения: 4 документа</div>
+  <div class="fin">
+    <div class="doc go" data-tip="d1"><span class="i">🏗️</span>Как NERV устроена сегодня</div>
+    <div class="doc" data-tip="d2"><span class="i">📖</span>История, проверенная</div>
+    <div class="doc" data-tip="d3"><span class="i">🧩</span>Итоговый разбор</div>
+    <div class="doc" data-tip="d4"><span class="i">📝</span>30 строк тебе, всё проверено</div>
+  </div>
+  <div class="duo">
+    <div class="you ok"><div class="i">☕</div><div><b>Прямо сейчас от тебя ничего не нужно</b><div class="sm" style="margin-top:3px">Волна 3 работает сама.</div></div></div>
+    <div class="you ask" data-tip="ask"><div class="i">🗳️</div><div><b>Скоро спросят про 2 вещи</b><div class="sm" style="margin-top:3px">Fable пришлёт карточку. Без твоего «да» он это не трогает.</div></div></div>
+  </div>
+</div>
+
+<div class="foot">Снимок собран по журналу Fable и файлам исследования · 10.11.2026 01:05 · картинка сама не обновляется</div>
+</div>
+
+<div id="tip"></div>
+<script>
+try{if(window.self!==window.top)document.documentElement.classList.add('emb')}catch(e){document.documentElement.classList.add('emb')}
+const T={
+s1:{t:"Разведка · 08.11",f:["6 отчётов: устройство NERV, карта 29 папок, где лежат логи","Что умеет BB взамен механизмов Claude Code","Скелет ленты: NERV родился 27.09.2026"],v:"Фундамент, на нём стоит всё остальное."},
+s2:{t:"Хроника всех логов · 08.11",f:["Скрипт порезал 2,9 ГБ логов, не потратив ни одного токена","38 порций → 38 микроотчётов на Haiku","Склейка в эпохи на Sonnet: от предыстории до эры BB"],v:"История NERV день за днём, с мая по 10.11."},
+s3:{t:"Волна 2: ветки и проверки · 10.11",f:["16 помощников разом: 8 веток, покрытие, 2 проверки, свежие дни","Вернулись все 16; один сдал отчёт текстом, его достали скриптом","Проверка нашла: в черновиках 08.11 неверно примерно каждое 5-е утверждение"],v:"Картина в целом верная, выжимку тебе надо переписать."},
+s4:{t:"Волна 3: добор дыр · сейчас",f:["Самые тяжёлые дни (27.09–12.10) в первый раз читали урезанными","Теперь 17 хронистов перечитывают их целиком","Плюс измеритель расхода и сводка «как NERV устроена сегодня»"],v:"Так выполняется твой выбор «доизучить всё»."},
+s5:{t:"Итоговый разбор · впереди",f:["Как NERV устроена сегодня","Проверенная история с пометками «проверено» и «догадка»","Новая выжимка тебе на 30 строк, каждое число проверено"],v:"После этого новых волн изучения не будет."},
+s6:{t:"Проект новой NERV · потом",f:["Карточки про устав, центр и лимиты появятся только после итога","Ты сам сказал: «рано, сначала закончи исследование»"],v:"Решаешь ты, карточками."},
+s7:{t:"Стройка · потом",f:["В свежем чате BB, а не в этом: старт с журнала исследования","Старая NERV продолжает работать как работала, её не трогают"],v:"Центр не сжимают, а переносят в свежий чат."},
+p1:{t:"Изучение ≈ 2/3",f:["Оценка самого Fable на начало волны 2","Из 8 кусков исследования 3 были закрыты, 5 в работе"],v:"Волна 3 ведёт к финишу."},
+p2:{t:"Весь путь ≈ 1/4",f:["Из 6 кусков стройки не начат ни один","Есть только ранние черновики, их признали преждевременными"],v:"Основная работа впереди."},
+fable:{t:"Fable 5.2 — главный",f:["Думает, раздаёт задания, ведёт журнал исследования","Помощники отвечают ему не длиннее 10 строк, сами отчёты он не читает","Перед тратой проверяет: одну «дыру» закрыл скриптом и сэкономил 3 агента"],v:"Дорогая модель только думает."},
+deepS:{t:"Глубокие хронисты ×10 · Sonnet",f:["Перечитывают 27.09–12.10 целиком, без обрезки","В эти дни рождались устав, ЗАПОВЕДЬ и щупальца","Haiku здесь раньше путал даты, поэтому взят Sonnet"],v:"Самые важные дни теперь читают целиком."},
+deepH:{t:"Глубокие хронисты ×7 · Haiku",f:["То же самое для 15.10–09.11","Дни проще, хватает дешёвой модели"],v:"Поправки к первому проходу и новые находки."},
+meter:{t:"Измеритель расхода · Sonnet",f:["Пишет скрипт и меряет по логам цену одного хода главного чата","Сколько весит старт, сколько остаётся после сжатия, где лавины помощников","Модель нужна только написать скрипт, считает он сам"],v:"Расход будет измерен, а не прикинут на глаз."},
+s1doc:{t:"Сводка «как NERV устроена сегодня» · Opus",f:["Собирает 8 паспортов веток в одну картину","Пересчитывает «что живо» по диску, а не по логам"],v:"Первый из 4 документов финиша."},
+errata:{t:"Перепроверка 34 отчётов ×7 · Sonnet",f:["Построчно сверяют микроотчёты с полными выжимками","Запустятся, когда освободятся места: одновременно не больше 20"],v:"В очереди."},
+other:{t:"Другие программы",f:["Диалоги в Antigravity","Треды BB на Antigravity","Сессии Devin"],v:"В очереди."},
+small:{t:"Мелкие дыры",f:["Сколько входящих с телефона приходило по дням","Как по датам копились уроки в памяти главного чата","Один непокрытый чат от 03.11 и поиск удалённых сессий в копиях"],v:"В очереди."},
+V1:{t:"Порядок: законы, законопроекты, навыки",f:["Свод из 26 статей, ни одна не отменена и ни одну не проверяет код","10 законопроектов ждут «да», самый старый с 18.10","9 из 12 навыков ни разу не вызывались: лежат там, куда чаты не смотрят"],v:"Законы короткие и проверяемые кодом; решения не копить."},
+V2:{t:"Центр: склад задач, реестр веток, карточки",f:["В складе задач 313 строк: 68 закрыто, 194 открыто","21 карточка из 63 «открытых» уже закрыта в складе: две копии расходятся","В реестре нет 17 папок из 32"],v:"Одно место для задач, сверка с диском автоматом."},
+V3:{t:"Железо: автоматика, сторожа, сохранёнка",f:["Сохранёнка при сжатии вернулась в 75 из 100 последних случаев","Сторож входящих мёртв с 27.10, сторож сети только пишет «сделал бы»","Два сбоя Windows в октябре, виновник не найден"],v:"Что крутится само, должно само сообщать, что оно живо."},
+V4:{t:"Вход с телефона: приложение, сервер, входящие",f:["Сервер жив, но запросов нет с 08.11, около двух суток","Во входящих 872 файла, 1,6 ГБ, лежат неразобранными","Обычный пост NERV не будит, будит только кнопка"],v:"Нужен сигнал «вход молчит», сейчас тишину видно только в логе."},
+V5:{t:"Голос: распознавание, разговор, диктофон",f:["Голос переделывали крупно 3 раза и мелко около 7","Фильтр тишины резал речь: без него вместо 0,4–11 мин вышло 36–90 мин текста","Два голосовых процесса на одной видеокарте: распознавание в 12 раз медленнее"],v:"Одна модель на видеокарте, сомнительные слова переспрашивать."},
+V6:{t:"Память: устав, сохранёнки, архив, поиск",f:["Поиск по смыслу собран и работает: 19 730 кусков","Замер 08.11: по смыслу нашёл 1 из 5 вопросов, по словам 3–4","3,3 ГБ логов чатов лежат в одном экземпляре, копии нет"],v:"Логи копировать на второй диск; поиск мерить на своих вопросах."},
+V7:{t:"Расход: аудит, лимиты, замеры",f:["Аудит 07.11 дал 10 правок, сделана одна","Счётчики недели спорят: Claude показал 96%, LimitDoctor 112% в тот же час","Главный чат доходил до 757k при пороге сжатия 300k"],v:"Нужен один верный счётчик недели."},
+V8:{t:"Исследования и пробы других агентов",f:["30 исследований, выводы есть у 27, явно пошли в дело у 6","Пробы других оболочек брошены или на паузе, вердикт 07.11: остаться на BB","Связь между чатами пока живёт только в Claude Desktop"],v:"У каждого исследования отмечать, куда пошёл вывод."},
+pokrytie:{t:"Аудит покрытия: что не попало в хронику",f:["Пробелы в датах оказались простоями, логи не потеряны","Fable сверил скриптом: 2567 из 2585 твоих реплик в хронике есть (99,3%)","Настоящие дыры вне Claude Code: облако, телефон, голос"],v:"Хроника почти полная, недостающее лежит в других местах."},
+proverkaA:{t:"Проверка «поворотов не туда»",f:["45 утверждений: 30 подтверждены, 7 только по вторичке, 8 расходятся","Пример: «из 9 сообщений 5 ушли не туда» на деле 5 из 8 тестовых проб","Нужно 17 поправок: часть цифр завышена, часть дат сдвинута"],v:"Картина верна, детали правятся."},
+proverkaB:{t:"Проверка ленты событий",f:["50 утверждений: 40 подтверждены (14 с поправкой), 10 расходятся","Из 16 противоречий ленты решено 12, частично 3","Типичная ошибка: два события склеены в одну фразу"],v:"Лента в целом точна."},
+E10:{t:"Свежие дни 08–10.11",f:["51 сжатие чатов за 45 часов, 37 из них двумя залпами","Один залп из 21 чата: 8,4 млн токенов контекста за 18 минут","После любого сжатия остаётся ~100k токенов и снова растёт ~70k в час"],v:"Сжатие лечит симптом, а не причину."},
+f1:{t:"Правила — это текст, а не механизм",f:["В уставе 26 статей, ни одну не держит код","Правило «не хранить во входящих» нарушено 872 раза","Запрет армий помощников держался до первого слова Командора"],v:"В новой версии запреты держит сама система."},
+f2:{t:"Центр пухнет, сжатие не лечит",f:["После сжатия у чата остаётся около 100k токенов правил и памяти","Главный чат доходил до 757k при пороге 300k","51 сжатие за 45 часов в свежие дни"],v:"Главный чат лёгкий и короткоживущий, память лежит в файлах."},
+f3:{t:"Логи и диск говорят разное",f:["Логи знают, что вещь родилась. Диск знает, работает ли она сегодня","Сторожа, навыки, барабан Казино в логах живые, на диске мёртвые","Поиск по смыслу наоборот: считали брошенным, а он работает"],v:"«Что живо» считать по диску."},
+f4:{t:"Черновики 08.11 ошибаются",f:["Из 95 главных утверждений 18 расходятся с логами, 14 верны с поправкой","Три вида ошибок: склеены два события, число значит не то, потерян контекст","Пример: 134 помощника 07.11 были заказанным тестом с потолком, и потолок выдержан"],v:"Выжимку тебе на 30 строк переписать, а не поправить."},
+fu1:{t:"2,9 ГБ логов Claude Code",f:["С мая по 10.11","125 папок проектов, 219 сессий","2065 файлов помощников"],v:"Сырьё. Моделью его не читают, слишком дорого."},
+fu2:{t:"673 выжимки",f:["Скрипт, ноль токенов, перезапуск за минуту","Во втором прогоне 651 из 673 без всякой обрезки"],v:"Дешёвая и повторяемая основа."},
+fu3:{t:"38 порций + 18 глубоких",f:["Порция ~280 КБ → микроотчёт по шаблону","18 глубоких: тяжёлые дни целиком, сейчас в работе"],v:"Haiku описывает, Sonnet там, где надо судить."},
+fu4:{t:"8 эпох",f:["Предыстория · рождение · первая неделя · устав","Эксплуатация · авария · эра BB · после 08.11"],v:"Каждая эпоха со своими уроками."},
+fu5:{t:"1 итог · Opus",f:["Собирается из сводки «как устроено» и проверенной истории"],v:"Впереди."},
+fu6:{t:"30 строк тебе",f:["Простыми словами","Каждое число проверено по первичке"],v:"Конечный продукт изучения."},
+ctx:{t:"Чат Fable: 324k из 1M",f:["После сжатия было 56k","Fable объясняет рост тем, что перечитал карты и написал длинные брифы","Стройку обещал начать в свежем чате"],v:"Тот же узор «центр пухнет», но под присмотром."},
+helpers:{t:"106 помощников за всё время",f:["Haiku 67: читают и описывают","Sonnet 34: сопоставляют и проверяют","Opus 5: итоговые разборы"],v:"Дорогой Fable только думает."},
+d1:{t:"Как NERV устроена сегодня",f:["Пишется прямо сейчас, на Opus","Из 8 паспортов веток, «что живо» по диску"],v:"В работе."},
+d2:{t:"История, проверенная",f:["С поправками проверяющих","На каждом утверждении пометка «проверено» или «догадка»"],v:"После волны 3."},
+d3:{t:"Итоговый разбор",f:["Один документ из первых двух"],v:"Потом."},
+d4:{t:"30 строк тебе",f:["Старую выжимку переписать: в ней 2 ошибочных пункта","Каждое число проверено"],v:"Потом."},
+ask:{t:"Без твоего «да» не трогает",f:["Личные записи диктофона: там личное","Чаты claude.ai в облаке: нужен твой экспорт данных аккаунта"],v:"Придёт карточкой."}
+};
+const tip=document.getElementById('tip');let pinned=null;
+function fill(k){const d=T[k];if(!d)return false;tip.innerHTML='<div class="tt"></div><ul></ul>'+(d.v?'<div class="vv"></div>':'');tip.querySelector('.tt').textContent=d.t;const ul=tip.querySelector('ul');d.f.forEach(s=>{const li=document.createElement('li');li.textContent=s;ul.appendChild(li)});if(d.v)tip.querySelector('.vv').textContent='→ '+d.v;return true}
+function place(x,y){const r=tip.getBoundingClientRect(),W=innerWidth,H=innerHeight;let L=x+16,Tp=y+16;if(L+r.width>W-8)L=x-r.width-16;if(L<8)L=8;if(Tp+r.height>H-8)Tp=y-r.height-16;if(Tp<8)Tp=8;tip.style.left=L+'px';tip.style.top=Tp+'px'}
+document.querySelectorAll('[data-tip]').forEach(el=>{
+  el.addEventListener('mouseenter',e=>{if(pinned)return;if(fill(el.dataset.tip)){tip.classList.add('on');place(e.clientX,e.clientY)}});
+  el.addEventListener('mousemove',e=>{if(!pinned)place(e.clientX,e.clientY)});
+  el.addEventListener('mouseleave',()=>{if(!pinned)tip.classList.remove('on')});
+  el.addEventListener('click',e=>{e.stopPropagation();if(pinned===el){pinned=null;tip.classList.remove('on');return}pinned=el;if(fill(el.dataset.tip)){tip.classList.add('on');const b=el.getBoundingClientRect();place(b.left,b.bottom-8)}});
+});
+document.addEventListener('click',()=>{pinned=null;tip.classList.remove('on')});
+</script>
+</body></html>
