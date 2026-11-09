@@ -240,6 +240,28 @@ h1{
   vertical-align:middle;
 }
 
+/* Стек */
+.stack{
+  margin:0 0 18px;
+  background:var(--card);
+  border:3px solid var(--ink);
+  box-shadow:4px 4px 0 var(--blue);
+  padding:12px 14px 14px;
+}
+.stack h2{
+  margin:0 0 8px;
+  font-family:"Dela Gothic One", sans-serif;
+  font-weight:400;
+  font-size:21px;
+  line-height:1.15;
+}
+.stack ul{margin:0;padding:0;list-style:none}
+.stack li{position:relative;padding-left:18px;margin:0 0 8px;font-size:16px}
+.stack li:last-child{margin-bottom:0}
+.stack li::before{content:"";position:absolute;left:0;top:.5em;width:9px;height:9px;background:var(--pink);border:2px solid var(--ink)}
+.stack b{font-weight:700}
+.hint{margin:0 0 16px;font-family:"JetBrains Mono", monospace;font-size:12px;color:var(--grey)}
+
 /* Подвал */
 .foot{
   margin:28px 0 0;
@@ -265,6 +287,20 @@ h1{
   <li><span class="badge b-rare">редко</span></li>
   <li><span class="badge b-sleep">спит</span></li>
 </ul>
+<p class="hint">тапни ветку, чтобы раскрыть</p>
+
+<section class="stack">
+  <h2>На чём это крутится</h2>
+  <ul>
+    <li><b>Claude Code</b> — ИИ от Anthropic, который живёт прямо на компе. Сам читает и пишет файлы, запускает программы, ходит в браузер, пишет код. Не болталка в окне, а руки.</li>
+    <li><b>Щупальце</b> — отдельный чат Claude Code со своей папкой и своим файлом правил на пару страниц. Знает только свой кусок, поэтому не тупит и не жрёт лишнее.</li>
+    <li><b>NERV</b> — главный чат. Пишу только ему, а он раздаёт задачи щупальцам, и чаты переписываются между собой.</li>
+    <li><b>Память</b> — обычные текстовые файлы. Перед тем как чат «забудет» разговор, он пишет себе записку.</li>
+    <li><b>Голос</b> — распознаётся на моём же компе (модели GigaAM и Whisper), с телефона летит через своё приложение.</li>
+    <li><b>Экономия</b> — рутину делают дешёвые модели и одноразовые помощники. Эту страницу, например, нарисовала самая дешёвая модель, Haiku.</li>
+    <li><b>Подписка</b> — Claude Max. Квоты не резиновые, но на всё это хватает.</li>
+  </ul>
+</section>
 
 <main class="tree">
 
@@ -277,7 +313,7 @@ h1{
   <div class="stem">
 
     <!-- Ветка 1 -->
-    <details class="branch c-pink" open>
+    <details class="branch c-pink">
       <summary>Порядок и память</summary>
       <div class="kids">
         <article class="card">
@@ -326,7 +362,7 @@ h1{
     </details>
 
     <!-- Ветка 2 -->
-    <details class="branch c-orange" open>
+    <details class="branch c-orange">
       <summary>Голос и интерфейсы</summary>
       <div class="kids">
         <article class="card">
@@ -353,7 +389,7 @@ h1{
     </details>
 
     <!-- Ветка 3 -->
-    <details class="branch c-blue" open>
+    <details class="branch c-blue">
       <summary>Проекты и продукты</summary>
       <div class="kids">
         <article class="card">
@@ -394,7 +430,7 @@ h1{
     </details>
 
     <!-- Ветка 4 -->
-    <details class="branch c-green" open>
+    <details class="branch c-green">
       <summary>Учёба и работа</summary>
       <div class="kids">
         <article class="card">
@@ -419,7 +455,7 @@ h1{
     </details>
 
     <!-- Ветка 5 -->
-    <details class="branch c-navy" open>
+    <details class="branch c-navy">
       <summary>Здоровье</summary>
       <div class="kids">
         <article class="card">
@@ -434,7 +470,7 @@ h1{
     </details>
 
     <!-- Ветка 6 -->
-    <details class="branch c-ochre" open>
+    <details class="branch c-ochre">
       <summary>Люди</summary>
       <div class="kids">
         <article class="card">
