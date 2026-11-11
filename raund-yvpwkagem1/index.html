@@ -17,6 +17,10 @@
     --accent-ink: #ffffff;
     --quote: #eef5f0;
     --ok: #1f6f4a;
+    --steel-hi: #d3d7dc;
+    --steel-lo: #6a7079;
+    --steel-dark: #3a3f46;
+    --beam: #2fbf71;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -29,6 +33,10 @@
       --accent-ink: #0d1a13;
       --quote: #18261f;
       --ok: #5fd39a;
+      --steel-hi: #b9bec6;
+      --steel-lo: #4a5059;
+      --steel-dark: #22262c;
+      --beam: #5fd39a;
     }
   }
   * { box-sizing: border-box; }
@@ -39,7 +47,14 @@
     color: var(--ink);
     font: 19px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   }
-  main { max-width: 600px; margin: 0 auto; padding: 28px 16px 48px; }
+  main { max-width: 600px; margin: 0 auto; padding: 24px 16px 48px; }
+  .star { display: block; width: 100%; max-width: 320px; height: auto; margin: 0 0 6px; }
+  .s-hi { stop-color: var(--steel-hi); }
+  .s-lo { stop-color: var(--steel-lo); }
+  .seam { stroke: var(--steel-dark); }
+  .dish { fill: var(--steel-lo); stroke: var(--steel-dark); }
+  .beam-fill { fill: var(--beam); }
+  .beam-line { stroke: var(--beam); fill: none; }
   h1 { font-size: 34px; line-height: 1.1; margin: 0 0 12px; letter-spacing: -0.02em; }
   h2 { font-size: 25px; line-height: 1.15; margin: 0 0 8px; }
   p { margin: 0 0 12px; }
@@ -80,19 +95,8 @@
   }
   button.copy:active { transform: translateY(1px); }
   button.copy.done { background: transparent; color: var(--ok); outline: 2px solid var(--ok); }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
-  .chip {
-    border: 2px solid var(--line); background: transparent; color: var(--ink);
-    border-radius: 999px; padding: 10px 14px; font: inherit; font-size: 17px; cursor: pointer;
-  }
-  .chip[aria-pressed="true"] { border-color: var(--accent); background: var(--quote); font-weight: 700; }
-  textarea {
-    width: 100%; min-height: 96px; resize: vertical;
-    border: 2px solid var(--line); border-radius: 12px;
-    background: var(--bg); color: var(--ink);
-    font: inherit; font-size: 18px; padding: 12px; margin: 4px 0 12px;
-  }
-  textarea:focus, .chip:focus-visible, button.copy:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  button.copy:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .after { margin-top: 10px; }
   .end { text-align: center; margin-top: 28px; }
   .end strong { font-size: 22px; display: block; margin-bottom: 6px; }
 </style>
@@ -100,57 +104,70 @@
 <body>
 <main>
 
+  <svg class="star" viewBox="0 0 320 120" role="img" aria-label="Звезда смерти смотрит на тебя">
+    <defs>
+      <radialGradient id="steel" cx="36%" cy="32%" r="72%">
+        <stop offset="0" class="s-hi"/>
+        <stop offset="1" class="s-lo"/>
+      </radialGradient>
+      <clipPath id="ball"><circle cx="60" cy="60" r="52"/></clipPath>
+    </defs>
+    <circle cx="60" cy="60" r="52" fill="url(#steel)"/>
+    <g clip-path="url(#ball)" class="seam" fill="none">
+      <path d="M4 63 Q60 71 116 63" stroke-width="3.5"/>
+      <path d="M10 40 H30 M70 30 H96 M18 86 H44 M74 92 H104 M84 48 H110 M8 54 H22" stroke-width="1.5" opacity=".55"/>
+      <path d="M52 76 V96 M90 70 V84 M26 22 V34" stroke-width="1.5" opacity=".45"/>
+    </g>
+    <circle cx="40" cy="38" r="14" class="dish" stroke-width="2"/>
+    <circle cx="40" cy="38" r="8" class="seam" fill="none" stroke-width="1.2" opacity=".7"/>
+    <circle cx="40" cy="38" r="3" class="beam-fill"/>
+    <path d="M42 37 L176 60" class="beam-line" stroke-width="2.5" stroke-dasharray="7 5" stroke-linecap="round"/>
+    <text x="184" y="66" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="17" font-weight="700" class="beam-fill">watching you</text>
+  </svg>
+
   <span class="tag">Звезда смерти выкатывает оффер</span>
   <h1>Один раунд — одна задача</h1>
   <p class="lead">Паш, для начала по приколу, а дальше как пойдёт. Берёшь один раунд, роботы делают, ты смотришь результат.</p>
   <ol class="how">
     <li>Выбери раунд ниже.</li>
-    <li>Жми зелёную кнопку — текст скопируется.</li>
-    <li>Вставь его в чат дяде Диме и кинь, что там просят.</li>
+    <li>Жми зелёную кнопку — текст скопируется. Где «____», допиши.</li>
+    <li>Вставь в чат дяде Диме и кинь, что там просят.</li>
   </ol>
-  <p class="muted">Результат придёт ссылкой в Telegram. Не зашло — никто никому не должен.</p>
+  <p class="muted">Раунд делают роботы, дядя Дима только пересылает. Результат придёт ссылкой в Telegram. Не зашло — никто никому не должен.</p>
 
   <section class="card">
     <span class="tag">Раунд 1 · мастерская</span>
     <h2>Где теряются люди</h2>
-    <p>Твоё апрельское ТЗ по аналитике. Получишь одну страницу: откуда приходят, где отваливаются и три первые правки на сайте и в Google-карточке.</p>
-    <div class="say"><small>Твой шаг — отправишь это:</small><span data-text>Беру раунд «Где теряются люди». Кидаю скрины отчётов GA4, Search Console и Google Business Profile.</span></div>
-    <button class="copy" type="button">Скопировать</button>
-    <p class="muted" style="margin-top:10px">Нужны только скрины или выгрузки. Доступы и пароли не нужны.</p>
+    <p>Разберём, откуда к тебе приходят и где отваливаются. Получишь одну страницу: что уже работает, где утекает и три первые правки на сайте и в Google-карточке.</p>
+    <div class="say"><small>Твой шаг — вставь и допиши:</small><span data-text>Беру раунд «Где теряются люди». Сайт: ____ . Карточка в Google Maps: ____ . Будет пять минут — докину выгрузки: Search Console (Performance, 3 месяца), GA4 (Traffic acquisition и Landing page) и скрин Business Profile (Performance).</span></div>
+    <button class="copy" type="button" data-label="Скопировать и дописать">Скопировать и дописать</button>
+    <p class="muted after">Хватит двух ссылок: начнём с того, что видно снаружи. С выгрузками будет точнее. Доступы и пароли не нужны. Если звонки и заявки с сайта ещё не меряются, дадим рецепт, как включить самому.</p>
   </section>
 
   <section class="card">
     <span class="tag">Раунд 2 · твоя годзилла</span>
     <h2>Вскрытие годзиллы</h2>
     <p>Твой плейбук на 300 страниц раскладываем по методу нашего Таксидермиста на три кучи: что в шаблон без нейронки, что в маленькую автоматизацию, что в мусор.</p>
-    <div class="say"><small>Твой шаг — отправишь это:</small><span data-text>Беру раунд «Вскрытие годзиллы». Кидаю плейбук файлом или хотя бы оглавление.</span></div>
-    <button class="copy" type="button">Скопировать</button>
-    <p class="muted" style="margin-top:10px">Хватит и оглавления. Из него уже видно, что можно делать без нейронки.</p>
+    <div class="say"><small>Твой шаг — отправишь это:</small><span data-text>Беру раунд «Вскрытие годзиллы». Кидаю плейбук файлом или хотя бы оглавление. И голосовуху: что я хотел от этой системы, на чём она была сделана и где сломалась.</span></div>
+    <button class="copy" type="button" data-label="Скопировать">Скопировать</button>
+    <p class="muted after">Голосовуха может быть длинной, хоть из машины. Из неё поймём больше, чем из 300 страниц.</p>
   </section>
 
   <section class="card">
     <span class="tag">Раунд 3 · почта</span>
-    <h2>Заявка из почты → карточка</h2>
-    <p>Один узкий сценарий. Пришло письмо с заявкой — получаешь короткую карточку и черновик ответа клиенту. Дадим рецепт: что жёстко правилом, где нейронка и какой у неё поводок.</p>
-    <div class="say"><small>Твой шаг — отправишь это:</small><span data-text>Беру раунд «Заявка → карточка». Кидаю два типовых письма с заявкой, телефоны клиентов замазал.</span></div>
-    <button class="copy" type="button">Скопировать</button>
-    <p class="muted" style="margin-top:10px">Собираешь у себя в GPT или Codex. В твою почту мы не лезем.</p>
+    <h2>Письмо → одно действие</h2>
+    <p>Твоя же задача: пришло письмо в Gmail — сделать одно действие, а не «обработать 700 источников». Берём один тип письма и даём рецепт на коротком поводке: что делает жёсткое правило, где работает нейронка и докуда ей можно.</p>
+    <div class="say"><small>Твой шаг — вставь и допиши:</small><span data-text>Беру раунд «Письмо → одно действие». Кидаю одно типовое письмо, личное замазал. Что с ним надо сделать: ____</span></div>
+    <button class="copy" type="button" data-label="Скопировать и дописать">Скопировать и дописать</button>
+    <p class="muted after">Собираешь у себя. В твою почту мы не лезем.</p>
   </section>
 
   <section class="card">
     <span class="tag">Свой раунд</span>
-    <h2>Предложи своё</h2>
-    <p>Куда хочешь двигаться? Тапни темы, допиши, если надо, и копируй.</p>
-    <div class="chips" role="group" aria-label="Темы">
-      <button class="chip" type="button" aria-pressed="false">Лиды и реклама</button>
-      <button class="chip" type="button" aria-pressed="false">Сайт и конверсия</button>
-      <button class="chip" type="button" aria-pressed="false">Google-карточка и отзывы</button>
-      <button class="chip" type="button" aria-pressed="false">Почта и заявки</button>
-      <button class="chip" type="button" aria-pressed="false">Рутина мастерской</button>
-      <button class="chip" type="button" aria-pressed="false">Разбор годзиллы</button>
-    </div>
-    <textarea id="own" placeholder="Своими словами, можно с компа"></textarea>
-    <button class="copy" type="button" id="ownCopy">Скопировать</button>
+    <h2>Одна мелкая задача</h2>
+    <p>Что-то маленькое и техническое, до чего не доходят руки. На вечер, а не на месяц.</p>
+    <div class="say"><small>Твой шаг — вставь и допиши:</small><span data-text>Свой раунд. Мелкая задача, до которой не доходят руки: ____</span></div>
+    <button class="copy" type="button" data-label="Скопировать и дописать">Скопировать и дописать</button>
   </section>
 
   <div class="end">
@@ -175,10 +192,11 @@
     return ok;
   }
   function copy(text, btn) {
+    var label = btn.getAttribute('data-label') || 'Скопировать';
     var done = function () {
       btn.classList.add('done');
       btn.textContent = 'Скопировано ✓ Вставь в Telegram';
-      setTimeout(function () { btn.classList.remove('done'); btn.textContent = 'Скопировать'; }, 2500);
+      setTimeout(function () { btn.classList.remove('done'); btn.textContent = label; }, 2500);
     };
     var fail = function () { btn.textContent = 'Не вышло, выдели текст вручную'; };
     if (navigator.clipboard && window.isSecureContext) {
@@ -191,23 +209,6 @@
     var src = card.querySelector('[data-text]');
     var btn = card.querySelector('button.copy');
     if (src && btn) btn.addEventListener('click', function () { copy(src.textContent.trim(), btn); });
-  });
-  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
-  chips.forEach(function (c) {
-    c.addEventListener('click', function () {
-      c.setAttribute('aria-pressed', c.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
-    });
-  });
-  var ownBtn = document.getElementById('ownCopy');
-  ownBtn.addEventListener('click', function () {
-    var picked = chips.filter(function (c) { return c.getAttribute('aria-pressed') === 'true'; })
-                      .map(function (c) { return c.textContent; });
-    var own = document.getElementById('own').value.trim();
-    var parts = ['Хочу свой раунд.'];
-    if (picked.length) parts.push('Темы: ' + picked.join(', ') + '.');
-    if (own) parts.push(own);
-    if (parts.length === 1) parts.push('Пока не придумал, накидаю с чатом задачи с повестки.');
-    copy(parts.join(' '), ownBtn);
   });
 })();
 </script>
