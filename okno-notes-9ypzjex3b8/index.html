@@ -1,0 +1,166 @@
+<!doctype html>
+<!-- Онлайн: https://uvedomlenie.github.io/capybara-clicker-etazh9000/okno-notes-9ypzjex3b8/ -->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Окно — что дальше</title>
+<style>
+:root{
+  --bg:#f2f2f7; --card:#ffffff; --ink:#1c1c1e; --muted:#8e8e93; --line:#e5e5ea;
+  --accent:#e0a100; --accent-ink:#1c1c1e; --check:#e0a100; --ok:#34c759; --chip:#fff4cc;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#000000; --card:#1c1c1e; --ink:#f2f2f7; --muted:#8e8e93; --line:#2c2c2e;
+    --accent:#ffd60a; --accent-ink:#1c1c1e; --check:#ffd60a; --ok:#30d158; --chip:#3a3200;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#000000; --card:#1c1c1e; --ink:#f2f2f7; --muted:#8e8e93; --line:#2c2c2e;
+  --accent:#ffd60a; --accent-ink:#1c1c1e; --check:#ffd60a; --ok:#30d158; --chip:#3a3200;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:640px;margin:0 auto;padding:12px 16px 60px}
+.top{display:flex;justify-content:space-between;align-items:center;color:var(--accent);font-size:17px;padding:6px 0 4px}
+.date{color:var(--muted);font-size:13px;text-align:center;margin:6px 0 2px}
+h1{font-size:28px;font-weight:700;margin:4px 0 14px;letter-spacing:-.01em}
+h2{font-size:20px;font-weight:700;margin:26px 0 8px}
+p{margin:0 0 10px}
+.muted{color:var(--muted);font-size:15px}
+.card{background:var(--card);border-radius:12px;padding:4px 16px;margin:8px 0}
+ul.check{list-style:none;margin:0;padding:0}
+ul.check li{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer;user-select:none}
+ul.check li:last-child{border-bottom:0}
+.box{flex:0 0 22px;height:22px;border-radius:50%;border:2px solid var(--muted);margin-top:1px;display:grid;place-items:center}
+li.done .box{background:var(--check);border-color:var(--check)}
+li.done .box::after{content:"";width:6px;height:11px;border:solid var(--accent-ink);border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+li.done .t{color:var(--muted);text-decoration:line-through}
+.who{display:inline-block;font-size:12px;font-weight:600;color:var(--muted);margin-left:4px}
+ol.steps{margin:0;padding:0;list-style:none}
+ol.steps li{display:grid;grid-template-columns:86px 1fr;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+ol.steps li:last-child{border-bottom:0}
+ol.steps .d{font-weight:600;font-size:15px}
+ol.steps .past .d,ol.steps .past .s{color:var(--muted)}
+.chip{display:inline-block;background:var(--chip);border-radius:6px;padding:1px 7px;font-size:13px;font-weight:600}
+.letter{background:var(--card);border-radius:12px;padding:14px 16px;margin:12px 0}
+.letter h3{margin:0 0 2px;font-size:17px}
+.letter .why{color:var(--muted);font-size:14px;margin-bottom:10px}
+.letter pre{white-space:pre-wrap;font:16px/1.45 inherit;font-family:inherit;margin:0;padding:12px;background:var(--bg);border-radius:10px}
+.btns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+button{font:600 15px/1 inherit;font-family:inherit;border:0;border-radius:10px;padding:11px 14px;cursor:pointer}
+.b1{background:var(--accent);color:var(--accent-ink)}
+.b2{background:var(--bg);color:var(--ink)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--card);padding:10px 16px;border-radius:12px;font-size:15px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span>‹ Заметки</span><span>⋯</span></div>
+  <div class="date">11 ноября 2026 г.</div>
+  <h1>Окно — что дальше</h1>
+
+  <p>Мастер Александр осмотрел окно и нашёл, как крепятся арки. Арки снимаются, работа реальная. Стёкла сейчас тонкие, 2–3 мм. Вместо 6 мм он советует 5: так меньше проблем со штапиками.</p>
+  <p>Наше условие: <b>без замазки, без торчащих и без новых штапиков</b>. Либо мастер подгоняет родные штапики вровень и мы меняем всё окно, либо меняем только две арки.</p>
+  <p class="muted">Посреди обсуждения мы чуть-чуть не поняли друг друга. Это нормально, день был длинный у обоих. Главное, что договорились, молодцы 🙂</p>
+  <p class="muted">Подробно про осмотр: <a href="https://uvedomlenie.github.io/capybara-clicker-etazh9000/okno-hgo1vxp48f/">протокол встречи</a>.</p>
+
+  <h2>Что делаем</h2>
+  <div class="card">
+    <ul class="check" id="todo">
+      <li data-k="1" class="done"><span class="box"></span><span class="t">Осмотр с мастером, нашли крепёж арок <span class="who">11.11</span></span></li>
+      <li data-k="2" class="done"><span class="box"></span><span class="t">Из договора убран пункт «уведомил в мессенджере — работа принята»</span></li>
+      <li data-k="3"><span class="box"></span><span class="t">Выбрать вариант письма ниже <span class="who">Катя + Дима</span></span></li>
+      <li data-k="4"><span class="box"></span><span class="t">Отправить письмо Александру <span class="who">Дима</span></span></li>
+      <li data-k="5"><span class="box"></span><span class="t">Получить от него цену за 5 мм и договор с суммой <span class="who">Александр</span></span></li>
+      <li data-k="6"><span class="box"></span><span class="t">Решить окончательно: всё окно или только арки, до подписания <span class="who">Катя</span></span></li>
+      <li data-k="7"><span class="box"></span><span class="t">Проверить, что в договоре есть шпаклёвка, подкраска, вынос старых стёкол, этапы и срок <span class="who">Катя</span></span></li>
+      <li data-k="8"><span class="box"></span><span class="t">Пятница: подписать договор, внести 50%, замер <span class="who">Дима</span></span></li>
+    </ul>
+  </div>
+  <p class="muted">Галочки можно ставить, они запоминаются только на этом телефоне.</p>
+
+  <h2>Этапы и сроки</h2>
+  <div class="card">
+    <ol class="steps">
+      <li class="past"><span class="d">ср 11.11</span><span class="s">Осмотр, поиск крепежа. Мастер предложил 5 мм.</span></li>
+      <li><span class="d">до пт</span><span class="s">Пересчёт цены и договор с суммой от Александра. Наше письмо с условием.</span></li>
+      <li><span class="d">пт 13.11</span><span class="s"><span class="chip">12:00–14:00</span> Подписание договора, предоплата 50%. Замер 2–3 часа: мастер снимает арки, делает картонные шаблоны и ставит рамы обратно.</span></li>
+      <li><span class="d">пн–вт 16–17.11</span><span class="s">Стекло уходит в производство. Прямоугольные режут за день, арочные по шаблону, чуть дольше.</span></li>
+      <li><span class="d">~ 17–20.11</span><span class="s">Монтаж, шпаклёвка и подкраска мест крепления, акт, оплата оставшихся 50%.</span></li>
+    </ol>
+  </div>
+  <p class="muted">Даты после пятницы ориентировочные, со слов мастера на осмотре: «начало — середина следующей недели».</p>
+
+  <h2>Письмо Александру: три варианта</h2>
+  <p class="muted">Выберите один. Кнопка «Выбираю этот» скопирует номер варианта, его можно сразу отправить Диме.</p>
+
+  <div class="letter" id="v1">
+    <h3>Вариант 1 — от Кати</h3>
+    <div class="why">Чётко и коротко, цена фиксирована в обоих случаях.</div>
+    <pre>Александр, здравствуйте!
+Обсудили с собственницей. Она согласна на замену всего окна по вашей цене при одном условии: родные штапики подгоняются вровень, без замазки и без новых штапиков.
+Если так не получается — делаем только две арки за 15 400, как в вашем расчёте.
+Как вам удобнее?</pre>
+    <div class="btns"><button class="b2" data-copy="v1">Скопировать текст</button><button class="b1" data-pick="1">Выбираю этот</button></div>
+  </div>
+
+  <div class="letter" id="v2">
+    <h3>Вариант 2 — от Димы</h3>
+    <div class="why">Мягче: объясняем, почему так, и даём мастеру самому назвать цену за арки.</div>
+    <pre>Александр, здравствуйте!
+Обсудили с собственницей итоги осмотра. Она дизайнер интерьеров, поэтому замазка и торчащие штапики ей не подходят. Новые штапики тоже не хочет, родные хорошие.
+Если сможете довести родные штапики вровень и уложиться в вашу цену — берём всё окно.
+Если нет — тогда только две арки, назовите, пожалуйста, цену за них.
+В пятницу с 12 до 14, как договорились, я на месте.</pre>
+    <div class="btns"><button class="b2" data-copy="v2">Скопировать текст</button><button class="b1" data-pick="2">Выбираю этот</button></div>
+  </div>
+
+  <div class="letter" id="v3">
+    <h3>Вариант 3 — от помощника</h3>
+    <div class="why">Условие плюс всё, что нужно для пятницы: цена за 5 мм по обоим вариантам и строки в договоре. Без претензий.</div>
+    <pre>Александр, здравствуйте!
+Спасибо за осмотр, с крепежом вы разобрались здорово.
+Собственница решила так: без замазки и без новых штапиков, родные хочет сохранить.
+— Если родные штапики можно подогнать вровень со стеклом 5 мм — берём всё окно.
+— Если нет — меняем только две арки.
+Пришлите, пожалуйста, цену за 5 мм по обоим вариантам и договор с суммой. И впишите в него строкой шпаклёвку и подкраску мест крепления и вынос старых стёкол.
+В пятницу с 12 до 14 я на месте, тогда же подпишем.</pre>
+    <div class="btns"><button class="b2" data-copy="v3">Скопировать текст</button><button class="b1" data-pick="3">Выбираю этот</button></div>
+  </div>
+
+  <p class="muted" style="margin-top:28px">Это рабочая заметка, а не юридический документ. Договор перед подписанием лучше вычитать.</p>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast');
+  function show(m){toast.textContent=m;toast.classList.add('on');setTimeout(function(){toast.classList.remove('on')},1800)}
+  function copy(t,m){
+    function fb(){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');show(m)}catch(e){show('Не удалось скопировать')}a.remove()}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){show(m)},fb)}else fb();
+  }
+  document.querySelectorAll('[data-copy]').forEach(function(b){
+    b.addEventListener('click',function(){copy(document.querySelector('#'+b.dataset.copy+' pre').textContent,'Текст скопирован')});
+  });
+  document.querySelectorAll('[data-pick]').forEach(function(b){
+    b.addEventListener('click',function(){copy('Выбираю вариант '+b.dataset.pick,'Скопировано: «Выбираю вариант '+b.dataset.pick+'» — отправьте Диме')});
+  });
+  var KEY='okno-notes-todo';
+  var saved={};try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+  document.querySelectorAll('#todo li').forEach(function(li){
+    var k=li.dataset.k;
+    if(k in saved){li.classList.toggle('done',!!saved[k])}
+    li.addEventListener('click',function(){
+      li.classList.toggle('done');saved[k]=li.classList.contains('done');
+      try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}
+    });
+  });
+})();
+</script>
+</body>
+</html>
