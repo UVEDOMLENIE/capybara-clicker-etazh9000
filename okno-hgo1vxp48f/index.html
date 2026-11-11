@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Окно. Осмотр 11.11</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Pangolin&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f6f1e7; --ink:#1d1a16; --muted:#6b6358; --line:#d8cfbf;
+  --card:#fffdf8; --accent:#c8442b; --accent2:#2f6f8f; --pop:#f2c84b;
+  --ok:#2e7d4f; --warn:#b7791f; --bad:#b23a2a; --dot:rgba(29,26,22,.10);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#191714; --ink:#efe8dc; --muted:#a59c8e; --line:#3a352e;
+    --card:#221f1b; --accent:#e0664c; --accent2:#6fb2d2; --pop:#e8be45;
+    --ok:#5fbf86; --warn:#e0a84a; --bad:#e2715f; --dot:rgba(239,232,220,.08);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#191714; --ink:#efe8dc; --muted:#a59c8e; --line:#3a352e;
+  --card:#221f1b; --accent:#e0664c; --accent2:#6fb2d2; --pop:#e8be45;
+  --ok:#5fbf86; --warn:#e0a84a; --bad:#e2715f; --dot:rgba(239,232,220,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 "PT Serif",Georgia,serif}
+a{color:var(--accent2)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+header.top{padding:40px 0 8px}
+.kicker{font:700 13px/1 "PT Sans",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font:400 clamp(44px,8vw,84px)/.95 "Pangolin",cursive;letter-spacing:.02em;margin:10px 0 12px}
+.lead{max-width:680px;color:var(--muted);margin:0}
+.lead b{color:var(--ink)}
+.navbar{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line);font:700 14px/1 "PT Sans",sans-serif}
+.navbar .wrap{display:flex;gap:18px;padding:12px 16px;overflow-x:auto;white-space:nowrap}
+.navbar a{text-decoration:none;color:var(--ink)}
+.navbar a:hover{color:var(--accent)}
+
+/* ---------- COMIC ---------- */
+.comic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin:28px 0 12px}
+.panel{position:relative;grid-column:span 2;display:block;text-decoration:none;color:var(--ink);
+  background:var(--card);border:3px solid var(--ink);box-shadow:6px 6px 0 var(--ink);
+  min-height:250px;padding:14px 14px 12px;overflow:hidden;transition:transform .15s, box-shadow .15s}
+.panel:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--accent)}
+.panel.wide{grid-column:span 3}
+.panel.full{grid-column:span 6;min-height:190px}
+.panel::before{content:"";position:absolute;inset:0;background-image:radial-gradient(var(--dot) 1.3px,transparent 1.4px);background-size:9px 9px;pointer-events:none}
+.panel .num{position:absolute;top:10px;left:10px;font:400 22px/1 "Pangolin",cursive;background:var(--pop);color:#1d1a16;border:2px solid var(--ink);padding:4px 8px 2px}
+.panel .tc{position:absolute;top:12px;right:12px;font:700 12px/1 "PT Sans",sans-serif;color:var(--muted)}
+.panel svg{display:block;width:100%;height:120px;margin:30px 0 6px}
+.panel h3{font:400 26px/1 "Pangolin",cursive;letter-spacing:.03em;margin:4px 0 6px;position:relative}
+.bubble{position:relative;display:inline-block;background:#fff;color:#1d1a16;border:2px solid var(--ink);border-radius:16px;padding:6px 10px;font:700 14px/1.3 "PT Sans",sans-serif;margin-top:4px}
+.bubble::after{content:"";position:absolute;left:18px;bottom:-9px;border:8px solid transparent;border-top-color:var(--ink);border-bottom:0}
+.go{display:block;margin-top:10px;font:700 12px/1 "PT Sans",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.sfx{position:absolute;right:12px;bottom:10px;font:400 30px/1 "Pangolin",cursive;color:var(--accent);transform:rotate(-8deg);opacity:.9}
+.full .row{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.full svg{width:260px;height:130px;margin:26px 0 0;flex:0 0 auto}
+.full .txt{flex:1 1 300px}
+@media (max-width:760px){
+  .comic{grid-template-columns:1fr}
+  .panel,.panel.wide,.panel.full{grid-column:span 1}
+  .full svg{width:100%}
+}
+
+/* ---------- STRICT PART ---------- */
+section.doc{border-top:2px solid var(--ink);margin-top:56px;padding-top:24px}
+h2{font:700 30px/1.2 "PT Sans",sans-serif;margin:0 0 6px}
+h2 small{display:block;font:400 15px/1.4 "PT Serif",serif;color:var(--muted);margin-top:4px}
+.item{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent2);padding:18px 20px;margin:20px 0;scroll-margin-top:60px}
+.item h3{font:700 20px/1.3 "PT Sans",sans-serif;margin:0 0 4px}
+.meta{font:700 12px/1.4 "PT Sans",sans-serif;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.item ul{margin:8px 0 0;padding-left:20px}
+.item li{margin:4px 0}
+.dec{margin-top:12px;padding:10px 12px;background:color-mix(in srgb,var(--pop) 22%,transparent);border-radius:4px;font-size:16px}
+.dec b{font-family:"PT Sans",sans-serif}
+.links{margin-top:12px;font:700 13px/1 "PT Sans",sans-serif;display:flex;gap:14px;flex-wrap:wrap}
+.links a{text-decoration:none}
+.tag{display:inline-block;font:700 11px/1 "PT Sans",sans-serif;padding:4px 7px;border-radius:3px;color:#fff;vertical-align:middle;margin-right:6px}
+.t-ok{background:var(--ok)} .t-warn{background:var(--warn)} .t-bad{background:var(--bad)}
+table.chk{width:100%;border-collapse:collapse;font-size:15px;margin-top:10px}
+table.chk td{border-top:1px solid var(--line);padding:9px 8px;vertical-align:top}
+table.chk td:first-child{width:118px}
+@media (max-width:600px){table.chk td{display:block;width:auto!important;border-top:0;padding:4px 0}table.chk tr{display:block;border-top:1px solid var(--line);padding:8px 0}}
+.note{font-size:15px;color:var(--muted)}
+
+/* transcript */
+.tr{margin-top:14px}
+.ln{display:grid;grid-template-columns:78px 96px 1fr;gap:10px;padding:7px 0;border-top:1px dashed var(--line);scroll-margin-top:60px}
+.ln .t{font:700 13px/1.6 "PT Sans",sans-serif;color:var(--muted)}
+.ln .w{font:700 13px/1.6 "PT Sans",sans-serif}
+.ln .w.d{color:var(--accent2)} .ln .w.a{color:var(--accent)} .ln .w.q{color:var(--muted)}
+.ln.mark{background:color-mix(in srgb,var(--pop) 14%,transparent)}
+.chap{font:700 14px/1 "PT Sans",sans-serif;letter-spacing:.1em;text-transform:uppercase;margin:26px 0 4px;color:var(--ink);scroll-margin-top:60px}
+@media (max-width:600px){.ln{grid-template-columns:64px 1fr}.ln .w{grid-column:2}.ln .s{grid-column:1 / -1}}
+.back{font:700 13px/1 "PT Sans",sans-serif;text-decoration:none}
+footer{margin:60px 0 40px;font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="top" id="top">
+  <div class="kicker">Каменноостровский · окно с арками · 11.11.2026</div>
+  <h1>Окно: осмотр с мастером</h1>
+  <p class="lead">Для <b>Екатерины</b>. Это итоги встречи Димы с мастером Александром: что увидели, о чём договорились и что поменять в договоре. Сверху комикс-оглавление, по клику на кадр попадёте в нужный раздел протокола. Ниже протокол, ещё ниже запись разговора с тайм-кодами.</p>
+  <p class="note" style="margin-top:8px">Ссылка на эту страницу: <a href="https://uvedomlenie.github.io/capybara-clicker-etazh9000/okno-hgo1vxp48f/">uvedomlenie.github.io/capybara-clicker-etazh9000/okno-hgo1vxp48f/</a></p>
+</header>
+</div>
+
+<nav class="navbar"><div class="wrap">
+  <a href="#top">Комикс</a><a href="#protocol">Протокол</a><a href="#dogovor">Договор</a><a href="#next">Что дальше</a><a href="#transcript">Запись</a>
+</div></nav>
+
+<div class="wrap">
+<!-- ===================== COMIC ===================== -->
+<div class="comic">
+
+  <a class="panel" href="#p1">
+    <span class="num">1</span><span class="tc">13:48</span>
+    <svg viewBox="0 0 200 120" aria-hidden="true">
+      <!-- arched window -->
+      <path d="M60 110 V55 A40 40 0 0 1 140 55 V110 Z" fill="none" stroke="currentColor" stroke-width="4"/>
+      <line x1="100" y1="15" x2="100" y2="110" stroke="currentColor" stroke-width="3"/>
+      <line x1="60" y1="55" x2="140" y2="55" stroke="currentColor" stroke-width="3"/>
+      <path d="M78 30 L92 44 L84 50" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <circle cx="30" cy="70" r="10" fill="none" stroke="currentColor" stroke-width="3"/><path d="M18 110 Q30 82 42 110" fill="none" stroke="currentColor" stroke-width="3"/>
+      <circle cx="170" cy="70" r="10" fill="none" stroke="currentColor" stroke-width="3"/><path d="M158 110 Q170 82 182 110" fill="none" stroke="currentColor" stroke-width="3"/>
+    </svg>
+    <h3>Знакомство</h3>
+    <span class="bubble">«Вы единственный, кто начал по делу»</span>
+    <span class="go">к протоколу →</span>
+  </a>
+
+  <a class="panel" href="#p2">
+    <span class="num">2</span><span class="tc">13:50</span>
+    <svg viewBox="0 0 200 120" aria-hidden="true">
+      <rect x="70" y="20" width="60" height="90" fill="none" stroke="currentColor" stroke-width="4"/>
+      <path d="M20 40 q10 -10 20 0 t20 0" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <path d="M14 62 q10 -10 20 0 t20 0" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <path d="M20 84 q10 -10 20 0 t20 0" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <line x1="132" y1="22" x2="132" y2="108" stroke="var(--accent2)" stroke-width="2" stroke-dasharray="4 4"/>
+      <text x="142" y="70" font-family="Pangolin, cursive" font-size="22" fill="currentColor">2 мм?!</text>
+    </svg>
+    <h3>Шум и толщина</h3>
+    <span class="bubble">«Притворов нет — шум идёт в щели»</span>
+    <span class="sfx">ВЖЖ!</span>
+    <span class="go">к протоколу →</span>
+  </a>
+
+  <a class="panel" href="#p3">
+    <span class="num">3</span><span class="tc">13:53 · 14:29</span>
+    <svg viewBox="0 0 200 120" aria-hidden="true">
+      <rect x="40" y="30" width="16" height="80" fill="var(--pop)" stroke="currentColor" stroke-width="3"/>
+      <rect x="62" y="30" width="6" height="80" fill="none" stroke="currentColor" stroke-width="3"/>
+      <text x="58" y="22" text-anchor="middle" font-family="Pangolin, cursive" font-size="18" fill="currentColor">6</text>
+      <line x1="40" y1="70" x2="20" y2="70" stroke="var(--bad)" stroke-width="4"/>
+      <rect x="120" y="30" width="16" height="80" fill="var(--pop)" stroke="currentColor" stroke-width="3"/>
+      <rect x="142" y="30" width="5" height="80" fill="none" stroke="currentColor" stroke-width="3"/>
+      <text x="134" y="22" text-anchor="middle" font-family="Pangolin, cursive" font-size="18" fill="var(--ok)">5 ✓</text>
+    </svg>
+    <h3>Шестёрка → пятёрка</h3>
+    <span class="bubble">«Шесть — многовато, штапик не влезет»</span>
+    <span class="go">к протоколу →</span>
+  </a>
+
+  <a class="panel wide" href="#p4">
+    <span class="num">4</span><span class="tc">13:55 · 14:04</span>
+    <svg viewBox="0 0 300 120" aria-hidden="true">
+      <path d="M110 112 V60 A40 40 0 0 1 190 60 V112 Z" fill="none" stroke="currentColor" stroke-width="4"/>
+      <path d="M110 60 A40 40 0 0 1 190 60 Z" fill="var(--accent2)" opacity=".25"/>
+      <line x1="110" y1="60" x2="190" y2="60" stroke="currentColor" stroke-width="3"/>
+      <line x1="150" y1="60" x2="150" y2="112" stroke="currentColor" stroke-width="3"/>
+      <text x="40" y="50" font-family="Pangolin, cursive" font-size="26" fill="var(--accent2)">верх</text>
+      <text x="215" y="100" font-family="Pangolin, cursive" font-size="26" fill="var(--muted)">низ?</text>
+    </svg>
+    <h3>Менять ли нижние?</h3>
+    <span class="bubble">«Прозрачные — они прозрачные. Разница только в толщине»</span>
+    <span class="go">к протоколу →</span>
+  </a>
+
+  <a class="panel wide" href="#p5">
+    <span class="num">5</span><span class="tc">14:04–14:31</span>
+    <svg viewBox="0 0 300 120" aria-hidden="true">
+      <path d="M60 100 A50 50 0 0 1 240 100" fill="none" stroke="currentColor" stroke-width="5"/>
+      <g fill="var(--accent)"><circle cx="82" cy="70" r="5"/><circle cx="218" cy="70" r="5"/><circle cx="150" cy="38" r="5"/></g>
+      <text x="138" y="78" font-family="Pangolin, cursive" font-size="30" fill="var(--muted)">?</text>
+      <path d="M250 30 l20 0 l0 18 a10 10 0 0 1 -20 0 Z" fill="none" stroke="currentColor" stroke-width="3"/>
+      <line x1="260" y1="30" x2="260" y2="14" stroke="currentColor" stroke-width="3"/>
+    </svg>
+    <h3>Охота на гвозди</h3>
+    <span class="bubble">«Винт — это хорошо. Монтаж вполне реален»</span>
+    <span class="sfx">ДЗЫНЬ!</span>
+    <span class="go">к протоколу →</span>
+  </a>
+
+  <a class="panel wide" href="#dogovor">
+    <span class="num">6</span><span class="tc">14:34–14:38</span>
+    <svg viewBox="0 0 300 120" aria-hidden="true">
+      <rect x="100" y="10" width="90" height="105" fill="var(--card)" stroke="currentColor" stroke-width="3"/>
+      <g stroke="currentColor" stroke-width="2"><line x1="112" y1="30" x2="178" y2="30"/><line x1="112" y1="45" x2="178" y2="45"/><line x1="112" y1="60" x2="170" y2="60"/><line x1="112" y1="90" x2="178" y2="90"/></g>
+      <line x1="106" y1="75" x2="186" y2="75" stroke="var(--bad)" stroke-width="5"/>
+      <text x="200" y="80" font-family="Pangolin, cursive" font-size="24" fill="var(--bad)">5.3 п.2</text>
+    </svg>
+    <h3>Договор</h3>
+    <span class="bubble">«Уберу без проблем, я не против»</span>
+    <span class="go">к сверке договора →</span>
+  </a>
+
+  <a class="panel wide" href="#next">
+    <span class="num">7</span><span class="tc">14:38–14:42</span>
+    <svg viewBox="0 0 300 120" aria-hidden="true">
+      <g font-family="Pangolin, cursive" font-size="18" fill="currentColor">
+        <rect x="20" y="30" width="70" height="70" fill="var(--pop)" stroke="currentColor" stroke-width="3"/><text x="55" y="58" text-anchor="middle" fill="#1d1a16">ПТ 13</text><text x="55" y="84" text-anchor="middle" fill="#1d1a16">замер</text>
+        <rect x="115" y="30" width="70" height="70" fill="none" stroke="currentColor" stroke-width="3"/><text x="150" y="58" text-anchor="middle">ПН–ВТ</text><text x="150" y="84" text-anchor="middle">стекло</text>
+        <rect x="210" y="30" width="70" height="70" fill="none" stroke="currentColor" stroke-width="3"/><text x="245" y="58" text-anchor="middle">~17+</text><text x="245" y="84" text-anchor="middle">монтаж</text>
+      </g>
+    </svg>
+    <h3>План</h3>
+    <span class="bubble">«В пятницу в двенадцать»</span>
+    <span class="go">что дальше →</span>
+  </a>
+
+</div>
+
+<!-- ===================== PROTOCOL ===================== -->
+<section class="doc" id="protocol">
+  <h2>Протокол встречи<small>11.11.2026, 13:48–14:42, квартира на Каменноостровском. Участники: Дмитрий (ведёт проект от заказчицы) и Александр (мастер). Время в протоколе примерное, ± полминуты.</small></h2>
+
+  <div class="item" id="p1">
+    <div class="meta">1 · 13:48 · знакомство</div>
+    <h3>Кто есть кто и почему Александр</h3>
+    <ul>
+      <li>Дмитрий объяснил свою роль: он не прораб, а помогает собственнице организовать работу. Из всех, с кем связывались, Александр «единственный, кто начал по делу», поэтому других мастеров больше не ищут.</li>
+      <li>Александр работает в основном со стёклами и стеклопакетами.</li>
+    </ul>
+    <div class="links"><a href="#t-1348">→ запись 13:48</a><a href="#top">↑ к комиксу</a></div>
+  </div>
+
+  <div class="item" id="p2">
+    <div class="meta">2 · 13:50–13:53 · шум и стёкла сейчас</div>
+    <h3>Нынешние стёкла очень тонкие, а шум идёт не только через них</h3>
+    <ul>
+      <li>По оценке на глаз, сейчас стоят стёкла <b>2–3 мм</b>, внешнее в арке «ультратонкое». Форточки, скорее всего, тоже 2 мм. Толщину можно точно измерить по отколотому кусочку.</li>
+      <li>Шум глушат уплотнитель и стекло. Но <b>на этих окнах нет притворов</b>, поэтому даже с толстым стеклом шум и пыль пойдут через щели. Щели — отдельный вопрос, за рамки этой работы он выходит.</li>
+      <li>Рамы в хорошем состоянии, дерево хорошее, похоже на оригинал. Ручка-кремона тоже оригинальная, из этой квартиры.</li>
+      <li>Предварительная цена прозвучала «в районе 40 000» за всё. До пересчёта ориентир прежний: 41 600 за 6 мм.</li>
+    </ul>
+    <div class="links"><a href="#t-1350">→ запись 13:50</a><a href="#t-1352">→ 13:52</a><a href="#top">↑ к комиксу</a></div>
+  </div>
+
+  <div class="item" id="p3">
+    <div class="meta">3 · 13:53 и 14:29 · толщина</div>
+    <h3>6 мм — многовато, мастер предлагает 5 мм</h3>
+    <ul>
+      <li>Если вместо 2–3 мм поставить 6 мм, родной штапик не встанет на место: стекло толще на 3–4 мм. Варианты такие: штапик будет немного выступать, его заменят на более тонкий или его стешут. Сажать на замазку не хочется: она плохо держит краску, долго сохнет и пахнет.</li>
+      <li>В одних створках запас есть, в других нет, глубина «гуляет».</li>
+      <li>В конце осмотра Александр предложил <b>5 мм: «пять миллиметров максимум»</b>. Он пересчитает цену под пятёрку и пришлёт.</li>
+    </ul>
+    <div class="dec"><b>Решение:</b> ждём пересчёт под 5 мм. 6 мм — по ощущению мастера «многовато».</div>
+    <div class="links"><a href="#t-1353">→ запись 13:53</a><a href="#t-1429">→ 14:29</a><a href="#top">↑ к комиксу</a></div>
+  </div>
+
+  <div class="item" id="p4">
+    <div class="meta">4 · 13:55–13:57 и 14:04 · объём работ</div>
+    <h3>Только арки или всё окно</h3>
+    <ul>
+      <li>Нижние стёкла визуально от новых отличаться не будут: «прозрачные — они прозрачные». Мутнеют только очень старые стёкла с налётом, здесь не тот случай. В октябре Александр предупреждал о разнице, но тогда он окно не видел.</li>
+      <li>Высказано мнение: оригинальные детали лучше сохранить. Реставрация — когда-нибудь потом, отдельным проектом.</li>
+      <li>Получается, менять нижние стоит не ради одинакового вида, а <b>только ради толщины</b>. Сейчас там 2 мм.</li>
+      <li>Дмитрий спросил, сколько будет стоить только две верхние арки, без нижних. Ответ придёт вместе с пересчётом.</li>
+    </ul>
+    <div class="dec"><b>Открыто:</b> менять всё или только арки. Решает Екатерина, когда придут обе цены.</div>
+    <div class="links"><a href="#t-1355">→ запись 13:55</a><a href="#t-1404">→ 14:04</a><a href="#top">↑ к комиксу</a></div>
+  </div>
+
+  <div class="item" id="p5">
+    <div class="meta">5 · 14:04–14:31 · крепление арок</div>
+    <h3>Как снять «полумесяцы»</h3>
+    <ul>
+      <li>Чтобы заменить арочное стекло, нужно снять арочную часть рамы, «полумесяц». Само окно не демонтируют. Без снятия стекло не закрепить.</li>
+      <li>Крепёж искали под слоями краски, ковыряли, пробовали магнитом. Нашли разное: гвозди, винты, плоские саморезы. «Винт — это хорошо, монтаж вполне реален».</li>
+      <li>Почти все точки найдены. Не найдена одна, снаружи вверху. Если магнит не покажет, слева придётся прогреть краску феном и расчистить.</li>
+      <li>Места крепления потом зашпаклюют и подкрасят: «это всё шпаклюется».</li>
+    </ul>
+    <div class="links"><a href="#t-1404">→ запись 14:04</a><a href="#t-1430">→ 14:30</a><a href="#top">↑ к комиксу</a></div>
+  </div>
+
+  <!-- ===================== CONTRACT ===================== -->
+  <div class="item" id="dogovor" style="border-left-color:var(--accent)">
+    <div class="meta">6 · 14:34–14:38 · договор + сверка с PDF</div>
+    <h3>Договор: что договорились поменять и что в нём сейчас</h3>
+    <ul>
+      <li>Екатерина не согласна с п. 5.3, подпункт 2: работы считаются выполненными, если мастер отправил уведомление в мессенджер, а заказчика нет на объекте. Дмитрий передал. Александр пояснил, что пункт нужен, «чтобы не бегать за заказчиком», и сразу согласился: <b>«уберу без проблем… давайте уберём, я не против»</b>.</li>
+      <li>Подписывать договор будет Дмитрий.</li>
+      <li>По покраске: «сделали, подкрасили, рассчитались». Если попросят подкрасить ещё — «ну давайте».</li>
+    </ul>
+    <table class="chk">
+      <tr><td><span class="tag t-ok">сделано</span></td><td><b>п. 5.3, подпункт 2 убран.</b> В PDF из этой папки осталось одно условие: «с момента подписания сторонами Акта приемки-сдачи». От старой формулировки остался хвост: «при наступлении одного из следующих условий», хотя условие теперь одно. На смысл не влияет, но при подписании можно попросить поправить.</td></tr>
+      <tr><td><span class="tag t-warn">вписать</span></td><td><b>Шпаклёвка и подкраска мест крепления.</b> Мастер обещал это 23.10 и на осмотре, но в тексте договора про это ничего нет. Лучше вписать отдельной строкой в таблицу п. 1.1. 10.11 он писал, что точный подбор цвета — за отдельную плату. Дмитрий ответил: подойдёт обычная белая краска.</td></tr>
+      <tr><td><span class="tag t-warn">вписать</span></td><td><b>Вынос старых стёкол</b>: обещан 23.10 («входит в стоимость»), в договоре его нет.</td></tr>
+      <tr><td><span class="tag t-warn">вписать</span></td><td><b>Этапы работ</b>. 10.11 мастер написал: «этапы работ впишем в договор ручкой». Проверить при подписании.</td></tr>
+      <tr><td><span class="tag t-warn">заполнить</span></td><td><b>Цена и порядок оплаты.</b> Таблица п. 1.1, сумма п. 3.1 и суммы предоплаты в п. 3.2 пока пустые. Ждём пересчёт под 5 мм. Екатерина хочет 50% сразу и 50% после работ: в п. 3.2 выбрать «поэтапно» и вписать обе суммы.</td></tr>
+      <tr><td><span class="tag t-warn">заполнить</span></td><td><b>Срок</b> в п. 2.1 («___ суток») пустой.</td></tr>
+      <tr><td><span class="tag t-ok">есть</span></td><td>Гарантия на изготовление и установку стёкол — 12 месяцев (п. 4.1).</td></tr>
+      <tr><td><span class="tag t-bad">важно знать</span></td><td>П. 5.1: если отказаться после того, как стекло ушло в производство, предоплату вернут <b>за вычетом затрат</b> мастера. Решение «только арки или всё» лучше принять до подписания.</td></tr>
+    </table>
+    <p class="note">PDF, который лежит в папке, — уже версия без подпункта 2. Екатерина 11.11 в 14:09 цитировала прежний текст, где он ещё был. Если эта версия пришла от мастера после осмотра, правка уже внесена.</p>
+    <div class="links"><a href="#t-1434">→ запись 14:34</a><a href="#t-1437">→ 14:37</a><a href="#top">↑ к комиксу</a></div>
+  </div>
+
+  <!-- ===================== NEXT ===================== -->
+  <div class="item" id="next" style="border-left-color:var(--ok)">
+    <div class="meta">7 · 14:38–14:42 · план</div>
+    <h3>Что дальше</h3>
+    <ul>
+      <li><b>Александр</b> пересчитывает цену под 5 мм, отдельно «только верх» и «всё окно», и присылает договор с ценой.</li>
+      <li><b>Пятница, 13.11, с 12:00 до 14:00</b> — замер. Займёт 2–3 часа. Договор подписывают до замера: «после того, как подпишем договор». Мастер снимет арки, сделает по ним картонные шаблоны и поставит рамы назад, хотя бы внешнюю, чтобы не дуло.</li>
+      <li><b>Понедельник–вторник</b> — стекло уходит в производство. В пятницу на заводе короткий день, поэтому могут не успеть. Прямоугольные стёкла режут за день, арочные по шаблону могут занять чуть дольше.</li>
+      <li><b>Монтаж</b> — примерно с 17.11, «начало — середина следующей недели».</li>
+    </ul>
+    <div class="dec"><b>От Екатерины:</b> когда придёт пересчёт, решить, «всё окно» или «только арки», и подтвердить 5 мм. Вычитать договор до пятницы.</div>
+    <div class="links"><a href="#t-1438">→ запись 14:38</a><a href="#t-1439">→ 14:39</a><a href="#top">↑ к комиксу</a></div>
+  </div>
+</section>
+
+<!-- ===================== TRANSCRIPT ===================== -->
+<section class="doc" id="transcript">
+  <h2>Запись разговора<small>Причёсанная расшифровка диктофонной записи. Свели два распознавания, убрали мусор и паузы, смысл не меняли. Время с точностью до 30 секунд. <span id="tr-status">Голоса пока размечены по смыслу; когда придёт автоматическая разметка по голосам, текст обновится.</span></small></h2>
+  <p class="note"><span style="color:var(--accent2);font-weight:700">Дмитрий</span> · <span style="color:var(--accent);font-weight:700">Александр</span> · <span style="font-weight:700">?</span> — непонятно, кто. Где запись неразборчива, стоит «[…]».</p>
+
+  <div class="tr" id="tr-body">
+  <!--TRANSCRIPT-START-->
+    <div class="chap" id="tr-ch1">Знакомство</div>
+    <div class="ln" id="t-1348"><span class="t">13:48</span><span class="w d">Дмитрий</span><span class="s">У меня работа сама айтишная, я с дизайнерами интерьера немного взаимодействую, делаю для них всякие айтишные вещи. Иногда меня припахивают как прораба, как в данном случае, — что я очень не люблю.</span></div>
+    <div class="ln"><span class="t">13:49</span><span class="w d">Дмитрий</span><span class="s">Кто-то там секретарши, то ещё кто-то… А вы единственный, кто начал реагировать более-менее по делу, и я подумал, что больше никого прозванивать не буду.</span></div>
+    <div class="ln"><span class="t">13:49</span><span class="w a">Александр</span><span class="s">[…] В основном стеклопакеты и стёкла. Здесь всё элементарно, основное — это геморрой с демонтажем.</span></div>
+    <div class="chap">Арка и шум</div>
+    <div class="ln" id="t-1350"><span class="t">13:50</span><span class="w a">Александр</span><span class="s">По идее должна сняться без проблем, обычно снимаются. Но там, скорее всего, гвозди. Сейчас отколупнём, посмотрим. Бывают саморезы — можно попробовать выкрутить, бывает, шляпка обламывается, это фигово. Если гвозди — тут будет неудобно. Но это всё заделывается: шпатлюется, красочкой раз — и даже не видно. Это здесь не какой-то супер-ремонт, здесь просто чтобы краска была.</span></div>
+    <div class="ln"><span class="t">13:50</span><span class="w d">Дмитрий</span><span class="s">Хозяйка всё-таки хочет шестёрки. Я в ChatGPT спрашивал — вроде как для шумоизоляции стекло особо ничего не даёт?</span></div>
+    <div class="ln"><span class="t">13:51</span><span class="w a">Александр</span><span class="s">Да нет, даёт. Шумоизолирует уплотнитель и стёкла, больше ничего. Но надо понимать, что здесь на окнах нет притворов. Даже если поставим шестёрки — вот эту щель никто не закроет, может поддувать.</span></div>
+    <div class="ln"><span class="t">13:51</span><span class="w d">Дмитрий</span><span class="s">Я замечал: через эти щели пыль налетает. И как этот вопрос решать?</span></div>
+    <div class="ln"><span class="t">13:51</span><span class="w a">Александр</span><span class="s">Это уже другой вопрос. Он может потянуть за собой и ремонт, и реставрацию.</span></div>
+    <div class="ln"><span class="t">13:51</span><span class="w d">Дмитрий</span><span class="s">Пока объект стоит как полуфабрикат, просто хочется, чтобы стёклышки были целые.</span></div>
+    <div class="ln" id="t-1352"><span class="t">13:52</span><span class="w a">Александр</span><span class="s">Они в неплохом состоянии, если не придираться к геометрии. Видно, что дерево хорошее. Может, даже оригинал.</span></div>
+    <div class="ln"><span class="t">13:52</span><span class="w d">Дмитрий</span><span class="s">Ручку мы, по-моему, с другого окна перекрутили — она тоже оригинальная, из этой квартиры. Как она называется?</span></div>
+    <div class="ln"><span class="t">13:52</span><span class="w a">Александр</span><span class="s">Кремон. Есть ещё шпингалеты, там рычаг двигается.</span></div>
+    <div class="ln"><span class="t">13:52</span><span class="w d">Дмитрий</span><span class="s">Ну если ближе к телу — в районе сорока тысяч всё это у нас выходит? Эпопея получается.</span></div>
+    <div class="chap">Толщина и штапик</div>
+    <div class="ln" id="t-1353"><span class="t">13:53</span><span class="w a">Александр</span><span class="s">Можно выбить маленький кусочек и померить толщину, но скорее всего это тройки. А там, по-моему, чуть ли не двойка — внешнее совсем тонкое.</span></div>
+    <div class="ln"><span class="t">13:53</span><span class="w d">Дмитрий</span><span class="s">Ультратонкое. В общем, она согласна на шестёрки, чтобы было основательно.</span></div>
+    <div class="ln"><span class="t">13:53</span><span class="w a">Александр</span><span class="s">Если шестёрку сюда поставим, штапик не влезет. Если тут тройка — это плюс три миллиметра. Тогда либо штапик менять на более тонкий, либо ставить этот назад — он будет торчать, вот как здесь. Можно потом стачивать.</span></div>
+    <div class="ln"><span class="t">13:54</span><span class="w a">Александр</span><span class="s">Чтобы не торчало, можно подобрать штапики потоньше, рейки какие-то, три-четыре миллиметра. Тогда внешний вид меняется, их красить. Либо делать на замазку — но на замазку, честно говоря, не хочется: краска на неё плохо ложится, она долго сохнет и пахнет.</span></div>
+    <div class="ln"><span class="t">13:54</span><span class="w q">?</span><span class="s">Вот тут, кстати, запас есть пару миллиметров, а здесь нет. Глубина гуляет: тут утоплено, здесь торчит.</span></div>
+    <div class="chap">Только верх или всё</div>
+    <div class="ln" id="t-1355"><span class="t">13:55</span><span class="w d">Дмитрий</span><span class="s">Моё мнение — я бы эти оригинальные штуки сохранил. Когда-нибудь у кого-то дойдут руки до реставрации — это будет отдельный проект. А тут у неё сработал перфекционизм: если меняю это, давайте и это, чтобы визуально было одинаково. Вы говорили, что новые и старые стёкла могут отличаться по прозрачности?</span></div>
+    <div class="ln"><span class="t">13:55</span><span class="w a">Александр</span><span class="s">Я так сказал, потому что не видел окна. Можно вообще ограничиться верхними. Бывают старые стёкла — зашорканные, с налётом. А эти прозрачные — как они могут отличаться?</span></div>
+    <div class="ln"><span class="t">13:57</span><span class="w d">Дмитрий</span><span class="s">Получается, менять нижние — только ради того, чтобы стали толще.</span></div>
+    <div class="ln"><span class="t">13:57</span><span class="w a">Александр</span><span class="s">Либо менять, либо нет. Если меняем на шестёрки, ставим эти штапики, и они немного отходят. Визуально — ощущение, что здесь двойка или тройка. Сейчас я, с вашего позволения, этот кусочек в углу выну.</span></div>
+    <div class="chap">Крепёж арок</div>
+    <div class="ln" id="t-1404"><span class="t">14:04</span><span class="w d">Дмитрий</span><span class="s">С заказчиком я обсуждал: давай, может, на верхних остановимся. Если сделать только две верхние, без нижних, — это сколько будет?</span></div>
+    <div class="ln"><span class="t">14:04</span><span class="w a">Александр</span><span class="s">Посмотрю слева, справа непонятно — то ли гвоздь, то ли кусок дерева. Первый вопрос — места крепления. Второй — выбьется ли рама. Если выбивать, по периметру много краски отпадёт.</span></div>
+    <div class="ln"><span class="t">14:05</span><span class="w d">Дмитрий</span><span class="s">А без демонтажа заменить никак? В четыре руки держать, на клей посадить?</span></div>
+    <div class="ln"><span class="t">14:05</span><span class="w a">Александр</span><span class="s">Проблема в том, что даже если стекло туда засунем — как его закрепить?</span></div>
+    <div class="ln"><span class="t">14:06</span><span class="w q">?</span><span class="s">[телефонный звонок] […] Посмотрим соседний — тут тоже вроде крепёж какой-то.</span></div>
+    <div class="ln"><span class="t">14:07</span><span class="w a">Александр</span><span class="s">Угол забит шпаклёвкой. При реставрации идут наоборот: сначала снимают всю краску до дерева — и тогда видно, где закреплено. А тут ни фига нет, только ямка. Тут бы металлодетектором. Попробую магнитиком.</span></div>
+    <div class="ln"><span class="t">14:13</span><span class="w a">Александр</span><span class="s">Они могут быть не на одном уровне с разных сторон.</span></div>
+    <div class="ln"><span class="t">14:14</span><span class="w a">Александр</span><span class="s">О, это винт — это хорошо. Монтаж вполне реален.</span></div>
+    <div class="ln"><span class="t">14:16</span><span class="w a">Александр</span><span class="s">Тут гвоздь, тут саморез, тут плоский саморез — что было в наличии, на то и ставили.</span></div>
+    <div class="ln"><span class="t">14:19</span><span class="w a">Александр</span><span class="s">Вероятность, что там железка, почти стопроцентная. Если гвоздь глубже утоплен под шпаклёвкой, слабый магнит может не добить. Нужен мощный магнит или простукивание.</span></div>
+    <div class="ln"><span class="t">14:23</span><span class="w a">Александр</span><span class="s">Если стёкла 2 мм, они, скорее всего, не понравятся, и захочется потолще. Форточки, видимо, тоже двушки.</span></div>
+    <div class="ln"><span class="t">14:25</span><span class="w a">Александр</span><span class="s">Если стекло станет толще, штапик отойдёт вот сюда.</span></div>
+    <div class="ln" id="t-1429"><span class="t">14:29</span><span class="w a">Александр</span><span class="s">Шестёрка — это, наверное, многовато, я так считаю. Поэтому предлагаю пятёрку. Пять миллиметров максимум. По стоимости уточню и пришлю вам информацию. Если всё да — договоримся на другой день на замер: чтобы снять замер, надо всё это снять.</span></div>
+    <div class="ln" id="t-1430"><span class="t">14:30</span><span class="w a">Александр</span><span class="s">Чтобы снять замер арки, надо снять верхние полумесяцы — это время, это работа. Замер — после того, как подпишем договор. Если магнит слева ничего не покажет — придётся феном прогреть участок и снять краску, там будет видно, где закручено. Вообще есть вероятность, что там ничего нет — я не удивлюсь.</span></div>
+    <div class="ln"><span class="t">14:30</span><span class="w d">Дмитрий</span><span class="s">А на внешней раме всё нашли?</span></div>
+    <div class="ln"><span class="t">14:31</span><span class="w a">Александр</span><span class="s">Только одну точку не нашёл — снаружи вверху, не достать. Раньше так соблюдали симметрию. Придётся феном поработать.</span></div>
+    <div class="ln"><span class="t">14:33</span><span class="w d">Дмитрий</span><span class="s">Получается, вам сейчас нужно всё пересчитать под пятёрки?</span></div>
+    <div class="ln"><span class="t">14:34</span><span class="w a">Александр</span><span class="s">Да, пересчитаю и пришлю окончательную информацию. Если всё да — приеду, договоримся на день, подпишем договор.</span></div>
+    <div class="chap">Договор</div>
+    <div class="ln mark" id="t-1434"><span class="t">14:34</span><span class="w d">Дмитрий</span><span class="s">Единственное: в договоре есть пункт — работы считаются принятыми, когда подписан акт приёма-передачи, а второй — когда заказчик оповещён по мессенджеру. Ей это не понравилось. Давайте оставим только первый: подписан акт — значит, работа сделана. У неё специфика работы с объектами.</span></div>
+    <div class="ln"><span class="t">14:35</span><span class="w a">Александр</span><span class="s">Это всё взято из закона, не я придумал, просто сформулировано простым языком. Смысл: работа сделана, а хозяина нет. Надо бы подписать документы и рассчитаться. Пункт для того, чтобы не бегать за заказчиком, если он пропал.</span></div>
+    <div class="ln"><span class="t">14:35</span><span class="w d">Дмитрий</span><span class="s">Но вторая часть оплаты всё равно поступает после окончания работы, правильно?</span></div>
+    <div class="ln"><span class="t">14:35</span><span class="w a">Александр</span><span class="s">Если я напишу «работа сделана, приходите», а мне ответят: «Я приеду через два дня, посмотрю, тогда рассчитаемся» — мне что делать? Это на этот случай. Формальность.</span></div>
+    <div class="ln"><span class="t">14:36</span><span class="w d">Дмитрий</span><span class="s">То есть без этого пункта открывается возможность потребителю устраивать терроризм.</span></div>
+    <div class="ln"><span class="t">14:36</span><span class="w a">Александр</span><span class="s">Саботаж устроить любой может. Но по-человечески: я сделал, говорю — работа готова, принимайте. Тогда этот момент надо сразу обговорить.</span></div>
+    <div class="ln mark" id="t-1437"><span class="t">14:37</span><span class="w a">Александр</span><span class="s">Сделали, подкрасили, рассчитались. Я могу убрать без проблем, если надо.</span></div>
+    <div class="ln"><span class="t">14:37</span><span class="w d">Дмитрий</span><span class="s">По сути, формальным подписантом по договору буду я. Просто ей этот пункт не нравится.</span></div>
+    <div class="ln mark"><span class="t">14:37</span><span class="w a">Александр</span><span class="s">Давайте уберём, я не против. Если скажете: «Александр, давайте тут ещё подкрасим» — ну давайте. Эти штуки уберём. Внутренняя, я больше чем уверен, на винтах — это хорошо. Если гвоздь, придётся под гвоздодёр чуть вырезать дерево, но это всё шпаклюется.</span></div>
+    <div class="chap">План</div>
+    <div class="ln" id="t-1438"><span class="t">14:38</span><span class="w d">Дмитрий</span><span class="s">Давайте тогда без второго пункта скидывайте договор с ценой. И примерно когда будет замер? Если вам надо ещё с кем-то посоветоваться…</span></div>
+    <div class="ln"><span class="t">14:38</span><span class="w a">Александр</span><span class="s">Да мне не с кем советоваться, всё сделать можно. Просто надо сесть и посмотреть по цене — на это время нужно, меня уже ждут. Замер — давайте на пятницу. Сегодня-завтра у меня приличная работа.</span></div>
+    <div class="ln" id="t-1439"><span class="t">14:39</span><span class="w a">Александр</span><span class="s">Давайте, Дмитрий, где-то с двенадцати до двух подъеду. Замер — часа два-три. В день замера я сниму арки, состряпаю шаблончики из картона и всё поставлю назад — по крайней мере внешние, чтобы было закрыто и не дуло. Потом запущу в работу.</span></div>
+    <div class="ln"><span class="t">14:40</span><span class="w a">Александр</span><span class="s">В идеале в понедельник запустим. В пятницу на заводе короткий день — не знаю, успею ли до четырёх отправить замеры. Либо на вторник договоримся по работе — это будет 17-е число. Начало — середина следующей недели.</span></div>
+    <div class="ln"><span class="t">14:40</span><span class="w a">Александр</span><span class="s">Прямоугольные — сегодня заказал, завтра готово. Арочные по шаблону, на этом заводе я шаблоны ещё не делал, срок может быть чуть больше. Но там робот режет, по идее быстро. Где-то середина следующей недели.</span></div>
+    <div class="ln"><span class="t">14:41</span><span class="w a">Александр</span><span class="s">Так что приеду в пятницу в двенадцать. Всё видно, кроме одной точки снаружи вверху — найдётся. У меня как раз инструмент для вытаскивания гвоздей.</span></div>
+    <div class="ln"><span class="t">14:42</span><span class="w d">Дмитрий</span><span class="s">Отлично, вроде получилось.</span></div>
+  <!--TRANSCRIPT-END-->
+  </div>
+  <p style="margin-top:20px"><a class="back" href="#protocol">↑ к протоколу</a> · <a class="back" href="#top">↑ к комиксу</a></p>
+</section>
+
+<footer>
+  Собрано по диктофонной записи осмотра 11.11, переписке в WhatsApp и PDF договора. Это рабочий конспект, а не юридический документ: договор перед подписанием стоит вычитать самой.
+</footer>
+</div>
+</body>
+</html>
