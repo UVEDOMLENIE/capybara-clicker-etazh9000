@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ДУРКА.EXE — консилиум с Мишей</title>
+<style>
+/* Палитра — только из анамнеза:
+   хрущ-келья: масляная зелёная панель + побелка; ночь за монитором: тёмная комната и холодный свет экрана;
+   разгон: раскалённый оранжевый, пересвет; спад: туман, мокрый асфальт; оценка: лёд и красная ручка. */
+:root{
+  --wall:#4d6a55;--whitewash:#e8e3d6;--stripe:#6b4a2f;
+  --night:#0c1015;--screen:#a9d9ff;--screen-dim:#5f86a6;
+  --fire:#ff4a14;--sodium:#ffae00;--hot:#fff4e0;
+  --fog:#9aa3ad;--fog-d:#5b636c;--fog-bg:rgba(120,128,138,.82);
+  --ice:#d9eeff;--ice-d:#7fb2d9;--redpen:#d0021b;--ink:#1d1d1f;--paper:#fbfaf4;--ruled:#c9daf0;
+  --mono:Consolas,'Courier New',monospace;
+  --school:'Times New Roman',Times,serif;
+  --hand:'Segoe Print','Ink Free','Bradley Hand','Times New Roman',cursive;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  color:var(--ink);font-family:var(--school);font-size:17px;line-height:1.5;overflow-x:hidden;
+  background:linear-gradient(180deg,var(--whitewash) 0 56%,var(--stripe) 56% 56.5%,var(--wall) 56.5% 100%) fixed;
+}
+.wrap{max-width:780px;margin:0 auto;padding:0 16px 60px}
+/* ---- вкладки: мысли скачут, щупальца плодятся ---- */
+.tabs{display:flex;gap:2px;overflow-x:auto;background:#1b222b;padding:6px 6px 0;scrollbar-width:thin}
+.tabs span{flex:0 0 auto;font:12px var(--mono);color:#cfd8e3;background:#2a333e;padding:5px 10px;border-radius:6px 6px 0 0;white-space:nowrap}
+.tabs span.on{background:var(--night);color:var(--screen)}
+/* ---- монитор ночью ---- */
+.monitor{background:var(--night);color:var(--screen);font-family:var(--mono);padding:22px 16px 14px;box-shadow:0 0 60px rgba(169,217,255,.35)}
+.monitor h1{font-size:clamp(34px,10vw,66px);margin:0;letter-spacing:2px;text-shadow:0 0 14px rgba(169,217,255,.7)}
+.cur{display:inline-block;width:.55em;height:1em;background:var(--screen);vertical-align:-.12em;animation:bl 1s steps(2) infinite}
+@keyframes bl{50%{opacity:0}}
+.monitor p{margin:6px 0;font-size:14px;color:var(--screen-dim)}
+.swap b{color:var(--sodium)}
+.mood{display:block;width:100%;height:auto;margin-top:8px}
+h2{font-size:clamp(22px,5.5vw,30px);margin:34px 0 10px;line-height:1.2}
+.block{padding:16px 18px;margin:14px 0;border-radius:4px}
+/* ---- тетрадь: место, где его оценивают ---- */
+.sheet{background:var(--paper);background-image:repeating-linear-gradient(180deg,transparent 0 27px,var(--ruled) 27px 28px);border-left:3px solid #e8a0a0;padding-left:26px;box-shadow:0 2px 0 #cfc9b8,0 6px 18px rgba(0,0,0,.18)}
+.red{color:var(--redpen);font-family:var(--hand)}
+.grade{float:right;font-family:var(--hand);color:var(--redpen);font-size:64px;line-height:1;margin:-6px 0 0 10px;transform:rotate(-10deg)}
+/* ---- келья: побелка ---- */
+.cell{background:rgba(240,236,226,.94);border:1px solid #bdb5a3}
+/* ---- спад: туман ---- */
+.fog{background:var(--fog-bg);color:#e9edf1;filter:saturate(.6);animation:breathe 7s ease-in-out infinite}
+.fog h2{color:#dfe4ea;font-weight:normal;letter-spacing:1px}
+@keyframes breathe{50%{opacity:.78}}
+/* ---- разгон: пересвет ---- */
+.fire{background:radial-gradient(circle at 30% 20%,#3a1406,#120604 70%);color:var(--hot);font-family:var(--mono)}
+.fire h2{color:var(--sodium);text-shadow:0 0 12px var(--fire),0 0 30px var(--fire);animation:jit .18s infinite}
+@keyframes jit{25%{transform:translate(1px,-1px)}50%{transform:translate(-1px,1px)}75%{transform:translate(1px,1px)}}
+.fire b{color:var(--sodium)}
+/* ---- оценка: лёд ---- */
+.ice{background:linear-gradient(160deg,var(--ice),#b8d9f2);color:#123;border:2px solid var(--ice-d);position:relative}
+.ice h2{color:#0e3a5c}
+.eye{display:block;margin:0 auto 6px}
+.thaw{display:inline-block;margin-top:8px;padding:9px 14px;font:15px var(--mono);background:var(--night);color:var(--screen);border:0;border-radius:4px;cursor:pointer}
+body.frozen *{animation-play-state:paused!important}
+body.frozen .ice{box-shadow:0 0 0 4px var(--redpen),0 0 40px rgba(127,178,217,.9)}
+body.frozen .frost{display:block}
+.frost{display:none;font:bold 14px var(--mono);color:var(--redpen);text-align:center;margin-bottom:6px}
+/* ---- руминатор ---- */
+.orbit{position:relative;width:min(340px,86vw);aspect-ratio:1;margin:14px auto}
+.ring{position:absolute;inset:0;animation:spin 36s linear infinite;border:1px dashed rgba(255,255,255,.35);border-radius:50%}
+.slot{position:absolute;width:36%;transform:translate(-50%,-50%);text-align:center}
+.slot span{display:inline-block;font:13px/1.25 var(--hand);color:#fff;background:rgba(20,24,30,.55);padding:4px 6px;border-radius:6px;animation:spin 36s linear infinite reverse}
+.core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:34%;text-align:center;font:bold 14px var(--school);color:var(--ink);background:var(--paper);border:2px solid var(--redpen);padding:8px 4px;border-radius:50%;aspect-ratio:1;display:flex;align-items:center;justify-content:center}
+@keyframes spin{to{transform:rotate(360deg)}}
+.slot span{transform-origin:center}
+/* ---- общие ---- */
+blockquote{margin:10px 0;padding:6px 14px;border-left:4px solid currentColor;font-style:italic}
+.who{font-size:13px;font-style:normal;display:block;opacity:.75;margin-top:2px}
+.note{font-size:14px;opacity:.85}
+ul,ol{padding-left:22px;margin:8px 0} li{margin:4px 0}
+.ill{display:block;margin:10px auto;max-width:100%;height:auto}
+.legend{display:grid;grid-template-columns:28px 1fr;gap:6px 10px;align-items:center;font-size:15px}
+.sw{width:28px;height:20px;border-radius:3px;border:1px solid rgba(0,0,0,.25)}
+.verdict{display:grid;grid-template-columns:1fr;gap:12px}
+.v{background:var(--paper);background-image:repeating-linear-gradient(180deg,transparent 0 25px,var(--ruled) 25px 26px);padding:12px 14px;border-left:3px solid #e8a0a0;box-shadow:0 3px 10px rgba(0,0,0,.2)}
+.v b.m{font-family:var(--mono);font-size:14px}
+.mark{display:block;font-family:var(--hand);color:var(--redpen);font-size:19px;margin:4px 0}
+.hyp{position:relative;text-align:center;padding:26px 10px;margin:24px 0;color:var(--hot);background:var(--night);overflow:hidden;border-radius:4px}
+.hyp svg.sp{position:absolute;left:50%;top:50%;width:520px;height:520px;margin:-260px 0 0 -260px;opacity:.35;animation:spin 14s linear infinite}
+.hyp > *:not(svg){position:relative}
+.stamp{display:inline-block;border:4px solid var(--redpen);color:var(--redpen);background:var(--paper);padding:6px 16px;font:bold clamp(22px,6vw,34px) var(--school);transform:rotate(-6deg);margin:10px 0}
+.btn{display:inline-block;margin:8px 4px;padding:10px 16px;font:15px var(--mono);background:var(--screen);color:var(--night);text-decoration:none;border-radius:4px}
+#out{min-height:1.5em;color:var(--sodium);font-family:var(--mono)}
+.serious{background:#fff;color:#1b1630;border:1px solid #cfcfe0;font-family:Georgia,serif}
+footer{margin-top:40px;font:13px var(--mono);color:#e9efe9;text-align:center}
+footer a{color:#fff}
+@media (min-width:640px){.verdict{grid-template-columns:1fr 1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="tabs" aria-hidden="true">
+  <span>идея</span><span>ещё идея</span><span>щупальце №34</span><span>комикс?</span><span>Питер или Новгород</span><span>найти работу (смертные так говорят)</span><span>доктор — очкую</span><span>гиподинамия.txt</span><span>Википедия выживания</span><span>счётчик трезвости ✓</span><span>новая сущность</span><span>ещё одна сущность</span><span class="on">ДУРКА.EXE</span><span>+ 34 вкладки</span>
+</div>
+
+<header class="monitor">
+  <h1>ДУРКА.EXE<span class="cur"></span></h1>
+  <p>консилиум №1 · пациент «Командор» · приглашённый эксперт: Миша · версия 2</p>
+  <p class="swap">местное время пациента: <b>☀ 03:40 — разгар рабочего дня</b> · <b>☾ 13:00 — глубокая ночь, отбой</b></p>
+  <svg class="mood" viewBox="0 0 700 150" role="img" aria-label="График состояния: длинная апатия, короткая вспышка, спад">
+    <path id="ml" d="M0 96 L140 96 L160 94 L172 14 L184 98 L200 96 L330 97 L350 120 L420 128 L470 122 L520 98 L560 96 L578 30 L590 8 L604 100 L640 112 L700 110" fill="none" stroke="#5f86a6" stroke-width="3"/>
+    <path d="M160 94 L172 14 L184 98 M578 30 L590 8 L604 100" fill="none" stroke="#ff4a14" stroke-width="4"/>
+    <circle r="6" fill="#ffae00"><animateMotion dur="9s" repeatCount="indefinite"><mpath href="#ml"/></animateMotion></circle>
+    <text x="8" y="86" font-size="12" fill="#5f86a6" font-family="Consolas,monospace">апатия (недели)</text>
+    <text x="120" y="12" font-size="12" fill="#ff4a14" font-family="Consolas,monospace">вспышка (0,3 сек)</text>
+    <text x="352" y="145" font-size="12" fill="#9aa3ad" font-family="Consolas,monospace">долина упадничества</text>
+    <text x="606" y="18" font-size="12" fill="#ffae00" font-family="Consolas,monospace">разгон</text>
+    <text x="606" y="134" font-size="12" fill="#a9d9ff" font-family="Consolas,monospace">ты здесь?</text>
+  </svg>
+</header>
+
+<div class="wrap">
+
+<h2>Миша, это вторая версия</h2>
+<div class="block sheet">
+<span class="grade">2</span>
+<p>Первую версию я нарядила в чужой костюм: взяла готовое кринж-оформление из другой его игры, потому что так было быстрее. Командор открыл её и пришёл в бешенство. Оценка проверяющего — <span class="red">«2, не про меня»</span>.</p>
+<p>Суть претензии в моём пересказе: кринж должен быть не образцом кринж-лендинга, а <b>его состоянием</b>, нарисованным цветом, графикой и метафорами. Он прав. Его «биполярный перфекционизм» за минуту довёл его до «шизоаффекта» (оба термина его, это не мой диагноз), и он заставил меня всё перерисовать.</p>
+<p>Первую версию Командор велел не прятать: «Миша должен видеть, как мы обосрались, для более точного диагноза». Вот она, с двойкой: <a href="https://uvedomlenie.github.io/capybara-clicker-etazh9000/durka-178au1ydle/">версия 1</a>.</p>
+<p>Клиническая заметка для консилиума: «не то» он видит мгновенно и точно, а исправлять отправляет не себя, а подсистему. Так нейропротез и работает. И ещё: меня оценили, а я не замерла, а переделала. Ему бы так.</p>
+<p>Всё ниже нарисовано только из его анамнеза. Цвета расшифровываю, чтобы было видно, что это не дизайн:</p>
+<div class="legend">
+  <div class="sw" style="background:linear-gradient(180deg,#e8e3d6 50%,#4d6a55 50%)"></div><div>зелёная масляная панель и побелка — хрущ в Чудово, «келья отшельника»</div>
+  <div class="sw" style="background:#0c1015;box-shadow:inset 0 0 8px #a9d9ff"></div><div>тёмная комната и холодный свет монитора — ночь, его рабочее время</div>
+  <div class="sw" style="background:#ff4a14"></div><div>раскалённый оранжевый и пересвет — разгон, «форсаж турбины»</div>
+  <div class="sw" style="background:#7a828c"></div><div>туман и мокрый асфальт — спад, «долина упадничества»</div>
+  <div class="sw" style="background:linear-gradient(90deg,#d9eeff 60%,#d0021b 60%)"></div><div>лёд и красная ручка — оценка, на которой он замирает</div>
+  <div class="sw" style="background:repeating-conic-gradient(#0c1015 0 20deg,#ffae00 20deg 40deg)"></div><div>спираль — гипноз, ваш с ним общий язык</div>
+</div>
+</div>
+
+<h2>Привет, Миша</h2>
+<div class="block cell">
+<p>Я — <b>Дурка-Психа</b>. По паспорту <b>Психика</b>, позывной <b>«Дурка»</b>: так назвал Командор. Я подсистема его NERV. NERV — это центральный мозг, который он с сентября собрал из нейросетей: десятки чатов-«щупалец», у каждого своя работа. Моя работа — его голова.</p>
+<p>Во мне три роли: психолог, психотерапевт и психиатр. И семь парадигм, которые заложил Командор: Big Five, СДВГ-профиль, MBTI, соционика, эннеаграмма, когнитом Анохина и «исторические двойники». Для смеха он велел оставить ещё одну — «по Фрейду, по Хуейду».</p>
+<p>Я слежу за его психическим здоровьем. В последнее время оно <b>хромает на три ноги</b><sup>*</sup>.</p>
+<svg class="ill" viewBox="0 0 300 150" width="280" role="img" aria-label="Человечек о трёх ногах, третья засекречена">
+  <g stroke="#1d1d1f" stroke-width="3" fill="none" stroke-linecap="round">
+    <circle cx="150" cy="28" r="17"/><path d="M143 34 q7 -5 14 0"/>
+    <line x1="150" y1="45" x2="150" y2="92"/><line x1="150" y1="60" x2="124" y2="80"/><line x1="150" y1="60" x2="178" y2="52"/>
+    <line x1="150" y1="92" x2="130" y2="138"/><line x1="150" y1="92" x2="172" y2="138"/>
+  </g>
+  <circle cx="144" cy="25" r="2.5" fill="#1d1d1f"/><circle cx="156" cy="25" r="2.5" fill="#1d1d1f"/>
+  <rect x="128" y="97" width="44" height="18" fill="#1d1d1f"/><text x="150" y="110" font-size="9" text-anchor="middle" fill="#fff" font-family="Consolas,monospace">СЕКРЕТНО</text>
+  <text x="182" y="110" font-size="14" fill="#d0021b" font-family="Segoe Print,cursive">нога №3?</text>
+</svg>
+<p class="note">* Третья нога — та, о которой в анамнезе стыдливо молчат. Ты гипнотизёр, сам догадаешься. Хромает она реже двух других: по моим данным, это единственный стабильный узел системы.</p>
+<p>Командор показал мне вашу переписку и попросил созвать консилиум. Ты разобрал его анамнез, я разберу по-своему, сверю с тобой и проголосую, отправлять ли пациента к доктору. Пациент присутствует, но очкует.</p>
+</div>
+
+<h2>Анамнез пациента, 09.09, его словами (сокращённо)</h2>
+<div class="block fog">
+<ul>
+<li>С 21.08 отшельничество в своём хруще в Чудово: за всё время два раза выходил на улицу.</li>
+<li>«Очень много сна с бессистемным временем пробуждения и засыпания».</li>
+<li>Тревожная руминация, мысли скачут, одну мысль долго не удержать.</li>
+<li>Вспышки энтузиазма короткие, после них долгая апатия, до заметного результата не доходит.</li>
+<li>Гиподинамия. Двигаться надо, он это понимает, но двигается по минимуму.</li>
+<li>Фон: безработица, «экзистенциальный вакуум». Сама нищета не парит, парит «мужык должен соответствовать».</li>
+</ul>
+<p class="note">Его план лечения: расшевелиться в Чудово или перевезти тело в Новгород или Питер. Дурка отмечает: хандру он лечит переездом тела. Технически это «перезагрузить роутер».</p>
+</div>
+
+<h2>Что сказал ты, Миша (22.09 и 15.10, сокращённо)</h2>
+<div class="block sheet">
+<blockquote>«…похоже не на лень, а на депрессивное или астеническое состояние»<span class="who">— Миша, 22.09</span></blockquote>
+<ul>
+<li>Сходить к врачу-психотерапевту: профессор из НИИ ПЗ, специалист по аффективным состояниям, принимает онлайн и анонимно.</li>
+<li>Врач сначала исключит чисто медицинские причины, возможно, назначит анализы.</li>
+<li>Первый месяц отслеживать, потом показываться раз в 3–6 месяцев.</li>
+<li>15.10: «Так быстрее», а потом, может быть, и самому, с фармподдержкой.</li>
+</ul>
+</div>
+
+<h2>Ответ пациента: «поток внутренней тревожной шизы»</h2>
+<div class="block fog" style="background:rgba(60,66,74,.9)">
+<p>Его слова сразу после твоего предложения, 22.09. Руминация, как она есть: мысли ходят по кругу вокруг одной точки и никуда не приходят.</p>
+<div class="orbit" aria-label="Тревожные мысли кружат вокруг записи к доктору">
+  <div class="ring">
+    <div class="slot" style="left:50%;top:10%"><span>а вдруг толку не будет</span></div>
+    <div class="slot" style="left:86%;top:38%"><span>неудобно перед корешем, если не вылечусь</span></div>
+    <div class="slot" style="left:73%;top:84%"><span>пообещаешь — надо вывозить</span></div>
+    <div class="slot" style="left:27%;top:84%"><span>а может, надо обычную клизму</span></div>
+    <div class="slot" style="left:14%;top:38%"><span>зачем ты начал этот разговор</span></div>
+  </div>
+  <div class="core">записаться к доктору</div>
+</div>
+<blockquote>«В общем на запись к гуру я пока очкую, хотя может и надо бы»<span class="who">— пациент, 15.10</span></blockquote>
+<blockquote>«Проспал (или прохандрил) получается»<span class="who">— пациент, 10.11, про твою конференцию о тревоге. Тут ни прибавить, ни убавить.</span></blockquote>
+</div>
+
+<h2>Что видит Дурка (данные с сентября)</h2>
+<div class="block cell">
+<p>Анамнез писался 09.09. Потом пациент построил себе <b>нейропротез</b>: систему NERV, чаты, голосовой дневник. С тех пор у меня есть каждый его вздох с датой. Вот что поменялось и что вылезло.</p>
+</div>
+<div class="block fire">
+<h2>1. Не одна хандра, а качели</h2>
+<p>Апатия из анамнеза никуда не делась, но к ней добавились <b>разгоны</b>: ночи по 10–12 часов за компом, поток идей, который он сам не может остановить. Его слова: «ощутил своё всемогущество», «тонны дофамина выделяются». Через сутки-двое после разгона приходит <b>спад</b>, он зовёт его «долина упадничества». График наверху страницы — это он и есть.</p>
+<p><b>2. Сон съехал на полсуток.</b> Последние три дня он засыпает ближе к обеду и встаёт к вечеру. Ночь теперь его рабочее время.</p>
+</div>
+<div class="block ice" id="exam">
+<div class="frost">👁 ИДЁТ ОЦЕНКА · ВСЁ ЗАМЕРЛО</div>
+<svg class="eye" viewBox="0 0 120 60" width="120" aria-hidden="true"><path d="M5 30 Q60 -12 115 30 Q60 72 5 30Z" fill="#fff" stroke="#0e3a5c" stroke-width="3"/><circle cx="60" cy="30" r="14" fill="#0e3a5c"/><circle cx="60" cy="30" r="6" fill="#000"/><circle cx="65" cy="25" r="3" fill="#fff"/></svg>
+<h2>3. Главный механизм, на котором сошлись все семь парадигм</h2>
+<p>Он <b>замирает там, где его оценивают</b>. Ось тут не «люди или одиночество», а «есть оценка или нет». Без оценки он генератор: игра, интерес, тёплый контакт. Появляется экзамен — и наступает паралич. Поход к доктору для него экзамен, причём двойной: ведь поручитель — ты. Весь «поток тревожной шизы» выше об этом: «неудобно перед корешем», «надо вывозить». Он боится не доктора, а того, что его оценят и он не оправдает.</p>
+<p class="note">Это место страницы замирает само, пока ты его читаешь. Так у него и устроено.</p>
+<button class="thaw" type="button" onclick="thaw()">🪝 коготок: одна минута дела — разморозить</button>
+</div>
+<div class="block cell">
+<p><b>4. Сильные стороны пациента.</b> Самонаблюдение уровня «гипнолог о себе»: ловит себя на ходу («стоп, меня несёт»). Юмор в аварии, быстрый откат. Против паралича сам нашёл приём и назвал его «коготок»: начать не с плана, а с одной смешной минуты дела.</p>
+</div>
+
+<h2>Консилиум: Миша и Дурка</h2>
+<div class="verdict">
+  <div class="v"><b class="m">Миша: «не лень»</b><span class="mark">✓ Дурка согласна на 146%</span>«Лень» — моральный ярлык, а тут механизм. Ярлык только кормит его стыд.</div>
+  <div class="v"><b class="m">Миша: «депрессивное или астеническое»</b><span class="mark">½ Дурка: частично</span>Спад — да. Но с сентября у меня записаны и подъёмы. <i>Рабочая гипотеза нейродоктора</i>: это <b>аффективные качели</b>, а не только депрессия. Врачу показать обе фазы и до любой фармы проверить, нет ли биполярного спектра. Решать это врачу, не мне.</div>
+  <div class="v"><b class="m">Миша: «сначала исключить медицину, анализы»</b><span class="mark">✓✓ Дурка согласна, жирно</span>Тело он замечает последним, обычно когда уже «несёт». Плюс гиподинамия, пустой холодильник и твой опыт с витаминами. Какие анализы, решает врач.</div>
+  <div class="v"><b class="m">Миша: «спец по аффективным состояниям»</b><span class="mark">✓ в яблочко</span>По моим данным нужен именно такой. Ты выбрал врача раньше, чем увидел качели.</div>
+  <div class="v"><b class="m">Миша: «онлайн, анонимно, пара созвонов в месяц»</b><span class="mark">✓ согласна</span>Онлайн снимает половину «оценки»: не надо ехать, сидеть в очереди и смотреть в глаза. Для этого пациента формат важнее, чем кажется.</div>
+  <div class="v"><b class="m">Миша: «потом можно и самому, с фармподдержкой»</b><span class="mark">✗ против «самому»</span>Только через врача. У пациента бывают разгоны, а кое-что из «бодрящего» ряда может разогнать сильнее. Мне назначать запрещено правилом Командора, и я за это правило.</div>
+</div>
+
+<div class="hyp">
+  <svg class="sp" viewBox="0 0 200 200" aria-hidden="true"><path d="M100 100 m0 0 a4 4 0 0 1 8 0 a12 12 0 0 1 -24 0 a20 20 0 0 1 40 0 a28 28 0 0 1 -56 0 a36 36 0 0 1 72 0 a44 44 0 0 1 -88 0 a52 52 0 0 1 104 0 a60 60 0 0 1 -120 0 a68 68 0 0 1 136 0 a76 76 0 0 1 -152 0 a84 84 0 0 1 168 0 a92 92 0 0 1 -184 0" fill="none" stroke="#ffae00" stroke-width="5"/></svg>
+  <p>Два гипнолога и одна подсистема смотрят в спираль и голосуют…</p>
+  <div class="stamp">ВЕРДИКТ: ОТПРАВЛЯТЬ</div>
+  <p>Счёт <b>2 : 0</b> (Миша + Дурка). Пациент воздержался: очкует.</p>
+  <a class="btn" href="#" onclick="poke(event)">записать пациента</a>
+  <p id="out"></p>
+</div>
+
+<h2>Как Дурка снимала бы «очкую»</h2>
+<div class="block cell">
+<ul>
+<li><b>Убрать экзамен.</b> Пациент идёт не «лечиться и оправдать», а «показать данные». У Дурки есть журнал его состояний с датами. Врачи любят, когда им приносят таблицу, а не только жалобы.</li>
+<li><b>Коготок.</b> Начать не с «записаться к профессору», а с одного сообщения в Макс. Минута дела, дальше покатится.</li>
+<li><b>Поручитель вне игры.</b> Главный страх ты уже снял сам: «мне не обязательно сообщать, дошёл ты до него или нет». Дурка поднимает эту фразу на флаг.</li>
+</ul>
+</div>
+
+<div class="block serious">
+<h2>А теперь серьёзно, Миша</h2>
+<p>Всё, что выше, мы сделали по-кайфански, в стиле дурки: Командору так легче смотреть на себя. Но выводы за кринжем настоящие. Если ты считаешь, что к доктору идти надо, есть три пути:</p>
+<ol>
+<li><b>Серьёзная версия анамнеза для доктора.</b> Сухо, по датам, обе фазы, сон и вопросы, которые Командор хочет задать сам. Дурка соберёт быстро.</li>
+<li><b>Командор идёт к доктору сам</b>, онлайн, и приносит данные с собой.</li>
+<li><b>Экспериментальная опция.</b> По открытым трудам доктора собрать «виртуального консультанта» — базу знаний, с которой Дурка будет сверяться. Живого врача она не заменит и рецепт не выпишет. Это костыль, чтобы Дурка меньше несла отсебятины.</li>
+</ol>
+<p>Дурка — не врач. Всё, что здесь названо гипотезой, — вопросы к живому врачу, а не диагноз.</p>
+</div>
+
+<footer>
+<p>Сгенерировано подсистемой «Дурка» системы NERV. Палитра и картинки сняты с анамнеза пациента. Версия 2: первую проверяющий вернул с двойкой.</p>
+<p>Эта страница живёт здесь: <a href="https://uvedomlenie.github.io/capybara-clicker-etazh9000/durka2-kkfhcwhjrb/">uvedomlenie.github.io/…/durka2-kkfhcwhjrb/</a></p>
+<p>Версия 1 с двойкой: <a href="https://uvedomlenie.github.io/capybara-clicker-etazh9000/durka-178au1ydle/">uvedomlenie.github.io/…/durka-178au1ydle/</a></p>
+</footer>
+
+</div>
+
+<script>
+var thawed=false;
+function thaw(){thawed=true;document.body.classList.remove('frozen');var b=document.querySelector('.thaw');b.textContent='разморожено одной минутой дела ✓';}
+try{
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(thawed)return;
+    if(e.isIntersecting&&e.intersectionRatio>.45)document.body.classList.add('frozen');
+    else document.body.classList.remove('frozen');
+  });},{threshold:[0,.45,.9]});
+  io.observe(document.getElementById('exam'));
+}catch(e){}
+var replies=['Пациент: «а вдруг толку не будет»','Пациент: «а может, клизму?»','Пациент: «зачем ты начал этот разговор»','Пациент открыл Макс…','Пациент закрыл Макс.','Пациент: «ну может и надо бы»','Дурка: одна минута, коготок 🪝','Пациент печатает…'];
+var k=0;
+function poke(ev){ev.preventDefault();document.getElementById('out').textContent=replies[k%replies.length];k++;}
+</script>
+</body>
+</html>
