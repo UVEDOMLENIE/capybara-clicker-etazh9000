@@ -545,7 +545,7 @@ function openIdea(i,doPlay){
   const raw = `<div class="raw">Пруфы, если надо ещё глубже: <a href="${on.recap||RECAP+t.slug+'/'}" target="_blank" rel="noopener">рекап на сайте</a>
       ${on.tr?`<a href="${on.tr}" target="_blank" rel="noopener">транскрипт целиком</a>`:""}
       ${on.pdf?`<a href="${on.pdf}" target="_blank" rel="noopener">слайды PDF</a>`:""}</div>`;
-  const hasDig = d.story || (d.viz && d.viz.type);
+  const hasDig = false; // кнопка «Разобрать подробно» убрана по слову Командора 14.11 — разбор живёт в раскрывашках пунктов
   const dig = hasDig ? `<button class="btn digbtn" id="digbtn">🔍 Разобрать подробно — схема и как объясняет автор</button><div id="dig"></div>` : "";
   const author = d.author ? `<details class="author"><summary>${hasDig?"📜 Дословно, сырой транскрипт":"📖 Как объясняет автор — его слова"}, ${hms(x.t)}–${hms(d.aEnd||x.t)}</summary><div class="txt"><p>${esc(d.author)}</p><button class="btn sm ghost" id="aplay">▶ включить этот кусок</button></div></details>` : "";
   const prev = i>0 ? `<button class="btn sm ghost" id="prev">← ${esc(t.list[i-1].label)}</button>` : "<span></span>";
