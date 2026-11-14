@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-skin="soft">
 <head>
 <meta name="robots" content="noindex, nofollow">
 <meta charset="utf-8">
@@ -16,6 +16,25 @@
     --agents:#6f9bff; --quality:#3fcf95; --security:#ff6b5f; --people:#c48bff; --money:#ffb23f; --misc:#77777e;
     --shadow:0 1px 2px rgba(0,0,0,.4); }
 }
+
+/* Мягкий скин (по умолчанию, по просьбе Миши): светлый, но приглушённый фон, тёмно-серый текст, пастельные цвета тем, без резкого контраста */
+html:root[data-skin="soft"]{
+  --bg:#e6e1d7; --card:#efebe3; --ink:#4b4740; --mute:#8b867b; --line:#d5cfc3; --soft:#e0dace;
+  --agents:#86a0c8; --quality:#86b59f; --security:#cf9a90; --people:#b3a1c9; --money:#cfae7c; --misc:#aaa598;
+  --shadow:0 1px 2px rgba(70,60,40,.05),0 3px 10px rgba(70,60,40,.04);
+  color-scheme: light;
+}
+html[data-skin="soft"] .seg{color:#fbf8f2}
+html[data-skin="soft"] .seg span{text-shadow:none}
+html[data-skin="soft"] .btn{color:#fbf8f2}
+html[data-skin="soft"] .btn.ghost{color:var(--ink)}
+html[data-skin="soft"] h1,html[data-skin="soft"] .big{font-weight:600}
+html[data-skin="soft"] .player{background:#3f3c37}
+html[data-skin="soft"] .lightbox{background:rgba(60,55,48,.82)}
+/* переключатель скина */
+.skin{position:fixed;left:max(12px, env(safe-area-inset-left, 0px));bottom:max(12px, env(safe-area-inset-bottom, 0px));z-index:40;display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px;box-shadow:var(--shadow);font-size:12px}
+.skin button{border:0;background:transparent;color:var(--mute);border-radius:999px;padding:4px 10px;cursor:pointer;font:inherit}
+.skin button.on{background:var(--soft);color:var(--ink);font-weight:600}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 a{color:inherit}
@@ -213,6 +232,12 @@ details.author .txt p{margin:0 0 8px}
     <a href="https://ai-dev.live/recaps/all/faqn4b1h533e04ec0rdg/" target="_blank" rel="noopener">рекапы и слайды на сайте</a>.
   </div>
 </div>
+<div class="skin" id="skin" role="group" aria-label="Оформление"><button data-s="soft">🌿 мягкий</button><button data-s="classic">◐ яркий</button></div>
+<script>
+(function(){ let s="soft"; try{ s=localStorage.getItem("aidev-skin")||"soft"; }catch(e){}
+  const set=v=>{ document.documentElement.setAttribute("data-skin",v); document.querySelectorAll("#skin button").forEach(b=>b.classList.toggle("on",b.dataset.s===v)); try{localStorage.setItem("aidev-skin",v);}catch(e){} };
+  document.querySelectorAll("#skin button").forEach(b=>b.onclick=()=>set(b.dataset.s)); set(s); })();
+</script>
 <div class="lightbox" id="lightbox"><img alt=""></div>
 
 <script>
