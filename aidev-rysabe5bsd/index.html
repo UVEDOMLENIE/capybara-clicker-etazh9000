@@ -31,6 +31,19 @@ html[data-skin="soft"] .btn.ghost{color:var(--ink)}
 html[data-skin="soft"] h1,html[data-skin="soft"] .big{font-weight:600}
 html[data-skin="soft"] .player{background:#3f3c37}
 html[data-skin="soft"] .lightbox{background:rgba(60,55,48,.82)}
+/* Пёстрый скин (15.11, по мотивам варианта дизайнера с Codex): холодный светлый фон, белые панели, насыщенные цвета тем */
+html:root[data-skin="vivid"]{
+  --bg:#eceef2; --card:#ffffff; --ink:#1c1c1e; --mute:#6e6e76; --line:#dfe2e8; --soft:#f2f3f6;
+  --agents:#2d6bf0; --quality:#17ad55; --security:#e8392f; --people:#9548f0; --money:#f5860a; --misc:#8e8e96;
+  --shadow:0 1px 2px rgba(20,30,60,.06),0 4px 16px rgba(20,30,60,.08);
+  color-scheme: light;
+}
+html[data-skin="vivid"] .seg{background:linear-gradient(180deg,color-mix(in srgb,var(--c) 76%,#fff),var(--c))}
+html[data-skin="vivid"] .seg span{text-shadow:0 1px 1px rgba(0,0,0,.18)}
+html[data-skin="vivid"] .big span{background:linear-gradient(transparent 52%,#ffe36e 0)}
+html[data-skin="vivid"] .do{background:#fff3d1}
+html[data-skin="vivid"] .idea{background:var(--card);box-shadow:var(--shadow)}
+html[data-skin="vivid"] .idea.open{background:color-mix(in srgb,var(--c) 8%,var(--card))}
 /* переключатель скина */
 .skin{position:fixed;left:max(12px, env(safe-area-inset-left, 0px));bottom:max(12px, env(safe-area-inset-bottom, 0px));z-index:40;display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px;box-shadow:var(--shadow);font-size:12px}
 .skin button{border:0;background:transparent;color:var(--mute);border-radius:999px;padding:4px 10px;cursor:pointer;font:inherit}
@@ -207,11 +220,56 @@ details.author .txt p{margin:0 0 8px}
 
 .foot{color:var(--mute);font-size:12px;margin:28px 0 40px;border-top:1px solid var(--line);padding-top:12px}
 .foot a{color:var(--mute)}
+/* Раскладка. Узкий экран — одна колонка, как было: обёртки колонок «прозрачные» (display:contents).
+   Широкий (от 1200 px, по мотивам варианта дизайнера с Codex) — три колонки: плеер и обзор / карта докладов / доклад. */
+.app,.colL,.colM,.colR{display:contents}
+.wd,.seg .s3,.seg .wdb{display:none}
+@media (min-width:1200px){
+  .app{display:grid;grid-template-columns:clamp(340px,30vw,520px) 230px minmax(0,1fr);gap:18px;max-width:1880px;margin:0 auto;padding:0 18px;align-items:start}
+  .colL,.colM{display:block;position:sticky;top:0;height:100vh;overflow-y:auto;overscroll-behavior:contain;padding:14px 2px 64px 0;scrollbar-width:thin}
+  .colR{display:block;min-width:0;padding:14px 0 0;container-type:inline-size}
+  .app .wrap{max-width:none;margin:0;padding:0}
+  .playerbar{position:static;padding:0;border:0;background:transparent}
+  .player{max-width:none}
+  .now{justify-content:flex-start}
+  .colM{padding-right:10px}
+  .colL h1{margin:12px 0 2px;font-size:23px}
+  .colL .sub{font-size:13px;margin:0 0 6px}
+  .colL .big{font-size:16.5px;margin:4px 0 4px;line-height:1.4}
+  .colL .label{margin:12px 0 6px}
+  .now{font-size:12px;margin-top:4px}
+  .themes{gap:5px;margin:2px 0 6px}
+  .theme{font-size:12.5px;padding:4px 9px;gap:5px}
+  .watch{gap:4px;margin:0}
+  .wrow{gap:5px}
+  .wrow .who{min-width:0;width:100%;font-size:12px}
+  .chip{font-size:12.5px;padding:3px 9px 3px 3px}
+  .chip .dotc{width:20px;height:20px;font-size:12px}
+  .nw{display:none} .wd{display:inline}
+  .colM .label{margin-top:2px}
+  .colM .day{margin-bottom:16px}
+  .track{flex-direction:column;height:auto;gap:6px;background:none;border-radius:0;overflow:visible}
+  .seg{flex:none!important;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"a c" "b c";align-items:center;justify-items:start;column-gap:6px;text-align:left;padding:7px 8px 7px 12px;border-radius:12px;min-height:46px;box-shadow:var(--shadow)}
+  .seg span{padding:0}
+  .seg .s1{grid-area:a;font-size:14px}
+  .seg .s2,.seg .wdb{grid-area:b;font-size:11.5px;display:block}
+  .seg .s3{grid-area:c;display:block;font-size:11.5px;font-weight:600;background:rgba(255,255,255,.24);border-radius:999px;padding:2px 7px;font-variant-numeric:tabular-nums}
+  .seg.misc{min-height:34px}
+  .seg.sel{box-shadow:inset 0 0 0 3px rgba(255,255,255,.95),0 0 0 2px var(--c)}
+  .focus{margin-top:0}
+  .ideas{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+}
+/* правая колонка узкая (ноутбук) — пункты на всю ширину, слайд под ними */
+@container (max-width:780px){ .deep .body{grid-template-columns:1fr} .deep .body.cols .pts{display:flex} .deep .slide{max-width:520px} }
+/* ноутбук: широкий, но невысокий — пояснение у фамилий прячем в подсказку, чтобы обзор влез в экран */
+@media (min-width:1200px) and (max-height:900px){ .chip small{display:none} }
 @media (max-width:560px){ h1{font-size:21px} .big{font-size:17px} .focus .emo{font-size:32px} .track{height:44px} .seg .s1{font-size:10px} .seg .s2{display:none} .wrow .who{min-width:0;width:100%} }
 </style>
 </head>
 <body>
 
+<div class="app">
+<aside class="colL">
 <div class="playerbar">
   <div class="wrap">
     <div class="player">
@@ -236,10 +294,15 @@ details.author .txt p{margin:0 0 8px}
 
   <div class="label">Кому что глянуть</div>
   <div class="watch" id="watch"></div>
+</div>
+</aside>
 
-  <div class="label">Карта двух дней · ширина = длина доклада · клик = смотреть</div>
+<nav class="colM"><div class="wrap">
+  <div class="label"><span class="nw">Карта двух дней · ширина = длина доклада · клик = смотреть</span><span class="wd">Карта докладов · клик = смотреть</span></div>
   <div id="tracks"></div>
+</div></nav>
 
+<main class="colR"><div class="wrap">
   <div id="focus"></div>
 
   <div class="label">Все доклады</div>
@@ -255,8 +318,9 @@ details.author .txt p{margin:0 0 8px}
     <a href="https://www.youtube.com/live/RzAdlyut6Uc" target="_blank" rel="noopener">день 2</a> ·
     <a href="https://ai-dev.live/recaps/all/faqn4b1h533e04ec0rdg/" target="_blank" rel="noopener">рекапы и слайды на сайте</a>.
   </div>
+</div></main>
 </div>
-<div class="skin" id="skin" role="group" aria-label="Оформление"><button data-s="soft">🌿 мягкий</button><button data-s="classic">◐ яркий</button></div>
+<div class="skin" id="skin" role="group" aria-label="Оформление"><button data-s="soft">🌿 мягкий</button><button data-s="classic">◐ яркий</button><button data-s="vivid">🎨 пёстрый</button></div>
 <script>
 (function(){ let s="soft"; try{ s=localStorage.getItem("aidev-skin")||"soft"; }catch(e){}
   const set=v=>{ document.documentElement.setAttribute("data-skin",v); document.querySelectorAll("#skin button").forEach(b=>b.classList.toggle("on",b.dataset.s===v)); try{localStorage.setItem("aidev-skin",v);}catch(e){} };
@@ -298,6 +362,7 @@ const hms = s => { s=Math.max(0,Math.round(s)); const h=Math.floor(s/3600), m=Ma
 const key = t => t.d+"-"+t.n;
 const ytUrl = (d,s) => `https://www.youtube.com/watch?v=${VID[d]}&t=${Math.round(s)}s`;
 const enc = p => p.split("/").map(encodeURIComponent).join("/");
+const isWide = () => matchMedia("(min-width:1200px)").matches; // три колонки, см. CSS «Раскладка»
 let activeTheme = null, selected = null, openIdx = -1;
 
 /* ---------- плеер ---------- */
@@ -374,7 +439,7 @@ function renderWatch(){
       const t=TALKS.find(x=>x.slug===p.slug); if(!t) return;
       const c=document.createElement("span"); c.className="chip"; c.dataset.k=key(t); c.style.setProperty("--c",col(t.th[0]));
       c.innerHTML=`<span class="dotc">${t.emo}</span><b>${esc(t.name.split(" ").slice(-1)[0])}</b><small>${esc(p.why)}</small>`;
-      c.title=`${t.title} · ${Math.round(t.dur/60)} мин`;
+      c.title=`${p.why} — ${t.title} · ${Math.round(t.dur/60)} мин`;
       c.onclick=()=>{ select(t,true); play(t,0,t.name); };
       r.appendChild(c);
     });
@@ -391,13 +456,14 @@ function renderTracks(){
     wrap.innerHTML=`<div class="dayhead"><b>День ${d} · ${d===1?"11 ноября":"12 ноября"}</b><span>${hms(total)}</span></div>`;
     const tr=document.createElement("div"); tr.className="track";
     list.forEach(t=>{
-      const s=document.createElement("div"); s.className="seg"; s.dataset.k=key(t);
-      s.style.flex=t.dur; s.style.setProperty("--c",col(t.th[0]));
       const misc=t.th[0]==="misc";
+      const s=document.createElement("div"); s.className="seg"+(misc?" misc":""); s.dataset.k=key(t);
+      s.style.flex=t.dur; s.style.setProperty("--c",col(t.th[0]));
       const sur = misc ? "🎤" : t.name.split(" ").slice(-1)[0];
-      s.innerHTML= misc ? `<span class="s1">🎤</span>` : `<span class="s1">${esc(sur)}</span><span class="s2">${esc(t.topic||"")}</span>`;
+      const dur = `<span class="s3">${hms(t.dur)}</span>`; // длительность видна только в широком режиме
+      s.innerHTML= misc ? `<span class="s1">🎤</span><span class="wdb">${esc(t.title)}</span>${dur}` : `<span class="s1">${esc(sur)}</span><span class="s2">${esc(t.topic||"")}</span>${dur}`;
       s.title=`${t.name}: ${t.title} · ${Math.round(t.dur/60)} мин`;
-      s.onclick=()=>{ select(t); play(t,0,t.name); };
+      s.onclick=()=>{ select(t,isWide()); play(t,0,t.name); };
       tr.appendChild(s);
     });
     wrap.appendChild(tr); box.appendChild(wrap);
@@ -589,8 +655,8 @@ function openIdea(i,doPlay){
   if($("#prev")) $("#prev").onclick=()=>openIdea(i-1,true);
   if($("#next")) $("#next").onclick=()=>openIdea(i+1,true);
   if($("#slide")) $("#slide").onclick=()=>{ const lb=$("#lightbox"); lb.querySelector("img").src=img; lb.classList.add("on"); };
-  const r=box.getBoundingClientRect(), top=$(".playerbar").getBoundingClientRect().bottom;
-  if(r.top<top || r.top>window.innerHeight-120) window.scrollBy({top:r.top-top-90,behavior:"smooth"});
+  const wide=isWide(), r=box.getBoundingClientRect(), top=wide?0:$(".playerbar").getBoundingClientRect().bottom;
+  if(r.top<top || r.top>window.innerHeight-120) window.scrollBy({top:r.top-top-(wide?60:90),behavior:"smooth"});
 }
 $("#lightbox").onclick=()=>$("#lightbox").classList.remove("on");
 document.addEventListener("keydown",e=>{ if(e.key==="Escape") $("#lightbox").classList.remove("on"); });
