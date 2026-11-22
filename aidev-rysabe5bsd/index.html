@@ -24,9 +24,9 @@ html:root[data-skin="soft"]{
   --shadow:0 1px 2px rgba(70,60,40,.05),0 3px 10px rgba(70,60,40,.04);
   color-scheme: light;
 }
-html[data-skin="soft"] .seg{color:#fbf8f2}
+html[data-skin="soft"] .seg{color:#3a3630}
 html[data-skin="soft"] .seg span{text-shadow:none}
-html[data-skin="soft"] .btn{color:#fbf8f2}
+html[data-skin="soft"] .btn{color:#3a3630}
 html[data-skin="soft"] .btn.ghost{color:var(--ink)}
 html[data-skin="soft"] h1,html[data-skin="soft"] .big{font-weight:600}
 html[data-skin="soft"] .player{background:#3f3c37}
@@ -205,7 +205,7 @@ details.author .txt p{margin:0 0 8px}
 .lightbox.on{display:flex}
 .lightbox img{max-width:100%;max-height:100%;border-radius:8px}
 
-.take{margin:14px 0 0;padding:10px 12px;border-radius:10px;border:1px dashed var(--line);font-size:14px}
+.take{margin:12px 0 2px;padding:10px 12px;border-radius:10px;border:1px dashed var(--line);font-size:14px}
 .take b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin-bottom:4px}
 .take ul{margin:0;padding-left:18px}
 
@@ -576,11 +576,11 @@ function select(t,scroll){
   $("#focus").innerHTML=`<div class="focus" style="--c:${c}">
     <div class="top"><div class="emo">${t.emo}</div><div style="flex:1">
       <h2>${esc(t.title)}</h2><div class="who">${esc(t.name)}${t.role?" · "+esc(t.role):""} · день ${t.d} · ${Math.round(t.dur/60)} мин · ${t.th.map(x=>THEMES[x].emo+" "+THEMES[x].name).join(" · ")}</div>
-      <p class="one">${esc(t.one)}</p></div></div>
+      <p class="one">${esc(t.one)}</p></div></div>${take}
     <div class="actions"><button class="btn" id="playStart">${t.yt?"▶ Смотреть с начала":"↗ Открыть на YouTube"}</button>${recap}</div>
     <div class="ideabar"><div class="prog"></div>${dots}</div>
     <div class="ideas">${ideas}</div>
-    <div id="deep"></div>${take}</div>`;
+    <div id="deep"></div></div>`;
   $("#playStart").onclick=()=>play(t,0,t.name);
   document.querySelectorAll("#focus [data-i]").forEach(el=>{
     el.onclick=()=>openIdea(+el.dataset.i,true);
