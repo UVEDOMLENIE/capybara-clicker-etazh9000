@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Разбор механизма — комикс</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Комикс-чертёж: шесть шестерёнок, на которых крутится колесо Мечтателя, и одно место, где его режут.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&family=Dela+Gothic+One&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* Лента-вебтун как в v1, плюс чертёж: каждая глава — одна шестерёнка, у каждой синяя «спецификация». */
+:root{
+  --ink:#18140f; --paper:#f3e8cc; --paper-hi:#fffaf0; --tone:#e2d0a2; --muted:#6b604c;
+  --hero:#2d5ae6; --res:#9b93b5; --res-d:#5f5878; --helmet:#ffc21a; --pk:#ff2d86;
+  --skin:#f6d2b0; --cap:#ffe36e; --night:#16224f; --bp:#1f3f8f; --bp-l:#9db6ff; --sun:#ffb31a;
+  --desk:#201c27; --desk-dot:rgba(155,147,181,.2); --dot:rgba(24,20,15,.07);
+  --f-display:"Dela Gothic One","Arial Black",Impact,sans-serif;
+  --f-body:"Balsamiq Sans","Comic Sans MS","Trebuchet MS",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --col:460px;
+  --gut:max(16px, env(safe-area-inset-left, 0px));
+  --gut-r:max(16px, env(safe-area-inset-right, 0px));
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:44px;overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.35 var(--f-body)}
+@media (min-width:520px){body{background:var(--desk) radial-gradient(circle,var(--desk-dot) 1.4px,transparent 1.8px) 0 0/9px 9px fixed}}
+:focus-visible{outline:3px solid var(--pk);outline-offset:3px}
+figure{margin:0}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+
+.prog{position:fixed;top:0;left:0;right:0;z-index:25;padding-top:env(safe-area-inset-top,0px);background:var(--ink);color:var(--paper-hi)}
+.prog-in{max-width:var(--col);margin:0 auto;padding-left:var(--gut);padding-right:var(--gut-r);height:30px;display:flex;align-items:center;gap:10px}
+.prog-lbl{flex:1;min-width:0;font:700 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prog-lbl b{color:var(--pk);font-weight:700}
+.cells{display:flex;gap:3px;flex:none}
+.cells i{display:block;width:11px;height:7px;border:1.5px solid var(--paper-hi);position:relative;overflow:hidden}
+.cells i::after{content:"";position:absolute;inset:0;background:var(--pk);transform-origin:left;transform:scaleX(var(--f,0));transition:transform .2s}
+
+.strip{position:relative;max-width:var(--col);margin:0 auto;padding-left:var(--gut);padding-right:var(--gut-r);padding-block:46px 30px;background:var(--paper) radial-gradient(var(--dot) 1px,transparent 1.4px) 0 0/5px 5px;overflow-x:clip;display:flex;flex-direction:column;gap:56px}
+@media (min-width:520px){.strip{box-shadow:0 0 0 3px var(--ink),0 30px 90px rgba(0,0,0,.55)}}
+.ch{display:flex;flex-direction:column;gap:16px;scroll-margin-top:36px}
+
+.cover{position:relative;margin-left:calc(-1 * var(--gut));margin-right:calc(-1 * var(--gut-r));margin-top:-16px;padding:26px var(--gut-r) 18px var(--gut);background:var(--ink);color:var(--paper-hi);overflow:hidden}
+.cover::before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(157,182,255,.12) 1px,transparent 1px) 0 0/20px 20px,linear-gradient(90deg,rgba(157,182,255,.12) 1px,transparent 1px) 0 0/20px 20px;mask-image:linear-gradient(to bottom,#000,transparent 90%);-webkit-mask-image:linear-gradient(to bottom,#000,transparent 90%)}
+.cover>*{position:relative}
+.cover-k{margin:0;font:700 12px/1 var(--f-mono);letter-spacing:.18em;color:var(--pk);text-transform:uppercase}
+.cover h1{margin:12px 0 0;font:400 clamp(40px,12.5vw,60px)/.95 var(--f-display);letter-spacing:-.01em}
+.cover h1 span{display:block;color:transparent;-webkit-text-stroke:2px var(--bp-l)}
+.cover p{margin:14px 0 0;font:400 17px/1.4 var(--f-body);color:#e9e0cb;max-width:26em}
+.cover svg{width:100%;height:auto;margin-top:10px}
+
+.ch-head{position:relative;margin-left:calc(-1 * var(--gut));margin-right:calc(-1 * var(--gut-r));padding-block:16px 30px;padding-left:var(--gut);padding-right:var(--gut-r);background:var(--ink);color:var(--paper-hi);clip-path:polygon(0 0,100% 0,100% 80%,0 100%);overflow:hidden}
+.ch-head::after{content:attr(data-n);position:absolute;right:14px;top:-18px;font:400 128px/1 var(--f-display);color:transparent;-webkit-text-stroke:2px var(--pk)}
+.ch-no{position:relative;z-index:1;margin:0;font:700 12px/1 var(--f-mono);letter-spacing:.16em;color:var(--pk)}
+.ch-head h2{position:relative;z-index:1;margin:8px 0 0;max-width:80%;font:400 clamp(26px,7.6vw,34px)/1.08 var(--f-display);text-wrap:balance}
+
+.panel{position:relative;display:flex;flex-direction:column;border:3px solid var(--ink);background:var(--paper-hi);min-width:0;overflow:hidden}
+.ovl{position:relative;display:grid}
+.ovl>*{grid-area:1/1;min-width:0}
+.scene{display:block;width:100%;height:auto}
+.at-tl{justify-self:start;align-self:start;margin:10px}
+.at-tr{justify-self:end;align-self:start;margin:10px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tone-r{background:linear-gradient(to bottom,transparent 0%,var(--paper-hi) 90%),radial-gradient(circle,var(--res) 1.5px,transparent 1.9px) 0 0/7px 7px,var(--paper-hi)}
+.tone-b{background:linear-gradient(to top,transparent 0%,var(--paper-hi) 88%),radial-gradient(circle,var(--hero) 1.4px,transparent 1.8px) 0 0/7px 7px,var(--paper-hi)}
+.tone-y{background:linear-gradient(to bottom,transparent 0%,var(--paper-hi) 92%),radial-gradient(circle,var(--helmet) 1.7px,transparent 2.1px) 0 0/7px 7px,var(--paper-hi)}
+.nightbg{background:var(--night)}
+
+.cap{margin:0;background:var(--cap);border-bottom:3px solid var(--ink);padding:8px 12px 9px;font:700 15px/1.35 var(--f-body);text-wrap:pretty}
+.cap.end{border-bottom:0;border-top:3px solid var(--ink)}
+
+.bals{display:flex;flex-direction:column;align-items:flex-start;gap:16px;padding:12px 12px 18px}
+.bals.r{align-items:flex-end}
+.say{position:relative;z-index:2;margin:0;width:fit-content;max-width:100%;background:var(--paper-hi);color:var(--ink);border:2.5px solid var(--ink);border-radius:20px;padding:8px 14px 10px;font:400 17px/1.3 var(--f-body);box-shadow:3px 3px 0 var(--sh,var(--ink));text-wrap:pretty}
+.say::before,.say::after{content:"";position:absolute;bottom:100%;clip-path:polygon(0 100%,100% 100%,15% 0)}
+.say::before{left:var(--tl,22px);width:20px;height:15px;background:var(--ink)}
+.say::after{left:calc(var(--tl,22px) + 3.6px);width:13px;height:10.5px;background:var(--paper-hi)}
+.say.t-r{--tl:calc(100% - 46px)}
+.say.t-r::before,.say.t-r::after{transform:scaleX(-1)}
+.say.he{--sh:var(--hero)} .say.re{--sh:var(--res-d)}
+.say.whisper{border-style:dashed;font-style:italic}
+.say.sm{font-size:15px;padding:5px 11px 7px;border-radius:16px}
+.who{display:block;font:700 10px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.tag{display:inline-block;margin:0;padding:4px 9px;border:2.5px solid var(--ink);background:var(--helmet);font:700 11px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;box-shadow:3px 3px 0 var(--ink)}
+
+.mini{display:flex;flex-direction:column;border:3px solid var(--ink);background:var(--paper-hi);min-width:0}
+.lbl{margin:0;padding:6px 6px 8px;text-align:center;font:700 11px/1.25 var(--f-mono);letter-spacing:.04em;text-transform:uppercase;border-top:2.5px solid var(--ink)}
+
+/* карта механизма */
+.map{border:3px solid var(--ink);background:var(--paper-hi);padding:4px 2px 0}
+.map svg{display:block;width:100%;height:auto}
+
+/* спецификация шестерёнки — синий чертёж */
+.spec{margin:0;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);background:var(--bp) linear-gradient(rgba(157,182,255,.18) 1px,transparent 1px) 0 0/16px 16px;background-image:linear-gradient(rgba(157,182,255,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(157,182,255,.18) 1px,transparent 1px);background-size:16px 16px;color:#eef3ff;padding:12px 14px 14px;display:grid;gap:7px}
+.spec h3{margin:0;font:700 12px/1 var(--f-mono);letter-spacing:.16em;color:var(--bp-l)}
+.spec p{margin:0;font:500 14px/1.4 var(--f-mono)}
+.spec p b{color:var(--helmet);font-weight:700;margin-right:.3em}
+
+.cut{margin:0;border:3px solid var(--ink);background:var(--helmet);padding:14px 14px 16px;box-shadow:5px 5px 0 var(--ink)}
+.cut h3{margin:0 0 8px;font:400 22px/1.1 var(--f-display)}
+.cut ol{margin:0;padding-left:22px;font:400 16px/1.45 var(--f-body)}
+
+.foot{margin:6px 0 0;text-align:center;font:400 13px/1.4 var(--f-mono);color:var(--muted)}
+
+.ln{stroke:var(--ink);stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round}
+.l2{stroke-width:1.8}
+.nf{fill:none}
+.s-h{fill:var(--skin)} .s-k{fill:var(--ink)} .s-w{fill:var(--paper-hi)} .s-b{fill:var(--hero)}
+.s-r{fill:var(--res)} .s-rd{fill:var(--res-d)} .s-y{fill:var(--helmet)} .s-pk{fill:var(--pk)}
+.s-t{fill:var(--tone)} .s-c{fill:var(--cap)} .s-n{fill:var(--night)} .s-sun{fill:var(--sun)}
+.st{font-family:var(--f-display);fill:var(--ink);stroke:none}
+.sm-t{font-family:var(--f-mono);font-weight:700;fill:var(--ink);stroke:none}
+.hand{font-family:var(--f-body);fill:var(--ink);stroke:none}
+@media (prefers-reduced-motion:no-preference){
+  .spin{animation:spin 9s linear infinite;transform-box:fill-box;transform-origin:center}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .wob{animation:wob 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+  @keyframes wob{50%{transform:translateY(-4px) rotate(-2deg)}}
+}
+</style>
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+ <defs>
+  <pattern id="dotR" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.3" class="s-rd"/></pattern>
+ </defs>
+
+ <symbol id="hero" viewBox="0 0 100 130">
+  <g class="ln">
+   <path class="s-b" d="M24 82 C17 52 31 31 50 31 C69 31 83 52 76 82 Z"/>
+   <path class="s-b" d="M15 130 C15 104 30 90 50 90 C70 90 85 104 85 130 Z"/>
+   <path class="nf l2" d="M44 91 L43 104 M56 91 L57 104"/>
+   <circle class="s-h" cx="50" cy="61" r="24"/>
+   <path class="s-k" d="M27 57 C26 41 38 33 50 34 C63 34 74 42 73 56 C69 50 64 48 60 45 C58 50 52 51 47 47 C43 52 34 53 27 57 Z"/>
+  </g>
+ </symbol>
+ <symbol id="f-dream" viewBox="0 0 100 130"><g class="ln nf"><path d="M37 63 Q41 59 45 63 M55 63 Q59 59 63 63"/><path d="M42 72 Q50 80 58 72"/></g><ellipse cx="35" cy="70" rx="4" ry="2.4" class="s-pk" opacity=".45"/><ellipse cx="65" cy="70" rx="4" ry="2.4" class="s-pk" opacity=".45"/></symbol>
+ <symbol id="f-tired" viewBox="0 0 100 130"><g class="ln nf l2"><path d="M36 62 H46 M54 62 H64"/><path d="M38 67 Q41 69 44 67 M56 67 Q59 69 62 67"/><path d="M45 75 Q50 73 55 75"/></g></symbol>
+ <symbol id="f-oops" viewBox="0 0 100 130"><g class="ln"><circle class="s-w" cx="41" cy="62" r="5.5"/><circle class="s-w" cx="59" cy="62" r="5.5"/><circle class="s-k" cx="41" cy="63" r="2.2"/><circle class="s-k" cx="59" cy="63" r="2.2"/><circle class="s-k" cx="50" cy="75" r="3.6"/></g></symbol>
+ <symbol id="f-sad" viewBox="0 0 100 130"><circle class="s-k" cx="41" cy="64" r="2.6"/><circle class="s-k" cx="59" cy="64" r="2.6"/><g class="ln nf l2"><path d="M36 58 L45 55 M64 58 L55 55"/><path d="M44 77 Q50 72 56 77"/></g></symbol>
+ <symbol id="f-grim" viewBox="0 0 100 130"><circle class="s-k" cx="41" cy="63" r="2.6"/><circle class="s-k" cx="59" cy="63" r="2.6"/><g class="ln nf"><path d="M34 55 L46 59 M66 55 L54 59"/><path class="l2" d="M43 74 H57"/></g></symbol>
+ <symbol id="f-happy" viewBox="0 0 100 130"><g class="ln nf"><path d="M37 64 Q41 58 45 64 M55 64 Q59 58 63 64"/></g><path class="ln s-k l2" d="M41 70 Q50 82 59 70 Z"/><ellipse cx="35" cy="71" rx="4" ry="2.4" class="s-pk" opacity=".5"/><ellipse cx="65" cy="71" rx="4" ry="2.4" class="s-pk" opacity=".5"/></symbol>
+ <symbol id="helmet" viewBox="0 0 100 130"><g class="ln"><path class="s-y" d="M25 54 C25 35 36 27 50 27 C64 27 75 35 75 54 Z"/><path class="s-y" d="M18 52 H82 Q84 58 80 59 H20 Q16 58 18 52 Z"/><path class="nf l2" d="M50 28 V51 M41 31 L43 51 M59 31 L57 51"/></g></symbol>
+
+ <symbol id="res" viewBox="0 0 120 130">
+  <g class="ln">
+   <path class="nf" d="M24 80 Q8 76 9 62 M96 80 Q112 72 110 60"/>
+   <circle class="s-r" cx="9" cy="59" r="4.5"/><circle class="s-r" cx="110" cy="57" r="4.5"/>
+   <path class="s-r" d="M18 126 C12 96 12 58 26 36 C40 14 80 14 94 36 C108 58 108 96 102 126 L90 116 L78 127 L66 116 L54 127 L42 116 L30 127 Z"/>
+  </g>
+  <path d="M18 126 C12 96 12 58 26 36 C40 14 80 14 94 36 C108 58 108 96 102 126 L90 116 L78 127 L66 116 L54 127 L42 116 L30 127 Z" fill="url(#dotR)" opacity=".45"/>
+  <g class="ln">
+   <ellipse class="s-w" cx="48" cy="57" rx="9" ry="7"/><ellipse class="s-w" cx="72" cy="57" rx="9" ry="7"/>
+   <circle class="s-k" cx="51" cy="59" r="3" stroke="none"/><circle class="s-k" cx="75" cy="59" r="3" stroke="none"/>
+   <path class="s-r" d="M38.5 57 Q48 46 57.5 57 Z M62.5 57 Q72 46 81.5 57 Z"/>
+   <path class="s-k l2" d="M40 76 Q60 96 80 76 Q60 86 40 76 Z"/>
+  </g>
+ </symbol>
+ <!-- ночной колпак: маскировка «телу надо» -->
+ <symbol id="nightcap" viewBox="0 0 120 130"><g class="ln"><path class="s-c" d="M30 34 C44 10 82 6 96 30 C104 22 112 14 118 4 C114 22 108 34 98 40 C78 30 50 30 30 34 Z"/><circle class="s-w" cx="118" cy="5" r="6"/><path class="s-w" d="M26 34 C50 26 80 28 100 40 L98 46 C78 36 50 34 28 41 Z"/></g></symbol>
+
+ <!-- шестерёнка: зубья — пунктир толстой обводкой -->
+ <symbol id="gear" viewBox="-24 -24 48 48">
+  <circle r="17" fill="none" stroke="#18140f" stroke-width="7" stroke-dasharray="4.4 4.5"/>
+  <circle r="15" class="ln" style="fill:var(--gf,#fffaf0)"/>
+ </symbol>
+
+ <!-- карта механизма: 6 шестерёнок по кругу; подсветка — переменными --g1…--g6 -->
+ <symbol id="map" viewBox="0 0 400 132">
+  <g class="ln nf l2">
+   <path d="M54 44 H80 M120 44 H146 M186 44 H212 M252 44 H278 M318 44 H344"/>
+   <path d="M76 40 l5 4 -5 4 M142 40 l5 4 -5 4 M208 40 l5 4 -5 4 M274 40 l5 4 -5 4 M340 40 l5 4 -5 4"/>
+   <path d="M365 66 V112 H35 V66" style="stroke-dasharray:6 5"/>
+   <path d="M30 72 l5 -6 5 6"/>
+  </g>
+  <use href="#gear" x="11" y="20" width="48" height="48" style="--gf:var(--g1,#fffaf0)"/>
+  <use href="#gear" x="77" y="20" width="48" height="48" style="--gf:var(--g2,#fffaf0)"/>
+  <use href="#gear" x="143" y="20" width="48" height="48" style="--gf:var(--g3,#fffaf0)"/>
+  <use href="#gear" x="209" y="20" width="48" height="48" style="--gf:var(--g4,#fffaf0)"/>
+  <use href="#gear" x="275" y="20" width="48" height="48" style="--gf:var(--g5,#fffaf0)"/>
+  <use href="#gear" x="341" y="20" width="48" height="48" style="--gf:var(--g6,#fffaf0)"/>
+  <g class="st" font-size="14" text-anchor="middle"><text x="35" y="49">1</text><text x="101" y="49">2</text><text x="167" y="49">3</text><text x="233" y="49">4</text><text x="299" y="49">5</text><text x="365" y="49">6</text></g>
+  <g class="sm-t" font-size="8.5" text-anchor="middle"><text x="35" y="84">рывок</text><text x="101" y="84">«телу</text><text x="101" y="94">надо»</text><text x="167" y="84">сбитые</text><text x="167" y="94">сутки</text><text x="233" y="84">приёмная</text><text x="299" y="84">ножницы</text><text x="299" y="94">масштаба</text><text x="365" y="84">стыд</text></g>
+  <text x="200" y="126" class="sm-t" font-size="9" text-anchor="middle">…и колесо делает ещё оборот</text>
+  <g class="cutmark" style="display:var(--cut,none)"><path d="M200 8 V78" class="ln nf" style="stroke:var(--pk);stroke-width:3;stroke-dasharray:5 4"/><text x="200" y="14" class="st" font-size="16" text-anchor="middle" style="fill:var(--pk)">✂</text></g>
+ </symbol>
+</svg>
+
+<div class="prog" aria-hidden="true">
+ <div class="prog-in"><span class="prog-lbl" id="plbl"><b>Разбор механизма</b> · обложка</span><span class="cells" id="pcells"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+</div>
+
+<main class="strip">
+
+ <header class="cover">
+  <p class="cover-k">Комикс-чертёж · реверс-инжиниринг</p>
+  <h1>Разбор механизма <span>шесть шестерёнок и один разрез</span></h1>
+  <p>Хандра Мечтателя — не характер, а колесо. Разбираем его по деталям, как часы, и ищем, где его режут.</p>
+  <svg viewBox="0 0 400 236" role="img" aria-label="Мечтатель бежит внутри колеса, а Сопротивление крутит ручку">
+   <g class="spin"><circle cx="150" cy="120" r="98" fill="none" stroke="#fffaf0" stroke-width="5"/><circle cx="150" cy="120" r="86" fill="none" stroke="#9db6ff" stroke-width="2"/>
+   <path d="M150 34 V206 M64 120 H236 M89 59 L211 181 M211 59 L89 181" stroke="#9db6ff" stroke-width="1.6" opacity=".55"/></g>
+   <path d="M118 224 L150 120 L182 224" fill="none" stroke="#fffaf0" stroke-width="4"/>
+   <g transform="translate(110 112) scale(.8)"><use href="#hero" width="100" height="130"/><use href="#f-oops" width="100" height="130"/></g>
+   <path d="M150 120 L226 120 L226 130 L262 130" fill="none" stroke="#ffc21a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+   <use href="#res" x="254" y="72" width="120" height="130"/>
+   <path d="M246 70 q10 -16 26 -18 M380 92 q8 -6 10 -16" fill="none" stroke="#ff2d86" stroke-width="2.5" stroke-linecap="round"/>
+   <use href="#gear" x="330" y="2" width="44" height="44" style="--gf:#9db6ff"/>
+   <use href="#gear" x="362" y="34" width="32" height="32" style="--gf:#ff2d86"/>
+  </svg>
+ </header>
+
+ <figure class="map" style="--g1:var(--paper-hi)">
+  <p class="cap">Сборочный чертёж. Шесть шестерёнок, каждая крутит следующую. Последняя снова толкает первую.</p>
+  <svg viewBox="0 0 400 132" role="img" aria-label="Схема: рывок, «телу надо», сбитые сутки, приёмная, ножницы масштаба, стыд — и снова по кругу"><use href="#map" width="400" height="132"/></svg>
+ </figure>
+
+ <!-- 1 -->
+ <section class="ch" id="g1" data-t="Рывок → пустой бак">
+  <header class="ch-head" data-n="1"><p class="ch-no">ШЕСТЕРЁНКА 1</p><h2>Рывок → пустой бак</h2></header>
+  <div class="map"><svg viewBox="0 0 400 132" role="img" aria-label="На схеме подсвечена шестерёнка 1" style="--g1:#ff2d86"><use href="#map" width="400" height="132"/></svg></div>
+
+  <figure class="panel tone-y">
+   <p class="cap">Мечтатель сделал большое дело. Красиво, с азартом, на последних силах.</p>
+   <svg class="scene" viewBox="0 0 400 230" role="img" aria-label="Мечтатель рядом с проштампованной папкой «Готово», стрелка бака на нуле">
+    <path class="ln nf" d="M0 214 H400"/>
+    <g class="ln"><rect class="s-w" x="24" y="84" width="104" height="126" rx="4"/><path class="nf l2" d="M38 108 H112 M38 124 H112 M38 140 H96"/></g>
+    <g transform="rotate(-12 76 170)"><rect x="34" y="152" width="88" height="34" rx="4" fill="none" stroke="#ff2d86" stroke-width="3.5"/><text x="78" y="176" class="st" font-size="17" text-anchor="middle" style="fill:#ff2d86">ГОТОВО</text></g>
+    <g transform="translate(140 84)"><use href="#hero" width="100" height="130"/><use href="#f-tired" width="100" height="130"/></g>
+    <g class="ln"><path class="s-w" d="M276 150 A54 54 0 0 1 384 150 Z"/><path class="nf l2" d="M330 150 L284 136" style="stroke:#ff2d86;stroke-width:3.5"/><circle class="s-k" cx="330" cy="150" r="5"/></g>
+    <text x="288" y="146" class="st" font-size="13">E</text><text x="364" y="146" class="st" font-size="13">F</text>
+    <text x="330" y="172" class="sm-t" font-size="9" text-anchor="middle">БАК</text>
+    <path class="s-pk" d="M150 60 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z M240 52 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z"/>
+   </svg>
+  </figure>
+
+  <figure class="panel">
+   <svg class="scene" viewBox="0 0 400 230" role="img" aria-label="Следующий шаг выглядит огромной горой над маленьким Мечтателем, из-за горы выглядывает Сопротивление">
+    <path class="ln nf" d="M0 216 H400"/>
+    <path class="ln s-t" d="M120 216 L250 28 L290 80 L330 40 L400 160 V216 Z"/>
+    <use href="#res" x="332" y="140" width="64" height="70"/>
+    <path class="ln s-w" d="M250 28 L226 62 L242 58 L256 70 L272 56 Z"/>
+    <text x="262" y="150" class="st" font-size="15" text-anchor="middle">СЛЕДУЮЩИЙ</text><text x="262" y="170" class="st" font-size="15" text-anchor="middle">ШАГ</text>
+    <g transform="translate(36 150) scale(.5)"><use href="#hero" width="100" height="130"/><use href="#f-oops" width="100" height="130"/></g>
+   </svg>
+   <div class="bals"><p class="say he"><span class="who">Мечтатель</span>Всё. Теперь на неделю вырублюсь.</p></div>
+  </figure>
+
+  <div class="spec"><h3>СПЕЦИФИКАЦИЯ · ШЕСТЕРЁНКА 1</h3>
+   <p><b>ВХОД:</b> большое дело сделано рывком.</p>
+   <p><b>ЧТО ДЕЛАЕТ:</b> бак пуст, и любой следующий шаг кажется горой.</p>
+   <p><b>ВЫХОД:</b> «на неделю вырублюсь». Это толчок для шестерёнки 2.</p>
+  </div>
+ </section>
+
+ <!-- 2 -->
+ <section class="ch" id="g2" data-t="«Телу надо»">
+  <header class="ch-head" data-n="2"><p class="ch-no">ШЕСТЕРЁНКА 2</p><h2>Маскировка под правду: «телу надо»</h2></header>
+  <div class="map"><svg viewBox="0 0 400 132" role="img" aria-label="На схеме подсвечена шестерёнка 2" style="--g2:#ff2d86"><use href="#map" width="400" height="132"/></svg></div>
+
+  <figure class="panel tone-r">
+   <p class="cap">Самая хитрая маскировка — под правду. Отдых и правда нужен, поэтому побег в досон побегом не выглядит.</p>
+   <svg class="scene" viewBox="0 0 400 230" role="img" aria-label="Сопротивление в ночном колпаке укрывает Мечтателя одеялом и держит табличку «Телу надо»">
+    <path class="ln nf" d="M0 216 H400"/>
+    <g class="ln"><rect class="s-t" x="16" y="128" width="240" height="70" rx="10"/><path class="nf" d="M24 198 V216 M248 198 V216"/><rect class="s-w" x="26" y="112" width="70" height="34" rx="14"/></g>
+    <circle class="ln s-h" cx="62" cy="118" r="20"/>
+    <path class="ln s-k" d="M42 112 C42 98 54 94 64 96 C76 98 82 106 80 116 C74 110 66 108 60 106 C54 110 48 112 42 112 Z"/>
+    <path class="ln nf l2" d="M52 122 q3 3 6 0 M66 122 q3 3 6 0"/>
+    <path class="ln s-b" d="M80 120 C120 104 220 106 252 128 C256 150 250 176 244 196 H86 C72 176 70 140 80 120 Z"/>
+    <path class="ln nf l2" d="M120 140 q30 10 60 0 M118 166 q36 10 80 0"/>
+    <use href="#res" x="262" y="58" width="120" height="130"/><use href="#nightcap" x="262" y="58" width="120" height="130"/>
+    <g class="ln"><rect class="s-w" x="300" y="150" width="88" height="44" rx="4" transform="rotate(6 344 172)"/></g>
+    <text x="344" y="168" class="st" font-size="11.5" text-anchor="middle" transform="rotate(6 344 172)">ТЕЛУ</text>
+    <text x="344" y="184" class="st" font-size="11.5" text-anchor="middle" transform="rotate(6 344 172)">НАДО</text>
+    <text x="110" y="92" class="st" font-size="14">z</text><text x="124" y="78" class="st" font-size="11">z</text>
+   </svg>
+   <div class="bals r"><p class="say re whisper t-r"><span class="who">Сопротивление</span>Отдохни. Это же правда, телу надо.</p></div>
+  </figure>
+
+  <figure class="panel">
+   <div class="row2" style="padding:12px">
+    <div class="mini"><svg class="scene" viewBox="0 0 160 100" role="img" aria-label="Облегчение приходит сразу"><path class="ln s-c" d="M80 14 l9 19 21 3 -15 15 4 21 -19 -10 -19 10 4 -21 -15 -15 21 -3z"/></svg><p class="lbl">облегчение:<br>сразу</p></div>
+    <div class="mini"><svg class="scene" viewBox="0 0 160 100" role="img" aria-label="Цена — целые сутки"><g class="ln"><rect class="s-w" x="44" y="12" width="72" height="80" rx="3"/><path class="nf l2" d="M54 30 H106 M54 44 H96 M54 58 H106"/></g><text x="80" y="82" class="st" font-size="13" text-anchor="middle" style="fill:#ff2d86">ЦЕНА</text></svg><p class="lbl">цена:<br>сутки</p></div>
+   </div>
+   <div class="bals"><p class="say he"><span class="who">Мечтатель</span>Жру, сплю, сплю, жру… дела не делаются.</p></div>
+   <div class="bals r" style="padding-top:0"><p class="say he t-r sm">Что дальше, опять досон?</p></div>
+  </figure>
+
+  <div class="spec"><h3>СПЕЦИФИКАЦИЯ · ШЕСТЕРЁНКА 2</h3>
+   <p><b>ВХОД:</b> пустой бак и «гора».</p>
+   <p><b>ПОДМЕНА:</b> побег надевает пижаму правды: «телу надо».</p>
+   <p><b>ВЫХОД:</b> облегчение сразу, а платить приходится целыми сутками.</p>
+  </div>
+ </section>
+
+ <!-- 3 -->
+ <section class="ch" id="g3" data-t="Сбитые сутки">
+  <header class="ch-head" data-n="3"><p class="ch-no">ШЕСТЕРЁНКА 3</p><h2>Сбитые сутки</h2></header>
+  <div class="map"><svg viewBox="0 0 400 132" role="img" aria-label="На схеме подсвечена шестерёнка 3" style="--g3:#ff2d86"><use href="#map" width="400" height="132"/></svg></div>
+
+  <figure class="panel nightbg">
+   <svg class="scene" viewBox="0 0 400 230" role="img" aria-label="Мечтатель просыпается, за окном уже ночь, шторы закрыты">
+    <path d="M0 214 H400" stroke="#fffaf0" stroke-width="2.6"/>
+    <g class="ln"><rect x="200" y="22" width="170" height="130" fill="#0b1236" stroke="#fffaf0"/></g>
+    <circle cx="320" cy="62" r="16" fill="#ffe36e"/><circle cx="328" cy="56" r="14" fill="#0b1236"/>
+    <g fill="#fffaf0"><circle cx="230" cy="44" r="2"/><circle cx="262" cy="80" r="1.6"/><circle cx="348" cy="118" r="2"/><circle cx="290" cy="40" r="1.4"/></g>
+    <path d="M200 22 C230 60 226 110 214 152 H200 Z M370 22 C344 60 350 110 360 152 H370 Z" fill="#5f5878" stroke="#fffaf0" stroke-width="2.6" stroke-linejoin="round"/>
+    <g class="ln"><rect class="s-t" x="20" y="150" width="170" height="44" rx="8"/></g>
+    <g transform="translate(56 66)"><use href="#hero" width="100" height="130"/><use href="#f-oops" width="100" height="130"/></g>
+   </svg>
+   <p class="cap end">Подъём — когда солнце уже село. Света нет, комната закрыта. День начинается уже сломанным.</p>
+  </figure>
+
+  <figure class="panel">
+   <div class="row3" style="padding:12px">
+    <div class="mini"><svg class="scene" viewBox="0 0 100 100" role="img" aria-label="Часы, метка подъёма"><circle class="ln s-w" cx="50" cy="50" r="38"/><path class="ln nf l2" d="M50 50 V22"/><circle class="s-pk ln" cx="66" cy="22" r="7"/></svg><p class="lbl">подъём</p></div>
+    <div class="mini"><svg class="scene" viewBox="0 0 100 100" role="img" aria-label="Часы, метка подъёма сдвинулась позже"><circle class="ln s-w" cx="50" cy="50" r="38"/><path class="ln nf l2" d="M50 50 L76 50"/><circle class="s-pk ln" cx="86" cy="58" r="7"/></svg><p class="lbl">позже</p></div>
+    <div class="mini"><svg class="scene" viewBox="0 0 100 100" role="img" aria-label="Часы, метка подъёма сдвинулась ещё позже"><circle class="ln s-w" cx="50" cy="50" r="38"/><path class="ln nf l2" d="M50 50 L36 76"/><circle class="s-pk ln" cx="28" cy="84" r="7"/></svg><p class="lbl">ещё позже</p></div>
+   </div>
+   <p class="cap end">Каждый пересып сдвигает следующий подъём. Колесо не просто крутится, оно ещё и уезжает в темноту.</p>
+  </figure>
+
+  <div class="spec"><h3>СПЕЦИФИКАЦИЯ · ШЕСТЕРЁНКА 3</h3>
+   <p><b>ВХОД:</b> досон из шестерёнки 2.</p>
+   <p><b>ЧТО ДЕЛАЕТ:</b> подъём после заката, без света, в закрытой комнате.</p>
+   <p><b>ВЫХОД:</b> каждый пересып сдвигает следующий. Проснулся без сил и без света.</p>
+  </div>
+ </section>
+
+ <!-- 4 -->
+ <section class="ch" id="g4" data-t="Приёмная вдохновения">
+  <header class="ch-head" data-n="4"><p class="ch-no">ШЕСТЕРЁНКА 4</p><h2>Приёмная вдохновения</h2></header>
+  <div class="map"><svg viewBox="0 0 400 132" role="img" aria-label="На схеме подсвечена шестерёнка 4" style="--g4:#ff2d86"><use href="#map" width="400" height="132"/></svg></div>
+
+  <figure class="panel">
+   <svg class="scene" viewBox="0 0 400 240" role="img" aria-label="Приёмная вдохновения: Мечтатель в кресле с пультом перед экраном, кино идёт подряд, концовки проматываются">
+    <path class="ln nf" d="M0 226 H400"/>
+    <g class="ln"><rect class="s-c" x="18" y="14" width="200" height="40" rx="4"/></g>
+    <text x="118" y="31" class="st" font-size="11" text-anchor="middle">ПРИЁМНАЯ ВДОХНОВЕНИЯ</text>
+    <text x="118" y="46" class="sm-t" font-size="9" text-anchor="middle">ОЖИДАЙТЕ…</text>
+    <g class="ln"><rect class="s-k" x="236" y="40" width="150" height="100" rx="6"/><rect x="244" y="48" width="134" height="84" fill="#2d5ae6" stroke="none"/><path class="nf" d="M300 140 V160 M276 160 H324"/></g>
+    <path d="M292 76 l18 14 -18 14z M310 76 l18 14 -18 14z" fill="#fffaf0"/>
+    <text x="311" y="124" class="sm-t" font-size="8.5" text-anchor="middle" style="fill:#fffaf0">ФИЛЬМ 3 ИЗ …</text>
+    <g class="ln"><rect class="s-pk" x="40" y="150" width="150" height="40" rx="10"/><rect class="s-pk" x="40" y="118" width="26" height="72" rx="8"/><rect class="s-pk" x="164" y="118" width="26" height="72" rx="8"/><path class="nf" d="M56 190 V226 M174 190 V226"/></g>
+    <g transform="translate(64 74)"><use href="#hero" width="100" height="130"/><use href="#f-tired" width="100" height="130"/></g>
+    <g class="ln"><rect class="s-k" x="160" y="150" width="12" height="24" rx="3" transform="rotate(-24 166 162)"/></g>
+   </svg>
+   <p class="cap end">Кино подряд, медленные концовки — на перемотку. Это не отдых, это очередь к вдохновению, которое так не приходит.</p>
+  </figure>
+
+  <figure class="panel tone-r">
+   <svg class="scene" viewBox="0 0 400 230" role="img" aria-label="Мечтатель прячется в крепости, сложенной из собственных планов, заметок и чатов">
+    <path class="ln nf" d="M0 214 H400"/>
+    <g class="ln">
+     <rect class="s-w" x="70" y="120" width="70" height="94"/><rect class="s-c" x="140" y="96" width="70" height="118"/><rect class="s-w" x="210" y="120" width="70" height="94"/><rect class="s-t" x="280" y="140" width="56" height="74"/>
+     <path class="nf l2" d="M80 138 H130 M80 152 H120 M150 114 H200 M150 128 H190 M220 138 H270 M220 152 H262 M290 158 H326"/>
+     <rect class="s-w" x="76" y="104" width="22" height="16"/><rect class="s-w" x="112" y="104" width="22" height="16"/><rect class="s-w" x="216" y="104" width="22" height="16"/><rect class="s-w" x="252" y="104" width="22" height="16"/>
+    </g>
+    <text x="105" y="200" class="sm-t" font-size="9" text-anchor="middle">ПЛАНЫ</text><text x="175" y="200" class="sm-t" font-size="9" text-anchor="middle">ЗАМЕТКИ</text><text x="245" y="200" class="sm-t" font-size="9" text-anchor="middle">ЧАТЫ</text><text x="308" y="200" class="sm-t" font-size="9" text-anchor="middle">ИДЕИ</text>
+    <g transform="translate(150 40) scale(.62)"><use href="#hero" width="100" height="130"/><use href="#f-oops" width="100" height="130"/></g>
+    <rect class="ln s-c" x="140" y="96" width="70" height="20"/>
+    <use href="#res" x="10" y="122" width="72" height="78"/>
+   </svg>
+   <div class="bals r"><p class="say he t-r"><span class="who">Мечтатель</span>Прячусь тут.</p></div>
+   <div class="bals" style="padding-top:0"><p class="say re whisper"><span class="who">Сопротивление</span>Ты же работаешь. Ну, почти. Расскажи ещё, как ты начнёшь.</p></div>
+   <p class="cap end">Он говорит о деле вместо дела. И прячется внутри своей же системы: она очень похожа на работу.</p>
+  </figure>
+
+  <div class="spec"><h3>СПЕЦИФИКАЦИЯ · ШЕСТЕРЁНКА 4</h3>
+   <p><b>ВХОД:</b> проснулся в темноте и без сил.</p>
+   <p><b>ПОДМЕНА:</b> кино подряд, разговоры о деле, укрытие в своей же системе.</p>
+   <p><b>ВЫХОД:</b> вместо дела ожидание вдохновения, а оно не приходит.</p>
+  </div>
+ </section>
+
+ <!-- 5 -->
+ <section class="ch" id="g5" data-t="Ножницы масштаба">
+  <header class="ch-head" data-n="5"><p class="ch-no">ШЕСТЕРЁНКА 5</p><h2>Ножницы масштаба</h2></header>
+  <div class="map"><svg viewBox="0 0 400 132" role="img" aria-label="На схеме подсвечена шестерёнка 5" style="--g5:#ff2d86"><use href="#map" width="400" height="132"/></svg></div>
+
+  <div class="row2">
+   <figure class="mini">
+    <svg class="scene" viewBox="0 0 160 150" role="img" aria-label="Днём дело — огромная гора">
+     <circle class="ln s-sun" cx="132" cy="24" r="14"/>
+     <path class="ln nf" d="M0 136 H160"/>
+     <path class="ln s-t" d="M30 136 L96 20 L150 136 Z"/>
+     <text x="96" y="106" class="st" font-size="13" text-anchor="middle">ДЕЛО</text>
+     <g transform="translate(6 112) scale(.18)"><use href="#hero" width="100" height="130"/><use href="#f-oops" width="100" height="130"/></g>
+    </svg>
+    <p class="lbl">днём: гора</p>
+   </figure>
+   <figure class="mini" style="background:var(--night)">
+    <svg class="scene" viewBox="0 0 160 150" role="img" aria-label="Ночью то же дело — камешек на ладони">
+     <circle cx="132" cy="24" r="12" fill="#ffe36e"/><circle cx="138" cy="20" r="11" fill="#16224f"/>
+     <g transform="translate(30 30)"><use href="#hero" width="100" height="130"/><use href="#f-dream" width="100" height="130"/></g>
+     <circle class="ln s-h" cx="128" cy="118" r="11"/>
+     <path class="ln s-t" d="M120 112 L128 104 L136 112 Z"/>
+    </svg>
+    <p class="lbl" style="background:var(--paper-hi)">ночью: «делов на минуту»</p>
+   </figure>
+  </div>
+
+  <figure class="panel">
+   <svg class="scene" viewBox="0 0 400 210" role="img" aria-label="Лестница без средней ступеньки: внизу «ничего», наверху «всё сразу»">
+    <path class="ln nf" d="M0 196 H400"/>
+    <g class="ln"><rect class="s-t" x="30" y="156" width="110" height="40"/><rect class="s-t" x="260" y="56" width="120" height="140"/></g>
+    <rect x="150" y="106" width="100" height="40" fill="none" stroke="#ff2d86" stroke-width="3" stroke-dasharray="8 6"/>
+    <text x="200" y="133" class="st" font-size="20" text-anchor="middle" style="fill:#ff2d86">?</text>
+    <text x="85" y="182" class="sm-t" font-size="10" text-anchor="middle">НИЧЕГО</text>
+    <text x="320" y="82" class="sm-t" font-size="10" text-anchor="middle">ВСЁ СРАЗУ</text>
+    <g transform="translate(56 88) scale(.55)"><use href="#hero" width="100" height="130"/><use href="#f-sad" width="100" height="130"/></g>
+   </svg>
+   <p class="cap end">Днём — гора, ночью — «делов на минуту». Шага среднего размера нет. А именно на нём и работает профессионал.</p>
+  </figure>
+
+  <div class="spec"><h3>СПЕЦИФИКАЦИЯ · ШЕСТЕРЁНКА 5</h3>
+   <p><b>ВХОД:</b> мысль о деле.</p>
+   <p><b>ЧТО ДЕЛАЕТ:</b> днём раздувает дело в гору, ночью сжимает в минуту.</p>
+   <p><b>ВЫХОД:</b> ни днём, ни ночью не начать. Среднего шага нет.</p>
+  </div>
+ </section>
+
+ <!-- 6 -->
+ <section class="ch" id="g6" data-t="Облегчение → стыд">
+  <header class="ch-head" data-n="6"><p class="ch-no">ШЕСТЕРЁНКА 6</p><h2>Облегчение → стыд → петля</h2></header>
+  <div class="map"><svg viewBox="0 0 400 132" role="img" aria-label="На схеме подсвечена шестерёнка 6" style="--g6:#ff2d86"><use href="#map" width="400" height="132"/></svg></div>
+
+  <div class="row3">
+   <figure class="mini">
+    <svg class="scene" viewBox="0 0 100 110" role="img" aria-label="Облегчение: Мечтатель выдыхает"><g transform="translate(10 6) scale(.8)"><use href="#hero" width="100" height="130"/><use href="#f-dream" width="100" height="130"/></g></svg>
+    <p class="lbl">«фух»</p>
+   </figure>
+   <figure class="mini">
+    <svg class="scene" viewBox="0 0 100 110" role="img" aria-label="Стыд: над Мечтателем туча"><path class="ln" d="M14 30 C4 30 4 14 16 14 C16 4 30 0 38 8 C44 -2 64 0 66 12 C80 10 84 30 72 30 Z" fill="#5f5878"/><path d="M24 34 l-4 8 M40 34 l-4 8 M56 34 l-4 8" stroke="#7fa4d9" stroke-width="2.2" stroke-linecap="round"/><g transform="translate(14 30) scale(.62)"><use href="#hero" width="100" height="130"/><use href="#f-sad" width="100" height="130"/></g></svg>
+    <p class="lbl">«сколько можно»</p>
+   </figure>
+   <figure class="mini">
+    <svg class="scene" viewBox="0 0 100 110" role="img" aria-label="Следующее дело стало ещё больше"><path class="ln s-t" d="M2 106 L58 8 L98 106 Z"/><path class="ln s-w" d="M58 8 L46 30 L58 26 L70 30 Z"/><text x="62" y="88" class="st" font-size="10" text-anchor="middle">ДЕЛО+</text></svg>
+    <p class="lbl">ещё тяжелее</p>
+   </figure>
+  </div>
+
+  <figure class="panel tone-r">
+   <svg class="scene" viewBox="0 0 400 180" role="img" aria-label="Стрелка от шестерёнки 6 возвращается к первой: колесо делает новый оборот">
+    <use href="#gear" x="40" y="40" width="90" height="90" style="--gf:#ff2d86"/>
+    <use href="#gear" x="270" y="40" width="90" height="90" style="--gf:#fffaf0"/>
+    <text x="85" y="94" class="st" font-size="24" text-anchor="middle">6</text><text x="315" y="94" class="st" font-size="24" text-anchor="middle">1</text>
+    <path class="ln nf" d="M132 70 C180 20 220 20 266 70" style="stroke-width:3.4"/><path class="ln nf" d="M254 60 l13 11 -16 4"/>
+    <text x="200" y="150" class="sm-t" font-size="11" text-anchor="middle">«коматозное забытьё» → снова гора</text>
+   </svg>
+   <p class="cap end">После побега сразу легче. Потом приходят «сколько можно» и стыд. А от стыда следующее дело кажется ещё тяжелее, и колесо делает новый оборот.</p>
+  </figure>
+
+  <div class="spec"><h3>СПЕЦИФИКАЦИЯ · ШЕСТЕРЁНКА 6</h3>
+   <p><b>ВХОД:</b> побег удался.</p>
+   <p><b>ЧТО ДЕЛАЕТ:</b> облегчение, потом «сколько можно», потом стыд.</p>
+   <p><b>ВЫХОД:</b> стыд утяжеляет следующее дело и толкает шестерёнку 1.</p>
+  </div>
+ </section>
+
+ <!-- РАЗРЕЗ -->
+ <section class="ch" id="cut" data-t="Один разрез">
+  <header class="ch-head" data-n="✂"><p class="ch-no">РАЗРЕЗ</p><h2>Резать колесо надо в одном месте</h2></header>
+  <div class="map"><svg viewBox="0 0 400 132" role="img" aria-label="На схеме пунктир разреза между шестерёнками 3 и 4" style="--cut:inline"><use href="#map" width="400" height="132"/></svg></div>
+
+  <figure class="panel">
+   <p class="cap">Не везде. Один разрез — на входе: сразу после пробуждения, до первого фильма или чата.</p>
+   <svg class="scene" viewBox="0 0 400 200" role="img" aria-label="Цепь «проснулся — первый фильм или чат» перерезана ножницами, Сопротивление с пультом растеряно">
+    <g class="ln"><rect class="s-w" x="14" y="66" width="128" height="50" rx="10"/><rect class="s-r" x="252" y="66" width="134" height="50" rx="10"/></g>
+    <text x="78" y="96" class="st" font-size="13" text-anchor="middle">ПРОСНУЛСЯ</text>
+    <text x="319" y="88" class="st" font-size="11" text-anchor="middle">ПЕРВЫЙ ФИЛЬМ</text><text x="319" y="104" class="st" font-size="11" text-anchor="middle">ИЛИ ЧАТ</text>
+    <g class="ln nf" style="stroke-width:5"><ellipse cx="164" cy="91" rx="16" ry="8"/><ellipse cx="236" cy="91" rx="16" ry="8"/></g>
+    <g class="ln">
+     <path class="nf" d="M200 100 L186 58 M200 100 L214 58" style="stroke:#ff2d86;stroke-width:5"/>
+     <path class="nf" d="M200 100 L190 124 M200 100 L210 124"/>
+     <circle class="s-w" cx="188" cy="132" r="9"/><circle class="s-w" cx="212" cy="132" r="9"/>
+     <circle class="s-k" cx="200" cy="100" r="3"/>
+    </g>
+    <path d="M176 66 l-10 -6 M224 66 l10 -6" stroke="#ff2d86" stroke-width="2.5" stroke-linecap="round"/>
+    <use href="#res" x="300" y="122" width="64" height="70"/>
+    <text x="200" y="40" class="st" font-size="18" text-anchor="middle" style="fill:#ff2d86">ЧИК!</text>
+   </svg>
+  </figure>
+
+  <figure class="panel tone-y">
+   <p class="cap">Сначала тело. 2 минуты. Без единого решения.</p>
+   <div class="row3" style="padding:12px">
+    <div class="mini"><svg class="scene" viewBox="0 0 100 90" role="img" aria-label="Стакан воды"><path class="ln s-w" d="M30 14 H70 L64 80 H36 Z"/><path d="M33 40 H67 L64 78 H36 Z" fill="#9db6ff"/><path class="ln nf" d="M30 14 H70 L64 80 H36 Z"/></svg><p class="lbl">вода</p></div>
+    <div class="mini"><svg class="scene" viewBox="0 0 100 90" role="img" aria-label="Открытое окно со светом"><circle class="ln s-sun" cx="62" cy="34" r="14"/><g class="ln"><rect class="nf" x="18" y="10" width="64" height="70"/><path class="s-w" d="M18 10 L4 18 V88 L18 80 Z"/></g><path d="M50 50 l-10 10 M62 54 v14 M74 50 l10 10" stroke="#ffb31a" stroke-width="2.5" stroke-linecap="round"/></svg><p class="lbl">окно и свет</p></div>
+    <div class="mini"><svg class="scene" viewBox="0 0 100 90" role="img" aria-label="Тарелка тёплой еды"><path class="ln s-pk" d="M14 46 H86 C84 70 68 80 50 80 C32 80 16 70 14 46 Z"/><path class="ln nf l2" d="M38 38 q-4 -8 0 -16 M50 38 q-4 -8 0 -16 M62 38 q-4 -8 0 -16"/></svg><p class="lbl">тёплая еда</p></div>
+   </div>
+  </figure>
+
+  <figure class="panel tone-b">
+   <p class="cap">Потом одно дело на 15 минут. Выбрано заранее. Делается при свете.</p>
+   <svg class="scene" viewBox="0 0 400 240" role="img" aria-label="Профи в каске за столом у светлого окна, таймер на 15 минут и карточка с делом, выбранным вчера">
+    <path class="ln nf" d="M0 224 H400"/>
+    <g class="ln"><rect class="s-w" x="236" y="18" width="140" height="110"/><path class="nf" d="M306 18 V128 M236 72 H376"/></g>
+    <circle class="ln s-sun" cx="276" cy="48" r="14"/>
+    <path d="M300 140 l-30 70 M330 140 l-10 70" stroke="#ffb31a" stroke-width="2" opacity=".6"/>
+    <g class="ln"><rect class="s-t" x="150" y="160" width="240" height="14"/><path class="nf" d="M166 174 V224 M374 174 V224"/></g>
+    <g class="ln"><rect class="s-w" x="300" y="122" width="74" height="38" rx="8"/></g>
+    <text x="337" y="148" class="st" font-size="16" text-anchor="middle">15:00</text>
+    <g transform="rotate(-5 222 140)"><rect class="ln s-c" x="184" y="114" width="80" height="46"/><text x="224" y="132" class="sm-t" font-size="8.5" text-anchor="middle">ДЕЛО НА 15 МИН</text><path class="ln nf l2" d="M194 144 H254"/><text x="224" y="156" class="sm-t" font-size="7.5" text-anchor="middle">выбрано вчера</text></g>
+    <g transform="translate(54 94)"><use href="#hero" width="100" height="130"/><use href="#f-grim" width="100" height="130"/><use href="#helmet" width="100" height="130"/></g>
+   </svg>
+   <div class="bals r"><p class="say he t-r"><span class="who">Профи</span>Одно дело. 15 минут. Всё остальное потом.</p></div>
+   <p class="cap end">Профессионал не берётся за всё сразу. Он просто садится на 15 минут.</p>
+  </figure>
+
+  <div class="cut">
+   <h3>Почему одного разреза хватает</h3>
+   <ol>
+    <li>Утро забирает тело, а не экран, — шестерёнке 4 нечем зацепиться.</li>
+    <li>Свет и вода сдвигают сутки обратно — шестерёнка 3 перестаёт уезжать.</li>
+    <li>15 минут — тот самый средний шаг, которого не было, — шестерёнке 5 нечего резать.</li>
+    <li>Сделанное дело вместо стыда — шестерёнка 6 перестаёт толкать первую.</li>
+   </ol>
+  </div>
+
+  <p class="foot">По мотивам книги Стивена Прессфилда «Война за креатив».</p>
+ </section>
+
+</main>
+
+<script>
+(function(){
+  var secs=[].slice.call(document.querySelectorAll('.ch'));
+  var lbl=document.getElementById('plbl');
+  var cells=[].slice.call(document.querySelectorAll('#pcells i'));
+  function upd(){
+    var mid=window.innerHeight*0.4, cur=-1;
+    secs.forEach(function(s,i){
+      var r=s.getBoundingClientRect();
+      var f=Math.max(0,Math.min(1,(mid-r.top)/Math.max(1,r.height)));
+      cells[i]&&cells[i].style.setProperty('--f',f);
+      if(r.top<mid) cur=i;
+    });
+    lbl.innerHTML='<b>Разбор механизма</b> · '+(cur<0?'обложка':(cur<6?'шестерёнка '+(cur+1)+': ':'')+secs[cur].getAttribute('data-t'));
+  }
+  window.addEventListener('scroll',upd,{passive:true});
+  window.addEventListener('resize',upd);
+  upd();
+})();
+</script>
+</body>
+</html>
