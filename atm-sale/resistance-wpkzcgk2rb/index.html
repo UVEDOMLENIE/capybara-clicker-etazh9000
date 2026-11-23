@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Сопротивление — комикс</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Комикс в пяти главах и одном реверсе: невидимая сила, которая включается, когда мечта становится делом.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&family=Dela+Gothic+One&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* Лента-вебтун: одна колонка шириной с телефон, панели тушью, растр точками.
+   Герой — синий, Сопротивление — серо-лиловое, каска профи — жёлтая, звуки — розовые. */
+:root{
+  --ink:#18140f; --ink-2:#3d352b;
+  --paper:#f3e8cc; --paper-hi:#fffaf0; --tone:#e2d0a2; --muted:#6b604c;
+  --hero:#2d5ae6; --res:#9b93b5; --res-d:#5f5878; --helmet:#ffc21a; --pk:#ff2d86; --fear:#b98ae8;
+  --skin:#f6d2b0; --cap:#ffe36e; --rain:#7fa4d9;
+  --desk:#201c27; --desk-dot:rgba(155,147,181,.2); --dot:rgba(24,20,15,.07);
+  --f-display:"Dela Gothic One","Arial Black",Impact,sans-serif;
+  --f-body:"Balsamiq Sans","Comic Sans MS","Trebuchet MS",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --col:460px;
+  --gut:max(16px, env(safe-area-inset-left, 0px));
+  --gut-r:max(16px, env(safe-area-inset-right, 0px));
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:44px;overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.35 var(--f-body)}
+@media (min-width:520px){body{background:var(--desk) radial-gradient(circle,var(--desk-dot) 1.4px,transparent 1.8px) 0 0/9px 9px fixed}}
+:focus-visible{outline:3px solid var(--pk);outline-offset:3px}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+figure{margin:0}
+
+/* прогресс */
+.prog{position:fixed;top:0;left:0;right:0;z-index:25;padding-top:env(safe-area-inset-top,0px);background:var(--ink);color:var(--paper-hi)}
+.prog-in{max-width:var(--col);margin:0 auto;padding-left:var(--gut);padding-right:var(--gut-r);height:30px;display:flex;align-items:center;gap:10px}
+.prog-lbl{flex:1;min-width:0;font:700 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prog-lbl b{color:var(--pk);font-weight:700}
+.cells{display:flex;gap:3px;flex:none}
+.cells i{display:block;width:13px;height:7px;border:1.5px solid var(--paper-hi);position:relative;overflow:hidden}
+.cells i::after{content:"";position:absolute;inset:0;background:var(--pk);transform-origin:left;transform:scaleX(var(--f,0));transition:transform .2s}
+
+/* лента */
+.strip{position:relative;max-width:var(--col);margin:0 auto;padding-left:var(--gut);padding-right:var(--gut-r);padding-block:46px 30px;background:var(--paper) radial-gradient(var(--dot) 1px,transparent 1.4px) 0 0/5px 5px;overflow-x:clip;display:flex;flex-direction:column;gap:56px}
+@media (min-width:520px){.strip{box-shadow:0 0 0 3px var(--ink),0 30px 90px rgba(0,0,0,.55)}}
+.ch{display:flex;flex-direction:column;gap:16px;scroll-margin-top:36px}
+
+/* обложка */
+.cover{position:relative;margin-left:calc(-1 * var(--gut));margin-right:calc(-1 * var(--gut-r));margin-top:-16px;padding:26px var(--gut-r) 22px var(--gut);background:var(--ink);color:var(--paper-hi);overflow:hidden}
+.cover::before{content:"";position:absolute;inset:0;background:radial-gradient(circle,rgba(155,147,181,.35) 1.6px,transparent 2px) 0 0/8px 8px;mask-image:linear-gradient(to bottom,#000,transparent 85%);-webkit-mask-image:linear-gradient(to bottom,#000,transparent 85%)}
+.cover>*{position:relative}
+.cover-k{margin:0;font:700 12px/1 var(--f-mono);letter-spacing:.18em;color:var(--pk);text-transform:uppercase}
+.cover h1{margin:12px 0 0;font:400 clamp(40px,12.5vw,60px)/.95 var(--f-display);letter-spacing:-.01em}
+.cover h1 span{display:block;color:transparent;-webkit-text-stroke:2px var(--res)}
+.cover p{margin:14px 0 0;font:400 17px/1.4 var(--f-body);color:#e9e0cb;max-width:26em}
+.cover svg{width:100%;height:auto;margin-top:14px}
+
+/* шапка главы */
+.ch-head{position:relative;margin-left:calc(-1 * var(--gut));margin-right:calc(-1 * var(--gut-r));padding-block:16px 30px;padding-left:var(--gut);padding-right:var(--gut-r);background:var(--ink);color:var(--paper-hi);clip-path:polygon(0 0,100% 0,100% 80%,0 100%);overflow:hidden}
+.ch-head::after{content:attr(data-n);position:absolute;right:14px;top:-18px;font:400 128px/1 var(--f-display);color:transparent;-webkit-text-stroke:2px var(--pk)}
+.ch-no{position:relative;z-index:1;margin:0;font:700 12px/1 var(--f-mono);letter-spacing:.16em;color:var(--pk)}
+.ch-head h2{position:relative;z-index:1;margin:8px 0 0;max-width:80%;font:400 clamp(26px,7.6vw,34px)/1.08 var(--f-display);text-wrap:balance}
+
+/* панели */
+.panel{position:relative;display:flex;flex-direction:column;border:3px solid var(--ink);background:var(--paper-hi);min-width:0;overflow:hidden;margin:0}
+.ovl{position:relative;display:grid}
+.ovl>*{grid-area:1/1;min-width:0}
+.scene{display:block;width:100%;height:auto}
+.at-tl{justify-self:start;align-self:start;margin:10px}
+.at-tr{justify-self:end;align-self:start;margin:10px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tone-r{background:linear-gradient(to bottom,transparent 0%,var(--paper-hi) 90%),radial-gradient(circle,var(--res) 1.5px,transparent 1.9px) 0 0/7px 7px,var(--paper-hi)}
+.tone-b{background:linear-gradient(to top,transparent 0%,var(--paper-hi) 88%),radial-gradient(circle,var(--hero) 1.4px,transparent 1.8px) 0 0/7px 7px,var(--paper-hi)}
+.tone-y{background:linear-gradient(to bottom,transparent 0%,var(--paper-hi) 92%),radial-gradient(circle,var(--helmet) 1.7px,transparent 2.1px) 0 0/7px 7px,var(--paper-hi)}
+.night{background:var(--ink)}
+
+/* подписи автора */
+.cap{margin:0;background:var(--cap);border-bottom:3px solid var(--ink);padding:8px 12px 9px;font:700 15px/1.35 var(--f-body);text-wrap:pretty}
+.cap.end{border-bottom:0;border-top:3px solid var(--ink)}
+.plate{margin:0;border:3px solid var(--ink);background:var(--res);color:var(--ink);padding:12px 14px;font:400 16px/1.4 var(--f-body);box-shadow:5px 5px 0 var(--ink)}
+.plate b{display:block;font:400 26px/1 var(--f-display);margin-bottom:6px;letter-spacing:.01em}
+
+/* облачка */
+.bals{display:flex;flex-direction:column;align-items:flex-start;gap:16px;padding:12px 12px 18px}
+.bals.r{align-items:flex-end}
+.say{position:relative;z-index:2;margin:0;width:fit-content;max-width:100%;background:var(--paper-hi);color:var(--ink);border:2.5px solid var(--ink);border-radius:20px;padding:8px 14px 10px;font:400 17px/1.3 var(--f-body);box-shadow:3px 3px 0 var(--sh,var(--ink));text-wrap:pretty}
+.say::before,.say::after{content:"";position:absolute;bottom:100%;clip-path:polygon(0 100%,100% 100%,15% 0)}
+.say::before{left:var(--tl,22px);width:20px;height:15px;background:var(--ink)}
+.say::after{left:calc(var(--tl,22px) + 3.6px);width:13px;height:10.5px;background:var(--paper-hi)}
+.say.t-r{--tl:calc(100% - 46px)}
+.say.t-r::before,.say.t-r::after{transform:scaleX(-1)}
+.say.t-no::before,.say.t-no::after{display:none}
+.say.he{--sh:var(--hero)} .say.re{--sh:var(--res-d)} .say.fe{--sh:var(--fear)}
+.say.whisper{border-style:dashed;font-style:italic}
+.say.sm{font-size:15px;padding:5px 11px 7px;border-radius:16px}
+.who{display:block;font:700 10px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.burst-w{z-index:2;filter:drop-shadow(2.5px 0 0 var(--ink)) drop-shadow(-2.5px 0 0 var(--ink)) drop-shadow(0 2.5px 0 var(--ink)) drop-shadow(0 -2.5px 0 var(--ink)) drop-shadow(4px 4px 0 var(--res-d))}
+.burst{margin:0;background:var(--pk);color:var(--paper-hi);padding:22px 30px 26px;font:400 24px/1 var(--f-display);text-align:center;clip-path:polygon(0% 20%,9% 12%,7% 0%,21% 8%,33% 0%,43% 9%,57% 0%,66% 10%,82% 1%,86% 14%,100% 10%,94% 30%,100% 46%,93% 56%,100% 74%,89% 79%,95% 100%,79% 90%,65% 100%,55% 88%,40% 100%,31% 89%,16% 98%,13% 84%,0% 88%,5% 70%,0% 56%,6% 44%)}
+.tag{display:inline-block;margin:0;padding:4px 9px;border:2.5px solid var(--ink);background:var(--paper-hi);font:700 11px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;box-shadow:3px 3px 0 var(--ink)}
+.tag.am{background:var(--tone)} .tag.pro{background:var(--helmet)}
+
+/* мини-панели */
+.mini{display:flex;flex-direction:column;border:3px solid var(--ink);background:var(--paper-hi);min-width:0}
+.mini .bals{padding:10px 8px 12px}
+.mini .say{font-size:15px;padding:6px 10px 8px}
+.lbl{margin:0;padding:6px 6px 8px;text-align:center;font:700 11px/1.2 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;border-top:2.5px solid var(--ink)}
+
+/* неделя любителя */
+.week{display:grid;grid-template-columns:repeat(4,1fr);border-top:3px solid var(--ink)}
+.week div{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px 12px;text-align:center;border-right:2.5px solid var(--ink);font:400 13px/1.2 var(--f-body)}
+.week div:last-child{border-right:0}
+.week b{font:700 11px/1 var(--f-mono);letter-spacing:.1em}
+.week i{font-style:normal;font-size:26px;line-height:1}
+.week .up{background:var(--cap)}
+.week .x{background:var(--tone);text-decoration:line-through;text-decoration-thickness:2px}
+
+/* реверс */
+.rev{display:flex;flex-direction:column;gap:14px;margin:0;padding:0;list-style:none;counter-reset:r}
+.rev li{position:relative;border:3px solid var(--ink);background:var(--paper-hi);box-shadow:5px 5px 0 var(--ink);counter-increment:r}
+.rev .when{margin:0;padding:10px 12px 10px 48px;background:var(--res);border-bottom:3px solid var(--ink);font:700 15px/1.3 var(--f-body)}
+.rev .when::before{content:counter(r);position:absolute;left:10px;top:8px;width:28px;height:28px;display:grid;place-items:center;border:2.5px solid var(--ink);border-radius:50%;background:var(--paper-hi);font:400 15px/1 var(--f-display)}
+.rev .then{margin:0;padding:10px 12px 12px;font:400 16px/1.38 var(--f-body)}
+.rev .then b{color:var(--hero)}
+.ritual{margin:0;border:3px solid var(--ink);background:var(--helmet);padding:14px 14px 16px;box-shadow:5px 5px 0 var(--ink)}
+.ritual h3{margin:0 0 8px;font:400 22px/1.1 var(--f-display)}
+.ritual ol{margin:0;padding-left:22px;font:400 16px/1.45 var(--f-body)}
+
+.foot{margin:6px 0 0;text-align:center;font:400 13px/1.4 var(--f-mono);color:var(--muted)}
+
+/* SVG */
+.ln{stroke:var(--ink);stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round}
+.l2{stroke-width:1.8}
+.nf{fill:none}
+.s-h{fill:var(--skin)} .s-k{fill:var(--ink)} .s-w{fill:var(--paper-hi)} .s-b{fill:var(--hero)}
+.s-r{fill:var(--res)} .s-rd{fill:var(--res-d)} .s-y{fill:var(--helmet)} .s-pk{fill:var(--pk)}
+.s-t{fill:var(--tone)} .s-f{fill:var(--fear)} .s-c{fill:var(--cap)}
+.st{font-family:var(--f-display);fill:var(--ink);stroke:none}
+.sm-t{font-family:var(--f-mono);font-weight:700;fill:var(--ink);stroke:none}
+.hand{font-family:var(--f-body);fill:var(--ink);stroke:none}
+@media (prefers-reduced-motion:no-preference){
+  .wob{animation:wob 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+  @keyframes wob{50%{transform:translateY(-4px) rotate(-2deg)}}
+  .shake{animation:shake .25s linear infinite;transform-box:fill-box;transform-origin:center}
+  @keyframes shake{25%{transform:translateX(-1.2px)}75%{transform:translateX(1.2px)}}
+}
+</style>
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+ <defs>
+  <pattern id="dotR" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.3" class="s-rd"/></pattern>
+  <pattern id="brick" width="24" height="16" patternUnits="userSpaceOnUse">
+   <rect width="24" height="16" class="s-t"/>
+   <path d="M0 .8 H24 M0 8.8 H24 M12 1 V8.8 M.8 9 V16 M23.2 9 V16" class="nf" style="stroke:var(--ink);stroke-width:1.6"/>
+  </pattern>
+ </defs>
+
+ <!-- Герой: худи, растрёпанные волосы -->
+ <symbol id="hero" viewBox="0 0 100 130">
+  <g class="ln">
+   <path class="s-b" d="M24 82 C17 52 31 31 50 31 C69 31 83 52 76 82 Z"/>
+   <path class="s-b" d="M15 130 C15 104 30 90 50 90 C70 90 85 104 85 130 Z"/>
+   <path class="nf l2" d="M44 91 L43 104 M56 91 L57 104"/>
+   <circle class="s-h" cx="50" cy="61" r="24"/>
+   <path class="s-k" d="M27 57 C26 41 38 33 50 34 C63 34 74 42 73 56 C69 50 64 48 60 45 C58 50 52 51 47 47 C43 52 34 53 27 57 Z"/>
+  </g>
+ </symbol>
+ <!-- лица героя (те же координаты) -->
+ <symbol id="f-dream" viewBox="0 0 100 130"><g class="ln nf"><path d="M37 63 Q41 59 45 63 M55 63 Q59 59 63 63"/><path d="M42 72 Q50 80 58 72"/></g><ellipse cx="35" cy="70" rx="4" ry="2.4" class="s-pk" opacity=".45"/><ellipse cx="65" cy="70" rx="4" ry="2.4" class="s-pk" opacity=".45"/></symbol>
+ <symbol id="f-oops" viewBox="0 0 100 130"><g class="ln"><circle class="s-w" cx="41" cy="62" r="5.5"/><circle class="s-w" cx="59" cy="62" r="5.5"/><circle class="s-k" cx="41" cy="63" r="2.2"/><circle class="s-k" cx="59" cy="63" r="2.2"/><circle class="s-k" cx="50" cy="75" r="3.6"/></g></symbol>
+ <symbol id="f-nod" viewBox="0 0 100 130"><circle class="s-k" cx="41" cy="63" r="2.6"/><circle class="s-k" cx="59" cy="63" r="2.6"/><path class="ln nf l2" d="M45 74 H55"/><path class="ln nf l2" d="M36 56 L45 57 M64 56 L55 57"/></symbol>
+ <symbol id="f-sad" viewBox="0 0 100 130"><circle class="s-k" cx="41" cy="64" r="2.6"/><circle class="s-k" cx="59" cy="64" r="2.6"/><g class="ln nf l2"><path d="M36 58 L45 55 M64 58 L55 55"/><path d="M44 77 Q50 72 56 77"/></g></symbol>
+ <symbol id="f-grim" viewBox="0 0 100 130"><circle class="s-k" cx="41" cy="63" r="2.6"/><circle class="s-k" cx="59" cy="63" r="2.6"/><g class="ln nf"><path d="M34 55 L46 59 M66 55 L54 59"/><path class="l2" d="M43 74 H57"/></g></symbol>
+ <symbol id="f-happy" viewBox="0 0 100 130"><g class="ln nf"><path d="M37 64 Q41 58 45 64 M55 64 Q59 58 63 64"/></g><path class="ln s-k l2" d="M41 70 Q50 82 59 70 Z"/><ellipse cx="35" cy="71" rx="4" ry="2.4" class="s-pk" opacity=".5"/><ellipse cx="65" cy="71" rx="4" ry="2.4" class="s-pk" opacity=".5"/></symbol>
+ <!-- каска профи -->
+ <symbol id="helmet" viewBox="0 0 100 130"><g class="ln"><path class="s-y" d="M25 54 C25 35 36 27 50 27 C64 27 75 35 75 54 Z"/><path class="s-y" d="M18 52 H82 Q84 58 80 59 H20 Q16 58 18 52 Z"/><path class="nf l2" d="M50 28 V51 M41 31 L43 51 M59 31 L57 51"/></g></symbol>
+
+ <!-- Сопротивление: дымное привидение с ухмылкой -->
+ <symbol id="res" viewBox="0 0 120 130">
+  <g class="ln">
+   <path class="nf" d="M24 80 Q8 76 9 62 M96 80 Q112 72 110 60"/>
+   <circle class="s-r" cx="9" cy="59" r="4.5"/><circle class="s-r" cx="110" cy="57" r="4.5"/>
+   <path class="s-r" d="M18 126 C12 96 12 58 26 36 C40 14 80 14 94 36 C108 58 108 96 102 126 L90 116 L78 127 L66 116 L54 127 L42 116 L30 127 Z"/>
+  </g>
+  <path d="M18 126 C12 96 12 58 26 36 C40 14 80 14 94 36 C108 58 108 96 102 126 L90 116 L78 127 L66 116 L54 127 L42 116 L30 127 Z" fill="url(#dotR)" opacity=".45"/>
+  <g class="ln">
+   <ellipse class="s-w" cx="48" cy="57" rx="9" ry="7"/><ellipse class="s-w" cx="72" cy="57" rx="9" ry="7"/>
+   <circle class="s-k" cx="51" cy="59" r="3" stroke="none"/><circle class="s-k" cx="75" cy="59" r="3" stroke="none"/>
+   <path class="s-r" d="M38.5 57 Q48 46 57.5 57 Z M62.5 57 Q72 46 81.5 57 Z"/>
+   <path class="s-k l2" d="M40 76 Q60 96 80 76 Q60 86 40 76 Z"/>
+  </g>
+ </symbol>
+ <!-- галстук и очки «умного взрослого» -->
+ <symbol id="suit" viewBox="0 0 120 130"><g class="ln"><path class="s-pk" d="M56 92 H64 L62 98 H58 Z"/><path class="s-pk" d="M58 98 H62 L67 116 L60 123 L53 116 Z"/><circle class="nf" cx="48" cy="57" r="11"/><circle class="nf" cx="72" cy="57" r="11"/><path class="nf l2" d="M59 56 H61 M37 55 L28 50 M83 55 L92 50"/></g></symbol>
+
+ <!-- Страх: маленький дрожащий -->
+ <symbol id="fear" viewBox="0 0 80 80">
+  <g class="ln">
+   <path class="s-f" d="M12 74 C6 50 14 22 40 20 C66 22 74 50 68 74 Q54 68 40 76 Q26 68 12 74 Z"/>
+   <circle class="s-w" cx="30" cy="42" r="9"/><circle class="s-w" cx="52" cy="42" r="9"/>
+   <circle class="s-k" cx="31" cy="45" r="4" stroke="none"/><circle class="s-k" cx="53" cy="45" r="4" stroke="none"/>
+   <path class="nf l2" d="M30 61 q4 -4 8 0 q4 4 8 0 q4 -4 6 0"/>
+   <path class="nf l2" d="M4 40 l-3 4 l3 4 M76 40 l3 4 l-3 4"/>
+  </g>
+ </symbol>
+
+ <!-- Муза: облако, которое спит -->
+ <symbol id="muse" viewBox="0 0 120 80">
+  <path class="ln s-w" d="M20 64 C3 64 3 38 22 38 C22 19 46 13 56 27 C64 11 93 15 93 35 C113 33 117 64 97 64 Z"/>
+  <g class="ln nf l2"><path d="M42 48 Q47 52 52 48 M64 48 Q69 52 74 48"/><path d="M53 57 Q58 59 63 57"/></g>
+ </symbol>
+</svg>
+
+<div class="prog" aria-hidden="true">
+ <div class="prog-in"><span class="prog-lbl" id="plbl"><b>Сопротивление</b> · обложка</span><span class="cells" id="pcells"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+</div>
+
+<main class="strip">
+
+ <header class="cover">
+  <p class="cover-k">Комикс · 5 глав и реверс</p>
+  <h1>Сопро&shy;тивление <span>и как его вывернуть</span></h1>
+  <p>Невидимая сила, которая просыпается ровно в ту секунду, когда мечта становится делом.</p>
+  <svg viewBox="0 0 400 170" role="img" aria-label="Мечтатель с ноутбуком, а за спиной у него огромное ухмыляющееся привидение">
+   <use href="#res" x="150" y="-6" width="170" height="184" class="wob" opacity=".95"/>
+   <g transform="translate(70 52)"><use href="#hero" width="90" height="117"/><use href="#f-oops" width="90" height="117"/></g>
+   <g class="ln"><rect class="s-k" x="150" y="128" width="70" height="40" rx="4"/><rect class="s-w" x="156" y="133" width="58" height="30" stroke="none"/></g>
+   <path class="ln nf l2" d="M164 141 H196 M164 148 H184"/>
+   <text x="330" y="40" class="st" font-size="15" fill="#ff2d86" style="fill:var(--pk)">ш-ш-ш…</text>
+  </svg>
+ </header>
+
+ <!-- ГЛАВА 1 -->
+ <section class="ch" id="c1" data-t="Мечтать бесплатно">
+  <header class="ch-head" data-n="1"><p class="ch-no">ГЛАВА 1</p><h2>Мечтать — бесплатно</h2></header>
+
+  <figure class="panel tone-b">
+   <p class="cap">Это Мечтатель. Он давно мечтает о своём деле.</p>
+   <svg class="scene" viewBox="0 0 400 250" role="img" aria-label="Мечтатель на диване с кружкой мечтает о своём деле">
+    <path class="ln nf" d="M0 226 H400"/>
+    <g class="ln">
+     <rect class="s-t" x="30" y="128" width="190" height="56" rx="16"/>
+     <rect class="s-t" x="22" y="176" width="206" height="40" rx="12"/>
+     <rect class="s-t" x="12" y="150" width="28" height="68" rx="10"/>
+     <rect class="s-t" x="210" y="150" width="28" height="68" rx="10"/>
+    </g>
+    <g transform="translate(76 62)"><use href="#hero" width="100" height="130"/><use href="#f-dream" width="100" height="130"/></g>
+    <g class="ln"><rect class="s-pk" x="150" y="152" width="18" height="22" rx="3"/><path class="nf" d="M168 157 q8 0 8 7 q0 7 -8 7"/></g>
+    <path class="ln nf l2" d="M155 146 q-4 -6 0 -12 M162 146 q-4 -6 0 -12"/>
+    <circle class="ln s-w" cx="178" cy="68" r="5"/><circle class="ln s-w" cx="196" cy="52" r="8"/>
+    <path class="ln s-w" d="M214 72 C196 72 194 46 214 42 C212 20 240 10 256 24 C266 6 300 6 308 24 C326 10 356 18 356 40 C380 42 384 74 360 78 C362 98 330 106 316 94 C304 110 268 110 258 96 C240 106 212 98 214 72 Z"/>
+    <g class="ln"><rect class="s-y" x="244" y="40" width="88" height="20" rx="3"/><rect class="s-w" x="252" y="60" width="72" height="30"/><rect class="s-b" x="281" y="66" width="14" height="24"/><rect class="s-c" x="258" y="66" width="16" height="12"/><rect class="s-c" x="302" y="66" width="16" height="12"/></g>
+    <text x="288" y="54.5" class="st" font-size="10.5" text-anchor="middle">СВОЁ ДЕЛО</text>
+    <path class="s-pk" d="M232 30 l2.5 6 6 2.5 -6 2.5 -2.5 6 -2.5 -6 -6 -2.5 6 -2.5z M348 48 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z"/>
+   </svg>
+   <div class="bals r"><p class="say he t-r"><span class="who">Мечтатель</span>Вот запущу своё дело — и заживу!</p></div>
+   <p class="cap end">Пока только мечтаешь за чашкой кофе, внутри тихо. Ты ничем не рискуешь.</p>
+  </figure>
+
+  <figure class="panel">
+   <p class="cap">Но стоит открыть пустой файл, сесть за расчёты или набрать первого клиента…</p>
+   <div class="ovl">
+    <svg class="scene" viewBox="0 0 400 240" role="img" aria-label="Мечтатель открыл ноутбук с пустым документом, а из-за экрана вылезает привидение">
+     <path class="ln nf" d="M0 204 H400"/>
+     <use href="#res" x="252" y="14" width="120" height="130"/>
+     <path class="ln nf l2" d="M246 42 l-16 -6 M250 26 l-12 -12 M378 40 l14 -6 M374 22 l10 -12"/>
+     <g class="ln">
+      <rect class="s-k" x="236" y="100" width="150" height="92" rx="6"/>
+      <rect class="s-w" x="244" y="108" width="134" height="76" stroke="none"/>
+      <path class="s-k" d="M222 192 H400 V200 H222 Z"/>
+     </g>
+     <text x="252" y="122" class="sm-t" font-size="9">Документ1</text>
+     <path class="ln nf" d="M254 134 V150"/>
+     <g transform="translate(64 74)"><use href="#hero" width="100" height="130"/><use href="#f-oops" width="100" height="130"/></g>
+    </svg>
+    <div class="at-tl burst-w"><p class="burst">ВЖУХ!</p></div>
+   </div>
+  </figure>
+
+  <div class="row2">
+   <figure class="mini">
+    <svg class="scene" viewBox="0 0 160 110" role="img" aria-label="Привидение показывает на конверт с тремя письмами">
+     <use href="#res" x="2" y="16" width="80" height="87"/>
+     <g class="ln"><rect class="s-w" x="92" y="40" width="58" height="40" rx="3"/><path class="nf" d="M92 40 L121 62 L150 40"/><circle class="s-pk" cx="150" cy="40" r="10"/></g>
+     <text x="150" y="44.5" class="st" font-size="12" text-anchor="middle" style="fill:#fffaf0">3</text>
+    </svg>
+    <div class="bals"><p class="say re whisper">Почту проверь. Вдруг там важное.</p></div>
+   </figure>
+   <figure class="mini">
+    <svg class="scene" viewBox="0 0 160 110" role="img" aria-label="Привидение показывает на захламлённый стол">
+     <use href="#res" x="2" y="16" width="80" height="87"/>
+     <g class="ln"><path class="nf" d="M88 92 H156"/><rect class="s-t" x="94" y="64" width="24" height="28"/><rect class="s-w" x="120" y="78" width="30" height="14"/><rect class="s-pk" x="128" y="60" width="14" height="18" rx="2"/></g>
+     <circle class="s-k" cx="104" cy="98" r="1.8"/><circle class="s-k" cx="114" cy="100" r="1.5"/><circle class="s-k" cx="138" cy="97" r="1.8"/>
+    </svg>
+    <div class="bals"><p class="say re whisper">Кто ж работает за таким столом?</p></div>
+   </figure>
+   <figure class="mini">
+    <svg class="scene" viewBox="0 0 160 110" role="img" aria-label="Привидение держит газету с заголовком «Всё пропало»">
+     <use href="#res" x="2" y="16" width="80" height="87"/>
+     <g class="ln"><rect class="s-w" x="90" y="30" width="62" height="64" transform="rotate(5 121 62)"/></g>
+     <text x="96" y="50" class="st" font-size="9" transform="rotate(5 121 62)">ВСЁ</text>
+     <text x="96" y="62" class="st" font-size="9" transform="rotate(5 121 62)">ПРОПАЛО!</text>
+     <path class="ln nf l2" d="M97 72 H144 M96 80 H140" transform="rotate(5 121 62)"/>
+    </svg>
+    <div class="bals"><p class="say re whisper">Новости! Мир рушится, глянь скорее.</p></div>
+   </figure>
+   <figure class="mini">
+    <svg class="scene" viewBox="0 0 160 110" role="img" aria-label="Привидение протягивает чайник">
+     <use href="#res" x="2" y="16" width="80" height="87"/>
+     <g class="ln"><ellipse class="s-pk" cx="122" cy="74" rx="24" ry="18"/><path class="nf" d="M98 70 Q86 62 86 52"/><path class="nf" d="M146 66 q12 2 10 14 q-2 8 -12 6"/><rect class="s-w" x="114" y="52" width="16" height="6" rx="2"/></g>
+     <path class="ln nf l2" d="M118 44 q-3 -6 0 -12 M126 44 q-3 -6 0 -12"/>
+    </svg>
+    <div class="bals"><p class="say re whisper">Сначала ещё чайку. Заслужил.</p></div>
+   </figure>
+  </div>
+
+  <p class="plate"><b>Знакомьтесь: Сопротивление</b>Невидимое, но очень реальное. Включается, как только мечта становится делом. И вдруг срочным оказывается всё, кроме дела.</p>
+ </section>
+
+ <!-- ГЛАВА 2 -->
+ <section class="ch" id="c2" data-t="Оно говорит как взрослый">
+  <header class="ch-head" data-n="2"><p class="ch-no">ГЛАВА 2</p><h2>Оно никогда не скажет «ты боишься»</h2></header>
+
+  <figure class="panel tone-r">
+   <p class="cap">Сопротивление хитрое: про страх оно молчит. Оно надевает галстук и говорит как умный взрослый.</p>
+   <svg class="scene" viewBox="0 0 400 230" role="img" aria-label="Привидение в галстуке и очках с указкой у флипчарта с планом «не сейчас»">
+    <path class="ln nf" d="M0 214 H400"/>
+    <g class="ln"><rect class="s-w" x="216" y="24" width="160" height="124"/><path class="nf" d="M230 148 L220 212 M362 148 L372 212 M296 148 V206"/></g>
+    <text x="296" y="50" class="st" font-size="15" text-anchor="middle">ПЛАН</text>
+    <text x="230" y="76" class="hand" font-size="14">1. не сейчас</text>
+    <text x="230" y="98" class="hand" font-size="14">2. ещё один курс</text>
+    <text x="230" y="120" class="hand" font-size="14">3. когда-нибудь</text>
+    <path class="ln nf" d="M230 132 H280" style="stroke:var(--pk)"/>
+    <use href="#res" x="62" y="78" width="124" height="134"/><use href="#suit" x="62" y="78" width="124" height="134"/>
+    <path class="ln nf" d="M178 136 L236 98"/>
+   </svg>
+  </figure>
+
+  <figure class="panel">
+   <div class="bals">
+    <p class="say re t-no"><span class="who">Сопротивление</span>Сейчас неподходящий момент.</p>
+    <p class="say re t-no">Сначала пройди ещё один обучающий курс.</p>
+    <p class="say re t-no">Дождись, пока рынок успокоится.</p>
+    <p class="say re t-no">Собери побольше информации.</p>
+    <p class="say re t-no">И сделай идеально. Или не позорься вовсе.</p>
+   </div>
+   <div class="bals r"><p class="say he t-no sm"><span class="who">Мечтатель</span>Ну… логично вообще-то.</p></div>
+   <p class="cap end">Оно питается сомнениями, перфекционизмом и жаждой гарантий там, где гарантий не бывает.</p>
+  </figure>
+
+  <figure class="panel">
+   <p class="cap">Чем важнее дело для твоего роста и денег, тем крупнее Сопротивление.</p>
+   <svg class="scene" viewBox="0 0 400 270" role="img" aria-label="Три привидения: маленькое для мытья кружки, среднее для письма и огромное для главного дела жизни">
+    <path class="ln nf" d="M0 240 H400"/>
+    <use href="#res" x="26" y="200" width="36" height="39"/>
+    <use href="#res" x="96" y="148" width="84" height="91"/>
+    <use href="#res" x="198" y="-66" width="282" height="306" class="wob"/>
+    <text x="44" y="258" class="sm-t" font-size="9" text-anchor="middle">помыть</text>
+    <text x="44" y="268" class="sm-t" font-size="9" text-anchor="middle">кружку</text>
+    <text x="138" y="258" class="sm-t" font-size="9" text-anchor="middle">ответить</text>
+    <text x="138" y="268" class="sm-t" font-size="9" text-anchor="middle">на письмо</text>
+    <text x="300" y="258" class="st" font-size="12" text-anchor="middle">ГЛАВНОЕ ДЕЛО ЖИЗНИ</text>
+   </svg>
+  </figure>
+ </section>
+
+ <!-- ГЛАВА 3 -->
+ <section class="ch" id="c3" data-t="Любитель">
+  <header class="ch-head" data-n="3"><p class="ch-no">ГЛАВА 3</p><h2>Любитель ждёт вдохновения</h2></header>
+
+  <figure class="panel">
+   <div class="ovl">
+    <svg class="scene" viewBox="0 0 400 250" role="img" aria-label="Грустный Мечтатель у окна с дождём, рядом спит облако-муза и стрелка настроения на нуле">
+     <path class="ln nf" d="M0 228 H400"/>
+     <g class="ln"><rect class="s-w" x="206" y="28" width="166" height="132"/><path class="nf" d="M289 28 V160 M206 94 H372"/></g>
+     <path class="nf" style="stroke:var(--rain);stroke-width:2.2;stroke-linecap:round" d="M222 40 l-6 14 M248 52 l-6 14 M270 38 l-6 14 M306 44 l-6 14 M334 60 l-6 14 M356 40 l-6 14 M228 110 l-6 14 M262 120 l-6 14 M314 108 l-6 14 M350 126 l-6 14"/>
+     <use href="#muse" x="14" y="6" width="120" height="80"/>
+     <text x="128" y="26" class="st" font-size="13">z</text><text x="140" y="14" class="st" font-size="10">z</text>
+     <g transform="translate(78 94)"><use href="#hero" width="100" height="130"/><use href="#f-sad" width="100" height="130"/></g>
+     <g class="ln"><path class="s-w" d="M296 222 A40 40 0 0 1 376 222 Z"/><path class="nf l2" d="M336 222 L302 214"/><circle class="s-k" cx="336" cy="222" r="3.5"/></g>
+     <text x="336" y="240" class="sm-t" font-size="8.5" text-anchor="middle">НАСТРОЕНИЕ</text>
+    </svg>
+    <div class="at-tr"><p class="tag am">ЛЮБИТЕЛЬ</p></div>
+   </div>
+   <div class="bals"><p class="say he"><span class="who">Мечтатель</span>Подожду вдохновения. Вот прям чувствую: не сегодня.</p></div>
+  </figure>
+
+  <figure class="panel">
+   <p class="cap">Неделя любителя.</p>
+   <div class="week">
+    <div><b>ПН</b><i>☹</i>нет настроения</div>
+    <div><b>ВТ</b><i>☂</i>погода не та</div>
+    <div class="up"><b>СР</b><i>★</i>НАЧАЛ!</div>
+    <div class="x"><b>ЧТ</b><i>⚐</i>трудно — бросил</div>
+   </div>
+   <p class="cap end">Любитель ждёт особого состояния, слушает свои капризы и сдаётся на первой кочке.</p>
+  </figure>
+
+  <figure class="panel tone-r">
+   <svg class="scene" viewBox="0 0 400 220" role="img" aria-label="Довольное Сопротивление лежит в гамаке с журналом">
+    <path class="ln nf" d="M0 212 H400"/>
+    <path class="ln nf" d="M50 210 V96 M350 210 V96"/>
+    <use href="#res" x="140" y="54" width="120" height="130"/>
+    <path class="ln s-t" d="M50 110 Q200 250 350 110 Q200 210 50 110 Z"/>
+    <g class="ln"><rect class="s-pk" x="244" y="92" width="34" height="26" rx="2" transform="rotate(-14 261 105)"/></g>
+   </svg>
+   <div class="bals r"><p class="say re t-r"><span class="who">Сопротивление</span>Хороший мальчик. Завтра попробуешь. Или с понедельника.</p></div>
+  </figure>
+ </section>
+
+ <!-- ГЛАВА 4 -->
+ <section class="ch" id="c4" data-t="Профессионал">
+  <header class="ch-head" data-n="4"><p class="ch-no">ГЛАВА 4</p><h2>Профессионал просто выходит на смену</h2></header>
+
+  <figure class="panel tone-y">
+   <div class="ovl">
+    <svg class="scene" viewBox="0 0 400 250" role="img" aria-label="Мечтатель в каске пробивает карточку в 10:00, Сопротивление тянет его за рукав">
+     <path class="ln nf" d="M0 232 H400"/>
+     <g class="ln"><rect class="s-t" x="262" y="38" width="112" height="150" rx="8"/><circle class="s-w" cx="318" cy="84" r="30"/><path class="nf" d="M318 84 V62 M318 84 H336"/><rect class="s-k" x="282" y="136" width="72" height="10"/><path class="nf" d="M300 188 V232 M336 188 V232"/></g>
+     <g transform="rotate(-4 318 150)"><rect class="ln s-w" x="300" y="122" width="36" height="46"/><text x="318" y="152" class="sm-t" font-size="10" text-anchor="middle">10:00</text></g>
+     <g transform="translate(140 100)"><use href="#hero" width="100" height="130"/><use href="#f-grim" width="100" height="130"/><use href="#helmet" width="100" height="130"/></g>
+     <use href="#res" x="10" y="142" width="80" height="87"/>
+     <path class="ln nf" d="M84 190 Q120 196 152 206"/>
+    </svg>
+    <div class="at-tl"><p class="tag pro">ПРОФИ</p></div>
+   </div>
+   <div class="bals"><p class="say re whisper"><span class="who">Сопротивление</span>Слушай, давай договоримся…</p></div>
+   <div class="bals r"><p class="say he t-r"><span class="who">Профи</span>Не-а. У меня смена.</p></div>
+   <p class="cap end">Профи не воюет с Сопротивлением и не торгуется с ленью. Он садится за стол в одно и то же время. Каждый день.</p>
+  </figure>
+
+  <figure class="panel">
+   <p class="cap">Страх никуда не денется. Профи берёт его с собой, как рабочий инструмент.</p>
+   <svg class="scene" viewBox="0 0 400 240" role="img" aria-label="Профи кладёт маленький дрожащий Страх в ящик с инструментами">
+    <path class="ln nf" d="M0 226 H400"/>
+    <g class="ln"><rect class="s-pk" x="210" y="160" width="160" height="62" rx="6"/><path class="nf" d="M262 160 V144 H318 V160"/><path class="nf" d="M210 182 H370"/></g>
+    <g class="ln"><path class="s-w" d="M232 160 V132 l-6 -10 h16 l-6 10 V160"/><rect class="s-y" x="344" y="122" width="10" height="38" rx="3"/><path class="s-k" d="M347 122 h4 l-2 -14 z"/></g>
+    <use href="#fear" x="252" y="86" width="72" height="72" class="shake"/>
+    <g transform="translate(58 96)"><use href="#hero" width="100" height="130"/><use href="#f-nod" width="100" height="130"/><use href="#helmet" width="100" height="130"/></g>
+   </svg>
+   <div class="bals r"><p class="say fe t-r"><span class="who">Страх</span>Я ж-же буду мешать…</p></div>
+   <div class="bals"><p class="say he"><span class="who">Профи</span>Мешай. Поедешь со мной — будешь отвёрткой.</p></div>
+  </figure>
+
+  <figure class="panel">
+   <p class="cap">Дисциплина и регулярность перемалывают любую стену.</p>
+   <div class="row3" style="padding:12px">
+    <figure class="mini">
+     <svg class="scene" viewBox="0 0 120 110" role="img" aria-label="Целая кирпичная стена"><rect class="ln" x="8" y="8" width="104" height="94" fill="url(#brick)"/></svg>
+     <p class="lbl">День 1</p>
+    </figure>
+    <figure class="mini">
+     <svg class="scene" viewBox="0 0 120 110" role="img" aria-label="Стена в трещинах, часть кирпичей выбита">
+      <rect class="ln" x="8" y="8" width="104" height="94" fill="url(#brick)"/>
+      <rect class="s-w" x="44" y="42" width="24" height="16"/><rect class="s-w" x="56" y="58" width="24" height="16"/>
+      <path class="ln nf l2" d="M60 8 L54 30 L66 42 M80 74 L74 92 L86 102 M40 58 L28 72"/>
+     </svg>
+     <p class="lbl">День 7</p>
+    </figure>
+    <figure class="mini">
+     <svg class="scene" viewBox="0 0 120 110" role="img" aria-label="От стены осталась груда кирпичей, путь свободен">
+      <path class="ln nf" d="M4 102 H116"/>
+      <g class="ln s-t"><rect x="10" y="88" width="22" height="12" transform="rotate(-8 21 94)"/><rect x="30" y="80" width="22" height="12" transform="rotate(12 41 86)"/><rect x="78" y="86" width="22" height="12" transform="rotate(-14 89 92)"/><rect x="92" y="74" width="22" height="12" transform="rotate(20 103 80)"/><rect x="20" y="70" width="22" height="12" transform="rotate(-24 31 76)"/></g>
+      <path class="s-pk" d="M60 30 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z"/>
+     </svg>
+     <p class="lbl">День 30</p>
+    </figure>
+   </div>
+   <p class="cap end">Тяжёлый старт превращается в привычный и управляемый процесс.</p>
+  </figure>
+ </section>
+
+ <!-- ГЛАВА 5 -->
+ <section class="ch" id="c5" data-t="Кресло и расписание">
+  <header class="ch-head" data-n="5"><p class="ch-no">ГЛАВА 5</p><h2>Не талант. Кресло.</h2></header>
+
+  <figure class="panel">
+   <p class="cap">Что решает в любом трудном деле?</p>
+   <svg class="scene" viewBox="0 0 400 180" role="img" aria-label="Талант и стартовый капитал зачёркнуты, а кресло отмечено галочкой">
+    <path class="ln s-c" d="M70 30 l11 23 25 4 -18 17 4 25 -22 -12 -22 12 4 -25 -18 -17 25 -4z"/>
+    <path class="ln nf" d="M38 34 L104 104 M104 34 L38 104" style="stroke:var(--pk);stroke-width:6"/>
+    <g class="ln"><path class="s-t" d="M170 58 Q166 44 180 40 H204 Q218 44 214 58 Q232 70 230 92 Q228 108 192 108 Q156 108 154 92 Q152 70 170 58 Z"/><path class="nf l2" d="M176 50 H208"/></g>
+    <text x="192" y="90" class="st" font-size="22" text-anchor="middle">₽</text>
+    <path class="ln nf" d="M158 34 L226 104 M226 34 L158 104" style="stroke:var(--pk);stroke-width:6"/>
+    <g class="ln"><rect class="s-b" x="292" y="28" width="56" height="54" rx="10"/><rect class="s-b" x="282" y="78" width="76" height="20" rx="6"/><path class="nf" d="M296 98 V118 M344 98 V118 M320 98 V118 M304 120 H336"/></g>
+    <circle class="ln s-y" cx="364" cy="34" r="16"/><path class="ln nf" d="M356 34 l6 6 10 -12"/>
+    <text x="70" y="146" class="sm-t" font-size="11" text-anchor="middle">талант</text>
+    <text x="192" y="146" class="sm-t" font-size="11" text-anchor="middle">стартовый капитал</text>
+    <text x="320" y="146" class="sm-t" font-size="11" text-anchor="middle">садиться в кресло</text>
+    <text x="320" y="160" class="sm-t" font-size="11" text-anchor="middle">каждый день</text>
+   </svg>
+   <p class="cap end">Решает не талант и не стартовый капитал, а умение регулярно садиться в кресло и выдавать результат вопреки саботажу.</p>
+  </figure>
+
+  <figure class="panel tone-b">
+   <svg class="scene" viewBox="0 0 400 250" role="img" aria-label="Календарь в крестиках, Профи стоит у настоящей вывески «Своё дело», маленькое Сопротивление дуется в углу">
+    <path class="ln nf" d="M0 234 H400"/>
+    <g class="ln"><rect class="s-w" x="16" y="16" width="146" height="98"/><rect class="s-pk" x="16" y="16" width="146" height="18"/></g>
+    <text x="89" y="29.5" class="sm-t" font-size="9" text-anchor="middle" style="fill:#fffaf0">КАЖДЫЙ ДЕНЬ</text>
+    <path class="nf" style="stroke:var(--ink);stroke-width:1.6;stroke-linecap:round" d="M26 42 l8 8 m0 -8 l-8 8 M46 42 l8 8 m0 -8 l-8 8 M66 42 l8 8 m0 -8 l-8 8 M86 42 l8 8 m0 -8 l-8 8 M106 42 l8 8 m0 -8 l-8 8 M126 42 l8 8 m0 -8 l-8 8 M146 42 l8 8 m0 -8 l-8 8 M26 60 l8 8 m0 -8 l-8 8 M46 60 l8 8 m0 -8 l-8 8 M66 60 l8 8 m0 -8 l-8 8 M86 60 l8 8 m0 -8 l-8 8 M106 60 l8 8 m0 -8 l-8 8 M126 60 l8 8 m0 -8 l-8 8 M146 60 l8 8 m0 -8 l-8 8 M26 78 l8 8 m0 -8 l-8 8 M46 78 l8 8 m0 -8 l-8 8 M66 78 l8 8 m0 -8 l-8 8 M86 78 l8 8 m0 -8 l-8 8 M106 78 l8 8 m0 -8 l-8 8 M126 78 l8 8 m0 -8 l-8 8 M146 78 l8 8 m0 -8 l-8 8 M26 96 l8 8 m0 -8 l-8 8 M46 96 l8 8 m0 -8 l-8 8 M66 96 l8 8 m0 -8 l-8 8"/>
+    <g class="ln"><rect class="s-y" x="214" y="28" width="168" height="34" rx="4"/><rect class="s-w" x="226" y="62" width="144" height="172"/><rect class="s-b" x="282" y="146" width="34" height="88"/><rect class="s-c" x="238" y="80" width="34" height="40"/><rect class="s-c" x="324" y="80" width="34" height="40"/></g>
+    <text x="298" y="51" class="st" font-size="17" text-anchor="middle">СВОЁ ДЕЛО</text>
+    <g transform="translate(116 104)"><use href="#hero" width="100" height="130"/><use href="#f-happy" width="100" height="130"/><use href="#helmet" width="100" height="130"/></g>
+    <use href="#res" x="10" y="192" width="38" height="41"/>
+   </svg>
+   <div class="bals"><p class="say re sm"><span class="who">Сопротивление</span>Ну и ладно…</p></div>
+   <p class="cap end">Хватит искать оправдания, пора жить по расписанию. Тогда жизнь подстроится под твой темп, а вчерашняя мечта станет адресом.</p>
+  </figure>
+ </section>
+
+ <!-- РЕВЕРС -->
+ <section class="ch" id="c6" data-t="Реверс">
+  <header class="ch-head" data-n="↺"><p class="ch-no">ФИНАЛ</p><h2>Реверс: как вывернуть механизм</h2></header>
+
+  <figure class="panel night">
+   <svg class="scene" viewBox="0 0 400 150" role="img" aria-label="Привидение Сопротивления превращено в стрелку компаса, которая показывает на главное дело">
+    <circle class="ln s-w" cx="304" cy="76" r="62"/>
+    <circle class="ln nf l2" cx="304" cy="76" r="50"/>
+    <text x="304" y="35" class="st" font-size="10" text-anchor="middle">ДЕЛО</text>
+    <path class="ln s-pk" d="M304 42 L316 76 L304 86 L292 76 Z"/>
+    <path class="ln s-r" d="M304 112 L316 76 L304 86 L292 76 Z"/>
+    <circle class="ln s-k" cx="304" cy="78" r="5"/>
+    <text x="20" y="70" class="st" font-size="16" style="fill:#fffaf0">Сопротивление —</text>
+    <text x="20" y="94" class="st" font-size="16" style="fill:var(--res)">это компас</text>
+   </svg>
+   <p class="cap end">Чем сильнее тянет «заняться чем-нибудь другим», тем точнее стрелка показывает на то, что делать сейчас.</p>
+  </figure>
+
+  <ol class="rev">
+   <li><p class="when">Тянет проверить почту, новости, стол, чай</p><p class="then">Это не случайность, это стрелка компаса. <b>Значит, дело важное. Садись именно за него</b>, а почта подождёт до перерыва.</p></li>
+   <li><p class="when">Отговорка звучит очень разумно</p><p class="then">Спроси себя: «Это Сопротивление в галстуке?» Курс, рынок, «ещё инфы» — <b>его любимые реплики. Узнал — делай.</b></p></li>
+   <li><p class="when">Нет настроения и вдохновения</p><p class="then">Они не нужны. Нужно время. <b>Одно и то же время каждый день</b>: пришёл на смену — работаешь. Муза ходит к тем, кто уже сидит за столом.</p></li>
+   <li><p class="when">Страшно и неуверенно</p><p class="then">Нормально, так будет всегда. <b>Страх едет с тобой в ящике с инструментами</b>, руль ему не дают.</p></li>
+   <li><p class="when">Хочется сразу идеально</p><p class="then">Идеально — это тоже Сопротивление. <b>Первый шаг крошечный</b>: открыть файл, набрать один номер, написать одну строку.</p></li>
+   <li><p class="when">Сделал хоть немного</p><p class="then"><b>Поставь крестик в календаре.</b> Цепочку крестиков жалко рвать, она и есть твоя дисциплина.</p></li>
+  </ol>
+
+  <div class="ritual">
+   <h3>Смена на один экран</h3>
+   <ol>
+    <li>Одно время. Одно место.</li>
+    <li>Самый маленький первый шаг.</li>
+    <li>Страх — в ящик, не за руль.</li>
+    <li>Отговорка умная? Значит, она из галстука.</li>
+    <li>Крестик. Завтра снова.</li>
+   </ol>
+  </div>
+
+  <p class="foot">По мотивам книги Стивена Прессфилда «Война за креатив».</p>
+ </section>
+
+</main>
+
+<script>
+(function(){
+  var secs=[].slice.call(document.querySelectorAll('.ch'));
+  var lbl=document.getElementById('plbl');
+  var cells=[].slice.call(document.querySelectorAll('#pcells i'));
+  function upd(){
+    var mid=window.innerHeight*0.4, cur=-1;
+    secs.forEach(function(s,i){
+      var r=s.getBoundingClientRect();
+      var f=Math.max(0,Math.min(1,(mid-r.top)/Math.max(1,r.height)));
+      cells[i]&&cells[i].style.setProperty('--f',f);
+      if(r.top<mid) cur=i;
+    });
+    lbl.innerHTML='<b>Сопротивление</b> · '+(cur<0?'обложка':(cur<5?'глава '+(cur+1)+': ':'')+(cur<0?'':secs[cur].getAttribute('data-t')));
+  }
+  window.addEventListener('scroll',upd,{passive:true});
+  window.addEventListener('resize',upd);
+  upd();
+})();
+</script>
+</body>
+</html>
